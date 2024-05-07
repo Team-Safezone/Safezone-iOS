@@ -9,28 +9,28 @@
   
 > * **네이밍**
   > * 클래스와 구조체
-    > * 클래스와 구조체의 이름에는 **`UpperCamelCase`**를 사용합니다.
-    > * 클래스 이름에는 **`접두사Prefix`** 를 붙이지 않습니다.
-  > * **약어**
+    > * 클래스와 구조체의 이름에는 `UpperCamelCase`를 사용합니다.
+    > * 클래스 이름에는 `접두사Prefix` 를 붙이지 않습니다.
+  > * 약어
     > * 약어로 시작하는 경우에는 소문자로 표기하고, 그 외의 경우에는 항상 대문자로 표기합니다.
     > ```
-        - btn -> **`Btn`**
-        - image -> **`Img`**
-        - userId -> **`userID`**
-        - password -> **`PWD`**
-        - websiteUrl -> **`websiteURL`**
+          btn -> `Btn`
+          image -> `Img`
+          userId -> `userID`
+          password -> `PWD`
+          websiteUrl -> `websiteURL`
     > ```
-  > * **함수**
+  > * 함수
     > * 함수 이름에는 **`lowerCamelCase`**를 사용합니다.
     > * 함수 이름 앞에는 되도록이면 **`get`**을 붙이지 않습니다.
-  > * **변수**
+  > * 변수
     > * 변수 이름에는 **`lowerCamelCase`**를 사용합니다.
-  > * **상수**
+  > * 상수
     > * 상수 이름에는 **`lowerCamelCase`**를 사용합니다.
-  > * **열거형**
+  > * 열거형
     > - enum의 이름에는 **`UpperCamelCase`**를 사용합니다.
     > - enum의 각 case에는 **`lowerCamelCase`**를 사용합니다.
-  > **프로토콜**
+  > 프로토콜
     > - 프로토콜의 이름에는 **`UpperCamelCase`**를 사용합니다.
     > - 구조체나 클래스에서 프로토콜을 채택할 때는 콜론(**`:`**)과 빈칸을 넣어 구분하여 명시합니다.
 
