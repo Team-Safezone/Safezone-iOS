@@ -45,7 +45,7 @@
 ### 함수
 - 함수 이름에는 `lowerCamelCase`를 사용합니다.
 - 함수 이름 앞에는 되도록이면 `get`을 붙이지 않습니다.
-  ```java
+  ```javascript
   func teamname(for user: User) -> String?
   ```
 
@@ -54,14 +54,14 @@
 
 ### 상수
 - 상수 이름에는 `lowerCamelCase`를 사용합니다.
-  ```java
+  ```javascript
   let maximumNumberOfLine = 3
   ```
 
 ### 열거형
 - enum의 이름에는 `UpperCamelCase`를 사용합니다.
 - enum의 각 case에는 `lowerCamelCase`를 사용합니다.
-  ```java
+  ```javascript
   enum Measure {
     case .success
     case .failure
@@ -71,7 +71,7 @@
 ### 프로토콜
 - 프로토콜의 이름에는 `UpperCamelCase`를 사용합니다.
 - 구조체나 클래스에서 프로토콜을 채택할 때는 콜론(`:`)과 빈칸을 넣어 구분하여 명시합니다.
-  ```java
+  ```javascript
   protocal SomeClass: SomeSuperclass, Som {
   /// class definition goes here
   }
