@@ -1,0 +1,32 @@
+name: "✅ Feature Front 이슈"
+description: "Front Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다."
+labels: [order]
+title: "🎉 [FEAT] 이슈 제목을 작성해주세요"
+body:
+  - type: input
+    id: parentKey
+    attributes:
+      label: "🎫 Ticket Number"
+      description: "상위 작업의 Ticket Number를 작성해 주세요"
+      placeholder: "Feat/#?"
+    validations:
+      required: true
+
+  - type: input
+    id: description
+    attributes:
+      label: "🤔 About Issue"
+      description: "이슈에 대해서 간략히 설명해주세요"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: "📋 To do"
+      description: "이슈에 대한 할일을 작성해주세요"
+      value: |
+        - [ ] 
+        - [ ] 
+    validations:
+      required: true
