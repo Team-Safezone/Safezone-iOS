@@ -18,7 +18,7 @@ jobs:
     - name: Create Issue 
       uses: atlassian/gajira-create@v3
       with:
-        project: SafeZone
+        project: 프리미어 리그 오락 체험서비스
         issuetype: Task
         summary: '${{ github.event.issue.title }}'
         description: '${{ github.event.issue.html_url }}'
