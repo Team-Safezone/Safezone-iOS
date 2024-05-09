@@ -112,8 +112,8 @@
     - Issue 단위 = PR 단위 = View 단위
 - **브랜치명**
     - 브랜치는 View 단위로 생성한다.
-    - 브랜치 규칙: (feature/fix/refactor/chore)/#이슈번호-(UI/Func/Server)-스크린(뷰) 명-기능설명
-        `ex) feature/#1-UI-Diary-WriteView`
+    - 브랜치 규칙: Jira 이슈 키/(feat/fix/refactor/chore)/#이슈번호-(UI/Func/Server)-스크린(뷰) 명-기능설명<br>
+      `ex) SF-34/feat/#2-UI-EventCalendar`
 
 <br>
 
