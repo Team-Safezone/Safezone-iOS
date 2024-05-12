@@ -7,29 +7,28 @@
 
 import Foundation
 
-/// Date와 관련된 함수, 확장 함수를 모아두는 파일 
-/// 축구 경기 날짜 반환
-func soccerMatchDate(date: String) -> Date {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "YYYY.MM.dd"
+/// Date와 관련된 함수, 확장 함수를 모아두는 파일
+/// Date -> String으로 변경하는 함수
+func dateToString(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd"
     
-    if let stringToDate = formatter.date(from: date) {
-        return stringToDate
-    }
-    else {
-        return Date()
-    }
+    let dateToString = dateFormatter.string(from: date)
+    
+    return dateToString
 }
 
-/// 축구 경기 시간 반환
-func soccerMatchTime(time: String) -> Date {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "HH:mm"
+/// Time -> String으로 변경하는 함수
+func timeToString(time: Date) -> String {
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "HH:mm"
     
-    if let stringToTime = formatter.date(from: time) {
-        return stringToTime
-    }
-    else {
-        return Date()
-    }
+    let timeToString = timeFormatter.string(from: time)
+    
+    return timeToString
+}
+
+/// 두 날짜가 동일한 날짜인지 확인하는 함수
+func isSameDay(date1: Date, date2: Date) -> Bool {
+    return Calendar.current.isDate(date1, inSameDayAs: date2)
 }

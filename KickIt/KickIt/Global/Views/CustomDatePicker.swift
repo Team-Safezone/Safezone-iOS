@@ -144,11 +144,6 @@ struct CustomDatePicker: View {
         .frame(alignment: .top)
     }
     
-    /// 두 날짜가 동일한 날짜인지 확인하는 함수
-    func isSameDay(date1: Date, date2: Date) -> Bool {
-        return Calendar.current.isDate(date1, inSameDayAs: date2)
-    }
-    
     /// 현재 월 정보를 문자열로 반환하는 함수
     func extractMonth() -> String {
         let formatter = DateFormatter()
