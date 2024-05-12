@@ -18,6 +18,12 @@ struct CustomDatePicker: View {
     /// 로컬 캘린더
     let calendar = Calendar.current
     
+    /// 각 날짜에 따른 경기 개수
+    var matchCount: Int { soccerMatches.filter { match in
+        return isSameDay(date1: match.matchDate, date2: currentDate)
+        }.count
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             /// 요일 리스트
@@ -82,10 +88,49 @@ struct CustomDatePicker: View {
             }
             .padding(.top, 23)
             .padding([.leading, .trailing], 16)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                // MARK: - 경기 일정
+                HStack(spacing: 0) {
+                    Text("경기 일정")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.gray600)
+                    
+                    Text("\(matchCount)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.gray600)
+                        .padding(.leading, 6)
+                }
+                .padding(.top, 20)
+                .padding(.leading, 16)
+                .padding(.bottom, 12)
+                
+                // MARK: - 경기 리스트
+                if soccerMatches.first(where: { match in
+                    return isSameDay(date1: match.matchDate, date2: currentDate)
+                }) != nil {
+                    ForEach(soccerMatches.filter { match in
+                        return isSameDay(date1: match.matchDate, date2: currentDate)
+                        }) { match in
+                            SoccerMatchRow(soccerMatch: match)
+                                .padding([.leading, .trailing], 16)
+                                .padding(.bottom, 8)
+                        }
+                }
+                else {
+                    Text("경기 일정이 없습니다")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.gray400)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
         }
         // 월이 바뀌면 현재 선택 중인 날짜도 변경
         .onChange(of: currentMonth) { oldValue, newValue in
-            //currentDate = currentMonthDates()
+            currentDate = currentMonthDates()
             print("date: \(currentDate.description)")
         }
     }
@@ -144,7 +189,7 @@ struct CustomDatePicker: View {
         .frame(alignment: .top)
     }
     
-    /// 현재 월 정보를 문자열로 반환하는 함수
+    /// 현재 날짜 정보를 문자열로 반환하는 함수
     func extractMonth() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "M"

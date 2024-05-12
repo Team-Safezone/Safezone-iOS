@@ -16,7 +16,7 @@ struct EventCalendar: View {
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 20) {
                     ZStack(alignment: .topTrailing) {
                         
                         // MARK: - Custom Date Picker
