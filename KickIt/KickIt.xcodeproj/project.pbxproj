@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E73C21242BEF833A0004D9B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73C21232BEF833A0004D9B4 /* ViewController.swift */; };
+		E74E3BE82BEE03E400F6209A /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E74E3BE72BEE03E400F6209A /* Intents.framework */; };
+		E74E3BEB2BEE03E400F6209A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74E3BEA2BEE03E400F6209A /* IntentHandler.swift */; };
+		E777EED72BEE6364004CC8ED /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E777EED62BEE6363004CC8ED /* WatchConnectivity.framework */; };
+		E777EEDA2BEE69D9004CC8ED /* ViewModelIphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777EED92BEE69D9004CC8ED /* ViewModelIphone.swift */; };
+		E777EEDC2BEE6A36004CC8ED /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E777EEDB2BEE6A36004CC8ED /* HeartRate.swift */; };
 		E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */; };
 		E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF722BEDC8DC004CAF75 /* SplashView.swift */; };
 		E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */; };
@@ -18,6 +24,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E73C21232BEF833A0004D9B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E74E3BE52BEE03E300F6209A /* KickIt-watchOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "KickIt-watchOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74E3BE72BEE03E400F6209A /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		E74E3BEA2BEE03E400F6209A /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		E74E3BEC2BEE03E400F6209A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E74E3BF62BEE0A1000F6209A /* KickIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickIt.entitlements; sourceTree = "<group>"; };
+		E777EEBB2BEE462A004CC8ED /* KickIt-watchOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "KickIt-watchOS.entitlements"; sourceTree = "<group>"; };
+		E777EED62BEE6363004CC8ED /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		E777EED82BEE63BD004CC8ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E777EED92BEE69D9004CC8ED /* ViewModelIphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelIphone.swift; sourceTree = "<group>"; };
+		E777EEDB2BEE6A36004CC8ED /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickItApp.swift; sourceTree = "<group>"; };
 		E79AFF722BEDC8DC004CAF75 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -30,20 +47,50 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E74E3BE22BEE03E300F6209A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74E3BE82BEE03E400F6209A /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E79AFF6A2BEDC8DC004CAF75 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E777EED72BEE6364004CC8ED /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E74E3BE62BEE03E400F6209A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E777EED62BEE6363004CC8ED /* WatchConnectivity.framework */,
+				E74E3BE72BEE03E400F6209A /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E74E3BE92BEE03E400F6209A /* KickIt-watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				E777EEBB2BEE462A004CC8ED /* KickIt-watchOS.entitlements */,
+				E74E3BEA2BEE03E400F6209A /* IntentHandler.swift */,
+				E74E3BEC2BEE03E400F6209A /* Info.plist */,
+			);
+			path = "KickIt-watchOS";
+			sourceTree = "<group>";
+		};
 		E79AFF642BEDC8DC004CAF75 = {
 			isa = PBXGroup;
 			children = (
 				E79AFF6F2BEDC8DC004CAF75 /* KickIt */,
+				E74E3BE92BEE03E400F6209A /* KickIt-watchOS */,
+				E74E3BE62BEE03E400F6209A /* Frameworks */,
 				E79AFF6E2BEDC8DC004CAF75 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */,
+				E74E3BE52BEE03E300F6209A /* KickIt-watchOS.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,6 +107,8 @@
 		E79AFF6F2BEDC8DC004CAF75 /* KickIt */ = {
 			isa = PBXGroup;
 			children = (
+				E777EED82BEE63BD004CC8ED /* Info.plist */,
+				E74E3BF62BEE0A1000F6209A /* KickIt.entitlements */,
 				E79AFF7E2BEDDC76004CAF75 /* Global */,
 				E79AFF822BEDDD96004CAF75 /* Screen */,
 				E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */,
@@ -138,6 +188,7 @@
 		E79AFF8A2BEDDEBD004CAF75 /* EventCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				E777EED92BEE69D9004CC8ED /* ViewModelIphone.swift */,
 				E79AFF8B2BEDDEE7004CAF75 /* Views */,
 			);
 			path = EventCalendar;
@@ -147,6 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF8C2BEDDEFD004CAF75 /* EventCalendar.swift */,
+				E777EEDB2BEE6A36004CC8ED /* HeartRate.swift */,
+				E73C21232BEF833A0004D9B4 /* ViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -170,6 +223,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E74E3BE42BEE03E300F6209A /* KickIt-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E74E3BED2BEE03E400F6209A /* Build configuration list for PBXNativeTarget "KickIt-watchOS" */;
+			buildPhases = (
+				E74E3BE12BEE03E300F6209A /* Sources */,
+				E74E3BE22BEE03E300F6209A /* Frameworks */,
+				E74E3BE32BEE03E300F6209A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KickIt-watchOS";
+			productName = "KickIt-watchOS";
+			productReference = E74E3BE52BEE03E300F6209A /* KickIt-watchOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E79AFF6C2BEDC8DC004CAF75 /* KickIt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E79AFF7B2BEDC8DD004CAF75 /* Build configuration list for PBXNativeTarget "KickIt" */;
@@ -194,9 +264,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					E74E3BE42BEE03E300F6209A = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					E79AFF6C2BEDC8DC004CAF75 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -216,11 +289,19 @@
 			projectRoot = "";
 			targets = (
 				E79AFF6C2BEDC8DC004CAF75 /* KickIt */,
+				E74E3BE42BEE03E300F6209A /* KickIt-watchOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E74E3BE32BEE03E300F6209A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E79AFF6B2BEDC8DC004CAF75 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -233,13 +314,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E74E3BE12BEE03E300F6209A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74E3BEB2BEE03E400F6209A /* IntentHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E79AFF692BEDC8DC004CAF75 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E73C21242BEF833A0004D9B4 /* ViewController.swift in Sources */,
 				E79AFF912BEDDFC2004CAF75 /* SoccerDiary.swift in Sources */,
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
+				E777EEDC2BEE6A36004CC8ED /* HeartRate.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* EventCalendar.swift in Sources */,
+				E777EEDA2BEE69D9004CC8ED /* ViewModelIphone.swift in Sources */,
 				E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */,
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
@@ -249,6 +341,72 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		E74E3BEE2BEE03E400F6209A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "KickIt-watchOS/KickIt-watchOS.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NL8Y67QBFG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KickIt-watchOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "KickIt-watchOS";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to access to enjoy all the features of our application.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Safezone.KickIt-watchOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		E74E3BEF2BEE03E400F6209A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "KickIt-watchOS/KickIt-watchOS.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NL8Y67QBFG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KickIt-watchOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "KickIt-watchOS";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to access to enjoy all the features of our application.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Safezone.KickIt-watchOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
 		E79AFF792BEDC8DD004CAF75 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -373,23 +531,31 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KickIt/KickIt.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KickIt/Preview Content\"";
+				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KickIt/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to access to enjoy all the features of our application.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Please allow to access to enjoy all the features of our application.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKExtensionDelegateClassName = KickIt.ExtensionDelegate;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Safezone.KickIt-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -401,23 +567,31 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KickIt/KickIt.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KickIt/Preview Content\"";
+				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KickIt/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to access to enjoy all the features of our application.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Please allow to access to enjoy all the features of our application.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKExtensionDelegateClassName = KickIt.ExtensionDelegate;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Safezone.KickIt-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -427,6 +601,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E74E3BED2BEE03E400F6209A /* Build configuration list for PBXNativeTarget "KickIt-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74E3BEE2BEE03E400F6209A /* Debug */,
+				E74E3BEF2BEE03E400F6209A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E79AFF682BEDC8DC004CAF75 /* Build configuration list for PBXProject "KickIt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

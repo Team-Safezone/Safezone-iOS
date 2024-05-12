@@ -9,9 +9,6 @@ import Foundation
 import WatchConnectivity
 
 class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
-    @Published var heartRate: String = ""
-//    @Published var startDate: String = ""
-//    @Published var endDate: String = ""
     
     func viewDidLoad() {
         if WCSession.isSupported() {
@@ -36,11 +33,8 @@ class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
     
     // 워치에서 보낸 데이터 수신
     private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler reply: @escaping (NSDictionary?) -> Void) {
-            DispatchQueue.main.async {
-                self.heartRate = message["heartRateData"] as? String ?? "None" // 수정된 키 이름
-                print("워치데이터 수신:\(self.heartRate)")
-            }
-        }
+        
+    }
     
     
 }
