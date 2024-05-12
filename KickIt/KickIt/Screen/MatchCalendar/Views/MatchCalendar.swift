@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 경기 일정 & 캘린더 화면
-struct EventCalendar: View {
+struct MatchCalendar: View {
     
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
@@ -40,5 +40,5 @@ struct EventCalendar: View {
 }
 
 #Preview {
-    EventCalendar()
+    MatchCalendar()
 }

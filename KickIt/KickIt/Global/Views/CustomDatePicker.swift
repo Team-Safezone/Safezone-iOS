@@ -250,5 +250,5 @@ extension Date {
 }
 
 #Preview {
-    EventCalendar()
+    MatchCalendar()
 }
