@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E708EB502BF5D54B00AE526C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB4F2BF5D54B00AE526C /* ViewController.swift */; };
+		E708EB522BF5D56A00AE526C /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB512BF5D56A00AE526C /* HeartRate.swift */; };
+		E708EB542BF5D5F800AE526C /* DesignButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB532BF5D5F800AE526C /* DesignButton.swift */; };
 		E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */; };
 		E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF722BEDC8DC004CAF75 /* SplashView.swift */; };
 		E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E708EB4F2BF5D54B00AE526C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E708EB512BF5D56A00AE526C /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
+		E708EB532BF5D5F800AE526C /* DesignButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignButton.swift; sourceTree = "<group>"; };
 		E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickItApp.swift; sourceTree = "<group>"; };
 		E79AFF722BEDC8DC004CAF75 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -52,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E708EB4A2BF5D4E800AE526C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E708EB4F2BF5D54B00AE526C /* ViewController.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		E79AFF642BEDC8DC004CAF75 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +168,7 @@
 		E79AFF8A2BEDDEBD004CAF75 /* MatchCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				E708EB4A2BF5D4E800AE526C /* Helpers */,
 				E79AFF8B2BEDDEE7004CAF75 /* Views */,
 			);
 			path = MatchCalendar;
@@ -163,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF8C2BEDDEFD004CAF75 /* MatchCalendar.swift */,
+				E708EB512BF5D56A00AE526C /* HeartRate.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +204,7 @@
 			children = (
 				E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */,
 				E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */,
+				E708EB532BF5D5F800AE526C /* DesignButton.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -275,10 +292,13 @@
 				E79AFF9B2BEF7982004CAF75 /* DateExtensions.swift in Sources */,
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
 				E79AFF992BEF0C12004CAF75 /* SoccerMatch.swift in Sources */,
+				E708EB522BF5D56A00AE526C /* HeartRate.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */,
 				E79AFF972BEE6B7B004CAF75 /* CustomDate.swift in Sources */,
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
+				E708EB542BF5D5F800AE526C /* DesignButton.swift in Sources */,
+				E708EB502BF5D54B00AE526C /* ViewController.swift in Sources */,
 				E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */,
 				E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */,
 				E79AFF942BEE0934004CAF75 /* CustomDatePicker.swift in Sources */,
