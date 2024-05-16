@@ -22,7 +22,7 @@ struct ContentView: View {
                 .tag(1)
             
             /// 경기 일정 & 캘린더 화면
-            EventCalendar()
+            MatchCalendar()
                 .tabItem {
                     Image(systemName: "soccerball")
                 }
