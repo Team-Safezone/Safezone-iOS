@@ -14,10 +14,10 @@ struct HeartRate: View {
     @State private var arrayHR: [[String: Any]] = []
     
     // Timer 객체 선언
-    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect() // 60초마다 업데이트
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect() // 60초마다 업데이트
     
     var body: some View {
-        ScrollView {
+        ScrollView(.horizontal, showsIndicators: false){
             VStack {
                 VStack (alignment: .center){
                     ForEach(arrayHR.indices, id: \.self) { index in

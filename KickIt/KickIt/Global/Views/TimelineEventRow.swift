@@ -9,14 +9,13 @@ import SwiftUI
 
 struct TimelineEventRow: View {
     /// 경기 객체
-    @State var event: PlayEvent
-    /// 심박수 가져오기
-    let view = ViewController()
-    // Timer 객체
-//    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect() // 60초마다 업데이트
+    var event: PlayEvent
     
+    /// 이벤트 날짜+ 시간
     @State private var date: String = ""
-    @State private var arrayHR: [[String: Any]] = []
+    /// 심박수
+    var arrayHR: [[String: Any]] = []
+    
     /// 아이콘 연결
     var eventIcons: [String: String] = ["골!": "SoccerBall",
                                         "교체" : "ArrowsLeftRight",
@@ -68,40 +67,35 @@ struct TimelineEventRow: View {
                         }
                     }
                     Spacer()
-                    // MARK: 심박수 연결
-                    ForEach(arrayHR.indices, id: \.self){ index in
-                        if (arrayHR[index]["Date"]! as! Date == event.realTime){
-                            HStack(spacing: 4){
-                                Text("낮음")
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundStyle(.gray400)
-                                HStack(spacing: 2){
-                                    Text("\(arrayHR[index]["HeartRate"]!)")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .frame(width: 25, alignment: .trailing)
-                                    Text("BPM")
+                    // MARK: 심박수와 이벤트 시간 연결
+                    if !arrayHR.isEmpty {
+                        ForEach(arrayHR.indices, id: \.self){ index in
+                            if (arrayHR[index]["Date"] as! String == event.realTime){
+                                HStack(spacing: 4){
+                                    Text("높음")
                                         .font(.system(size: 12, weight: .medium))
+                                        .foregroundStyle(.gray400)
+                                    HStack(spacing: 2){
+                                        Text("\(arrayHR[index]["HeartRate"]!)")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .frame(width: 25, alignment: .trailing)
+                                        Text("BPM")
+                                            .font(.system(size: 12, weight: .medium))
+                                    }
                                 }
                             }
                         }
+                    } else{
+                        let _ = print("arrayHR Empty")
                     }
+                    
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-        }
-//        .onReceive(timer) { _ in
-//            // Timer가 발생할 때마다 HeartRate를 다시 로드하고 arrayHR 업데이트
-//            view.loadHeartRate()
-//            arrayHR = view.arrayHR.reversed() // arrayHR 업데이트
-//        }
-        .onAppear {
-            // HeartRate 로드 및 초기화
-            view.authorizeHealthKit()
-            arrayHR = view.arrayHR.reversed() // 초기화 시 arrayHR 업데이트
         }
     }
 }
 
 #Preview {
-    TimelineEventRow(event: PlayEvents[0])
+    TimelineEventRow(event: PlayEvents[0], arrayHR: [["HeartRate": 120, "Date": "2024/05/18 06:41"]])
 }
