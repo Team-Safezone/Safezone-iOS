@@ -7,13 +7,6 @@
 
 import Foundation
 
-/// 축구 팀 모델
-struct SoccerTeam: Identifiable {
-    var id = UUID().uuidString // 고유 id
-    var teamImgURL: String // 팀 로고 이미지
-    var teamName: String // 팀 이름
-}
-
 /// 축구 경기 모델
 struct SoccerMatch: Identifiable {
     var id = UUID().uuidString // 고유 id
