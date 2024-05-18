@@ -10,7 +10,6 @@ import HealthKit
 
 struct HeartRate: View {
     let view = ViewController()
-    @State private var latestHR: Double = 0
     @State private var date: String = ""
     @State private var arrayHR: [[String: Any]] = []
     

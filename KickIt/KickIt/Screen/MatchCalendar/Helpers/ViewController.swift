@@ -23,18 +23,26 @@ class ViewController: UIViewController{
         var dateComponents = DateComponents()
         dateComponents.year = 2024
         dateComponents.month = 5
-        dateComponents.day = 12
-        dateComponents.hour = 21
-        dateComponents.minute = 20
+        dateComponents.day = 16
+        dateComponents.hour = 7
+        dateComponents.minute = 24
         dateComponents.second = 0
+        
+        var dateComponents2 = DateComponents()
+        dateComponents2.year = 2024
+        dateComponents2.month = 5
+        dateComponents2.day = 16
+        dateComponents2.hour = 8
+        dateComponents2.minute = 54
+        dateComponents2.second = 0
         
         if arrayHR.isEmpty {
             self.startDate = Calendar.current.date(from: dateComponents) ?? Date()
-            self.endDate = Date()
+            self.endDate = Calendar.current.date(from: dateComponents2) ?? Date()
             print("초기 시간 설정: \(self.startDate) - \(self.endDate)")
         } else {
             self.startDate = self.endDate
-            self.endDate = Date()
+            self.endDate = Calendar.current.date(from: dateComponents2) ?? Date()
             print("시간 수정: \(self.startDate) - \(self.endDate)")
         }
         
@@ -51,11 +59,16 @@ class ViewController: UIViewController{
         let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!])
         let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!])
         healthStore.requestAuthorization(toShare: share, read: read) { (success, error) in
-            if success {
-                print("Authorization succeeded.")
-                self.loadHeartRate()
-            } else {
-                print("Authorization failed. Error: \\(String(describing: error?.localizedDescription))")
+            if error != nil {
+                print(error.debugDescription)
+            }
+            else {
+                if success {
+                    print("Authorization succeeded.")
+                    self.loadHeartRate()
+                } else {
+                    print("Authorization failed.")
+                }
             }
         }
     }
