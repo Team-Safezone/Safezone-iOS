@@ -171,6 +171,9 @@ struct SoccerMatchInfo: View {
             HeartRateButton(soccerMatch: soccerMatch)
                 .frame(maxHeight: offsetY - 16, alignment: .bottom)
             
+            // MARK: - 예측하기 패널
+            PredictionPanel()
+                .frame(alignment: .bottom)
         }
         .ignoresSafeArea(edges: .bottom)
         // 툴 바, 상태 바 색상 변경

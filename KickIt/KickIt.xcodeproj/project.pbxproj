@@ -28,6 +28,7 @@
 		E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */; };
 		E79EE75C2BF89FAC005CEF80 /* SoccerTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75B2BF89FAC005CEF80 /* SoccerTeam.swift */; };
 		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
+		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
 		E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE7612BF99BF8005CEF80 /* HeartRateButton.swift */; };
 		E7BC9FDE2BF779CE00365EFE /* TimelineEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BC9FDD2BF779CE00365EFE /* TimelineEvent.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
 		E79EE75B2BF89FAC005CEF80 /* SoccerTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeam.swift; sourceTree = "<group>"; };
 		E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchInfo.swift; sourceTree = "<group>"; };
+		E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPanel.swift; sourceTree = "<group>"; };
 		E79EE7612BF99BF8005CEF80 /* HeartRateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateButton.swift; sourceTree = "<group>"; };
 		E7BC9FDD2BF779CE00365EFE /* TimelineEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				E708EB4F2BF5D54B00AE526C /* ViewController.swift */,
+				E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
 				E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */,
 				E79AFF992BEF0C12004CAF75 /* SoccerMatch.swift in Sources */,
+				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E708EB522BF5D56A00AE526C /* HeartRate.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */,
