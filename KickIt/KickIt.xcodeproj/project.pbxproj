@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E708EB502BF5D54B00AE526C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB4F2BF5D54B00AE526C /* ViewController.swift */; };
 		E708EB522BF5D56A00AE526C /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB512BF5D56A00AE526C /* HeartRate.swift */; };
-		E708EB542BF5D5F800AE526C /* DesignButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB532BF5D5F800AE526C /* DesignButton.swift */; };
+		E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB532BF5D5F800AE526C /* DesignWideButton.swift */; };
 		E722770C2BF85BB400DE9A7C /* MatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722770B2BF85BB400DE9A7C /* MatchEvent.swift */; };
 		E722770E2BF87BB500DE9A7C /* TimelineEventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722770D2BF87BB500DE9A7C /* TimelineEventRow.swift */; };
 		E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */; };
@@ -26,13 +26,17 @@
 		E79AFF9B2BEF7982004CAF75 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */; };
 		E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF9C2BEF8A86004CAF75 /* SoccerMatchRow.swift */; };
 		E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */; };
+		E79EE75C2BF89FAC005CEF80 /* SoccerTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75B2BF89FAC005CEF80 /* SoccerTeam.swift */; };
+		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
+		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
+		E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE7612BF99BF8005CEF80 /* HeartRateButton.swift */; };
 		E7BC9FDE2BF779CE00365EFE /* TimelineEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BC9FDD2BF779CE00365EFE /* TimelineEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E708EB4F2BF5D54B00AE526C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E708EB512BF5D56A00AE526C /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
-		E708EB532BF5D5F800AE526C /* DesignButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignButton.swift; sourceTree = "<group>"; };
+		E708EB532BF5D5F800AE526C /* DesignWideButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignWideButton.swift; sourceTree = "<group>"; };
 		E722770B2BF85BB400DE9A7C /* MatchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEvent.swift; sourceTree = "<group>"; };
 		E722770D2BF87BB500DE9A7C /* TimelineEventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEventRow.swift; sourceTree = "<group>"; };
 		E722770F2BF8917900DE9A7C /* KickIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickIt.entitlements; sourceTree = "<group>"; };
@@ -51,6 +55,10 @@
 		E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		E79AFF9C2BEF8A86004CAF75 /* SoccerMatchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchRow.swift; sourceTree = "<group>"; };
 		E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
+		E79EE75B2BF89FAC005CEF80 /* SoccerTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeam.swift; sourceTree = "<group>"; };
+		E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchInfo.swift; sourceTree = "<group>"; };
+		E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPanel.swift; sourceTree = "<group>"; };
+		E79EE7612BF99BF8005CEF80 /* HeartRateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateButton.swift; sourceTree = "<group>"; };
 		E7BC9FDD2BF779CE00365EFE /* TimelineEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				E708EB4F2BF5D54B00AE526C /* ViewController.swift */,
+				E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -187,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF8C2BEDDEFD004CAF75 /* MatchCalendar.swift */,
+				E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */,
 				E708EB512BF5D56A00AE526C /* HeartRate.swift */,
 				E7BC9FDD2BF779CE00365EFE /* TimelineEvent.swift */,
 			);
@@ -214,7 +224,8 @@
 			children = (
 				E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */,
 				E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */,
-				E708EB532BF5D5F800AE526C /* DesignButton.swift */,
+				E708EB532BF5D5F800AE526C /* DesignWideButton.swift */,
+				E79EE7612BF99BF8005CEF80 /* HeartRateButton.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -224,6 +235,7 @@
 			children = (
 				E79AFF962BEE6B7B004CAF75 /* CustomDate.swift */,
 				E79AFF982BEF0C12004CAF75 /* SoccerMatch.swift */,
+				E79EE75B2BF89FAC005CEF80 /* SoccerTeam.swift */,
 				E722770B2BF85BB400DE9A7C /* MatchEvent.swift */,
 			);
 			path = Models;
@@ -301,9 +313,12 @@
 			files = (
 				E7BC9FDE2BF779CE00365EFE /* TimelineEvent.swift in Sources */,
 				E79AFF912BEDDFC2004CAF75 /* SoccerDiary.swift in Sources */,
+				E79EE75C2BF89FAC005CEF80 /* SoccerTeam.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* DateExtensions.swift in Sources */,
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
+				E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */,
 				E79AFF992BEF0C12004CAF75 /* SoccerMatch.swift in Sources */,
+				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E708EB522BF5D56A00AE526C /* HeartRate.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */,
@@ -311,11 +326,12 @@
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
 				E722770E2BF87BB500DE9A7C /* TimelineEventRow.swift in Sources */,
 				E722770C2BF85BB400DE9A7C /* MatchEvent.swift in Sources */,
-				E708EB542BF5D5F800AE526C /* DesignButton.swift in Sources */,
+				E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */,
 				E708EB502BF5D54B00AE526C /* ViewController.swift in Sources */,
 				E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */,
 				E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */,
 				E79AFF942BEE0934004CAF75 /* CustomDatePicker.swift in Sources */,
+				E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */,
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
