@@ -11,7 +11,8 @@ struct SoccerMatchInfo: View {
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
-    var offsetY: CGFloat = UIScreen.main.bounds.height * 0.78
+    /// 예측하기 패널의 높이 값
+    @State var offsetY: CGFloat = 0
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -172,7 +173,7 @@ struct SoccerMatchInfo: View {
                 .frame(maxHeight: offsetY - 16, alignment: .bottom)
             
             // MARK: - 예측하기 패널
-            PredictionPanel()
+            PredictionPanel(offsetY: $offsetY)
                 .frame(alignment: .bottom)
         }
         .ignoresSafeArea(edges: .bottom)

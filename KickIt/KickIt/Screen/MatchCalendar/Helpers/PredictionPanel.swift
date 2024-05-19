@@ -9,59 +9,71 @@ import SwiftUI
 
 /// SoccerMatchInfo 화면에서 볼 수 있는 예측하기 패널 화면
 struct PredictionPanel: View {
-    @State private var offsetY: CGFloat = UIScreen.main.bounds.height * 0.78
+    /// 화면 높이 위치 값
+    @Binding var offsetY: CGFloat
+    
+    /// 화면 높이 고정 위치 값
+    @State private var screenHeight: CGFloat = 0
+    
+    /// 드래그 위치 값
     @State private var dragOffset: CGFloat = 0
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // MARK: 스와이프 텍스트
-            VStack(spacing: 0) {
-                Image(systemName: "arrow.up")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.gray600)
-                
-                Text("예측하기")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.gray600)
-                
-                // MARK: 패널 안의 뷰
-                VStack(alignment: .center, spacing: 0) {
-                    Text("경기 시작 전\n결과를 예측해볼까요?")
-                        .font(.system(size: 24, weight: .semibold))
-                        .foregroundStyle(.gray600)
-                        .multilineTextAlignment(.center)
-                    
-                    // MARK: - 참여 인원 수
-                    Text("2,399명 참여")
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                // MARK: 스와이프 텍스트
+                VStack(spacing: 0) {
+                    Image(systemName: "arrow.up")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.gray400)
-                        .padding(.top, 20)
-                    
-                    // MARK: - 예측하기 그래픽
-                    Rectangle()
-                        .fill(.gray100)
-                        .frame(width: 300, height: 200)
-                        .padding(.top, 30)
-                    
-                    Spacer()
-                    
-                    Text("참여만 해도 +3 GOAL")
-                        .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(.gray600)
-                        .padding([.top, .bottom], 12)
-                        .padding([.leading, .trailing], 24)
-                        .background(
-                            RoundedRectangle(cornerRadius: 30)
-                                .fill(.gray100)
-                        )
                     
-                    // MARK: - 참여하기 버튼
-                    DesignWideButton(label: "참여하기", labelColor: .white, btnBGColor: .gray600)
+                    Text("예측하기")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.gray600)
+                    
+                    // MARK: 패널 안의 뷰
+                    VStack(alignment: .center, spacing: 0) {
+                        Text("경기 시작 전\n결과를 예측해볼까요?")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(.gray600)
+                            .multilineTextAlignment(.center)
+                        
+                        // MARK: - 참여 인원 수
+                        Text("2,399명 참여")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(.gray400)
+                            .padding(.top, 20)
+                        
+                        // MARK: - 예측하기 그래픽
+                        Rectangle()
+                            .fill(.gray100)
+                            .frame(width: 300, height: 200)
+                            .padding(.top, 30)
+                        
+                        Spacer()
+                        
+                        Text("참여만 해도 +3 GOAL")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.gray600)
+                            .padding([.top, .bottom], 12)
+                            .padding([.leading, .trailing], 24)
+                            .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .fill(.gray100)
+                            )
+                        
+                        // MARK: - 참여하기 버튼
+                        DesignWideButton(label: "참여하기", labelColor: .white, btnBGColor: .gray600)
+                    }
+                    .padding(.top, 45)
+                    .padding(.bottom, 47)
                 }
-                .padding(.top, 45)
-                .padding(.bottom, 47)
+                .padding(.top, 17)
             }
-            .padding(.top, 17)
+            .onAppear {
+                self.offsetY = geometry.size.height * 0.78
+                self.screenHeight = geometry.size.height
+            }
         }
         .frame(maxWidth: .infinity)
         .background(
@@ -78,8 +90,6 @@ struct PredictionPanel: View {
                     }
                 }
                 .onEnded { value in
-                    let screenHeight = UIScreen.main.bounds.height
-                    
                     // 패널을 열고 있는 상태라면
                     if (self.offsetY == 0) {
                         // 패널이 화면 높이의 10%보다 아래로 내려갔다면
@@ -104,5 +114,5 @@ struct PredictionPanel: View {
 }
 
 #Preview {
-    PredictionPanel()
+    PredictionPanel(offsetY: .constant(0))
 }
