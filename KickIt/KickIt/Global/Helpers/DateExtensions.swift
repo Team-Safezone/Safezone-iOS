@@ -18,6 +18,19 @@ func dateToString(date: Date) -> String {
     return dateToString
 }
 
+/// Date -> 0월 0일 (요일) 형식으로 변경하는 함수
+func dateToString2(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MM월 dd일 (E)"
+    dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
+    //dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
+    
+    let dateToString = dateFormatter.string(from: date)
+    
+    return dateToString
+    
+}
+
 /// Time -> String으로 변경하는 함수
 func timeToString(time: Date) -> String {
     let timeFormatter = DateFormatter()
@@ -33,14 +46,35 @@ func isSameDay(date1: Date, date2: Date) -> Bool {
     return Calendar.current.isDate(date1, inSameDayAs: date2)
 }
 
-/// Date -> 0월 0일 (요일) 형식으로 변경하는 함수
-func dateToString2(date: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MM월 dd일 (E)"
-    dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
-    //dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
+/// Date,Time -> String으로 변경하는 함수
+func dateTimeToString(date3: Date) -> String {
+    let datetimeFormatter = DateFormatter()
+    datetimeFormatter.dateFormat = "yyyy/MM/dd HH:mm"
     
-    let dateToString = dateFormatter.string(from: date)
+    let datetimeToString = datetimeFormatter.string(from: date3)
     
-    return dateToString
+    return datetimeToString
+}
+
+/// 경기 이벤트 발생 시간에 따라 실제 시간 계산하는 함수
+func setEventTime(plusMinute: Int) -> String {
+    var dateComponents = DateComponents()
+    dateComponents.year = 2024
+    dateComponents.month = 5
+    dateComponents.day = 18
+    dateComponents.hour = 16
+    dateComponents.minute = 00
+    dateComponents.second = 0
+    
+    // 기본 날짜 생성
+    var realTime = Calendar.current.date(from: dateComponents) ?? Date()
+    
+    // plusMinute를 realTime에 더함
+    if let updatedTime = Calendar.current.date(byAdding: .minute, value: plusMinute, to: realTime) {
+        realTime = updatedTime
+    }
+    
+    let realTimeString = dateTimeToString(date3: realTime)
+    
+    return realTimeString
 }
