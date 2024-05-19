@@ -32,3 +32,13 @@ func timeToString(time: Date) -> String {
 func isSameDay(date1: Date, date2: Date) -> Bool {
     return Calendar.current.isDate(date1, inSameDayAs: date2)
 }
+
+/// Date,Time -> String으로 변경하는 함수
+func dateTimeToString(date3: Date) -> String {
+    let datetimeFormatter = DateFormatter()
+    datetimeFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+    
+    let datetimeToString = datetimeFormatter.string(from: date3)
+    
+    return datetimeToString
+}
