@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimelineEventRow: View {
     /// 경기 객체
-    var event: PlayEvent
+    var event: MatchEvent
     
     /// 이벤트 날짜+ 시간
     @State private var date: String = ""

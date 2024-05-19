@@ -11,8 +11,7 @@ import SwiftUI
 struct KickItApp: App {
     var body: some Scene {
         WindowGroup {
-//            HeartRate()
-            TimelineEvent(events: PlayEvents)
+            SplashView()
         }
     }
 }

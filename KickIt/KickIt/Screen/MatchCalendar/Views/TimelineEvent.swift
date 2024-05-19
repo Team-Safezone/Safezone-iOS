@@ -13,7 +13,7 @@ var timeStatus: String = "후반전"
 
 struct TimelineEvent: View {
     /// 이벤트 객체
-    @State var events: [PlayEvent]
+    @State var events: [MatchEvent]
     /// 심박수
     let view = ViewController()
     /// 심박수 배열
@@ -64,7 +64,7 @@ struct TimelineEvent: View {
                 arrayHR = view.arrayHR.reversed()
                 /// 이벤트 업데이트 실험
                 if count == 0 {
-                    events.insert(PlayEvent(eventTime: 77, eventName: "교체", player1: "마크", player2: "잭슨", realTime: setEventTime(plusMinute: 41)), at: 0)
+                    events.insert(MatchEvent(eventTime: 77, eventName: "교체", player1: "마크", player2: "잭슨", realTime: setEventTime(plusMinute: 41)), at: 0)
                 }
                 let _ = print("array updated.")
             }
