@@ -24,6 +24,9 @@ struct CustomDatePicker: View {
         }.count
     }
     
+    /// 경기 클릭 이벤트
+    var onSoccerMatchClick: ((SoccerMatch) -> Void)?
+    
     var body: some View {
         VStack(spacing: 0) {
             /// 요일 리스트
@@ -117,6 +120,10 @@ struct CustomDatePicker: View {
                             SoccerMatchRow(soccerMatch: match)
                                 .padding([.leading, .trailing], 16)
                                 .padding(.bottom, 8)
+                                // 경기 1개 클릭 이벤트
+                                .onTapGesture {
+                                    onSoccerMatchClick?(match)
+                                }
                         }
                 }
                 else {

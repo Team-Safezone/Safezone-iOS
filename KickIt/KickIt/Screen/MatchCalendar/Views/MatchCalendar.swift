@@ -1,5 +1,5 @@
 //
-//  EventCalendar.swift
+//  MatchCalendar.swift
 //  KickIt
 //
 //  Created by 이윤지 on 5/10/24.
@@ -13,6 +13,12 @@ struct MatchCalendar: View {
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
     
+    /// 경기 클릭 상태 여부
+    @State private var isMatchSelected = false
+    
+    /// 클릭한 경기 정보
+    @State private var selectedMatch: SoccerMatch?
+    
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -20,7 +26,10 @@ struct MatchCalendar: View {
                     ZStack(alignment: .topTrailing) {
                         
                         // MARK: - Custom Date Picker
-                        CustomDatePicker(currentDate: $currentDate)
+                        CustomDatePicker(currentDate: $currentDate) { match in
+                            selectedMatch = match
+                            isMatchSelected = true
+                        }
                         
                         // MARK: - 랭킹 화면으로 이동하는 버튼
                         Button {
@@ -33,6 +42,13 @@ struct MatchCalendar: View {
                                 .padding(.trailing, 24)
                         }
                     }
+                }
+            }
+            .navigationDestination(isPresented: $isMatchSelected) {
+                if let match = selectedMatch {
+                    SoccerMatchInfo(soccerMatch: match)
+                        .toolbarRole(.editor) // back 텍스트 숨기기
+                        .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                 }
             }
         }
