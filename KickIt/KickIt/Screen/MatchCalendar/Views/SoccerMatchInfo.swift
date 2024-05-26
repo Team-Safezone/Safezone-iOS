@@ -7,12 +7,16 @@
 
 import SwiftUI
 
+/// 1개의 축구 경기 정보 화면
 struct SoccerMatchInfo: View {
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
     /// 예측하기 패널의 높이 값
     @State var offsetY: CGFloat = 0
+    
+    /// 예측하기 버튼 클릭 상태 여부
+    @State private var isPredicted = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -173,8 +177,13 @@ struct SoccerMatchInfo: View {
                 .frame(maxHeight: offsetY - 16, alignment: .bottom)
             
             // MARK: - 예측하기 패널
-            PredictionPanel(offsetY: $offsetY)
-                .frame(alignment: .bottom)
+            PredictionPanel(offsetY: $offsetY) {
+                isPredicted = true
+            }
+            .frame(alignment: .bottom)
+        }
+        .navigationDestination(isPresented: $isPredicted) {
+            WinningTeamPrediction(soccerMatch: soccerMatch)
         }
         .ignoresSafeArea(edges: .bottom)
         // 툴 바, 상태 바 색상 변경

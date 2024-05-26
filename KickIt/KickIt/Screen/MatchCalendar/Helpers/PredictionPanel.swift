@@ -18,6 +18,9 @@ struct PredictionPanel: View {
     /// 드래그 위치 값
     @State private var dragOffset: CGFloat = 0
     
+    /// 예측하기 버튼 클릭 이벤트
+    var onPredictClick: () -> Void
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottom) {
@@ -64,6 +67,9 @@ struct PredictionPanel: View {
                         
                         // MARK: - 참여하기 버튼
                         DesignWideButton(label: "참여하기", labelColor: .white, btnBGColor: .gray600)
+                            .onTapGesture {
+                                onPredictClick()
+                            }
                     }
                     .padding(.top, 45)
                     .padding(.bottom, 47)
@@ -114,5 +120,7 @@ struct PredictionPanel: View {
 }
 
 #Preview {
-    PredictionPanel(offsetY: .constant(0))
+    PredictionPanel(offsetY: .constant(0)) {
+        print("예측하기 버튼 클릭")
+    }
 }
