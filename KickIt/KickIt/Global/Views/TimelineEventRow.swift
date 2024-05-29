@@ -24,12 +24,11 @@ struct TimelineEventRow: View {
                                         "두 번째 경고" : "doublecard",
                                         "퇴장" : "card",
                                         "VAR 판독" : "VideoCamera"]
-    
     var body: some View {
         HStack(alignment: .center, spacing: 16){
-            Text("\(event.eventTime)")
-                .font(.system(size: 13, weight: .medium))
-                .frame(width: 20, alignment: .center)
+            Text("\(event.eventTime)분")
+                .font(.system(size: 13, weight: .regular))
+                .frame(width: 30, alignment: .center)
                 .multilineTextAlignment(.center)
                 .background(.white)
             HStack(alignment: .center, spacing: 10){
@@ -69,33 +68,43 @@ struct TimelineEventRow: View {
                     Spacer()
                     // MARK: 심박수와 이벤트 시간 연결
                     if !arrayHR.isEmpty {
-                        ForEach(arrayHR.indices, id: \.self){ index in
-                            if (arrayHR[index]["Date"] as! String == event.realTime){
-                                HStack(spacing: 4){
-                                    Text("높음")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .foregroundStyle(.gray400)
-                                    HStack(spacing: 2){
-                                        Text("\(arrayHR[index]["HeartRate"]!)")
-                                            .font(.system(size: 14, weight: .semibold))
-                                            .frame(width: 25, alignment: .trailing)
-                                        Text("BPM")
-                                            .font(.system(size: 12, weight: .medium))
-                                    }
+                        let temp: [[String: Any]] = {
+                            let start = max(0, event.eventTime - 3)
+                            /// 시간을 문자열로 변환
+                            let startDateString = setEventTime(plusMinute: start)
+                            let endDateString = setEventTime(plusMinute: event.eventTime)
+                            /// start부터 event.eventTime까지의 Date를 가진 arrayHR의 요소들을 필터링
+                            return arrayHR.filter { element in
+                                if let date = element["Date"] as? String {
+                                    return date >= startDateString && date <= endDateString
                                 }
-                            }
-                        }
-                    } else{
-                        let _ = print("arrayHR Empty")
+                                return false
+                            }}()
+                        if let maxHeartRateIndex = temp.enumerated().max(by: { a, b in
+                            let heartRateA = a.element["HeartRate"] as? Int ?? 0
+                            let heartRateB = b.element["HeartRate"] as? Int ?? 0
+                            return heartRateA < heartRateB
+                        })?.offset {
+                            let maxHeartRateElement = temp[maxHeartRateIndex]
+                            HStack(spacing: 4){
+                                Image(systemName: "arrow.up.right")
+                                    .frame(width: 24, height: 24)
+                                HStack(spacing: 2){
+                                    Text("\(maxHeartRateElement["HeartRate"]!)")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .frame(width: 25, alignment: .trailing)
+                                    Text("BPM")
+                                        .font(.system(size: 12, weight: .medium))
+                                }}}
+                    }else{
+                        let _ = print("심박수 기록 없음")
                     }
-                    
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
 }
-
 #Preview {
-    TimelineEventRow(event: PlayEvents[0], arrayHR: [["HeartRate": 120, "Date": "2024/05/18 06:41"]])
+    TimelineEventRow(event: PlayEvents[0], arrayHR: [["HeartRate": 120, "Date": "2024/05/23 23:02"]])
 }
