@@ -61,8 +61,8 @@ func setEventTime(plusMinute: Int) -> String {
     var dateComponents = DateComponents()
     dateComponents.year = 2024
     dateComponents.month = 5
-    dateComponents.day = 18
-    dateComponents.hour = 16
+    dateComponents.day = 23
+    dateComponents.hour = 22
     dateComponents.minute = 00
     dateComponents.second = 0
     
