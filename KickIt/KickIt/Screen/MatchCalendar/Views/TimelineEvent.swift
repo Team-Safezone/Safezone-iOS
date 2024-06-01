@@ -10,14 +10,15 @@ import SwiftUI
 var soccerMatch: SoccerMatch = soccerMatches[3]
 
 struct TimelineEvent: View {
+    var soccerMatch: SoccerMatch = soccerMatches[3]
     /// 이벤트 객체
-    @State var events: [MatchEvent]
+    @State var events: [MatchEvent] = matchEvents
     /// 심박수
     let view = ViewController()
     /// 심박수 배열
-    @State private var arrayHR: [[String: Any]] = []
+    @State var arrayHR: [[String: Any]] = []
     /// Timer 객체
-    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect() // 60초마다 업데이트
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         NavigationStack{
@@ -40,7 +41,6 @@ struct TimelineEvent: View {
                         view.loadHeartRate()
                         arrayHR = view.arrayHR.reversed()
                         /// 이벤트 업데이트 실험
-                        
                         events.insert(MatchEvent(eventTime: 62, eventName: "교체", player1: "캘러거", player2: "잭슨"), at: 0)
                         
                         let _ = print("array updated.")
@@ -102,7 +102,7 @@ struct TimelineEvent: View {
 
 
 #Preview {
-    TimelineEvent(events: PlayEvents)
+    TimelineEvent()
 }
 
 struct LinkToSoccerView: View {

@@ -24,16 +24,16 @@ class ViewController: UIViewController{
         dateComponents.year = 2024
         dateComponents.month = 5
         dateComponents.day = 23
-        dateComponents.hour = 22
-        dateComponents.minute = 00
+        dateComponents.hour = 11
+        dateComponents.minute = 49
         dateComponents.second = 0
         
         var dateComponents2 = DateComponents()
         dateComponents2.year = 2024
         dateComponents2.month = 5
         dateComponents2.day = 23
-        dateComponents2.hour = 23
-        dateComponents2.minute = 00
+        dateComponents2.hour = 13
+        dateComponents2.minute = 49
         dateComponents2.second = 0
         
         if arrayHR.isEmpty {
