@@ -20,6 +20,7 @@
 		E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553C02C0C78B700261DAF /* Pretendard-SemiBold.otf */; };
 		E79553C82C0CA04C00261DAF /* TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553C72C0CA04C00261DAF /* TextStyle.swift */; };
 		E79553D02C0CAEE000261DAF /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553CF2C0CAEE000261DAF /* Color+.swift */; };
+		E79553D22C0CB29500261DAF /* LinearGradient+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553D12C0CB29500261DAF /* LinearGradient+.swift */; };
 		E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */; };
 		E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF722BEDC8DC004CAF75 /* SplashView.swift */; };
 		E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		E79553C42C0C7BC000261DAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E79553C72C0CA04C00261DAF /* TextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyle.swift; sourceTree = "<group>"; };
 		E79553CF2C0CAEE000261DAF /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		E79553D12C0CB29500261DAF /* LinearGradient+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+.swift"; sourceTree = "<group>"; };
 		E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickItApp.swift; sourceTree = "<group>"; };
 		E79AFF722BEDC8DC004CAF75 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				E79553BB2C0C760600261DAF /* Font+.swift */,
 				E79553C72C0CA04C00261DAF /* TextStyle.swift */,
 				E79553CF2C0CAEE000261DAF /* Color+.swift */,
+				E79553D12C0CB29500261DAF /* LinearGradient+.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				E79553BC2C0C760600261DAF /* Font+.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* DateExtensions.swift in Sources */,
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
+				E79553D22C0CB29500261DAF /* LinearGradient+.swift in Sources */,
 				E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */,
 				E79AFF992BEF0C12004CAF75 /* SoccerMatch.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
