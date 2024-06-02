@@ -14,6 +14,11 @@
 		E722770E2BF87BB500DE9A7C /* TimelineEventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722770D2BF87BB500DE9A7C /* TimelineEventRow.swift */; };
 		E76391772C0377D600B565BE /* DesignHalfButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76391762C0377D600B565BE /* DesignHalfButton.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
+		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
+		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
+		E79553C22C0C78B700261DAF /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BF2C0C78B700261DAF /* Pretendard-Medium.otf */; };
+		E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553C02C0C78B700261DAF /* Pretendard-SemiBold.otf */; };
+		E79553C82C0CA04C00261DAF /* TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553C72C0CA04C00261DAF /* TextStyle.swift */; };
 		E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */; };
 		E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF722BEDC8DC004CAF75 /* SplashView.swift */; };
 		E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */; };
@@ -45,6 +50,12 @@
 		E722770F2BF8917900DE9A7C /* KickIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickIt.entitlements; sourceTree = "<group>"; };
 		E76391762C0377D600B565BE /* DesignHalfButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignHalfButton.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
+		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
+		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		E79553BF2C0C78B700261DAF /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		E79553C02C0C78B700261DAF /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		E79553C42C0C7BC000261DAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E79553C72C0CA04C00261DAF /* TextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyle.swift; sourceTree = "<group>"; };
 		E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickItApp.swift; sourceTree = "<group>"; };
 		E79AFF722BEDC8DC004CAF75 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -89,6 +100,44 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		E79553B62C0C6AFC00261DAF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E79553B72C0C6B0600261DAF /* iOS */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E79553B72C0C6B0600261DAF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */,
+				E79553C42C0C7BC000261DAF /* Info.plist */,
+				E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		E79553B82C0C749B00261DAF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */,
+				E79553BB2C0C760600261DAF /* Font+.swift */,
+				E79553C72C0CA04C00261DAF /* TextStyle.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		E79553BD2C0C786600261DAF /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */,
+				E79553BF2C0C78B700261DAF /* Pretendard-Medium.otf */,
+				E79553C02C0C78B700261DAF /* Pretendard-SemiBold.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		E79AFF642BEDC8DC004CAF75 = {
 			isa = PBXGroup;
 			children = (
@@ -109,10 +158,9 @@
 			isa = PBXGroup;
 			children = (
 				E722770F2BF8917900DE9A7C /* KickIt.entitlements */,
+				E79553B62C0C6AFC00261DAF /* App */,
 				E79AFF7E2BEDDC76004CAF75 /* Global */,
 				E79AFF822BEDDD96004CAF75 /* Screen */,
-				E79AFF702BEDC8DC004CAF75 /* KickItApp.swift */,
-				E79AFF742BEDC8DD004CAF75 /* Assets.xcassets */,
 				E79AFF762BEDC8DD004CAF75 /* Preview Content */,
 			);
 			path = KickIt;
@@ -132,6 +180,8 @@
 				E79AFF952BEE6A2F004CAF75 /* Models */,
 				E79AFF922BEE08F0004CAF75 /* Helpers */,
 				E79AFF7F2BEDDC86004CAF75 /* Views */,
+				E79553BD2C0C786600261DAF /* Font */,
+				E79553B82C0C749B00261DAF /* Utils */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -230,7 +280,6 @@
 		E79AFF922BEE08F0004CAF75 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E79AFF9A2BEF7982004CAF75 /* DateExtensions.swift */,
 				E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */,
 				E708EB532BF5D5F800AE526C /* DesignWideButton.swift */,
 				E76391762C0377D600B565BE /* DesignHalfButton.swift */,
@@ -309,7 +358,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E79AFF782BEDC8DD004CAF75 /* Preview Assets.xcassets in Resources */,
+				E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */,
+				E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */,
 				E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */,
+				E79553C22C0C78B700261DAF /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,10 +372,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79553C82C0CA04C00261DAF /* TextStyle.swift in Sources */,
 				E7BC9FDE2BF779CE00365EFE /* TimelineEvent.swift in Sources */,
 				E79AFF912BEDDFC2004CAF75 /* SoccerDiary.swift in Sources */,
 				E7D311882C036F8F0070A31D /* VerticalBarChart.swift in Sources */,
 				E79EE75C2BF89FAC005CEF80 /* SoccerTeam.swift in Sources */,
+				E79553BC2C0C760600261DAF /* Font+.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* DateExtensions.swift in Sources */,
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
 				E79EE7622BF99BF8005CEF80 /* HeartRateButton.swift in Sources */,
@@ -482,7 +536,7 @@
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_FILE = KickIt/App/iOS/Info.plist;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
@@ -516,7 +570,7 @@
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_FILE = KickIt/App/iOS/Info.plist;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
