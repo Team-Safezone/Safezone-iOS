@@ -11,8 +11,6 @@ struct TimelineEventRow: View {
     /// 경기 객체
     var event: MatchEvent
     
-    /// 이벤트 날짜+ 시간
-    @State private var date: String = ""
     /// 심박수
     var arrayHR: [[String: Any]] = []
     
@@ -85,10 +83,16 @@ struct TimelineEventRow: View {
                             let heartRateB = b.element["HeartRate"] as? Int ?? 0
                             return heartRateA < heartRateB
                         })?.offset {
-                            let maxHeartRateElement = temp[maxHeartRateIndex]
+                            @State var maxHeartRateElement = temp[maxHeartRateIndex]
                             HStack(spacing: 4){
-                                Image(systemName: "arrow.up.right")
-                                    .frame(width: 24, height: 24)
+                                if (maxHeartRateElement["HeartRate"]! as! Int > 80) {
+                                    Image(systemName: "arrow.up.right")
+                                        .frame(width: 24, height: 24)
+                                }
+                                else{
+                                    Image("ArrowDown")
+                                        .frame(width: 24, height: 24)
+                                }
                                 HStack(spacing: 2){
                                     Text("\(maxHeartRateElement["HeartRate"]!)")
                                         .font(.system(size: 14, weight: .semibold))
@@ -106,5 +110,5 @@ struct TimelineEventRow: View {
     }
 }
 #Preview {
-    TimelineEventRow(event: PlayEvents[0], arrayHR: [["HeartRate": 120, "Date": "2024/05/23 23:02"]])
+    TimelineEventRow(event: matchEvents[0], arrayHR: [["Date": "2024/05/23 22:31", "HeartRate": 120]])
 }
