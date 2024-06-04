@@ -59,11 +59,11 @@ func dateTimeToString(date3: Date) -> String {
 /// 경기 이벤트 발생 시간에 따라 실제 시간 계산하는 함수
 func setEventTime(plusMinute: Int) -> String {
     var dateComponents = DateComponents()
-    dateComponents.year = 2024
-    dateComponents.month = 5
-    dateComponents.day = 23
-    dateComponents.hour = 11
-    dateComponents.minute = 49
+    dateComponents.year = 2024      // 2. 경기 시작 시간
+    dateComponents.month = 6
+    dateComponents.day = 3
+    dateComponents.hour = 21
+    dateComponents.minute = 20
     dateComponents.second = 0
     
     // 기본 날짜 생성
@@ -90,11 +90,11 @@ func minutesExtracted(from dateString: String) -> Int? {
     }
     
     var dateComponents = DateComponents()
-    dateComponents.year = 2024
-    dateComponents.month = 5
-    dateComponents.day = 23
-    dateComponents.hour = 13
-    dateComponents.minute = 49
+    dateComponents.year = 2024          // 3. 경기 종료 시간
+    dateComponents.month = 6
+    dateComponents.day = 3
+    dateComponents.hour = 22
+    dateComponents.minute = 50
     guard let time2 = calendar.date(from: dateComponents) else {
         return 0
     }

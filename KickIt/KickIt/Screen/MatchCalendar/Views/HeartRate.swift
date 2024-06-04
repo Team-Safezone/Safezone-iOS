@@ -18,9 +18,7 @@ struct HeartRate: View {
     let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     @State var dataPoints: [CGFloat]
-//    = [106.0, 105.0, 101.0, 108.0, 100.0, 113.0, 139.0, 127.0, 124.0, 122.0, 100.0, 99.0, 97.0, 94.0, 99.0, 93.0, 99.0, 107.0, 104.0, 97.0, 98.0, 99.0, 100.0, 100.0, 127.0, 117.0, 115.0, 113.0, 98.0, 109.0, 106.0, 100.0, 112.0, 103.0, 96.0, 97.0, 109.0]
     @State var dataTime: [Int]
-//    = [2, 6, 11, 15, 19, 27, 32, 33, 34, 35, 37, 41, 47, 52, 57, 59, 61, 62, 63, 66, 71, 72, 75, 79, 84, 85, 86, 87, 93, 96, 102, 104, 109, 111, 115, 119, 120]
     
     var body: some View {
         NavigationStack{
@@ -40,10 +38,10 @@ struct HeartRate: View {
                 LineChart(dataPoints: $dataPoints, dataTime: $dataTime, matchE: matchEvents.reversed())
                     .padding(.leading, 16)
                 FanList()
-                ViewerStats()
+                
                 ViewerHRStats()
                     .padding(.top, 44)
-                    .padding(.bottom, 90)
+                ViewerStats()
                 
                 
             }
@@ -79,5 +77,5 @@ struct HeartRate: View {
 }
 
 #Preview {
-    HeartRate(dataPoints: [50, 70, 63, 117, 83, 150, 120, 133], dataTime: [17, 22, 23, 32, 35, 46, 58, 72])
+    HeartRate(dataPoints: [106.0, 105.0, 101.0, 108.0, 100.0, 113.0, 139.0, 127.0, 124.0, 122.0, 100.0, 99.0, 97.0, 94.0, 99.0, 93.0, 99.0, 107.0, 104.0, 97.0, 98.0, 99.0, 100.0, 100.0, 127.0, 117.0, 115.0, 113.0, 98.0, 109.0, 106.0, 100.0, 112.0, 103.0, 96.0, 97.0, 109.0], dataTime:  [2, 6, 11, 15, 19, 27, 32, 33, 34, 35, 37, 41, 47, 52, 57, 59, 61, 62, 63, 66, 71, 72, 75, 79, 84, 85, 86, 87, 93, 96, 102, 104, 109, 111, 115, 119, 120])
 }

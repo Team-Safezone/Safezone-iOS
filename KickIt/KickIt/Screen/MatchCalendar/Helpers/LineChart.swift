@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 /// 심박수 통계 라인 그래프
 struct LineChart: View {
     /// 라인 그래프에 들어갈 데이터
@@ -18,16 +20,20 @@ struct LineChart: View {
     @State private var pathPosition = CGPoint(x: 0, y: 0)
     @State private var isDragging = false
     
+    
     private func normalizedDataPoints(maxDataPoint: CGFloat, minDataPoint: CGFloat) -> [CGPoint] {
         let yRange = maxDataPoint - minDataPoint
         let spacing = 220 / yRange
         
         var points: [CGPoint] = []
         
-        for (index, dataPoint) in dataPoints.enumerated() {
+        for (index, dataPoint) in dataPoints.reversed().enumerated() {
             let xPosition = CGFloat((dataTime[index] * 56)/15)
             let yPosition = (220 - (dataPoint - (minDataPoint)) * spacing)
+            //            if xPosition < 63 { xPosition = 64}
+            //            if yPosition < 0{ yPosition = 0 }
             points.append(CGPoint(x: xPosition, y: yPosition))
+            
         }
         
         return points
@@ -70,9 +76,10 @@ struct LineChart: View {
                 // MARK: 라인그래프
                 Path { path in
                     let points = normalizedDataPoints(maxDataPoint: dataPoints.max() ?? 1, minDataPoint: dataPoints.min() ?? 0)
-                    path.move(to: CGPoint(x: 0, y: 220))
+                    path.move(to: CGPoint(x: 64, y: 220))
                     path.addLines(points)
-                    let _ = print("line updated \(points)")
+                    let _ = print("line updated:::  \(points)")
+                    
                 }
                 .stroke(Color.gray600, style: StrokeStyle(lineWidth: 2, lineCap: .round))
                 .padding(.leading, 64)
@@ -87,17 +94,21 @@ struct LineChart: View {
                         })
                 
                 
+                
                 // MARK: 드래그 이벤트
-                if CGFloat(62) < pathPosition.x && pathPosition.x < CGFloat(dataTime.last ?? 120) * CGFloat(56)/CGFloat(15)+62 {
+                if CGFloat(62) < pathPosition.x && pathPosition.x < CGFloat(dataTime.last ?? 120) * CGFloat(56)/CGFloat(15)+62 && pathPosition.y < 221 {
                     let eventTimes = matchE.map { $0.eventTime }
                     let calculatedTime = Int(round((pathPosition.x - 64) * 15 / 56))
-                    let pathIndex = dataTime.firstIndex(where: { $0 == calculatedTime })
+//                    let pathIndex = dataTime.firstIndex(where: { $0 == calculatedTime })
+                    let dataRange = (dataPoints.max() ?? 1) - (dataPoints.min() ?? 0)
+                    let normalizedY = (200 - pathPosition.y) / 200
+                    let lineHR = (normalizedY * dataRange) + (dataPoints.min() ?? 0)
                     
                     if let timeIndex = eventTimes.firstIndex(where: { $0 == calculatedTime }) {
-                        BoxEvent(dataPoint: dataPoints[pathIndex ?? 0], event: matchE[timeIndex])
+                        BoxEvent(dataPoint: lineHR, event: matchE[timeIndex])
                             .position(x:pathPosition.x, y: -40)
                     } else {
-                        BoxEvent2(dataPoint: dataPoints[0], time: calculatedTime)
+                        BoxEvent2(dataPoint: lineHR, time: calculatedTime)
                             .position(x:pathPosition.x, y: -40)
                     }
                     Path{ path in
@@ -110,7 +121,7 @@ struct LineChart: View {
                 
             }
             .padding(.top, 80)
-            .frame(width: 450, height: 302)
+            .frame(width: 600, height: 302)
             
             HStack(alignment: .center, spacing: 30){
                 let xAxisLables:[String] = ["0분", "15분", "30분", "45분", "60분", "75분", "90분"]
