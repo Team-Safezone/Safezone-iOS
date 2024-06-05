@@ -10,7 +10,7 @@ import SwiftUI
 var soccerMatch: SoccerMatch = dummySoccerMatches[0]
 
 struct TimelineEvent: View {
-    var soccerMatch: SoccerMatch = soccerMatches[3]
+    var soccerMatch: SoccerMatch = dummySoccerMatches[1]
     /// 이벤트 객체
     @State var events: [MatchEvent] = matchEvents
     /// 심박수

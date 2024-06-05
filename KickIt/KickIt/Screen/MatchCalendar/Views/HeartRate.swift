@@ -10,7 +10,7 @@ import HealthKit
 
 
 struct HeartRate: View {
-    var soccerMatch: SoccerMatch = soccerMatches[3]
+    var soccerMatch: SoccerMatch = dummySoccerMatches[0]
     let view = ViewController()
     @State private var arrayHR: [[String: Any]] = []
     
