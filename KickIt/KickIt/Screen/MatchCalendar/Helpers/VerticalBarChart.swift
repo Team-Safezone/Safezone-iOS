@@ -28,7 +28,6 @@ struct VerticalBarChart: View {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(chart.1 == highPercentData ? .gray600 : .gray400)
                         .frame(width: CGFloat(chart.1) * 3, height: 51)
-                    
                     // MARK: 그래프 이름
                     Text(chart.0)
                         .font(.system(size: 16, weight: .medium))
