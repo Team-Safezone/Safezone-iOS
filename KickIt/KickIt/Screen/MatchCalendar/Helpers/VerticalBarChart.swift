@@ -47,10 +47,10 @@ struct VerticalBarChart: View {
     }
 }
 
-#Preview {
-    VerticalBarChart(data: [
-        (soccerMatch.homeTeam.teamName, 30.0),
-        (soccerMatch.awayTeam.teamName, 65.0),
-        ("무승부", 5.0)
-    ])
-}
+//#Preview {
+//    VerticalBarChart(data: [
+//        (soccerMatch.homeTeam.teamName, 30.0),
+//        (soccerMatch.awayTeam.teamName, 65.0),
+//        ("무승부", 5.0)
+//    ])
+//}

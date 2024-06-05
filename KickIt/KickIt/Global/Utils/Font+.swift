@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 커스텀 폰트를 관리하는 커스텀 폰트 파일
 extension Font {
     enum Pretendard {
         case medium
@@ -34,7 +35,7 @@ extension Font {
     static let H2: Font = pretendard(.bold, size: 20)
     static let Title1: Font = pretendard(.bold, size: 18)
     static let Title2: Font = pretendard(.bold, size: 16)
-    static let SemiTitle: Font = pretendard(.semibold, size: 14)
+    static let SubTitle: Font = pretendard(.semibold, size: 14)
     static let Body1: Font = pretendard(.medium, size: 16)
     static let Body2: Font = pretendard(.medium, size: 14)
     static let Body3: Font = pretendard(.medium, size: 13)

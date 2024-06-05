@@ -10,7 +10,19 @@ import SwiftUI
 /// 메인 네비게이션 설정 화면
 struct ContentView: View {
     /// 사용자가 선택한 네비게이션 화면 tag 변수
-    @State private var selectedMenu: Int = 1
+    @State private var selectedMenu: Tab = .home
+    
+    enum Tab {
+        case home
+        case calendar
+        case diary
+        case mypage
+    }
+    
+    // 탭바 색상 초기화
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.black
+    }
     
     var body: some View {
         TabView(selection: $selectedMenu) {
@@ -18,22 +30,37 @@ struct ContentView: View {
             Home()
                 .tabItem {
                     Image(systemName: "house")
+                    Text("홈")
+                        .pretendardTextStyle(.Caption2Style)
                 }
-                .tag(1)
+                .tag(Tab.home)
             
             /// 경기 일정 & 캘린더 화면
             MatchCalendar()
                 .tabItem {
                     Image(systemName: "soccerball")
+                    Text("경기 캘린더")
+                        .pretendardTextStyle(.Caption2Style)
                 }
-                .tag(2)
+                .tag(Tab.calendar)
             
             /// 축구 경기 일기 화면
             SoccerDiary()
                 .tabItem {
                     Image(systemName: "book")
+                    Text("축구 일기")
+                        .pretendardTextStyle(.Caption2Style)
                 }
-                .tag(3)
+                .tag(Tab.diary)
+            
+            /// 마이페이지 화면
+            MyPage()
+                .tabItem {
+                    Image(systemName: "person.circle.fill")
+                    Text("마이페이지")
+                        .pretendardTextStyle(.Caption2Style)
+                }
+                .tag(Tab.mypage)
         }
     }
 }
