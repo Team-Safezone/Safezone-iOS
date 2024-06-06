@@ -79,25 +79,25 @@ struct WinningTeamPrediction: View {
                     
                     // 홈 팀을 선택한 경우
                     if clickHomeTeam {
-                        LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
-                            .frame(width: 120, height: 120)
-                            .background(.white)
-                            .clipShape(Circle())
-                        
-                        Text(soccerMatch.homeTeam.teamName)
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(.gray600)
+//                        LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
+//                            .frame(width: 120, height: 120)
+//                            .background(.white)
+//                            .clipShape(Circle())
+//                        
+//                        Text(soccerMatch.homeTeam.teamName)
+//                            .font(.system(size: 16, weight: .medium))
+//                            .foregroundStyle(.gray600)
                     }
                     // 원정팀을 선택한 경우
                     else if clickAwayTeam {
-                        LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
-                            .frame(width: 120, height: 120)
-                            .background(.white)
-                            .clipShape(Circle())
-                        
-                        Text(soccerMatch.awayTeam.teamName)
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(.gray600)
+//                        LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
+//                            .frame(width: 120, height: 120)
+//                            .background(.white)
+//                            .clipShape(Circle())
+//                        
+//                        Text(soccerMatch.awayTeam.teamName)
+//                            .font(.system(size: 16, weight: .medium))
+//                            .foregroundStyle(.gray600)
                     }
                     // 무승부를 선택한 경우
                     else if clickDraw {
@@ -132,12 +132,12 @@ struct WinningTeamPrediction: View {
                             .foregroundStyle(.gray600)
                         
                         // MARK: - 예측 결과 가로 막대 그래프
-                        VerticalBarChart(data: [
-                            (soccerMatch.homeTeam.teamName, 30.0),
-                            (soccerMatch.awayTeam.teamName, 65.0),
-                            ("무승부", 5.0)
-                        ])
-                        .padding(.top, 20)
+//                        VerticalBarChart(data: [
+//                            (soccerMatch.homeTeam.teamName, 30.0),
+//                            (soccerMatch.awayTeam.teamName, 65.0),
+//                            ("무승부", 5.0)
+//                        ])
+//                        .padding(.top, 20)
                     }
                     .padding([.top, .bottom], 32)
                     .padding([.leading, .trailing], 20)
@@ -159,14 +159,14 @@ struct WinningTeamPrediction: View {
                             clickDraw = false
                         } label: {
                             VStack(alignment: .center, spacing: 20) {
-                                LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
-                                    .frame(width: 60, height: 60)
-                                    .background(.white)
-                                    .clipShape(Circle())
-                                
-                                Text(soccerMatch.homeTeam.teamName)
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundStyle(.gray600)
+//                                LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
+//                                    .frame(width: 60, height: 60)
+//                                    .background(.white)
+//                                    .clipShape(Circle())
+//                                
+//                                Text(soccerMatch.homeTeam.teamName)
+//                                    .font(.system(size: 16, weight: .bold))
+//                                    .foregroundStyle(.gray600)
                             }
                             .padding(24)
                             .background(
@@ -206,14 +206,14 @@ struct WinningTeamPrediction: View {
                             clickDraw = false
                         } label: {
                             VStack(alignment: .center, spacing: 20) {
-                                LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
-                                    .frame(width: 60, height: 60)
-                                    .background(.white)
-                                    .clipShape(Circle())
-                                
-                                Text(soccerMatch.awayTeam.teamName)
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundStyle(.gray600)
+//                                LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
+//                                    .frame(width: 60, height: 60)
+//                                    .background(.white)
+//                                    .clipShape(Circle())
+//                                
+//                                Text(soccerMatch.awayTeam.teamName)
+//                                    .font(.system(size: 16, weight: .bold))
+//                                    .foregroundStyle(.gray600)
                             }
                             .padding(24)
                             .background(
@@ -267,6 +267,6 @@ struct WinningTeamPrediction: View {
     }
 }
 
-#Preview {
-    WinningTeamPrediction(soccerMatch: soccerMatches[0])
-}
+//#Preview {
+//    WinningTeamPrediction(soccerMatch: soccerMatches[0])
+//}

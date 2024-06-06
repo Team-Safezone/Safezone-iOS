@@ -88,17 +88,17 @@ struct SoccerMatchInfo: View {
                             // MARK: 홈 팀
                             VStack(alignment: .center, spacing: 0) {
                                 // 홈 팀 엠블럼 이미지
-                                LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
-                                    .frame(width: 88, height: 88)
-                                    .background(.white)
-                                    .clipShape(Circle())
+//                                LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
+//                                    .frame(width: 88, height: 88)
+//                                    .background(.white)
+//                                    .clipShape(Circle())
                                 
                                 // 팀 명
-                                Text("\(soccerMatch.homeTeam.teamName)")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(.gray600)
-                                    .frame(width: 88, alignment: .center)
-                                    .padding(.top, 8)
+//                                Text("\(soccerMatch.homeTeam.teamName)")
+//                                    .font(.system(size: 16, weight: .semibold))
+//                                    .foregroundStyle(.gray600)
+//                                    .frame(width: 88, alignment: .center)
+//                                    .padding(.top, 8)
                                 
                                 Text("홈")
                                     .font(.system(size: 13, weight: .medium))
@@ -106,10 +106,10 @@ struct SoccerMatchInfo: View {
                                     .padding(.top, 19)
                                 
                                 // 홈 팀 스코어
-                                Text("\(soccerMatch.homeTeamScore?.description ?? "-")")
-                                    .font(.system(size: 30, weight: .semibold))
-                                    .foregroundStyle(.black)
-                                    .padding(.top, 30)
+//                                Text("\(soccerMatch.homeTeamScore?.description ?? "-")")
+//                                    .font(.system(size: 30, weight: .semibold))
+//                                    .foregroundStyle(.black)
+//                                    .padding(.top, 30)
                             }
                             
                             Spacer()
@@ -124,17 +124,17 @@ struct SoccerMatchInfo: View {
                             // MARK: 원정 팀
                             VStack(alignment: .center, spacing: 0) {
                                 // 원정 팀 엠블럼 이미지
-                                LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
-                                    .frame(width: 88, height: 88)
-                                    .background(.white)
-                                    .clipShape(Circle())
-                                
-                                // 팀 명
-                                Text("\(soccerMatch.awayTeam.teamName)")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(.gray600)
-                                    .frame(width: 88, alignment: .center)
-                                    .padding(.top, 8)
+//                                LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
+//                                    .frame(width: 88, height: 88)
+//                                    .background(.white)
+//                                    .clipShape(Circle())
+//                                
+//                                // 팀 명
+//                                Text("\(soccerMatch.awayTeam.teamName)")
+//                                    .font(.system(size: 16, weight: .semibold))
+//                                    .foregroundStyle(.gray600)
+//                                    .frame(width: 88, alignment: .center)
+//                                    .padding(.top, 8)
                                 
                                 Text("원정")
                                     .font(.system(size: 13, weight: .medium))
@@ -142,10 +142,10 @@ struct SoccerMatchInfo: View {
                                     .padding(.top, 19)
                                 
                                 // 원정 팀 스코어
-                                Text("\(soccerMatch.awayTeamScore?.description ?? "-")")
-                                    .font(.system(size: 30, weight: .semibold))
-                                    .foregroundStyle(.black)
-                                    .padding(.top, 30)
+//                                Text("\(soccerMatch.awayTeamScore?.description ?? "-")")
+//                                    .font(.system(size: 30, weight: .semibold))
+//                                    .foregroundStyle(.black)
+//                                    .padding(.top, 30)
                             }
                         }
                         
@@ -171,10 +171,6 @@ struct SoccerMatchInfo: View {
                 }
             }
             .scrollIndicators(.never)
-            
-            // MARK: - 심박수 통계 버튼
-            HeartRateButton(soccerMatch: soccerMatch)
-                .frame(maxHeight: offsetY - 16, alignment: .bottom)
             
             // MARK: - 예측하기 패널
             PredictionPanel(offsetY: $offsetY) {
@@ -220,6 +216,6 @@ struct SoccerMatchInfo: View {
     }
 }
 
-#Preview {
-    SoccerMatchInfo(soccerMatch: soccerMatches[0])
-}
+//#Preview {
+//    SoccerMatchInfo(soccerMatch: soccerMatches[0])
+//}
