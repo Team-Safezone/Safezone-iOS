@@ -7,10 +7,9 @@
 
 import SwiftUI
 /// 경기 객체
-var soccerMatch: SoccerMatch = soccerMatches[3]
+var soccerMatch: SoccerMatch = dummySoccerMatches[0]
 
 struct TimelineEvent: View {
-    var soccerMatch: SoccerMatch = soccerMatches[3]
     /// 이벤트 객체
     @State var events: [MatchEvent] = matchEvents
     /// 심박수
@@ -109,18 +108,8 @@ struct MatchResultView: View {
             HStack{
                 VStack(spacing: 4)
                 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    LoadableImage(image: "\(soccerMatch.homeTeam.teamImgURL)")
-                        .scaledToFill()
-=======
                     LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
                         .scaledToFit()
->>>>>>> Stashed changes
-=======
-                    LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
-                        .scaledToFit()
->>>>>>> Stashed changes
                         .frame(width: 44, height: 44)
                         .background(.white)
                         .clipShape(Circle())
@@ -155,18 +144,8 @@ struct MatchResultView: View {
                 }
                 
                 VStack{
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    LoadableImage(image: "\(soccerMatch.awayTeam.teamImgURL)")
-                        .scaledToFill()
-=======
                     LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
                         .scaledToFit()
->>>>>>> Stashed changes
-=======
-                    LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
-                        .scaledToFit()
->>>>>>> Stashed changes
                         .frame(width: 44, height: 44)
                         .background(.white)
                         .clipShape(Circle())

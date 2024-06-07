@@ -135,7 +135,7 @@ struct BoxEvent2: View{
         .frame(width: 234, height: 80, alignment: .center)
         .background(){
             RoundedRectangle(cornerRadius: 8)
-                .foregroundStyle(.gray50)
+                .foregroundStyle(.gray900)
         }
     }
 }
