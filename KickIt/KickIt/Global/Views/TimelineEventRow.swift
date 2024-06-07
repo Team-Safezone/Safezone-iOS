@@ -22,13 +22,15 @@ struct TimelineEventRow: View {
                                         "두 번째 경고" : "doublecard",
                                         "퇴장" : "card",
                                         "VAR 판독" : "VideoCamera"]
+    
+    
     var body: some View {
         HStack(alignment: .center, spacing: 16){
             Text("\(event.eventTime)분")
                 .font(.system(size: 13, weight: .regular))
-                .frame(width: 30, alignment: .center)
+                .frame(width: 40, alignment: .center)
                 .multilineTextAlignment(.center)
-                .background(.white)
+                .foregroundColor(Color.black0)
             HStack(alignment: .center, spacing: 10){
                 LoadableImage(image: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
                     .frame(width: 30, height: 30)
@@ -44,23 +46,23 @@ struct TimelineEventRow: View {
                             if event.eventName == "골!"{
                                 Text("\(event.player1) 골!")
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(.gray600)
+                                    .foregroundStyle(Color.black0)
                             }
                             else{
                                 Text("\(event.player1)")
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(.gray600)
+                                    .foregroundStyle(Color.black0)
                             }
                             Text(event.player2)
                                 .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(.gray400)
+                                .foregroundStyle(Color.gray300)
                         }
                     }
                     else{
                         VStack(alignment: .leading, spacing: 4){
                             Text("\(event.player1) \(event.eventName)")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(.gray600)
+                                .foregroundStyle(Color.black0)
                         }
                     }
                     Spacer()
@@ -90,7 +92,7 @@ struct TimelineEventRow: View {
                                         .frame(width: 24, height: 24)
                                 }
                                 else{
-                                    Image("ArrowDown")
+                                    Image("ArrowUp")
                                         .frame(width: 24, height: 24)
                                 }
                                 HStack(spacing: 2){
@@ -107,6 +109,15 @@ struct TimelineEventRow: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+        .padding(.vertical, 13)
+        .background{
+            if event.eventName == "골!"{
+                Color.lime.opacity(0.1)
+                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
+            }
+        }
+        
+        .padding(.horizontal, 18)
     }
 }
 #Preview {

@@ -5,15 +5,9 @@
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",
-<<<<<<< Updated upstream:KickIt/KickIt/Assets.xcassets/colors/gray50.colorset/Contents.json
-          "blue" : "0xF9",
-          "green" : "0xF8",
-          "red" : "0xF7"
-=======
-          "blue" : "0xA8",
-          "green" : "0xA3",
-          "red" : "0x9F"
->>>>>>> Stashed changes:KickIt/KickIt/App/iOS/Assets.xcassets/colors/gray50.colorset/Contents.json
+          "blue" : "0xC6",
+          "green" : "0xC3",
+          "red" : "0xBF"
         }
       },
       "idiom" : "universal"
@@ -29,9 +23,9 @@
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "0xF9",
-          "green" : "0xF8",
-          "red" : "0xF7"
+          "blue" : "0x5E",
+          "green" : "0x58",
+          "red" : "0x56"
         }
       },
       "idiom" : "universal"

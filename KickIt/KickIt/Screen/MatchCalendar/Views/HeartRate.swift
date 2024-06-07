@@ -25,13 +25,14 @@ struct HeartRate: View {
             ScrollView(.vertical, showsIndicators: false){
                 HStack{
                     Text("심박수 그래프")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.Title1)
                     Spacer()
                     HStack(spacing: 6){
-                        Text("\(Int(CGFloat(dataPoints.min() ?? 50.0 ))) - \(Int(CGFloat(dataPoints.max() ?? 120.0 )))")
-                            .font(.system(size: 18, weight: .semibold))
+                        Text("\(Int(CGFloat(dataPoints.min() ?? 50.0 ))) ~ \(Int(CGFloat(dataPoints.max() ?? 120.0 )))")
+                            .font(.Title1)
                         Text("BPM")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.Body3)
+                            .foregroundStyle(.gray800)
                     }}
                 .padding(.horizontal, 16)
                 .padding(.top, 30)
@@ -47,7 +48,6 @@ struct HeartRate: View {
             }
             .onReceive(timer) { _ in
                 updateHeartRateData()
-                
             }
             NavigationLink{
                 

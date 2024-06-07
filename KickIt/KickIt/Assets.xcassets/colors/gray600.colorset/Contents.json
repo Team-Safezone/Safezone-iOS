@@ -5,9 +5,15 @@
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",
+<<<<<<< Updated upstream:KickIt/KickIt/Assets.xcassets/colors/gray600.colorset/Contents.json
           "blue" : "0x52",
           "green" : "0x4C",
           "red" : "0x46"
+=======
+          "blue" : "0x99",
+          "green" : "0x93",
+          "red" : "0x8E"
+>>>>>>> Stashed changes:KickIt/KickIt/App/iOS/Assets.xcassets/colors/gray100.colorset/Contents.json
         }
       },
       "idiom" : "universal"

@@ -22,20 +22,20 @@ struct TimelineEvent: View {
     
     var body: some View {
         NavigationStack{
-            ZStack{VStack{
-                MatchResultView()
-                    .padding(.top, 12)
-                TableLable()
-                ScrollView(.vertical, showsIndicators: false){
-                    VStack(spacing: 38){
-                        if !events.isEmpty {
-                            ForEach(events) { event in
-                                // MARK: 이벤트 읽어오기
-                                TimelineEventRow(event: event, arrayHR: self.arrayHR)
-                                if (event.eventTime == 46){
-                                    HalfTimeView()
-                                }}}}
-                    .padding(.horizontal, 16)
+            ZStack{
+                VStack{
+                    MatchResultView()
+                        .padding(.top, 12)
+                    TableLable()
+                    ScrollView(.vertical, showsIndicators: false){
+                        VStack{
+                            if !events.isEmpty {
+                                ForEach(events) { event in
+                                    // MARK: 이벤트 읽어오기
+                                    TimelineEventRow(event: event, arrayHR: self.arrayHR)
+                                    if (event.eventTime == 46){
+                                        HalfTimeView()
+                                    }}}}
                     }.onReceive(timer) { _ in
                         /// Timer가 발생할 때마다 HeartRate를 다시 로드하고 arrayHR 업데이트
                         view.loadHeartRate()
@@ -63,36 +63,6 @@ struct TimelineEvent: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
             }
-            
-            
-            // MARK: 경기 중 가장 최근 심박수
-            //            GeometryReader{ geometry in
-            //                if soccerMatch.matchCode == 0{
-            //                    if !arrayHR.isEmpty {
-            //                        RoundedRectangle(cornerRadius: 53)
-            //                            .zIndex(2)
-            //                            .frame(width: 140, height: 49, alignment: .center)
-            //                            .foregroundStyle(.white)
-            //                            .shadow(radius: 1)
-            //                            .overlay{
-            //                                HStack(spacing: 4){
-            //                                    Image("Heartbeat")
-            //                                        .frame(width: 28, height: 28, alignment: .center)
-            //                                    Text("\(arrayHR[0]["HeartRate"] ?? 160)")
-            //                                        .font(.system(size: 24, weight: .bold))
-            //                                    Text("BPM")
-            //                                        .font(.system(size: 16, weight: .medium))
-            //                                }
-            //                            }
-            //                            .position(x: geometry.size.width / 2, y: 750)
-            //                    }
-            //                } else if soccerMatch.matchCode == 2 {
-            //                    LinkToSoccerView()
-            //                        .padding(10)
-            //                        .position(x: geometry.size.width / 2, y: 700)
-            //                }
-            //            }
-            
         }
         
     }
@@ -114,9 +84,9 @@ struct LinkToSoccerView: View {
                 HStack(alignment: .center){
                     VStack(alignment: .leading, spacing: 4){
                         Text("축구 일기 작성하기")
-                            .font(.system(size: 16,weight: .semibold))
+                            .font(.Title2)
                         Text("내 심장이 뛴 순간을 기록해보세요!")
-                            .font(.system(size: 14,weight: .medium))
+                            .font(.Body2)
                     }
                     Spacer()
                     Image(systemName: "arrow.up.right").resizable()
@@ -133,15 +103,19 @@ struct MatchResultView: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray100, lineWidth: 1.00)
-                .foregroundStyle(.white)
+                .stroke(Color.lime, lineWidth: 1.00)
                 .frame(width: .infinity, height: 88, alignment: .center)
             
             HStack{
                 VStack(spacing: 4)
                 {
+<<<<<<< Updated upstream
                     LoadableImage(image: "\(soccerMatch.homeTeam.teamImgURL)")
                         .scaledToFill()
+=======
+                    LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
+                        .scaledToFit()
+>>>>>>> Stashed changes
                         .frame(width: 44, height: 44)
                         .background(.white)
                         .clipShape(Circle())
@@ -152,35 +126,43 @@ struct MatchResultView: View {
                             .foregroundStyle(.gray400)
                             .frame(width: 16, height: 16)
                         Text("\(soccerMatch.homeTeam.teamName)")
-                            .foregroundStyle(.gray600)
-                            .font(.system(size: 13, weight: .bold))
+                            .foregroundStyle(Color.black0)
+                            .font(.Body3)
                     }
                 }
-                .frame(width: 100, height: 64, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 100, height: 64, alignment: .center)
                 
                 HStack(spacing: 14){
                     Text("\(soccerMatch.homeTeamScore?.description ?? "0")")
-                        .font(.system(size: 24, weight: .bold))
+                        .font(.H1)
+                        .foregroundStyle(Color.black0)
                     VStack(spacing: 0){
-                        Text("전반전")
-                            .font(.system(size: 14, weight: .semibold))
+                        Text("후반전")
+                            .font(.SubTitle)
                         Text("27:39")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundStyle(.gray400)
+                            .font(.SubTitle)
+                        
                     }
+                    .foregroundStyle(Color.black0)
                     Text("\(soccerMatch.awayTeamScore?.description ?? "0")")
-                        .font(.system(size: 24, weight: .bold))
+                        .font(.H1)
+                        .foregroundStyle(Color.black0)
                 }
                 
                 VStack{
+<<<<<<< Updated upstream
                     LoadableImage(image: "\(soccerMatch.awayTeam.teamImgURL)")
                         .scaledToFill()
+=======
+                    LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
+                        .scaledToFit()
+>>>>>>> Stashed changes
                         .frame(width: 44, height: 44)
                         .background(.white)
                         .clipShape(Circle())
                     Text("\(soccerMatch.awayTeam.teamName)")
-                        .foregroundStyle(.gray600)
-                        .font(.system(size: 13, weight: .bold))
+                        .foregroundStyle(Color.black0)
+                        .font(.Body3)
                 }
                 .frame(width: 100, height: 64, alignment: .center)
                 
@@ -188,20 +170,19 @@ struct MatchResultView: View {
             
             ZStack{
                 RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.gray600)
+                    .foregroundStyle(Color.lime)
                     .frame(width: 66, height: 24, alignment: .center)
                 if (soccerMatch.matchCode != 2)
                 {
                     Text("실시간")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .font(.Body3)
+                        .foregroundStyle(Color.black)
                 }
                 else{
                     Text("경기 종료")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .font(.Body3)
+                        .foregroundStyle(.gray300)
                 }
-                
             }
             .padding(.bottom, 88)
             
@@ -213,21 +194,22 @@ struct MatchResultView: View {
 struct TableLable: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 8)
-            .foregroundStyle(.gray50)
+            .foregroundStyle(Color.black0.opacity(0.1))
             .frame(width: .infinity, height: 40)
             .overlay{
                 HStack{
                     HStack{
                         Text("시간")
-                            .font(.system(size: 13, weight: .medium))
+                            .font(.Body3)
                         Text("타임라인")
-                            .font(.system(size: 13, weight: .medium))
+                            .font(.Body3)
                     }
                     Spacer()
                     Text("나의 심박수")
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.Body3)
                 }
                 .padding(.horizontal, 10)
+                .foregroundStyle(Color.black0)
             }
             .padding(.horizontal, 16)
         
@@ -238,25 +220,25 @@ struct HalfTimeView: View {
     var body: some View {
         HStack(alignment: .center){
             Path{ path in
-                path.move(to: CGPoint(x: 0, y: 8))
+                path.move(to: CGPoint(x: 18, y: 8))
                 path.addLine(to: CGPoint(x: 126, y: 8))
                 path.closeSubpath()
             }
-            .stroke(.gray400, lineWidth: 1)
+            .stroke(Color.black0, lineWidth: 1)
             HStack(spacing: 4){
                 Text("하프타임")
-                    .font(.system(size: 14, weight: .semibold))
-                    .backgroundStyle(.white)
+                    .font(.SubTitle)
                 Text("\(soccerMatch.homeTeamScore ?? 0) - \(soccerMatch.awayTeamScore ?? 0)")
-                    .font(.system(size: 14, weight: .semibold))
-                    .backgroundStyle(.white)
+                    .font(.SubTitle)
+                    .backgroundStyle(.black0)
             }
             Path{ path in
                 path.move(to: CGPoint(x: 10, y: 8))
                 path.addLine(to: CGPoint(x: 126, y: 8))
                 path.closeSubpath()
             }
-            .stroke(.gray400, lineWidth: 1)
+            .stroke(Color.black0, lineWidth: 1)
         }
+        .foregroundStyle(Color.black0)
     }
 }
