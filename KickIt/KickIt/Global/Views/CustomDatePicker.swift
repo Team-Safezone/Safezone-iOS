@@ -15,125 +15,69 @@ struct CustomDatePicker: View {
     /// 현재 선택 중인 월 index
     @State var currentMonth: Int = 0 // default 0
     
-    /// 로컬 캘린더
+    /// 로컬 캘린더 변수
     let calendar = Calendar.current
-    
-    /// 각 날짜에 따른 경기 개수
-    var matchCount: Int { soccerMatches.filter { match in
-        return isSameDay(date1: match.matchDate, date2: currentDate)
-        }.count
-    }
-    
-    /// 경기 클릭 이벤트
-    var onSoccerMatchClick: ((SoccerMatch) -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
             /// 요일 리스트
-            let days: [String] = [
-                "일", "월", "화", "수", "목", "금", "토"
-            ]
+            let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
-            // MARK: 월 정보
+            // MARK: - 월 정보
             HStack(alignment: .center, spacing: 16) {
-                // MARK: - 이전 월로 변경하는 버튼
+                // MARK: 이전 월로 변경하는 버튼
                 Button {
                     withAnimation {
                         currentMonth -= 1
                     }
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.body)
-                        .foregroundStyle(.gray400)
+                        .font(.pretendard(.medium, size: 18))
+                        .foregroundStyle(.gray500)
                 }
                 
-                // MARK: - 현재 월 정보
+                // MARK: 현재 월 정보
                 Text("\(extractMonth())월")
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundStyle(.black)
+                    .font(.pretendard(.medium, size: 18))
+                    .foregroundStyle(.black0)
                 
-                // MARK: - 다음 월로 변경하는 버튼
+                // MARK: 다음 월로 변경하는 버튼
                 Button {
                     withAnimation {
                         currentMonth += 1
                     }
                 } label: {
                     Image(systemName: "chevron.right")
-                        .font(.body)
-                        .foregroundStyle(.gray400)
+                        .font(.pretendard(.medium, size: 18))
+                        .foregroundStyle(.gray500)
                 }
             }
-            .padding(.top, 12)
             
-            // MARK: 요일 정보
+            // MARK: - 요일 정보
             HStack {
                 ForEach(days, id: \.self) { day in
                     Text(day)
-                        .font(.footnote)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray400)
-                        .frame(maxWidth: .infinity)
+                        .font(.pretendard(.semibold, size: 13))
+                        .foregroundStyle(.gray200)
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(.top, 18)
-            .padding([.leading, .trailing], 16)
+            .padding(.horizontal, 26)
             
-            // MARK: 날짜 정보
+            // MARK: - 날짜 정보
             /// 날짜 열 리스트
             let dateColumns = Array(repeating: GridItem(.flexible()), count: 7)
             
             // 날짜 리스트 띄우기
             LazyVGrid(columns: dateColumns) {
                 ForEach(extractDate()) { date in
+                    // 각 날짜 뷰
                     dateCardView(date: date)
                 }
             }
-            .padding(.top, 23)
-            .padding([.leading, .trailing], 16)
-            
-            VStack(alignment: .leading, spacing: 0) {
-                // MARK: - 경기 일정
-                HStack(spacing: 0) {
-                    Text("경기 일정")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray600)
-                    
-                    Text("\(matchCount)")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray600)
-                        .padding(.leading, 6)
-                }
-                .padding(.top, 20)
-                .padding(.leading, 16)
-                .padding(.bottom, 12)
-                
-                // MARK: - 경기 리스트
-                if soccerMatches.first(where: { match in
-                    return isSameDay(date1: match.matchDate, date2: currentDate)
-                }) != nil {
-                    ForEach(soccerMatches.filter { match in
-                        return isSameDay(date1: match.matchDate, date2: currentDate)
-                        }) { match in
-                            SoccerMatchRow(soccerMatch: match)
-                                .padding([.leading, .trailing], 16)
-                                .padding(.bottom, 8)
-                                // 경기 1개 클릭 이벤트
-                                .onTapGesture {
-                                    onSoccerMatchClick?(match)
-                                }
-                        }
-                }
-                else {
-                    Text("경기 일정이 없습니다")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray400)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-            }
+            .padding(.top, 8)
+            .padding(.horizontal, 26)
         }
         // 월이 바뀌면 현재 선택 중인 날짜도 변경
         .onChange(of: currentMonth) { oldValue, newValue in
@@ -145,55 +89,82 @@ struct CustomDatePicker: View {
     /// 캘린더에 보여줄 날짜 뷰
     @ViewBuilder
     func dateCardView(date: CustomDate) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             if (date.day != -1) {
                 // 해당 날짜에 경기 일정이 있는지에 대한 여부 반환
-                let isSoccerMatch = soccerMatches.contains { match in
+                let isSoccerMatch = dummySoccerMatches.contains { match in
                     return isSameDay(date1: match.matchDate, date2: date.date)
                 }
                 
                 // 오늘 날짜
                 let isToday = isSameDay(date1: date.date, date2: Date())
                 
+                // 현재 선택 중인 날짜
+                let isSelected = isSameDay(date1: date.date, date2: currentDate)
+                
                 ZStack {
                     // 해당 날짜에 경기 일정이 있다면
                     if isSoccerMatch {
-                        Circle()
-                            .fill(isSameDay(date1: date.date, date2: currentDate) ? .black : .gray100)
-                            .frame(maxWidth: .infinity)
+                        // 해당 날짜가 오늘이라면
+                        if isToday {
+                            Circle()
+                                .fill(isSelected ? .green0 : .gray600)
+                                .frame(maxWidth: .infinity)
+                        }
+                        else {
+                            Circle()
+                                .fill(isSelected ? .green0 : .gray900)
+                                .frame(maxWidth: .infinity)
+                        }
                     }
+                    // 해당 날짜에 경기 일정이 없다면
                     else {
-                        Circle()
-                            .fill(.clear)
-                            .frame(maxWidth: .infinity)
+                        // 해당 날짜가 오늘이라면
+                        if isToday {
+                            Circle()
+                                .fill(isSelected ? .green0 : .gray600)
+                                .frame(maxWidth: .infinity)
+                        }
+                        else {
+                            Circle()
+                                .fill(.clear)
+                                .frame(maxWidth: .infinity)
+                        }
                     }
                     
-                    // 해당 날짜가 오늘이라면
-                    if isToday {
-                        // stroke형태의 원 둘러주기
-                        Circle()
-                            .stroke(.black, style: StrokeStyle(lineWidth: 2))
-                            .frame(maxWidth: .infinity)
-                    }
-                    
+                    // 날짜 텍스트
                     Text("\(date.day)")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(isSameDay(date1: date.date, date2: currentDate) ? .white : .gray600)
+                        .pretendardTextStyle(isSelected ? .SubTitleStyle : .Body2Style)
+                        .foregroundStyle(dateTextColor(isSelected: isSelected, isToday: isToday))
                         .frame(maxWidth: .infinity)
                 }
                 // 다른 날짜 클릭 시, 날짜 색상&배경 바꾸기
                 .background(
                     Circle()
-                        .fill(isSameDay(date1: date.date, date2: currentDate) ? .black : .clear)
+                        .fill(isSameDay(date1: date.date, date2: currentDate) ? .green0 : .clear)
                 )
+                // 날짜 클릭 시, 현재 선택 중인 날짜 변경
                 .onTapGesture {
                     currentDate = date.date
                 }
             }
         }
-        .padding(.vertical, 7) // 위아래 여백
         .frame(alignment: .top)
+    }
+    
+    /// 날짜 텍스트 색상을 조건별로 반환하는 함수
+    func dateTextColor(isSelected: Bool, isToday: Bool) -> Color {
+        if isSelected {
+            return Color.black
+        }
+        else {
+            if isToday {
+                return Color.gray100
+            }
+            else {
+                return Color.gray300
+            }
+        }
     }
     
     /// 현재 날짜 정보를 문자열로 반환하는 함수

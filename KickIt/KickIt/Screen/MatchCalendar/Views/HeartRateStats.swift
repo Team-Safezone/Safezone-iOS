@@ -11,7 +11,7 @@ var dataPoints: [CGFloat] = []
 var dataTime: [Int] = []
 
 struct HeartRateStats: View {
-    var soccerMatch: SoccerMatch = soccerMatches[3]
+    var soccerMatch: SoccerMatch = dummySoccerMatches[0]
     @Binding var maxHeartRateElement: [String: Any]
     
     /// Timer 객체
@@ -36,7 +36,7 @@ struct BoxEvent: View{
         VStack(spacing: 10){
             HStack{
                 HStack(spacing: 4){
-                    LoadableImage(image: "\(soccerMatch.homeTeam.teamImgURL)")
+                    LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
                         .frame(width: 24, height: 24)
                         .background(.white)
                         .clipShape(Circle())
@@ -184,7 +184,7 @@ struct ViewerStats: View {
         
         HStack{
             HStack(spacing: 8){
-                LoadableImage(image: "\(soccerMatch.homeTeam.teamImgURL)")
+                LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
                     .frame(width: 40, height: 40)
                     .background(.white)
                     .clipShape(Circle())
@@ -193,7 +193,7 @@ struct ViewerStats: View {
             }
             Spacer()
             HStack(spacing: 8){
-                LoadableImage(image: "\(soccerMatch.awayTeam.teamImgURL)")
+                LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
                     .frame(width: 40, height: 40)
                     .background(.white)
                     .clipShape(Circle())
