@@ -110,8 +110,13 @@ struct MatchResultView: View {
                 VStack(spacing: 4)
                 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     LoadableImage(image: "\(soccerMatch.homeTeam.teamImgURL)")
                         .scaledToFill()
+=======
+                    LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
+                        .scaledToFit()
+>>>>>>> Stashed changes
 =======
                     LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
                         .scaledToFit()
@@ -151,8 +156,13 @@ struct MatchResultView: View {
                 
                 VStack{
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     LoadableImage(image: "\(soccerMatch.awayTeam.teamImgURL)")
                         .scaledToFill()
+=======
+                    LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
+                        .scaledToFit()
+>>>>>>> Stashed changes
 =======
                     LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
                         .scaledToFit()
