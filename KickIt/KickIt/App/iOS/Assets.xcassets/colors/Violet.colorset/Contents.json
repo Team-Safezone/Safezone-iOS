@@ -5,21 +5,9 @@
         "color-space" : "display-p3",
         "components" : {
           "alpha" : "1.000",
-<<<<<<< Updated upstream:KickIt/KickIt/Assets.xcassets/colors/gray50.colorset/Contents.json
-<<<<<<< Updated upstream:KickIt/KickIt/Assets.xcassets/colors/gray50.colorset/Contents.json
           "blue" : "0xF9",
-          "green" : "0xF8",
-          "red" : "0xF7"
-=======
-          "blue" : "0xA8",
-          "green" : "0xA3",
-          "red" : "0x9F"
->>>>>>> Stashed changes:KickIt/KickIt/App/iOS/Assets.xcassets/colors/gray50.colorset/Contents.json
-=======
-          "blue" : "0xA8",
-          "green" : "0xA3",
-          "red" : "0x9F"
->>>>>>> Stashed changes:KickIt/KickIt/App/iOS/Assets.xcassets/colors/gray50.colorset/Contents.json
+          "green" : "0x6E",
+          "red" : "0xB0"
         }
       },
       "idiom" : "universal"
@@ -36,8 +24,8 @@
         "components" : {
           "alpha" : "1.000",
           "blue" : "0xF9",
-          "green" : "0xF8",
-          "red" : "0xF7"
+          "green" : "0x6E",
+          "red" : "0xB0"
         }
       },
       "idiom" : "universal"
