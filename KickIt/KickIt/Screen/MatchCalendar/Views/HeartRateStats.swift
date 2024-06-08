@@ -243,7 +243,7 @@ struct ViewerHRStats: View {
                     .frame(width: 355, height: 55)
             }
             
-            ForEach(items.indices) { i in
+            ForEach(0..<items.count, id: \.self) { i in
                 HStack{
                     HStack(spacing: 2){
                         Text(items[i][0])
