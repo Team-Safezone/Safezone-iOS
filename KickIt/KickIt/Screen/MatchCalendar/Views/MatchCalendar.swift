@@ -27,60 +27,66 @@ struct MatchCalendar: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 0) {
-                
-                // MARK: - 상단 정보
-                HStack(alignment: .top, spacing: 0) {
-                    // MARK: 타이틀
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("경기 캘린더")
-                            .font(.Title1)
-                            .foregroundStyle(.black0)
-                            .padding(.top, 11)
-                        // TODO: 홈 화면 API에서 시즌 정보 받아서 정보 동적으로 교체하기
-                        Text("프리미어리그 2023-24 시즌")
-                            .font(.SubTitle)
-                            .foregroundStyle(.lime)
-                    }
-                    
-                    Spacer()
-                    
-                    // MARK: 랭킹 화면 이동 버튼
-                    Image(.trophy)
-                        .frame(width: 28, height: 28)
-                        .padding(.top, 8)
-                }
-                .padding(.horizontal, 16)
-                
-                // MARK: - 프리미어리그 팀 리스트
-                ScrollView(.horizontal, showsIndicators: false) {
-                    RadioButtonGroup(
-                        // TODO: 홈에서 전달받은 팀 리스트 띄우기
-                        items: ["전체", "맨시티", "아스널", "리버풀", "아스톤 빌라", "토트넘"],
-                        selectedId: 0,
-                        callback: { previous, current in
-                            selectedRadioBtnID = current
-                            requestDaySoccerMatches(date: currentDate, teamName: nil)
+            GeometryReader { geometry in
+                VStack(alignment: .leading, spacing: 0) {
+                    // MARK: - 상단 정보
+                    HStack(alignment: .top, spacing: 0) {
+                        // MARK: 타이틀
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("경기 캘린더")
+                                .font(.Title1)
+                                .foregroundStyle(.black0)
+                                .padding(.top, 11)
+                            // TODO: 홈 화면 API에서 시즌 정보 받아서 정보 동적으로 교체하기
+                            Text("프리미어리그 2023-24 시즌")
+                                .font(.SubTitle)
+                                .foregroundStyle(.lime)
                         }
-                    )
-                    .frame(height: 32)
-                    .padding(.horizontal, 16)
-                }
-                .padding(.top, 20)
-                .padding(.bottom, 24)
-                
-                // MARK: - 달력
-                // TODO: 클릭 이벤트 전달, 로직 변경 필요..
-                CustomDatePicker(currentDate: $currentDate)
-                    .onChange(of: currentDate) { preDate, newDate in
-                        requestDaySoccerMatches(date: newDate, teamName: nil)
-                        print("커스텀 캘린더 newDate: ", newDate.description)
-                        print("커스텀 캘린더 currentDate: ", currentDate.description)
+                        
+                        Spacer()
+                        
+                        // MARK: 랭킹 화면 이동 버튼
+                        Image(.trophy)
+                            .frame(width: 28, height: 28)
+                            .padding(.top, 8)
                     }
-                
-                // MARK: - 경기 일정 리스트
-                // FIXME: 약간 수정 필요..
-                soccerMatchesView()
+                    .padding(.horizontal, 16)
+                    
+                    // MARK: - 프리미어리그 팀 리스트
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        RadioButtonGroup(
+                            // TODO: 홈에서 전달받은 팀 리스트 띄우기
+                            items: ["전체", "맨시티", "아스널", "리버풀", "아스톤 빌라", "토트넘"],
+                            selectedId: 0,
+                            callback: { previous, current in
+                                selectedRadioBtnID = current
+                                requestDaySoccerMatches(date: currentDate, teamName: nil)
+                            }
+                        )
+                        .frame(height: 32)
+                        .padding(.horizontal, 16)
+                    }
+                    .padding(.top, 20)
+                    .padding(.bottom, 24)
+                    
+                    // MARK: - 달력
+                    // TODO: 클릭 이벤트 전달, 로직 변경 필요..
+                    CustomDatePicker(currentDate: $currentDate)
+                        .onChange(of: currentDate) { preDate, newDate in
+                            requestDaySoccerMatches(date: newDate, teamName: nil)
+                            print("커스텀 캘린더 newDate: ", newDate.description)
+                            print("커스텀 캘린더 currentDate: ", currentDate.description)
+                        }
+                    
+                    // MARK: - 경기 일정 리스트
+                    // FIXME: 약간 수정 필요..
+                    soccerMatchesView()
+                        .background(
+                            SpecificRoundedRectangle(radius: 30, corners: [.topLeft, .topRight])
+                                .fill(.gray950)
+                        )
+                        .padding(.top, 12)
+                }
             }
         }
         .onAppear(perform: {
@@ -125,43 +131,54 @@ struct MatchCalendar: View {
             
             // MARK: - 경기 리스트
             // TODO: 뷰 적용 필요
-            if !viewModel.soccerMatches.isEmpty {
-                ForEach(viewModel.soccerMatches) { match in
-                    SoccerMatchRow(soccerMatch: match)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                        .onTapGesture {
-                            selectedMatch = match
-                            isMatchSelected = true
+            ScrollView(.vertical, showsIndicators: false) {
+                if !viewModel.soccerMatches.isEmpty {
+                    ForEach(viewModel.soccerMatches) { match in
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
+                            .onTapGesture {
+                                selectedMatch = match
+                                isMatchSelected = true
+                            }
+                    }
+                    // 경기 정보 화면으로 이동
+                    .navigationDestination(isPresented: $isMatchSelected) {
+                        if let match = selectedMatch {
+                            SoccerMatchInfo(soccerMatch: match)
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
-                }
-                // 경기 정보 화면으로 이동
-                .navigationDestination(isPresented: $isMatchSelected) {
-                    if let match = selectedMatch {
-                        SoccerMatchInfo(soccerMatch: match)
-                            .toolbarRole(.editor) // back 텍스트 숨기기
-                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                     }
                 }
-            }
-            else {
-                // TODO: 없음으로 바꾸기
-                ForEach(dummySoccerMatches) { match in
-                    SoccerMatchRow(soccerMatch: match)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                        .onTapGesture {
-                            selectedMatch = match
-                            isMatchSelected = true
+                else {
+                    // TODO: 없음으로 바꾸기
+                    ForEach(dummySoccerMatches) { match in
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
+                            .onTapGesture {
+                                selectedMatch = match
+                                isMatchSelected = true
+                            }
+                    }
+                    // 경기 정보 화면으로 이동
+                    .navigationDestination(isPresented: $isMatchSelected) {
+                        if let match = selectedMatch {
+                            SoccerMatchInfo(soccerMatch: match)
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
+                    }
+                    
+                    //                Text("경기 일정이 없습니다.")
+                    //                    .pretendardTextStyle(.Body1Style)
+                    //                    .foregroundStyle(.gray500)
+                    //                    .padding(.top, 52)
+                    //
                 }
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.gray950)
-        )
-        .frame(height: 200)
     }
 }
 
