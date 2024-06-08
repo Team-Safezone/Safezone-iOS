@@ -72,10 +72,9 @@ struct LineChart: View {
                 .stroke(.gray800, style: StrokeStyle(lineWidth: 1, lineCap: .round))
                 .padding(.leading, 64)
                 
-                
+                let points = normalizedDataPoints(maxDataPoint: dataPoints.max() ?? 1, minDataPoint: dataPoints.min() ?? 0)
                 // MARK: 라인그래프
                 Path { path in
-                    let points = normalizedDataPoints(maxDataPoint: dataPoints.max() ?? 1, minDataPoint: dataPoints.min() ?? 0)
                     path.move(to: CGPoint(x: 64, y: 220))
                     path.addLines(points)
                     let _ = print("line updated:::  \(points)")
@@ -92,7 +91,6 @@ struct LineChart: View {
                         .onEnded{ _ in
                             self.isDragging = false
                         })
-                
                 
                 
                 // MARK: 드래그 이벤트

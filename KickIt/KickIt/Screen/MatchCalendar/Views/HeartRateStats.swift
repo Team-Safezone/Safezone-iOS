@@ -11,19 +11,14 @@ var dataPoints: [CGFloat] = []
 var dataTime: [Int] = []
 
 struct HeartRateStats: View {
-    var soccerMatch: SoccerMatch = dummySoccerMatches[0]
     @Binding var maxHeartRateElement: [String: Any]
     
     /// Timer 객체
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        VStack {
-            
-        }.onReceive(timer) { _ in
-//            let dateString = $maxHeartRateElement.wrappedValue["Date"] as? String
-//            dataTime.append(minutesExtracted(from: dateString!) ?? 0)
-//            dataPoints.append($maxHeartRateElement["HeartRate"] as? CGFloat ?? 160.0)
+        VStack{
+            // 타임라인 심박수 vs 측정 심박수..
         }
     }
 }
