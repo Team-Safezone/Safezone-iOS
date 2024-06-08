@@ -107,7 +107,7 @@ struct LinkToSoccerView: View {
                 HStack(alignment: .center){
                     VStack(alignment: .leading, spacing: 4){
                         Text("축구 일기쓰기")
-                            .pretendardTextStyle(.Title2Style)
+                            .font(.pretendard(.bold, size: 16))
                         Text("내 심장이 뛴 순간을 기록해보세요!")
                             .pretendardTextStyle(.Body2Style)
                     }

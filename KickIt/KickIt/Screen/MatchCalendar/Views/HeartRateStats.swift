@@ -36,38 +36,38 @@ struct BoxEvent: View{
                         .background(.white)
                         .clipShape(Circle())
                     Text("\(event.player1) \(event.eventName)")
-                        .font(.SubTitle)
+                        .pretendardTextStyle(.SubTitleStyle)
                         .foregroundStyle(.black0)
                 }
                 Spacer()
                 Text("\(event.eventTime)분")
-                    .font(.SubTitle)
+                    .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.black0)
             }
             .padding(.horizontal, 20)
             HStack(spacing: 16){
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(Int(dataPoint))")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.lime)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(80)")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.green0)
                     Text("BPM")
-                        .font(.Caption1)
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(75)")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.violet)
                     Text("BPM")
-                        .font(.Caption1)
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
             }
@@ -90,11 +90,11 @@ struct BoxEvent2: View{
             HStack{
                 HStack(spacing: 4){
                     Text("이벤트 없음")
-                        .font(.Body2)
+                        .pretendardTextStyle(.Body2Style)
                 }
                 Spacer()
                 Text("\(time)분")
-                    .font(.Body2)
+                    .pretendardTextStyle(.Body2Style)
                     
             }
             .foregroundStyle(.black0)
@@ -102,26 +102,26 @@ struct BoxEvent2: View{
             HStack(spacing: 16){
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(Int(dataPoint))")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.lime)
                     Text("BPM")
-                        .font(.Caption1)
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(80)")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.green0)
                     Text("BPM")
-                        .font(.Caption1)
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(75)")
-                        .font(.H2)
+                        .pretendardTextStyle(.H2Style)
                         .foregroundStyle(.violet)
                     Text("BPM")
-                        .font(.Caption1)
+                        .pretendardTextStyle(.Caption1Style)
                         .foregroundStyle(.gray500)
                 }
             }
@@ -142,7 +142,7 @@ struct FanList: View {
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("나")
-                    .font(.Body2)
+                    .pretendardTextStyle(.Body2Style)
             }
             .foregroundStyle(.lime)
             
@@ -150,7 +150,7 @@ struct FanList: View {
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("\(soccerMatch.homeTeam.teamName) 팬")
-                    .font(.Body2)
+                    .pretendardTextStyle(.Body2Style)
             }
             .foregroundStyle(.green0)
             
@@ -158,7 +158,7 @@ struct FanList: View {
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("\(soccerMatch.awayTeam.teamName) 팬")
-                    .font(.Body2)
+                    .pretendardTextStyle(.Body2Style)
             }
             .foregroundStyle(.violet)
         }
@@ -170,7 +170,7 @@ struct ViewerStats: View {
     var body: some View {
         HStack{
             Text("전체 시청자 분석")
-                .font(.Title1)
+                .font(.pretendard(.bold, size: 18))
                 .padding(.top, 50)
             Spacer()
         }
@@ -184,7 +184,7 @@ struct ViewerStats: View {
                     .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.homeTeam.teamName)")
-                    .font(.Body3)
+                    .pretendardTextStyle(.Body3Style)
             }
             Spacer()
             HStack(spacing: 8){
@@ -193,7 +193,7 @@ struct ViewerStats: View {
                     .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.awayTeam.teamName)")
-                    .font(.Body3)
+                    .pretendardTextStyle(.Body3Style)
             }
         }
         .padding(.horizontal, 20)
@@ -209,11 +209,11 @@ struct ViewerStats: View {
         .padding(.horizontal, 20)
         HStack{
             Text("\(Int(100-data))%")
-                .font(.Title2)
+                .font(.pretendard(.medium, size: 16))
                 .foregroundStyle(.green0)
             Spacer()
             Text("\(Int(data))%")
-                .font(.Title2)
+                .font(.pretendard(.medium, size: 16))
                 .foregroundStyle(.violet)
         }
         .padding(.horizontal, 20)
@@ -227,12 +227,12 @@ struct ViewerHRStats: View {
         VStack{
             HStack{
                 Text("\(soccerMatch.homeTeam.teamName) 팬")
-                    .font(.Title2)
+                    .font(.pretendard(.bold, size: 16))
                     .frame(width: 80)
                 Text("  ")
                     .frame(width: 100)
                 Text("\(soccerMatch.awayTeam.teamName) 팬")
-                    .font(.Title2)
+                    .font(.pretendard(.bold, size: 16))
                     .frame(width: 80)
             }
             .padding(.vertical, 16)
@@ -247,23 +247,23 @@ struct ViewerHRStats: View {
                 HStack{
                     HStack(spacing: 2){
                         Text(items[i][0])
-                            .font(.Title2)
+                            .font(.pretendard(.bold, size: 16))
                             .foregroundStyle(.black0)
                         Text(" BPM")
-                            .font(.Caption1)
+                            .pretendardTextStyle(.Caption1Style)
                             .foregroundStyle(.gray500)
                     }
                     .frame(width: 80)
                     Text(items[i][1])
-                        .font(.Body2)
+                        .font(.pretendard(.medium, size: 14))
                         .frame(width: 100)
                         .foregroundStyle(.black0)
                     HStack(spacing: 2){
                         Text(items[i][2])
-                            .font(.Title2)
+                            .font(.pretendard(.bold, size: 16))
                             .foregroundStyle(.black0)
                         Text(" BPM")
-                            .font(.Caption1)
+                            .pretendardTextStyle(.Caption1Style)
                             .foregroundStyle(.gray500)
                     }
                     .frame(width: 80)

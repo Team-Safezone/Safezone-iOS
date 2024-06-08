@@ -114,7 +114,8 @@ struct TimelineEventRow: View {
                                         .frame(width: 25, alignment: .trailing)
                                     Text("BPM")
                                         .pretendardTextStyle(.Caption1Style)
-                                }}}
+                                }}.padding(.trailing, 6)
+                        }
                     }else{
                         let _ = print("더미데이터 출력")
                         HStack(spacing: 4){
@@ -133,7 +134,7 @@ struct TimelineEventRow: View {
                                     .frame(width: 25, alignment: .trailing)
                                 Text("BPM")
                                     .pretendardTextStyle(.Caption1Style)
-                            }}
+                            }}.padding(.trailing, 6)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -144,9 +145,11 @@ struct TimelineEventRow: View {
             if event.eventName == "골!"{
                 Color.lime.opacity(0.1)
                     .clipShape(RoundedRectangle(cornerRadius: 8.0))
+            } else if event.eventName == "자책골"{
+                Color.red0.opacity(0.2)
+                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
             }
         }
-        
         .padding(.horizontal, 18)
     }
 }

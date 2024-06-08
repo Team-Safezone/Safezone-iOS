@@ -28,9 +28,9 @@ struct HeartRate: View {
                     Spacer()
                     HStack(spacing: 6){
                         Text("\(Int(CGFloat(dataPoints.min() ?? 50.0 ))) ~ \(Int(CGFloat(dataPoints.max() ?? 120.0 )))")
-                            .font(.Title1)
+                            .font(.pretendard(.bold, size: 18))
                         Text("BPM")
-                            .font(.Body3)
+                            .pretendardTextStyle(.Body3Style)
                             .foregroundStyle(.gray800)
                     }}
                 .padding(.horizontal, 16)
