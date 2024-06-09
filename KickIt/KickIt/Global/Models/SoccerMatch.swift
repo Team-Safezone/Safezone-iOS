@@ -53,8 +53,8 @@ let dummySoccerMatches: [SoccerMatch] = [
     SoccerMatch(
         id: 2,
         soccerSeason: "2023/24",
-        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 10))!,
-        matchTime: Calendar.current.date(from: DateComponents(hour: 12, minute: 50))!,
+        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 15))!,
+        matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 00))!,
         stadium: "장소",
         matchRound: 37,
         homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
