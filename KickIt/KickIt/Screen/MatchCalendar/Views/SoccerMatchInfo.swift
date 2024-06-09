@@ -220,7 +220,7 @@ struct SoccerMatchInfo: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 80)
                     
-                    // MARK: - 하당 경기 정보 레이아웃
+                    // MARK: - 하단 경기 정보 레이아웃
                     // 경기 정보 버튼을 눌렀다면
                     if isShowMatchInfo {
                         HStack(spacing: 13) {
@@ -289,8 +289,9 @@ struct SoccerMatchInfo: View {
                                             }
                                         }
                                         
+                                        // FIXME: 경기 날짜, 경기 시간에 따른 타이머로 변경하기
                                         if soccerMatch.matchCode == 0 {
-                                            Text(timeInterval(nowDate: nowDate, matchDate: soccerMatch.matchDate))
+                                            Text(timeInterval(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime))
                                                 .pretendardTextStyle(.SubTitleStyle)
                                                 .foregroundStyle(.white)
                                                 .onAppear {
@@ -350,7 +351,9 @@ struct SoccerMatchInfo: View {
                         HStack(spacing: 13) {
                             // 우승 팀 예측 화면으로 이동하는 버튼
                             NavigationLink {
-                                
+                                // TODO: CASE에 따른 화면 이동 처리 필요
+                                WinningTeamPrediction(soccerMatch: soccerMatch)
+                                    .toolbarRole(.editor) // back 텍스트 숨기기
                             } label: {
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {

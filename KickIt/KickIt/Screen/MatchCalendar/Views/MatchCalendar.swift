@@ -91,6 +91,7 @@ struct MatchCalendar: View {
         .onAppear(perform: {
             requestDaySoccerMatches(date: currentDate, teamName: nil)
         })
+        .tint(.black0)
     }
     
     /// 하루 축구 경기 일정 불러오기
