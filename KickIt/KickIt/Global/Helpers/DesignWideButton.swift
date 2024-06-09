@@ -20,15 +20,14 @@ struct DesignWideButton: View {
     
     var body: some View {
         Text("\(label)")
-            .font(.system(size: 18, weight: .semibold))
+            .pretendardTextStyle(.Title1Style)
             .foregroundStyle(labelColor)
-            .padding([.top, .bottom], 16)
+            .padding([.top, .bottom], 15)
             .frame(maxWidth: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(btnBGColor)
             )
-            .padding(.top, 18)
             .padding([.leading, .trailing], 16)
     }
 }
