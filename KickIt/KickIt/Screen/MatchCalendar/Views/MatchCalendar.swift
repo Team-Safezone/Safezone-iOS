@@ -28,7 +28,6 @@ struct MatchCalendar: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
-                
                 // MARK: - 상단 정보
                 HStack(alignment: .top, spacing: 0) {
                     // MARK: 타이틀
@@ -78,9 +77,15 @@ struct MatchCalendar: View {
                         print("커스텀 캘린더 currentDate: ", currentDate.description)
                     }
                 
+                
                 // MARK: - 경기 일정 리스트
                 // FIXME: 약간 수정 필요..
                 soccerMatchesView()
+                    .background(
+                        SpecificRoundedRectangle(radius: 30, corners: [.topLeft, .topRight])
+                            .fill(.gray950)
+                    )
+                    .padding(.top, 12)
             }
         }
         .onAppear(perform: {
@@ -125,43 +130,54 @@ struct MatchCalendar: View {
             
             // MARK: - 경기 리스트
             // TODO: 뷰 적용 필요
-            if !viewModel.soccerMatches.isEmpty {
-                ForEach(viewModel.soccerMatches) { match in
-                    SoccerMatchRow(soccerMatch: match)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                        .onTapGesture {
-                            selectedMatch = match
-                            isMatchSelected = true
+            ScrollView(.vertical, showsIndicators: false) {
+                if !viewModel.soccerMatches.isEmpty {
+                    ForEach(viewModel.soccerMatches) { match in
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
+                            .onTapGesture {
+                                selectedMatch = match
+                                isMatchSelected = true
+                            }
+                    }
+                    // 경기 정보 화면으로 이동
+                    .navigationDestination(isPresented: $isMatchSelected) {
+                        if let match = selectedMatch {
+                            SoccerMatchInfo(soccerMatch: match)
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
-                }
-                // 경기 정보 화면으로 이동
-                .navigationDestination(isPresented: $isMatchSelected) {
-                    if let match = selectedMatch {
-                        SoccerMatchInfo(soccerMatch: match)
-                            .toolbarRole(.editor) // back 텍스트 숨기기
-                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                     }
                 }
-            }
-            else {
-                // TODO: 없음으로 바꾸기
-                ForEach(dummySoccerMatches) { match in
-                    SoccerMatchRow(soccerMatch: match)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                        .onTapGesture {
-                            selectedMatch = match
-                            isMatchSelected = true
+                else {
+                    // TODO: 없음으로 바꾸기
+                    ForEach(dummySoccerMatches) { match in
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
+                            .onTapGesture {
+                                selectedMatch = match
+                                isMatchSelected = true
+                            }
+                    }
+                    // 경기 정보 화면으로 이동
+                    .navigationDestination(isPresented: $isMatchSelected) {
+                        if let match = selectedMatch {
+                            SoccerMatchInfo(soccerMatch: match)
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
+                    }
+                    
+                    //                Text("경기 일정이 없습니다.")
+                    //                    .pretendardTextStyle(.Body1Style)
+                    //                    .foregroundStyle(.gray500)
+                    //                    .padding(.top, 52)
+                    //
                 }
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 30)
-                .fill(.gray950)
-        )
-        .frame(height: 200)
     }
 }
 

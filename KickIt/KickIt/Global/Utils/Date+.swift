@@ -135,3 +135,12 @@ func minutesExtracted(from dateString: String) -> Int? {
         return 0
     }
 }
+
+/// 경기까지 남은 시간을 계산하는 함수
+func timeInterval(nowDate: Date, matchDate: Date) -> String {
+    let components = Calendar.current.dateComponents([.hour, .minute], from: nowDate, to: matchDate)
+    let hour = components.hour ?? 0
+    let minute = components.minute ?? 0
+    
+    return "\(hour)시간 \(minute)분 후 공개"
+}
