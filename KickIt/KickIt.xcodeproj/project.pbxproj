@@ -15,6 +15,7 @@
 		E722770C2BF85BB400DE9A7C /* MatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722770B2BF85BB400DE9A7C /* MatchEvent.swift */; };
 		E722770E2BF87BB500DE9A7C /* TimelineEventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E722770D2BF87BB500DE9A7C /* TimelineEventRow.swift */; };
 		E76391772C0377D600B565BE /* DesignHalfButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76391762C0377D600B565BE /* DesignHalfButton.swift */; };
+		E76F765F2C1487A900BCD566 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E76F765E2C1487A900BCD566 /* Alamofire */; };
 		E764F98D2C14B79A00A2822A /* SpecificRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
@@ -37,8 +38,6 @@
 		E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */; };
 		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
 		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
-		E7D7E73E2C0CDA3900554EA7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E7D7E73D2C0CDA3900554EA7 /* Alamofire */; };
-		E7D7E7402C0CDA3900554EA7 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E7D7E73F2C0CDA3900554EA7 /* AlamofireDynamic */; };
 		E7D7E7462C0CDA6800554EA7 /* SoccerMatchResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7452C0CDA6800554EA7 /* SoccerMatchResponseModel.swift */; };
 		E7D7E7482C0CDAA800554EA7 /* SoccerTeamReponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7472C0CDAA800554EA7 /* SoccerTeamReponseModel.swift */; };
 		E7DBC0DC2C0CDBBE008D4300 /* MatchCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModel.swift */; };
@@ -130,8 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7D7E73E2C0CDA3900554EA7 /* Alamofire in Frameworks */,
-				E7D7E7402C0CDA3900554EA7 /* AlamofireDynamic in Frameworks */,
+				E76F765F2C1487A900BCD566 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,8 +464,7 @@
 			);
 			name = KickIt;
 			packageProductDependencies = (
-				E7D7E73D2C0CDA3900554EA7 /* Alamofire */,
-				E7D7E73F2C0CDA3900554EA7 /* AlamofireDynamic */,
+				E76F765E2C1487A900BCD566 /* Alamofire */,
 			);
 			productName = KickIt;
 			productReference = E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */;
@@ -498,7 +495,7 @@
 			);
 			mainGroup = E79AFF642BEDC8DC004CAF75;
 			packageReferences = (
-				E7D7E73C2C0CDA3900554EA7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = E79AFF6E2BEDC8DC004CAF75 /* Products */;
 			projectDirPath = "";
@@ -622,6 +619,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -637,6 +635,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -685,6 +684,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -694,6 +694,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -714,6 +715,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"KickIt/Preview Content\"";
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Users/i-da/Library/Developer/Xcode/DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire/Alamofire.xcodeproj/xcshareddata/xcschemes";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KickIt/App/iOS/Info.plist;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
@@ -727,7 +729,9 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/i-da/Library/Developer/Xcode/DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire/Alamofire.xcodeproj/xcshareddata/xcschemes";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -748,6 +752,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"KickIt/Preview Content\"";
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Users/i-da/Library/Developer/Xcode/DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire/Alamofire.xcodeproj/xcshareddata/xcschemes";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KickIt/App/iOS/Info.plist;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Specifies a localized string that describes why the app wants to write data to the HealthKit store. See NSHealthUpdateUsageDescription for details.";
@@ -761,7 +766,9 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/i-da/Library/Developer/Xcode/DerivedData/KickIt-ahwvhvqatbkwydhjgwddxublznlb/SourcePackages/checkouts/Alamofire/Alamofire.xcodeproj/xcshareddata/xcschemes";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -795,26 +802,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E7D7E73C2C0CDA3900554EA7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
+				kind = exactVersion;
+				version = 5.9.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E7D7E73D2C0CDA3900554EA7 /* Alamofire */ = {
+		E76F765E2C1487A900BCD566 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E7D7E73C2C0CDA3900554EA7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		E7D7E73F2C0CDA3900554EA7 /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E7D7E73C2C0CDA3900554EA7 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

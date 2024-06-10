@@ -49,39 +49,38 @@ struct LineChart: View {
                     Text("보통\n\(Int(CGFloat(dataPoints.min() ?? 0))+lineNum) BPM")
                     Text("낮음\n\(Int(CGFloat(dataPoints.min() ?? 0))) BPM")
                 }
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(.gray400)
+                .font(.Caption1)
+                .foregroundStyle(Color.gray200)
                 
                 //MARK: 눈금선 디자인
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 220 / 3 * CGFloat(1)))
                     path.addLine(to: CGPoint(x: 450, y: 220 / 3 * CGFloat(1)))
                 }
-                .stroke(.gray400, style: StrokeStyle(lineWidth: 1, lineCap: .round, dash: [4.0]))
+                .stroke(.gray800, style: StrokeStyle(lineWidth: 1, lineCap: .round, dash: [4.0]))
                 .padding(.leading, 64)
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 220 / 3 * CGFloat(2)))
                     path.addLine(to: CGPoint(x: 450, y: 220 / 3 * CGFloat(2)))
                 }
-                .stroke(.gray400, style: StrokeStyle(lineWidth: 1, lineCap: .round, dash: [4.0]))
+                .stroke(.gray800, style: StrokeStyle(lineWidth: 1, lineCap: .round, dash: [4.0]))
                 .padding(.leading, 64)
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: 220 / 3 * CGFloat(3)))
                     path.addLine(to: CGPoint(x: 450, y: 220 / 3 * CGFloat(3)))
                 }
-                .stroke(.gray400, style: StrokeStyle(lineWidth: 1, lineCap: .round))
+                .stroke(.gray800, style: StrokeStyle(lineWidth: 1, lineCap: .round))
                 .padding(.leading, 64)
                 
-                
+                let points = normalizedDataPoints(maxDataPoint: dataPoints.max() ?? 1, minDataPoint: dataPoints.min() ?? 0)
                 // MARK: 라인그래프
                 Path { path in
-                    let points = normalizedDataPoints(maxDataPoint: dataPoints.max() ?? 1, minDataPoint: dataPoints.min() ?? 0)
                     path.move(to: CGPoint(x: 64, y: 220))
                     path.addLines(points)
                     let _ = print("line updated:::  \(points)")
                     
                 }
-                .stroke(Color.gray600, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .stroke(Color.lime, style: StrokeStyle(lineWidth: 2, lineCap: .round))
                 .padding(.leading, 64)
                 .gesture(
                     DragGesture()
@@ -92,7 +91,6 @@ struct LineChart: View {
                         .onEnded{ _ in
                             self.isDragging = false
                         })
-                
                 
                 
                 // MARK: 드래그 이벤트
@@ -127,8 +125,8 @@ struct LineChart: View {
                 let xAxisLables:[String] = ["0분", "15분", "30분", "45분", "60분", "75분", "90분"]
                 ForEach(xAxisLables, id: \.self) { label in
                     Text(label)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.gray600)
+                        .font(.Caption1)
+                        .foregroundStyle(.gray500)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

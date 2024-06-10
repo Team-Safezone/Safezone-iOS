@@ -11,19 +11,14 @@ var dataPoints: [CGFloat] = []
 var dataTime: [Int] = []
 
 struct HeartRateStats: View {
-    var soccerMatch: SoccerMatch = dummySoccerMatches[0]
     @Binding var maxHeartRateElement: [String: Any]
     
     /// Timer 객체
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        VStack {
-            
-        }.onReceive(timer) { _ in
-//            let dateString = $maxHeartRateElement.wrappedValue["Date"] as? String
-//            dataTime.append(minutesExtracted(from: dateString!) ?? 0)
-//            dataPoints.append($maxHeartRateElement["HeartRate"] as? CGFloat ?? 160.0)
+        VStack{
+            // 타임라인 심박수 vs 측정 심박수..
         }
     }
 }
@@ -41,35 +36,39 @@ struct BoxEvent: View{
                         .background(.white)
                         .clipShape(Circle())
                     Text("\(event.player1) \(event.eventName)")
-                        .font(.system(size: 14, weight: .semibold))
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(.black0)
                 }
                 Spacer()
                 Text("\(event.eventTime)분")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.gray400)
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(.black0)
             }
             .padding(.horizontal, 20)
             HStack(spacing: 16){
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(Int(dataPoint))")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray600)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.lime)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(80)")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray400)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.green0)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(75)")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray400)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.violet)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
             }
         }
@@ -77,7 +76,7 @@ struct BoxEvent: View{
         .frame(width: 234, height: 80, alignment: .center)
         .background(){
             RoundedRectangle(cornerRadius: 8)
-                .foregroundStyle(.gray50)
+                .foregroundStyle(.gray900)
         }
     }
 }
@@ -91,35 +90,39 @@ struct BoxEvent2: View{
             HStack{
                 HStack(spacing: 4){
                     Text("이벤트 없음")
-                        .font(.system(size: 14, weight: .semibold))
+                        .pretendardTextStyle(.Body2Style)
                 }
                 Spacer()
                 Text("\(time)분")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.gray400)
+                    .pretendardTextStyle(.Body2Style)
+                    
             }
+            .foregroundStyle(.black0)
             .padding(.horizontal, 20)
             HStack(spacing: 16){
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(Int(dataPoint))")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray600)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.lime)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(80)")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray400)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.green0)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
                 HStack(alignment: .bottom, spacing: 2) {
                     Text("\(75)")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.gray400)
+                        .pretendardTextStyle(.H2Style)
+                        .foregroundStyle(.violet)
                     Text("BPM")
-                        .font(.system(size: 12, weight: .medium))
+                        .pretendardTextStyle(.Caption1Style)
+                        .foregroundStyle(.gray500)
                 }
             }
         }
@@ -127,7 +130,7 @@ struct BoxEvent2: View{
         .frame(width: 234, height: 80, alignment: .center)
         .background(){
             RoundedRectangle(cornerRadius: 8)
-                .foregroundStyle(.gray50)
+                .foregroundStyle(.gray900)
         }
     }
 }
@@ -139,30 +142,25 @@ struct FanList: View {
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("나")
-                    .font(.system(size: 14, weight: .medium))
+                    .pretendardTextStyle(.Body2Style)
             }
-            .foregroundStyle(.gray600)
+            .foregroundStyle(.lime)
             
             HStack(spacing: 8){
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("\(soccerMatch.homeTeam.teamName) 팬")
-                    .font(.system(size: 14, weight: .medium))
+                    .pretendardTextStyle(.Body2Style)
             }
-            .foregroundStyle(.gray400)
+            .foregroundStyle(.green0)
             
             HStack(spacing: 8){
                 Circle()
                     .frame(width: 4, height: 4, alignment: .center)
                 Text("\(soccerMatch.awayTeam.teamName) 팬")
-                    .font(.system(size: 14, weight: .medium))
+                    .pretendardTextStyle(.Body2Style)
             }
-            .foregroundStyle(.gray100)
-        }
-        .background(){
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray100)
-                .frame(width: 267, height: 40, alignment: .center)
+            .foregroundStyle(.violet)
         }
         .padding(.top, 20)
     }
@@ -172,7 +170,7 @@ struct ViewerStats: View {
     var body: some View {
         HStack{
             Text("전체 시청자 분석")
-                .font(.system(size: 18, weight: .bold))
+                .font(.pretendard(.bold, size: 18))
                 .padding(.top, 50)
             Spacer()
         }
@@ -186,7 +184,7 @@ struct ViewerStats: View {
                     .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.homeTeam.teamName)")
-                    .font(.system(size: 13, weight: .medium))
+                    .pretendardTextStyle(.Body3Style)
             }
             Spacer()
             HStack(spacing: 8){
@@ -195,28 +193,28 @@ struct ViewerStats: View {
                     .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.awayTeam.teamName)")
-                    .font(.system(size: 13, weight: .medium))
+                    .pretendardTextStyle(.Body3Style)
             }
         }
         .padding(.horizontal, 20)
         let data = 55.0
         ZStack(alignment: .trailing) {
             RoundedRectangle(cornerRadius: 8)
-                .fill(.gray100)
+                .fill(.green0)
                 .frame(maxWidth: .infinity, maxHeight: 10)
             RoundedRectangle(cornerRadius: 8)
-                .fill(.gray400)
+                .fill(.violet)
                 .frame(width: data * 375 / 100, height: 10)
         }
         .padding(.horizontal, 20)
         HStack{
             Text("\(Int(100-data))%")
-                .font(.system(size: 15, weight: .bold))
-                .foregroundStyle(.gray400)
+                .font(.pretendard(.medium, size: 16))
+                .foregroundStyle(.green0)
             Spacer()
             Text("\(Int(data))%")
-                .font(.system(size: 15, weight: .bold))
-                .foregroundStyle(.gray400)
+                .font(.pretendard(.medium, size: 16))
+                .foregroundStyle(.violet)
         }
         .padding(.horizontal, 20)
         
@@ -229,46 +227,44 @@ struct ViewerHRStats: View {
         VStack{
             HStack{
                 Text("\(soccerMatch.homeTeam.teamName) 팬")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.pretendard(.bold, size: 16))
                     .frame(width: 80)
-                Text("VS")
-                    .font(.system(size: 14, weight: .medium))
+                Text("  ")
                     .frame(width: 100)
-                    .foregroundStyle(.gray400)
                 Text("\(soccerMatch.awayTeam.teamName) 팬")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.pretendard(.bold, size: 16))
                     .frame(width: 80)
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 40)
             .background(){
                 RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.gray50)
+                    .foregroundStyle(Color.gray900)
                     .frame(width: 355, height: 55)
             }
             
-            ForEach(items.indices) { i in
+            ForEach(0..<items.count, id: \.self) { i in
                 HStack{
                     HStack(spacing: 2){
                         Text(items[i][0])
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.gray600)
-                        Text("BPM")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(.gray400)
+                            .font(.pretendard(.bold, size: 16))
+                            .foregroundStyle(.black0)
+                        Text(" BPM")
+                            .pretendardTextStyle(.Caption1Style)
+                            .foregroundStyle(.gray500)
                     }
                     .frame(width: 80)
                     Text(items[i][1])
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.pretendard(.medium, size: 14))
                         .frame(width: 100)
-                        .foregroundStyle(.gray600)
+                        .foregroundStyle(.black0)
                     HStack(spacing: 2){
                         Text(items[i][2])
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.gray600)
-                        Text("BPM")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(.gray400)
+                            .font(.pretendard(.bold, size: 16))
+                            .foregroundStyle(.black0)
+                        Text(" BPM")
+                            .pretendardTextStyle(.Caption1Style)
+                            .foregroundStyle(.gray500)
                     }
                     .frame(width: 80)
                 }
@@ -278,17 +274,17 @@ struct ViewerHRStats: View {
         }
         .overlay(){
             RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray50, lineWidth: 1)
+                .stroke(.gray900, lineWidth: 1)
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 115))
                 path.addLine(to: CGPoint(x: 355, y: 115))
             }
-            .stroke(.gray50, style: StrokeStyle(lineWidth: 1))
+            .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 115 + 115 / 2))
                 path.addLine(to: CGPoint(x: 355, y: 115 + 115 / 2))
             }
-            .stroke(.gray50, style: StrokeStyle(lineWidth: 1))
+            .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
             
         }
     }

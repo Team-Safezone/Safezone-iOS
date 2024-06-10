@@ -22,15 +22,25 @@ struct TimelineEventRow: View {
                                         "두 번째 경고" : "doublecard",
                                         "퇴장" : "card",
                                         "VAR 판독" : "VideoCamera"]
+    
+    var heart: [Int] = [122, 114, 87, 100, 85, 75, 76, 94]
     var body: some View {
         HStack(alignment: .center, spacing: 16){
-            Text("\(event.eventTime)분")
-                .font(.system(size: 13, weight: .regular))
-                .frame(width: 30, alignment: .center)
-                .multilineTextAlignment(.center)
-                .background(.white)
+            if (event.eventCode == 5){
+                Text("+\(event.eventTime)분")
+                    .pretendardTextStyle(.Body3Style)
+                    .frame(width: 40, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color.black0)
+            } else {
+                Text("\(event.eventTime)분")
+                    .pretendardTextStyle(.Body3Style)
+                    .frame(width: 40, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color.black0)
+            }
             HStack(alignment: .center, spacing: 10){
-                LoadableImage(image: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
+                LoadableImage(image: event.team.teamEmblemURL)
                     .frame(width: 30, height: 30)
                     .background(.white)
                     .clipShape(Circle())
@@ -39,28 +49,33 @@ struct TimelineEventRow: View {
                 HStack(alignment: .center, spacing: 8){
                     Image(eventIcons[event.eventName] ?? "교체")
                         .frame(width:18, height:18)
-                    if event.player2 != "none"{
-                        VStack(alignment: .leading, spacing: 4){
-                            if event.eventName == "골!"{
-                                Text("\(event.player1) 골!")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(.gray600)
+                    if event.player2 != "null"{
+                        if event.eventName != "VAR 판독"{
+                            VStack(alignment: .leading, spacing: 4){
+                                Text("\(event.player1) \(event.eventName)")
+                                    .pretendardTextStyle(.SubTitleStyle)
+                                    .foregroundStyle(Color.black0)
+                                Text(event.player2)
+                                    .pretendardTextStyle(.Caption1Style)
+                                    .foregroundStyle(Color.gray300)
                             }
-                            else{
-                                Text("\(event.player1)")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(.gray600)
+                        } else {
+                            VStack(alignment: .leading, spacing: 4){
+                                Text("\(event.eventName)")
+                                    .pretendardTextStyle(.SubTitleStyle)
+                                    .foregroundStyle(Color.black0)
+                                Text(event.player2)
+                                    .pretendardTextStyle(.Caption1Style)
+                                    .foregroundStyle(Color.gray300)
                             }
-                            Text(event.player2)
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(.gray400)
                         }
+                        
                     }
                     else{
                         VStack(alignment: .leading, spacing: 4){
                             Text("\(event.player1) \(event.eventName)")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(.gray600)
+                                .pretendardTextStyle(.SubTitleStyle)
+                                .foregroundStyle(Color.black0)
                         }
                     }
                     Spacer()
@@ -86,7 +101,7 @@ struct TimelineEventRow: View {
                             @State var maxHeartRateElement = temp[maxHeartRateIndex]
                             HStack(spacing: 4){
                                 if (maxHeartRateElement["HeartRate"]! as! Int > 80) {
-                                    Image(systemName: "arrow.up.right")
+                                    Image("ArrowUp")
                                         .frame(width: 24, height: 24)
                                 }
                                 else{
@@ -95,20 +110,49 @@ struct TimelineEventRow: View {
                                 }
                                 HStack(spacing: 2){
                                     Text("\(maxHeartRateElement["HeartRate"]!)")
-                                        .font(.system(size: 14, weight: .semibold))
+                                        .pretendardTextStyle(.SubTitleStyle)
                                         .frame(width: 25, alignment: .trailing)
                                     Text("BPM")
-                                        .font(.system(size: 12, weight: .medium))
-                                }}}
+                                        .pretendardTextStyle(.Caption1Style)
+                                }}.padding(.trailing, 6)
+                        }
                     }else{
-                        let _ = print("심박수 기록 없음")
+                        let _ = print("더미데이터 출력")
+                        HStack(spacing: 4){
+                            let dummy = heart.randomElement()
+                            if (dummy ?? 110 > 88) {
+                                Image("ArrowUp")
+                                    .frame(width: 24, height: 24)
+                            }
+                            else{
+                                Image("ArrowDown")
+                                    .frame(width: 24, height: 24)
+                            }
+                            HStack(spacing: 2){
+                                Text("\(dummy ?? 120)")
+                                    .pretendardTextStyle(.SubTitleStyle)
+                                    .frame(width: 25, alignment: .trailing)
+                                Text("BPM")
+                                    .pretendardTextStyle(.Caption1Style)
+                            }}.padding(.trailing, 6)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+        .padding(.vertical, 13)
+        .background{
+            if event.eventName == "골!"{
+                Color.lime.opacity(0.1)
+                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
+            } else if event.eventName == "자책골"{
+                Color.red0.opacity(0.2)
+                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
+            }
+        }
+        .padding(.horizontal, 18)
     }
 }
 #Preview {
-    TimelineEventRow(event: matchEvents[0], arrayHR: [["Date": "2024/05/23 22:31", "HeartRate": 120]])
+    TimelineEventRow(event: matchEvents[0], arrayHR: [])
 }
