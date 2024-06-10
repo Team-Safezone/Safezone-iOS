@@ -37,12 +37,12 @@ struct PretendardTextModifier: ViewModifier {
     let textStyle: TextStyle
     
     func body(content: Content) -> some View {
-        let fontSpacing = textStyle.uiFont.lineHeight / 100 * 50 / 4
+        let fontSpacing = (textStyle.lineHeight - textStyle.uiFont.lineHeight) / 4
         return content
             .font(textStyle.font)
             .tracking(textStyle.tracking)
             .padding(.vertical, fontSpacing)
-            .lineSpacing(fontSpacing * textStyle.lineHeight)
+            .lineSpacing(fontSpacing * 2)
     }
 }
 

@@ -9,264 +9,237 @@ import Charts
 import SwiftUI
 
 /// 우승팀 예측 화면
+// TODO: MVVM으로 수정 필요
 struct WinningTeamPrediction: View {
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
-    /// 뒤로가기 버튼을 위한 변수
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-        
-    /// 클릭 이벤트 변수
-    @State private var clickHomeTeam = false
+    /// 현재 날짜 및 시간
+    @State private var nowDate = Date()
     
-    /// 무승부 클릭 변수
-    @State private var clickDraw = false
+    /// 홈팀의 예상 골 개수
+    @State private var homeTeamGoal = 0
     
-    /// 원정팀 클릭 변수
-    @State private var clickAwayTeam = false
+    /// 원정팀의 예상 골 개수
+    @State private var awayTeamGoal = 0
     
     var body: some View {
         ZStack {
-            Color(.gray50)
+            Color(.background)
             VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 8) {
+                // MARK: - 상단 박스
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Q. 우승 팀 예측")
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(.lime)
+                    
+                    Text("\(soccerMatch.homeTeam.teamName) vs \(soccerMatch.awayTeam.teamName) 이번 경기에서 몇 골을 넣을까?")
+                        .pretendardTextStyle(.Title1Style)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 4)
+                    
+                    HStack(spacing: 4) {
+                        Text("예측 종료까지")
+                            .pretendardTextStyle(.Caption1Style)
+                            .foregroundStyle(.gray300)
+                        
+                        Text("\(timePredictionInterval(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime))")
+                            .pretendardTextStyle(.Caption1Style)
+                            .foregroundStyle(.white)
+                            .onAppear {
+                                startTimer()
+                            }
+                    }
+                    .padding(.top, 10)
+                }
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.gray950)
+                )
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                
+                // MARK: - 팀 정보
+                HStack(alignment: .center) {
+                    // MARK: 홈 팀
+                    VStack(alignment: .center, spacing: 0) {
+                        // 홈 팀 엠블럼 이미지
+                        LoadableImage(image: soccerMatch.homeTeam.teamEmblemURL)
+                            .frame(width: 88, height: 88)
+                            .background(.white)
+                            .clipShape(Circle())
+                        
+                        HStack(spacing: 0) {
+                            Image(systemName: "house.fill")
+                                .foregroundStyle(.gray500)
+                                .font(.system(size: 15))
+                            
+                            // 팀 명
+                            Text("\(soccerMatch.homeTeam.teamName)")
+                                .pretendardTextStyle(.Body1Style)
+                                .foregroundStyle(.white)
+                        }
+                        .padding(.top, 8)
+                        .frame(width: 88, alignment: .center)
+                    }
+                    
                     Spacer()
                     
-                    Image(systemName: "soccerball")
-                        .font(.system(size: 24))
-                        .foregroundStyle(.gray600)
-                    
-                    Image(systemName: "soccerball")
-                        .font(.system(size: 24))
-                        .foregroundStyle(.gray400)
-                    
-                    Image(systemName: "soccerball")
-                        .font(.system(size: 24))
-                        .foregroundStyle(.gray400)
+                    // MARK: 원정 팀
+                    VStack(alignment: .center, spacing: 0) {
+                        // 원정 팀 엠블럼 이미지
+                        LoadableImage(image: soccerMatch.awayTeam.teamEmblemURL)
+                            .frame(width: 88, height: 88)
+                            .background(.white)
+                            .clipShape(Circle())
+                            
+                            // 팀 명
+                            Text("\(soccerMatch.awayTeam.teamName)")
+                                .pretendardTextStyle(.Body1Style)
+                                .foregroundStyle(.white)
+                                .padding(.top, 8)
+                        }
+                        .frame(width: 88, alignment: .center)
+                }
+                .padding(.horizontal, 50)
+                .padding(.top, 72)
+                
+                // MARK: - 골 예측
+                HStack(alignment: .center) {
+                    // MARK: 홈팀의 골 예측
+                    VStack(spacing: 16) {
+                        // 홈팀 예상 골 개수 추가
+                        Button {
+                            if (homeTeamGoal < 10) {
+                                homeTeamGoal += 1
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 24))
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.gray950)
+                                )
+                        }
+                        
+                        // 홈팀의 예상 골 개수
+                        HStack(spacing: 8) {
+                            Text("\(homeTeamGoal)")
+                                .pretendardTextStyle(.H1Style)
+                                .foregroundStyle(.lime)
+                                .frame(width: 30)
+                            
+                            Text("골")
+                                .pretendardTextStyle(.Body1Style)
+                                .foregroundStyle(.gray200)
+                                .frame(width: 30)
+                        }
+                        
+                        // 홈팀 예상 골 개수 삭제
+                        Button {
+                            if (homeTeamGoal > 0) {
+                                homeTeamGoal -= 1
+                            }
+                        } label: {
+                            Image(systemName: "minus")
+                                .font(.system(size: 24))
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.gray800)
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.gray950)
+                                )
+                        }
+                    }
                     
                     Spacer()
-                }
-                .padding(.top, 60)
-                
-                // 예측을 한 경우
-                if clickHomeTeam || clickAwayTeam || clickDraw {
-                    Text("승리 팀 예측 완료!")
-                        .font(.system(size: 24, weight: .semibold))
-                        .foregroundStyle(.gray600)
-                        .padding(.top, 56)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                // 예측을 안 한 경우
-                else {
-                    Text("우승 팀 예측하기")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(.black)
-                        .padding(.top, 56)
-                        .padding(.leading, 30)
                     
-                    Text("이번 경기에서 어느 팀이 승리할까요?")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.black)
-                        .padding(.top, 10)
-                        .padding(.leading, 30)
-                }
-                
-                // 예측한 우승 팀 정보
-                VStack(alignment: .center, spacing: 8) {
-                    Text("나의 선택")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(.gray600)
-                    
-                    // 홈 팀을 선택한 경우
-                    if clickHomeTeam {
-//                        LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
-//                            .frame(width: 120, height: 120)
-//                            .background(.white)
-//                            .clipShape(Circle())
-//                        
-//                        Text(soccerMatch.homeTeam.teamName)
-//                            .font(.system(size: 16, weight: .medium))
-//                            .foregroundStyle(.gray600)
-                    }
-                    // 원정팀을 선택한 경우
-                    else if clickAwayTeam {
-//                        LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
-//                            .frame(width: 120, height: 120)
-//                            .background(.white)
-//                            .clipShape(Circle())
-//                        
-//                        Text(soccerMatch.awayTeam.teamName)
-//                            .font(.system(size: 16, weight: .medium))
-//                            .foregroundStyle(.gray600)
-                    }
-                    // 무승부를 선택한 경우
-                    else if clickDraw {
-                        Circle()
-                            .frame(width: 120, height: 120)
-                            .foregroundStyle(.gray100)
-                        
-                        Text("무승부")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(.gray600)
-                    }
-                    // 미선택한 경우
-                    else {
-                        Circle()
-                            .frame(width: 120, height: 120)
-                            .foregroundStyle(.gray100)
-                        
-                        Text("선택해주세요")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(.gray600)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top, 67)
-                
-                // 예측을 한 경우
-                if clickHomeTeam || clickAwayTeam || clickDraw {
-                    // 예측 결과 띄우기
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("예측 결과")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.gray600)
-                        
-                        // MARK: - 예측 결과 가로 막대 그래프
-//                        VerticalBarChart(data: [
-//                            (soccerMatch.homeTeam.teamName, 30.0),
-//                            (soccerMatch.awayTeam.teamName, 65.0),
-//                            ("무승부", 5.0)
-//                        ])
-//                        .padding(.top, 20)
-                    }
-                    .padding([.top, .bottom], 32)
-                    .padding([.leading, .trailing], 20)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.white)
-                    )
-                    .padding([.leading, .trailing], 16)
-                    .padding(.top, 34)
-                }
-                // 예측을 안 한 경우
-                else {
-                    // 선택지 보여주기
-                    HStack(alignment: .center, spacing: 10) {
-                        // MARK: 홈 팀
+                    // MARK: 원정팀의 골 예측
+                    VStack(spacing: 16) {
+                        // 원정팀 예상 골 개수 추가
                         Button {
-                            clickHomeTeam.toggle()
-                            clickAwayTeam = false
-                            clickDraw = false
-                        } label: {
-                            VStack(alignment: .center, spacing: 20) {
-//                                LoadableImage(image: soccerMatch.homeTeam.teamImgURL)
-//                                    .frame(width: 60, height: 60)
-//                                    .background(.white)
-//                                    .clipShape(Circle())
-//                                
-//                                Text(soccerMatch.homeTeam.teamName)
-//                                    .font(.system(size: 16, weight: .bold))
-//                                    .foregroundStyle(.gray600)
+                            if (awayTeamGoal < 10) {
+                                awayTeamGoal += 1
                             }
-                            .padding(24)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.white)
-                                    .stroke(.gray100, style: StrokeStyle(lineWidth: 1))
-                            )
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 24))
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.gray950)
+                                )
                         }
                         
-                        // MARK: 무승부
-                        Button {
-                            clickHomeTeam = false
-                            clickAwayTeam = false
-                            clickDraw.toggle()
-                        } label: {
-                            VStack(alignment: .center, spacing: 20) {
-                                Circle()
-                                    .fill(.clear)
-                                    .frame(width: 60, height: 60)
-                                
-                                Text("무승부")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundStyle(.gray600)
-                            }
-                            .padding(24)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.white)
-                                    .stroke(.gray100, style: StrokeStyle(lineWidth: 1))
-                            )
+                        // 원정팀의 예상 골 개수
+                        HStack(spacing: 8) {
+                            Text("\(awayTeamGoal)")
+                                .pretendardTextStyle(.H1Style)
+                                .foregroundStyle(.lime)
+                                .frame(width: 30)
+                            
+                            Text("골")
+                                .pretendardTextStyle(.Body1Style)
+                                .foregroundStyle(.gray200)
+                                .frame(width: 30)
                         }
                         
-                        // MARK: 원정 팀
+                        // 원정팀 예상 골 개수 삭제
                         Button {
-                            clickHomeTeam = false
-                            clickAwayTeam.toggle()
-                            clickDraw = false
-                        } label: {
-                            VStack(alignment: .center, spacing: 20) {
-//                                LoadableImage(image: soccerMatch.awayTeam.teamImgURL)
-//                                    .frame(width: 60, height: 60)
-//                                    .background(.white)
-//                                    .clipShape(Circle())
-//                                
-//                                Text(soccerMatch.awayTeam.teamName)
-//                                    .font(.system(size: 16, weight: .bold))
-//                                    .foregroundStyle(.gray600)
+                            if (awayTeamGoal > 0) {
+                                awayTeamGoal -= 1
                             }
-                            .padding(24)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.white)
-                                    .stroke(.gray100, style: StrokeStyle(lineWidth: 1))
-                            )
+                        } label: {
+                            Image(systemName: "minus")
+                                .font(.system(size: 24))
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.gray800)
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.gray950)
+                                )
                         }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 46)
                 }
+                .padding(.horizontal, 60)
+                .padding(.top, 42)
                 
                 Spacer()
                 
-                // 예측을 한 경우
-                if clickHomeTeam || clickAwayTeam || clickDraw {
-                    HStack(spacing: 8) {
-                        // 왼쪽 여백을 위한 네모
-                        Rectangle()
-                            .opacity(0)
-                        
-                        // MARK: - 다음 예측하기 버튼
-                        DesignHalfButton(label: "다음 예측하기", labelColor: Color.white, btnBGColor: Color.gray600, img: "arrow.right")
-                    }
-                    .padding([.leading, .trailing], 16)
-                }
-                // 예측을 안 한 경우
-                else {
-                    // MARK: - 예측하기 버튼
-                    DesignWideButton(label: "예측하기", labelColor: Color.gray400, btnBGColor: Color.gray100)
-                }
-            }
-        }
-        .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    // 뒤로가기
-                    self.presentationMode.wrappedValue.dismiss()
+                // MARK: - 예측하기 버튼
+                NavigationLink {
+                    FinishWinningTeamPrediction(winningPrediction: WinningPrediction(id: 0, homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName, homeTeamScore: homeTeamGoal, awayTeamScore: awayTeamGoal))
+                        .toolbar(.hidden)
                 } label: {
-                    // MARK: - 우승팀 예측 화면 닫기
-                    Image(systemName: "xmark")
-                        .foregroundStyle(.gray400)
-                        .padding(.leading, 16)
+                    DesignWideButton(label: "예측하기", labelColor: Color.black, btnBGColor: Color.lime)
+                        .padding(.bottom, 34)
                 }
             }
         }
-        .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+        .navigationTitle("우승 팀 예측")
+        // 툴 바, 상태 바 색상 변경
+        .ignoresSafeArea(edges: .bottom)
+        .toolbarBackground(Color.background, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+    }
+    
+    /// 예측 종료 마감까지의 시간 계산
+    private func startTimer() {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.nowDate = Date()
+        }
     }
 }
 
-//#Preview {
-//    WinningTeamPrediction(soccerMatch: soccerMatches[0])
-//}
+#Preview {
+    WinningTeamPrediction(soccerMatch: dummySoccerMatches[2])
+}

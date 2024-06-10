@@ -136,11 +136,54 @@ func minutesExtracted(from dateString: String) -> Int? {
     }
 }
 
-/// 경기까지 남은 시간을 계산하는 함수
-func timeInterval(nowDate: Date, matchDate: Date) -> String {
-    let components = Calendar.current.dateComponents([.hour, .minute], from: nowDate, to: matchDate)
+/// [선발 라인업] 경기까지 남은 시간을 계산하는 함수
+func timeInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
+    let components = Calendar.current.dateComponents([.hour, .minute], from: nowDate, to: matchDateTime)
     let hour = components.hour ?? 0
     let minute = components.minute ?? 0
     
     return "\(hour)시간 \(minute)분 후 공개"
+}
+
+/// [예측] 경기까지 남은 시간을 계산하는 함수
+func timePredictionInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
+    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: matchDateTime)
+    let hour = components.hour ?? 0
+    let minute = components.minute ?? 0
+    let second = components.second ?? 0
+    
+    return "\(hour)시간 \(minute)분 \(second)초 남음"
+}
+
+/// 입력받은 날짜, 시간 정보를 바탕으로 하나의 date값을 반환하는 함수
+private func extractDateTime(date: Date, time: Date) -> Date {
+    // 날짜 formatter
+    //let dateFormatter = DateFormatter()
+    //dateFormatter.dateFormat = "yyyy-MM-dd"
+    
+    // 시간 formatter
+    //let timeFormatter = DateFormatter()
+    //timeFormatter.dateFormat = "HH:mm"
+    
+    //guard let fullMatchDate = dateFormatter.date(from: matchDate),
+          //let fullMatchTime = timeFormatter.date(from: matchTime) else {
+        //return ""
+    //}
+    
+    // 구성요소 추출
+    let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
+    let timeComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: time)
+    
+    // 날짜 + 시간 결합
+    var fullDateComponents = DateComponents()
+    fullDateComponents.year = dateComponents.year
+    fullDateComponents.month = dateComponents.month
+    fullDateComponents.day = dateComponents.day
+    fullDateComponents.hour = timeComponents.hour
+    fullDateComponents.minute = timeComponents.minute
+    fullDateComponents.second = timeComponents.second
+    
+    return Calendar.current.date(from: fullDateComponents)!
 }
