@@ -24,7 +24,7 @@ struct DesignHalfButton: View {
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("\(label)")
-                .font(.system(size: 16, weight: .semibold))
+                .pretendardTextStyle(.Title1Style)
                 .foregroundStyle(labelColor)
             
             // 우측 이미지가 있다면 배치하기
@@ -35,7 +35,7 @@ struct DesignHalfButton: View {
                     .padding(.leading, 8)
             }
         }
-        .padding([.top, .bottom], 16)
+        .padding([.top, .bottom], 15)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 8)
