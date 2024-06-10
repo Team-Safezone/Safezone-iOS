@@ -217,7 +217,8 @@ struct WinningTeamPrediction: View {
                 
                 // MARK: - 예측하기 버튼
                 NavigationLink {
-                    
+                    FinishWinningTeamPrediction(winningPrediction: WinningPrediction(id: 0, homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName, homeTeamScore: homeTeamGoal, awayTeamScore: awayTeamGoal))
+                        .toolbar(.hidden)
                 } label: {
                     DesignWideButton(label: "예측하기", labelColor: Color.black, btnBGColor: Color.lime)
                         .padding(.bottom, 34)
