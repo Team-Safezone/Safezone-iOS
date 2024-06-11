@@ -99,6 +99,7 @@ struct MatchCalendar: View {
             requestDaySoccerMatches(date: currentDate, teamName: nil)
         })
         .tint(.black0)
+        .navigationBarBackButtonHidden()
     }
     
     /// 하루 축구 경기 일정 불러오기
@@ -153,8 +154,6 @@ struct MatchCalendar: View {
                     .navigationDestination(isPresented: $isMatchSelected) {
                         if let match = selectedMatch {
                             SoccerMatchInfo(soccerMatch: match)
-                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
                     }
                 }
