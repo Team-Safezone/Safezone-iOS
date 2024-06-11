@@ -421,6 +421,7 @@ struct SoccerMatchInfo: View {
         .ignoresSafeArea(edges: .bottom)
         .toolbarBackground(Color.background, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarBackButtonHidden()
     }
     
     /// 선발 라인업이 나오기 전까지의 시간 계산
