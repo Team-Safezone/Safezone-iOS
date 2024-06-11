@@ -31,7 +31,11 @@ struct Home: View {
                     .padding(.leading, 16)
                     HStack(spacing: 16){
                         /// 카드
-                        NavigationLink(destination: SoccerMatchInfo(soccerMatch: soccerMatch)){
+                        NavigationLink{
+                            SoccerMatchInfo(soccerMatch: soccerMatch)
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                        }label:{
                             btnCard1(matchText: "\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
                         }
                         btnCard2(matchText: "토트넘 VS 아스널")
@@ -68,7 +72,7 @@ struct Home: View {
                     }
                 }
             }
-        }
+        }.tint(.black0)
         
     }
 }
