@@ -21,7 +21,7 @@ func dateToString(date: Date) -> String {
 /// Date -> 0월 0일 (요일) 형식으로 변경하는 함수
 func dateToString2(date: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MM월 dd일 (E)"
+    dateFormatter.dateFormat = "M월 dd일 (E)"
     //dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
     dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
     

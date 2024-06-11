@@ -27,7 +27,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedMenu) {
             /// 홈 화면
-            Home()
+            Home(soccerMatch: dummySoccerMatches[0])
                 .tabItem {
                     Image(systemName: "house")
                     Text("홈")
