@@ -5,7 +5,6 @@
 //  Created by 이윤지 on 6/3/24.
 //
 
-import Combine
 import Foundation
 
 /// 경기 캘린더 화면의 뷰모델 프로토콜

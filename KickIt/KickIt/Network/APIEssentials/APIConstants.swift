@@ -18,6 +18,9 @@ struct APIConstants {
     /// 테스트 서버 URL
     static let devURL = "http://localhost:8080"
     
+    /// 프리미어리그 팀 조회 URL
+    static let teamURL = "/teaminfo"
+    
     /// 한달 경기 일정 조회 URL
     static let monthURL = "/fixture/dates"
     

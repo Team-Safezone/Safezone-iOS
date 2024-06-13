@@ -96,12 +96,12 @@ class MatchCalendarAPI: BaseAPI {
                                 stadium: dto.stadium,
                                 matchRound: dto.matchRound,
                                 homeTeam: SoccerTeam(
-                                    id: 0,
+                                    ranking: 0,
                                     teamEmblemURL: "엠블럼",
                                     teamName: dto.homeTeamName
                                 ),
                                 awayTeam: SoccerTeam(
-                                    id: 0,
+                                    ranking: 0,
                                     teamEmblemURL: "엠블럼",
                                     teamName: dto.awayTeamName
                                 ),
