@@ -12,13 +12,18 @@ struct RadioButtonGroup: View {
     /// 라디오 버튼 텍스트 리스트
     var items: [String]
     
-    @State var selectedId: Int = 0
+    /// 선택한 팀 id
+    @Binding var selectedId: Int
     
-    let callback: ((Int, Int)) -> ()
+    /// 선택한 팀 이름
+    @Binding var selectedTeamName: String?
     
-    func radioGroupCallback(id: Int) {
-        callback((selectedId, id)) // 콜백, 이전&현재 선택한 버튼을 콜백
+    let callback: (Int, Int, String) -> Void
+    
+    func radioGroupCallback(id: Int, name: String) {
+        callback(selectedId, id, name) // 콜백, 이전&현재 선택한 버튼을 콜백
         selectedId = id // 선택한 버튼 아이디 정보 변경
+        selectedTeamName = name
     }
     
     var body: some View {

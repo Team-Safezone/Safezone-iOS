@@ -13,7 +13,7 @@ enum NetworkResult<T> {
     case success(T)
     
     /// 요청 에러
-    case requestErr(T)
+    case requestErr(Int)
     
     /// 경로 에러
     case pathErr
@@ -25,7 +25,7 @@ enum NetworkResult<T> {
     case networkFail
 }
 
-/// Combine 에러 결과를 핸들링하기 이한 열거형
+/// 에러 결과를 핸들링하기 이한 열거형
 enum NetworkError: Error {
     case requestError(Any)
     case pathError

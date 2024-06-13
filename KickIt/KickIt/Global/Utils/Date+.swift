@@ -44,6 +44,54 @@ func dateToString3(date: Date) -> String {
     
 }
 
+/// Date -> yyyy/MM/dd 형식으로 변경하는 함수
+func dateToString4(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd"
+    
+    let dateToString = dateFormatter.string(from: date)
+    
+    return dateToString
+}
+
+/// Date -> String(yyyy/MM)으로 변경하는 함수
+func dateToString5(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM"
+    
+    let dateToString = dateFormatter.string(from: date)
+    
+    return dateToString
+}
+
+/// String -> Date yyyy/MM/dd 형식으로 변경하는 함수
+func stringToDate(date: String) -> Date {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+    let convertDate = dateFormatter.date(from: date) ?? Date() // Date 타입으로 변환
+    return convertDate
+}
+
+/// String -> Date(yyyy.MM.dd) 형식으로 변경하는 함수
+func stringToDate2(date: String) -> Date {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd"
+            
+    let convertDate = dateFormatter.date(from: date) ?? Date() // Date 타입으로 변환
+    return convertDate
+}
+
+/// String -> Time h:mm 형식으로 변경하는 함수
+func stringToTime(time: String) -> Date {
+    //04:00
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm"
+            
+    let convertTime = dateFormatter.date(from: time) ?? Date() // Date 타입으로 변환
+    return convertTime
+}
+
 /// Time -> String으로 변경하는 함수
 func timeToString(time: Date) -> String {
     let timeFormatter = DateFormatter()
@@ -57,6 +105,16 @@ func timeToString(time: Date) -> String {
 /// 두 날짜가 동일한 날짜인지 확인하는 함수
 func isSameDay(date1: Date, date2: Date) -> Bool {
     return Calendar.current.isDate(date1, inSameDayAs: date2)
+}
+
+/// 두 날짜의 월이 동일한지 확인하는 함수
+func isSameMonth(date1: Date, date2: Date) -> Bool {
+    let calendar = Calendar.current
+
+    let components1 = calendar.dateComponents([.month], from: date1)
+    let components2 = calendar.dateComponents([.month], from: date2)
+    
+    return components1.month == components2.month
 }
 
 /// Date,Time -> String으로 변경하는 함수

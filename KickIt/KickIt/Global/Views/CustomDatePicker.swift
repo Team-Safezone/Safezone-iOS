@@ -12,6 +12,9 @@ struct CustomDatePicker: View {
     /// 현재 선택 중인 날짜
     @Binding var currentDate: Date
     
+    /// 경기 날짜 리스트
+    @Binding var matchDates: [SoccerMatchDate]
+    
     /// 현재 선택 중인 월 index
     @State var currentMonth: Int = 0 // default 0
     
@@ -80,7 +83,7 @@ struct CustomDatePicker: View {
             .padding(.horizontal, 26)
         }
         // 월이 바뀌면 현재 선택 중인 날짜도 변경
-        .onChange(of: currentMonth) { oldValue, newValue in
+        .onChange(of: currentMonth) { preDate, newDate in
             currentDate = currentMonthDates()
             print("date: \(currentDate.description)")
         }
@@ -92,7 +95,7 @@ struct CustomDatePicker: View {
         VStack(spacing: 0) {
             if (date.day != -1) {
                 // 해당 날짜에 경기 일정이 있는지에 대한 여부 반환
-                let isSoccerMatch = dummySoccerMatches.contains { match in
+                let isSoccerMatch = matchDates.contains { match in
                     return isSameDay(date1: match.matchDate, date2: date.date)
                 }
                 
@@ -145,7 +148,17 @@ struct CustomDatePicker: View {
                 )
                 // 날짜 클릭 시, 현재 선택 중인 날짜 변경
                 .onTapGesture {
-                    currentDate = date.date
+                    var isMatch: Bool = false
+                    for matchDate in matchDates {
+                        if (matchDate.matchDate == date.date) {
+                            isMatch = true
+                            break
+                        }
+                    }
+                    
+                    if isMatch {
+                        currentDate = date.date
+                    }
                 }
             }
         }

@@ -42,7 +42,7 @@ class BaseAPI {
         case 202..<300: // 성공
             return .success(decodedData.status as! T)
         case 400..<500: // 실패
-            return .requestErr(decodedData.status as! T)
+            return .requestErr(decodedData.status)
         case 500: // 서버 오류
             return .serverErr
         default: // 네트워크 연결 실패
