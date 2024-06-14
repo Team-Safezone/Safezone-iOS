@@ -12,6 +12,12 @@ struct Home: View {
     var soccerMatch: SoccerMatch
     var soccerMatches: [SoccerMatch] = dummySoccerMatches
     
+    /// 홈 화면 뷰모델
+    @ObservedObject var viewModel = DefaultHomeViewModel()
+    
+    /// 프리미어리그 팀 리스트
+    @State private var soccerTeams: [SoccerTeam] = []
+    
     var body: some View {
         NavigationStack{
             Header()
@@ -72,8 +78,19 @@ struct Home: View {
                     }
                 }
             }
-        }.tint(.black0)
+        }
+        .tint(.black0)
+        .onAppear {
+            // 초기 진입 시, 프리미어리그 팀 조회 API 호출
+            requestSoccerTeams(soccerSeason: "2023-24")
+        }
+    }
+    
+    /// 프리미어리그 팀 리스트 불러오기
+    private func requestSoccerTeams(soccerSeason: String) {
+        viewModel.requestSoccerTeams(soccerSeason: soccerSeason)
         
+        soccerTeams = viewModel.soccerTeams // 팀 리스트 저장
     }
 }
 
@@ -124,7 +141,7 @@ struct btnCard2: View {
                 }
                 .foregroundStyle(Color.white)
                 .frame(width: 141, height: 68, alignment: .leading)
-                Image("heart")
+                Image(uiImage: .heart)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100, alignment: .center)
@@ -180,7 +197,7 @@ struct Header: View {
                 .foregroundStyle(.black0)
             Spacer()
             HStack(spacing: 4){
-                Image("soccer")
+                Image(uiImage: .soccer)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32, height: 32, alignment: .center)

@@ -11,8 +11,8 @@ import Foundation
 struct SoccerMatchResponseModel: Codable {
     let id: Int64 // 경기 고유 id
     let soccerSeason: String // 축구 경기 시즌
-    var matchDate: Date // 축구 경기 날짜
-    var matchTime: Date // 축구 경기 시간
+    var matchDate: String // 축구 경기 날짜
+    var matchTime: String // 축구 경기 시간
     var homeTeamName: String // 홈 팀
     var awayTeamName: String // 원정 팀
     var homeTeamScore: Int? // 홈 팀 스코어
@@ -29,6 +29,7 @@ struct SoccerMatchResponseModel: Codable {
         case awayTeamName = "awayTeam"
         case matchRound = "round"
         case matchCode = "status"
-        case id, homeTeamScore, awayTeamScore, stadium
+        case awayTeamScore = "awayteamScore"
+        case id, homeTeamScore, stadium
     }
 }

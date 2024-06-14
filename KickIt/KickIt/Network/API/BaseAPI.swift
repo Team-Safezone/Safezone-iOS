@@ -38,11 +38,16 @@ class BaseAPI {
         }
         switch statusCode {
         case 200...201: // 성공
-            return .success(decodedData.data ?? "None-Data" as! T)
+            if (decodedData.data == nil) {
+                return .success(decodedData.soccerTeams ?? "None-Data" as! T)
+            }
+            else {
+                return .success(decodedData.data ?? "None-Data" as! T)
+            }
         case 202..<300: // 성공
             return .success(decodedData.status as! T)
         case 400..<500: // 실패
-            return .requestErr(decodedData.status as! T)
+            return .requestErr(decodedData.status)
         case 500: // 서버 오류
             return .serverErr
         default: // 네트워크 연결 실패

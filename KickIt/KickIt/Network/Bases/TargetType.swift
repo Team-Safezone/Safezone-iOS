@@ -45,14 +45,16 @@ extension TargetType {
     
     /// URL 요청 생성
     func asURLRequest() throws -> URLRequest {
-        let url = try baseURL.asURL()
-        var urlRequest = try URLRequest(url: url.appendingPathComponent(endPoint), method: method)
+        // ?를 인코딩할 수 있는 형태로 변경
+        let url = try (baseURL + endPoint).encodeURL()?.asURL()
+        
+        var urlRequest = try URLRequest(url: url!, method: method)
         
         // header 설정
         urlRequest = self.makeHeaderForRequest(to: urlRequest)
         
         // parameter 설정
-        return try self.makeParameterForRequest(to: urlRequest, with: url)
+        return try self.makeParameterForRequest(to: urlRequest, with: url!)
     }
     
     /// API 요청 시 header 설정

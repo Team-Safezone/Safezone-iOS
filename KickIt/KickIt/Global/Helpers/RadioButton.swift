@@ -11,19 +11,12 @@ import SwiftUI
 struct RadioButton: View {
     let id: Int
     let label: String
-    let callback: (Int) -> ()
+    let callback: (Int, String) -> Void
     let selectedId: Int
-    
-    init(id: Int, label: String, callback: @escaping (Int) -> Void, selectedId: Int) {
-        self.id = id
-        self.label = label
-        self.callback = callback
-        self.selectedId = selectedId
-    }
     
     var body: some View {
         Button {
-            self.callback(id)
+            self.callback(id, label)
         } label: {
             Text(label)
                 .padding(.vertical, 6)
