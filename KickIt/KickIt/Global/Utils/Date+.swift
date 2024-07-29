@@ -132,9 +132,9 @@ func setStartTime() -> DateComponents {
     var dateComponents = DateComponents()
     dateComponents.year = 2024      // 1. 경기 시작 시간
     dateComponents.month = 6
-    dateComponents.day = 3
-    dateComponents.hour = 21
-    dateComponents.minute = 30
+    dateComponents.day = 20
+    dateComponents.hour = 14
+    dateComponents.minute = 00
     dateComponents.second = 0
     
     return dateComponents
@@ -145,8 +145,8 @@ func setEndTime() -> DateComponents {
     var dateComponents = DateComponents()
     dateComponents.year = 2024      // 2. 경기 종료 시간
     dateComponents.month = 6
-    dateComponents.day = 3
-    dateComponents.hour = 22
+    dateComponents.day = 20
+    dateComponents.hour = 15
     dateComponents.minute = 30
     dateComponents.second = 0
     

@@ -154,5 +154,5 @@ struct TimelineEventRow: View {
     }
 }
 #Preview {
-    TimelineEventRow(event: matchEvents[0], arrayHR: [])
+    TimelineEventRow(event: dummymatchEvents[0], arrayHR: [])
 }
