@@ -226,7 +226,7 @@ struct SoccerMatchInfo: View {
                         HStack(spacing: 13) {
                             // 경기 타임라인 화면으로 이동하는 버튼
                             NavigationLink {
-                                
+                                TimelineEventView(match: soccerMatch)
                             } label: {
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {

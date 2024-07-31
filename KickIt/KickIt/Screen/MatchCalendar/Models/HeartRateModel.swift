@@ -17,6 +17,7 @@ class HeartRateModel {
     private var healthStore = HKHealthStore()
     var arrayHR: [HeartRateRecord] = []
 
+    /// 심박수 권한 허용
     func authorizeHealthKit(completion: @escaping (Bool) -> Void) {
         let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!])
         let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!])
@@ -27,6 +28,7 @@ class HeartRateModel {
         }
     }
 
+    /// 심박수 로딩
     func loadHeartRate(startDate: Date, endDate: Date, completion: @escaping ([HeartRateRecord]) -> Void) {
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .heartRate) else {
             return

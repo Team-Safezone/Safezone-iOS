@@ -30,7 +30,7 @@ class BoxEventViewModel: ObservableObject {
     @Published var time: Int
     @Published var event: MatchEvent?
     @Published var homeTeamEmblemURL: String?
-    
+
     init(dataPoint: CGFloat, time: Int, event: MatchEvent? = nil, homeTeamEmblemURL: String? = nil) {
         self.dataPoint = dataPoint
         self.time = time

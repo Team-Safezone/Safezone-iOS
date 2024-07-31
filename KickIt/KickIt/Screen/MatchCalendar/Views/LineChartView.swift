@@ -100,18 +100,18 @@ struct LineChartView: View {
     }
     
     private func updateBoxEventViewModel() {
-        let calculatedTime = Int(round((pathPosition.x - 64) * 15 / 56))
-        let dataRange = (dataPointsChart.max() ?? 1) - (dataPointsChart.min() ?? 0)
-        let normalizedY = (200 - pathPosition.y) / 200
-        let lineHR = (normalizedY * dataRange) + (dataPointsChart.min() ?? 0)
-        
-        if let event = matchEvents.first(where: { $0.eventTime == calculatedTime }) {
-            boxEventViewModel = BoxEventViewModel(dataPoint: lineHR, time: calculatedTime, event: event, homeTeamEmblemURL: "homeTeamURL")
-        } else {
-            boxEventViewModel = BoxEventViewModel(dataPoint: lineHR, time: calculatedTime)
+            let calculatedTime = Int(round((pathPosition.x - 64) * 15 / 56))
+            let dataRange = (dataPointsChart.max() ?? 1) - (dataPointsChart.min() ?? 0)
+            let normalizedY = (200 - pathPosition.y) / 200
+            let lineHR = (normalizedY * dataRange) + (dataPointsChart.min() ?? 0)
+            
+            if let event = matchEvents.first(where: { $0.eventTime == calculatedTime }) {
+                boxEventViewModel = BoxEventViewModel(dataPoint: lineHR, time: calculatedTime, event: event, homeTeamEmblemURL: event.teamUrl)
+            } else {
+                boxEventViewModel = BoxEventViewModel(dataPoint: lineHR, time: calculatedTime)
+            }
         }
     }
-}
 
 struct BoxEventView: View {
     @ObservedObject var viewModel: BoxEventViewModel
@@ -177,9 +177,17 @@ struct BoxEventView: View {
     }
 }
 
+
+
 #Preview {
-    LineChartView(dataPointsChart: .constant([]), dataTimeChart: .constant([]), matchEvents: dummymatchEvents)
+    let sampleEvents = [
+        MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg"),
+        MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
+    ]
+    
+    return LineChartView(dataPointsChart: .constant([]), dataTimeChart: .constant([]), matchEvents: sampleEvents)
 }
+
 
 #Preview {
     BoxEventView(viewModel: BoxEventViewModel(dataPoint: 72, time: 8))

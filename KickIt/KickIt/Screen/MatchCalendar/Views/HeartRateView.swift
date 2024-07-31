@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct HeartRateView: View {
-    @State var matchEvents: [MatchEvent] = dummymatchEvents
     @StateObject private var viewModel = HeartRateViewModel()
     @StateObject private var fanListViewModel: FanListViewModel
     @StateObject private var viewerStatsViewModel: ViewerStatsViewModel
     @StateObject private var viewerHRStatsViewModel: ViewerHRStatsViewModel
+    @StateObject private var matchEventViewModel: MatchEventViewModel
+    
     @State private var selectedMatch: SoccerMatch? {
         didSet {
             if let match = selectedMatch {
                 fanListViewModel.updateTeams(homeTeam: match.homeTeam, awayTeam: match.awayTeam)
                 viewerStatsViewModel.fetchViewerPercentage(matchID: Int(match.id))
                 viewerHRStatsViewModel.updateTeams(homeTeam: match.homeTeam, awayTeam: match.awayTeam)
+                matchEventViewModel.fetchMatchEvents()
             }
         }
     }
@@ -33,6 +35,9 @@ struct HeartRateView: View {
         _fanListViewModel = StateObject(wrappedValue: FanListViewModel(homeTeam: homeTeam, awayTeam: awayTeam))
         _viewerStatsViewModel = StateObject(wrappedValue: ViewerStatsViewModel(homeTeam: homeTeam, awayTeam: awayTeam, homeTeamPercentage: 30))
         _viewerHRStatsViewModel = StateObject(wrappedValue: ViewerHRStatsViewModel(homeTeam: homeTeam, awayTeam: awayTeam))
+        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: selectedMatch ?? dummySoccerMatches[1]))
+        
+        self.selectedMatch = selectedMatch
     }
     
     var body: some View {
@@ -53,7 +58,7 @@ struct HeartRateView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 30)
                 
-                LineChartView(dataPointsChart: $viewModel.dataPoints, dataTimeChart: $viewModel.dataTime, matchEvents: matchEvents)
+                LineChartView(dataPointsChart: $viewModel.dataPoints, dataTimeChart: $viewModel.dataTime, matchEvents: matchEventViewModel.matchEvents)
                     .padding(.leading, 16)
                 
                 FanListView(viewModel: fanListViewModel)
