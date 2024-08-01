@@ -9,7 +9,7 @@ import Foundation
 
 class MatchResultViewModel: ObservableObject {
     @Published var match: SoccerMatch?
-    @Published var eventCode: Int = 0
+    @Published var eventCode: Int = -1
     
     func updateMatch(_ match: SoccerMatch?) {
         self.match = match

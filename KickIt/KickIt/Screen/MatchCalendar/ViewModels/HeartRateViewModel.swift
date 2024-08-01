@@ -38,6 +38,7 @@ class HeartRateViewModel: ObservableObject {
                     self?.arrayHR = records.reversed()
                     self?.dataPoints = records.map { CGFloat($0.heartRate) }
                     self?.dataTime = records.compactMap { minutesExtracted(from: $0.date) }
+//                    let _ = print(self?.arrayHR)
                 }
             }
         }

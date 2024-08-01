@@ -13,32 +13,27 @@ struct HeartRateView: View {
     @StateObject private var viewerStatsViewModel: ViewerStatsViewModel
     @StateObject private var viewerHRStatsViewModel: ViewerHRStatsViewModel
     @StateObject private var matchEventViewModel: MatchEventViewModel
+    @StateObject private var matchResultViewModel: MatchResultViewModel
     
-    @State private var selectedMatch: SoccerMatch? {
-        didSet {
-            if let match = selectedMatch {
-                fanListViewModel.updateTeams(homeTeam: match.homeTeam, awayTeam: match.awayTeam)
-                viewerStatsViewModel.fetchViewerPercentage(matchID: Int(match.id))
-                viewerHRStatsViewModel.updateTeams(homeTeam: match.homeTeam, awayTeam: match.awayTeam)
-                matchEventViewModel.fetchMatchEvents()
-            }
-        }
-    }
-    
-    // Timer 객체 선언
-    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    @State private var selectedMatch: SoccerMatch?
     
     init(selectedMatch: SoccerMatch?) {
         let homeTeam = selectedMatch?.homeTeam ?? SoccerTeam(ranking: 1, teamEmblemURL: "", teamName: "Home")
         let awayTeam = selectedMatch?.awayTeam ?? SoccerTeam(ranking: 2, teamEmblemURL: "", teamName: "Away")
         
+        let resultViewModel = MatchResultViewModel()
+        
         _fanListViewModel = StateObject(wrappedValue: FanListViewModel(homeTeam: homeTeam, awayTeam: awayTeam))
         _viewerStatsViewModel = StateObject(wrappedValue: ViewerStatsViewModel(homeTeam: homeTeam, awayTeam: awayTeam, homeTeamPercentage: 30))
         _viewerHRStatsViewModel = StateObject(wrappedValue: ViewerHRStatsViewModel(homeTeam: homeTeam, awayTeam: awayTeam))
-        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: selectedMatch ?? dummySoccerMatches[1]))
+        _matchResultViewModel = StateObject(wrappedValue: resultViewModel)
+        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: selectedMatch ?? SoccerMatch(id: 0, soccerSeason: "", matchDate: Date(), matchTime: Date(), stadium: "", matchRound: 0, homeTeam: homeTeam, awayTeam: awayTeam, matchCode: 0, homeTeamScore: nil, awayTeamScore: nil), matchResultViewModel: resultViewModel))
         
-        self.selectedMatch = selectedMatch
+        _selectedMatch = State(initialValue: selectedMatch)
     }
+    
+    //    // Timer 객체 선언
+    //    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         NavigationStack {
@@ -65,9 +60,9 @@ struct HeartRateView: View {
                 ViewerStatsView(viewModel: viewerStatsViewModel)
                 ViewerHRStatsView(viewModel: viewerHRStatsViewModel)
             }
-            .onReceive(timer) { _ in
-                viewModel.updateHeartRateData()
-            }
+//            .onReceive(timer) { _ in
+//                viewModel.updateHeartRateData()
+//            }
             .navigationTitle("심박수 통계")
             .navigationBarTitleDisplayMode(.inline)
         } //: NAVIGATION STACK

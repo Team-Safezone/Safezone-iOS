@@ -53,7 +53,9 @@ struct LineChartView: View {
                 )
                 
                 // BoxEventView
-                if let viewModel = boxEventViewModel {
+                if let viewModel = boxEventViewModel,
+                   let event = viewModel.event,
+                   !(event.eventCode == 0 || event.eventCode == 2 || event.eventCode == 4 || event.eventCode == 6) {
                     BoxEventView(viewModel: viewModel)
                         .position(x: pathPosition.x, y: -40)
                 }
@@ -180,12 +182,7 @@ struct BoxEventView: View {
 
 
 #Preview {
-    let sampleEvents = [
-        MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg"),
-        MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
-    ]
-    
-    return LineChartView(dataPointsChart: .constant([]), dataTimeChart: .constant([]), matchEvents: sampleEvents)
+    LineChartView(dataPointsChart: .constant([]), dataTimeChart: .constant([]), matchEvents: DummyData.matchEvents)
 }
 
 

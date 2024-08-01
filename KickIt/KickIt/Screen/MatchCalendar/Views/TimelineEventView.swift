@@ -10,26 +10,26 @@ import SwiftUI
 struct TimelineEventView: View {
     @StateObject private var matchEventViewModel: MatchEventViewModel
     @StateObject private var heartRateViewModel = HeartRateViewModel()
+    @StateObject private var matchResultViewModel: MatchResultViewModel
     @State private var elapsedTime: TimeInterval = 0
     @State private var timer: Timer?
     @State private var halfTimeTimer: Timer?
+    @State private var isShowingSoccerDiary = false
     
     init(match: SoccerMatch) {
-        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
+        let resultViewModel = MatchResultViewModel()
+        _matchResultViewModel = StateObject(wrappedValue: resultViewModel)
+        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: match, matchResultViewModel: resultViewModel))
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                MatchResultView(
-                    eventCode: matchEventViewModel.currentEventCode,
-                    match: matchEventViewModel.currentMatch,
-                    elapsedTime: elapsedTime,
-                    viewModel: MatchResultViewModel()
-                )
+                MatchResultView(viewModel: matchResultViewModel)
                 TableLable()
                 ScrollView(.vertical, showsIndicators: false) {
                     if matchEventViewModel.matchEvents.isEmpty {
+                        Spacer().frame(height: 200)
                         Text("아직 경기가 시작되지 않았어요!")
                             .pretendardTextStyle(.SubTitleStyle)
                             .foregroundStyle(.black0)
@@ -44,10 +44,13 @@ struct TimelineEventView: View {
                             }
                         }
                     }
-                }
-                
+                } //:SCROLLVIEW
+            }//:VSTACK
+            .overlay{
                 if matchEventViewModel.currentEventCode == 6 {
-                    LinkToSoccerView()
+                    LinkToSoccerView(action: {
+                        isShowingSoccerDiary = true
+                    })
                 }
             }
             .onAppear {
@@ -56,9 +59,13 @@ struct TimelineEventView: View {
             }
             .onChange(of: matchEventViewModel.currentEventCode) { _, newCode in
                 updateTimer(for: newCode)
+                matchResultViewModel.updateEventCode(newCode)
             }
             .navigationTitle("경기 타임라인")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $isShowingSoccerDiary) {
+                SoccerDiary()
+            }
         }
     }
     
@@ -97,7 +104,7 @@ struct TimelineEventView: View {
 }
 
 #Preview {
-    TimelineEventView(match: dummySoccerMatches[1])
+    TimelineEventView(match: dummySoccerMatches[0])
 }
 
 

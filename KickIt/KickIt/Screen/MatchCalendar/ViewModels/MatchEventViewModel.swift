@@ -6,45 +6,51 @@
 //
 
 import Combine
-import Foundation
 
 /// 경기 이벤트 뷰 모델
 class MatchEventViewModel: ObservableObject {
     @Published var matchEvents: [MatchEvent] = []
-    @Published var currentEventCode: Int = 0
+    @Published var currentEventCode: Int = -1  // 경기 예정
     @Published var currentMatch: SoccerMatch
-    private var cancellables = Set<AnyCancellable>()
     
-    init(match: SoccerMatch) {
+    private var cancellables = Set<AnyCancellable>()
+    var matchResultViewModel: MatchResultViewModel
+    
+    init(match: SoccerMatch, matchResultViewModel: MatchResultViewModel) {
         self.currentMatch = match
-        self.currentEventCode = match.matchCode
+        self.matchResultViewModel = matchResultViewModel
+        fetchMatchEvents()
+    }
+    
+    func updateMatch(_ match: SoccerMatch) {
+        self.currentMatch = match
+        matchResultViewModel.updateMatch(match)
     }
     
     func fetchMatchEvents() {
         MatchEventAPI.shared.getMatchEvents(matchID: Int(currentMatch.id))
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("Error fetching match events: \(error)")
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print("Error fetching match events: \(error.localizedDescription)")
+                    self.matchEvents = []
+                    self.updateEventCode()
                 }
-            } receiveValue: { [weak self] events in
+            }, receiveValue: { [weak self] events in
                 self?.matchEvents = events
                 self?.updateEventCode()
-            }
+            })
             .store(in: &cancellables)
     }
     
     private func updateEventCode() {
         if matchEvents.isEmpty {
-            currentEventCode = 0
+            currentEventCode = -1
         } else if let lastEvent = matchEvents.last {
             currentEventCode = lastEvent.eventCode
         }
+        matchResultViewModel.updateEventCode(currentEventCode)
+        matchResultViewModel.updateMatch(currentMatch)
     }
 }
-
 
 

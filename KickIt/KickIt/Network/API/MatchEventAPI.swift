@@ -19,7 +19,11 @@ class MatchEventAPI: BaseAPI {
     func getMatchEvents(matchID: Int) -> AnyPublisher<[MatchEvent], Error> {
         return Future { promise in
             let dummyEvents = DummyData.matchEvents
-            promise(.success(dummyEvents))
+            if dummyEvents.isEmpty {
+                promise(.failure(NSError(domain: "No Data", code: 404, userInfo: nil)))
+            } else {
+                promise(.success(dummyEvents))
+            }
         }
         .eraseToAnyPublisher()
     }
