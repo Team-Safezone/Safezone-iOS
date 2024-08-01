@@ -91,13 +91,12 @@ func stringToTime(time: String) -> Date {
 }
 
 /// Time -> String으로 변경하는 함수
-func timeToString(time: Date) -> String {
-    let timeFormatter = DateFormatter()
-    timeFormatter.dateFormat = "HH:mm"
+func timeToString(time: Date?) -> String {
+    guard let time = time else { return "시간 정보 없음" }
     
-    let timeToString = timeFormatter.string(from: time)
-    
-    return timeToString
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm"
+    return dateFormatter.string(from: time)
 }
 
 /// 두 날짜가 동일한 날짜인지 확인하는 함수
