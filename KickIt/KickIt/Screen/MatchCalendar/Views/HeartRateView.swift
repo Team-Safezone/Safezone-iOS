@@ -57,8 +57,9 @@ struct HeartRateView: View {
                     .padding(.leading, 16)
                 
                 FanListView(viewModel: fanListViewModel)
-                ViewerStatsView(viewModel: viewerStatsViewModel)
                 ViewerHRStatsView(viewModel: viewerHRStatsViewModel)
+                ViewerStatsView(viewModel: viewerStatsViewModel)
+                
             }
 //            .onReceive(timer) { _ in
 //                viewModel.updateHeartRateData()

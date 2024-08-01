@@ -11,14 +11,18 @@ struct ViewerHRStatsView: View {
     @ObservedObject var viewModel: ViewerHRStatsViewModel
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading){
+            Text("심박수 비교")
+                .font(.pretendard(.semibold, size: 14))
+        VStack{
             HStack {
-                Text(viewModel.homeTeamName)
-                    .font(.pretendard(.bold, size: 16))
-                    .frame(width: 80)
-                Text("  ")
-                    .frame(width: 100)
-                Text(viewModel.awayTeamName)
+                HStack{
+                    Text(viewModel.homeTeamName+" 팬")
+                        .font(.pretendard(.bold, size: 16))
+                        .frame(width: 80)
+                }
+                Spacer().frame(width: 100)
+                Text(viewModel.awayTeamName+" 팬")
                     .font(.pretendard(.bold, size: 16))
                     .frame(width: 80)
             }
@@ -29,7 +33,6 @@ struct ViewerHRStatsView: View {
                     .foregroundStyle(Color.gray900)
                     .frame(width: 355, height: 55)
             }
-            
             ForEach(0..<viewModel.homeTeamStats.count, id: \.self) { i in
                 HStack {
                     HStack(spacing: 2) {
@@ -75,6 +78,7 @@ struct ViewerHRStatsView: View {
             }
             .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
         }
+    }
     }
 }
 
