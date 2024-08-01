@@ -40,7 +40,6 @@ struct MatchEvent: Codable, Identifiable {
         teamUrl = try container.decode(String.self, forKey: .teamUrl)
     }
     
-    // 사용자 정의 생성자 추가
     init(id: UUID, eventCode: Int, eventTime: Int, eventName: String, player1: String, player2: String, teamName: String, teamUrl: String) {
         self.id = id
         self.eventCode = eventCode
