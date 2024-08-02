@@ -183,6 +183,12 @@
 		E708EB4A2BF5D4E800AE526C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E7ADBF9A2C57BB3400E877C5 /* TimelineEventRowView.swift */,
+				E7ABF3D62C58AFC7001BAE0F /* MatchResultView.swift */,
+				E7E8691A2C568D1300DFBA85 /* LineChartView.swift */,
+				E7ADBF6D2C5727F100E877C5 /* FanListView.swift */,
+				E7ADBF712C5728EE00E877C5 /* ViewerStatsView.swift */,
+				E7ADBF732C5729A600E877C5 /* ViewerHRStatsView.swift */,
 				E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */,
 				E7D311872C036F8F0070A31D /* VerticalBarChart.swift */,
 			);
@@ -356,13 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				E7ADBF982C57BAF300E877C5 /* TimelineEventView.swift */,
-				E7ADBF9A2C57BB3400E877C5 /* TimelineEventRowView.swift */,
-				E7ABF3D62C58AFC7001BAE0F /* MatchResultView.swift */,
 				E7E869182C568CDD00DFBA85 /* HeartRateView.swift */,
-				E7E8691A2C568D1300DFBA85 /* LineChartView.swift */,
-				E7ADBF6D2C5727F100E877C5 /* FanListView.swift */,
-				E7ADBF712C5728EE00E877C5 /* ViewerStatsView.swift */,
-				E7ADBF732C5729A600E877C5 /* ViewerHRStatsView.swift */,
 				E79AFF8C2BEDDEFD004CAF75 /* MatchCalendar.swift */,
 				E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */,
 				E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */,
