@@ -31,8 +31,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 20, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
         matchCode: 1,
         homeTeamScore: 1,
         awayTeamScore: 0
@@ -45,8 +45,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 23, minute: 00))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
         matchCode: 0
     ),
 
@@ -57,8 +57,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 00))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
         matchCode: 0
     ),
     
@@ -70,8 +70,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "아스널"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F15%2F146_2845915_team_image_url_1586327694696.jpg", teamName: "리버풀"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "아스널"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F15%2F146_2845915_team_image_url_1586327694696.jpg", teamName: "리버풀"),
         matchCode: 0
     ),
     SoccerMatch(
@@ -81,8 +81,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 12, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "토트넘"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "토트넘"),
         matchCode: 0
     ),
     SoccerMatch(
@@ -92,8 +92,8 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchTime: Calendar.current.date(from: DateComponents(hour: 10, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
-        awayTeam: SoccerTeam(id: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
         matchCode: 0
     )
     

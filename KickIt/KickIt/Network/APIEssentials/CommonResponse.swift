@@ -13,12 +13,14 @@ struct CommonResponse<T: Codable>: Codable {
     var success: Bool
     var message: String
     var data: T?
+    var soccerTeams: T? // 나중에 지울 예정
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
         case success = "success"
         case message = "message"
         case data = "data"
+        case soccerTeams = "soccerTeams"
     }
     
     init(from decoder: Decoder) throws {
@@ -27,5 +29,6 @@ struct CommonResponse<T: Codable>: Codable {
         success = (try? values.decode(Bool.self, forKey: .success)) ?? false
         message = (try? values.decode(String.self, forKey: .message)) ?? ""
         data = (try? values.decode(T.self, forKey: .data)) ?? nil
+        soccerTeams = (try? values.decode(T.self, forKey: .soccerTeams)) ?? nil
     }
 }

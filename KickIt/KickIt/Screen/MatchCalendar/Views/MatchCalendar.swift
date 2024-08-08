@@ -22,8 +22,9 @@ struct MatchCalendar: View {
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel = DefaultMatchCalendarViewModel()
     
-    /// 라디오그룹에서 선택한 팀 아이디 정보
+    /// 라디오그룹에서 선택한 팀 아이디, 팀 이름 정보
     @State private var selectedRadioBtnID: Int = 0
+    @State private var selectedTeamName: String? = nil
     
     var body: some View {
         NavigationStack {
@@ -61,10 +62,21 @@ struct MatchCalendar: View {
                         RadioButtonGroup(
                             // TODO: 홈에서 전달받은 팀 리스트 띄우기
                             items: ["전체", "맨시티", "아스널", "리버풀", "아스톤 빌라", "토트넘"],
-                            selectedId: 0,
-                            callback: { previous, current in
+                            selectedId: $selectedRadioBtnID,
+                            selectedTeamName: $selectedTeamName,
+                            callback: { previous, current, teamName in
                                 selectedRadioBtnID = current
-                                requestDaySoccerMatches(date: currentDate, teamName: nil)
+                                
+                                if (selectedTeamName == "전체") {
+                                    selectedTeamName = nil
+                                }
+                                else {
+                                    selectedTeamName = teamName
+                                }
+                                
+                                print("teamName 팀 이름 \(selectedTeamName ?? "null")")
+                                requestYearMonthSoccerMatches(yearMonth: dateToString5(date: currentDate), teamName: selectedTeamName)
+                                requestDaySoccerMatches(date: dateToString4(date: currentDate), teamName: selectedTeamName)
                             }
                         )
                         .frame(height: 32)
@@ -74,17 +86,22 @@ struct MatchCalendar: View {
                     .padding(.bottom, 24)
                     
                     // MARK: - 달력
-                    // TODO: 클릭 이벤트 전달, 로직 변경 필요..
-                    CustomDatePicker(currentDate: $currentDate)
+                    CustomDatePicker(currentDate: $currentDate, matchDates: $viewModel.monthlyMatchDates)
                         .onChange(of: currentDate) { preDate, newDate in
-                            requestDaySoccerMatches(date: newDate, teamName: nil)
-                            print("커스텀 캘린더 newDate: ", newDate.description)
-                            print("커스텀 캘린더 currentDate: ", currentDate.description)
+                            // 같은 달이라면
+                            if (isSameMonth(date1: preDate, date2: newDate)) {
+                                // 하루 경기 일정 조회 API 연결
+                                requestDaySoccerMatches(date: dateToString4(date: currentDate), teamName: selectedTeamName)
+                            }
+                            // 다른 달이라면
+                            else {
+                                // 한달 경기 날짜 조회 API 연결
+                                requestYearMonthSoccerMatches(yearMonth: dateToString5(date: currentDate), teamName: selectedTeamName)
+                            }
                         }
                     
                     
                     // MARK: - 경기 일정 리스트
-                    // FIXME: 약간 수정 필요..
                     soccerMatchesView()
                         .background(
                             SpecificRoundedRectangle(radius: 30, corners: [.topLeft, .topRight])
@@ -96,15 +113,21 @@ struct MatchCalendar: View {
             .ignoresSafeArea(edges: .top)
         }
         .onAppear(perform: {
-            requestDaySoccerMatches(date: currentDate, teamName: nil)
+            // 초기 진입 시, 한달 경기 날짜 조회 API 호출
+            requestYearMonthSoccerMatches(yearMonth: dateToString5(date: currentDate), teamName: selectedTeamName)
         })
         .tint(.black0)
         .navigationBarBackButtonHidden()
     }
     
     /// 하루 축구 경기 일정 불러오기
-    private func requestDaySoccerMatches(date: Date, teamName: String?) {
-        viewModel.requestDaySoccerMatches(date: Calendar.current.description, teamName: teamName)
+    private func requestDaySoccerMatches(date: String, teamName: String?) {
+        viewModel.requestDaySoccerMatches(date: date, teamName: teamName)
+    }
+    
+    /// 한달 축구 경기 일정 불러오기
+    private func requestYearMonthSoccerMatches(yearMonth: String, teamName: String?) {
+        viewModel.requestYearMonthSoccerMatches(yearMonth: yearMonth, teamName: teamName)
     }
     
     /// 경기 일정 리스트
@@ -112,10 +135,7 @@ struct MatchCalendar: View {
     func soccerMatchesView() -> some View {
         VStack(alignment: .center, spacing: 0) {
             // 인디케이터
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.black0)
-                .frame(width: 80, height: 4)
-                .padding(.top, 10)
+            DragIndicator()
             
             HStack(spacing: 0) {
                 Text("경기 일정")
@@ -154,34 +174,34 @@ struct MatchCalendar: View {
                     .navigationDestination(isPresented: $isMatchSelected) {
                         if let match = selectedMatch {
                             SoccerMatchInfo(soccerMatch: match)
-                        }
-                    }
-                }
-                else {
-                    // TODO: 없음으로 바꾸기
-                    ForEach(dummySoccerMatches) { match in
-                        SoccerMatchRow(soccerMatch: match)
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 12)
-                            .onTapGesture {
-                                selectedMatch = match
-                                isMatchSelected = true
-                            }
-                    }
-                    // 경기 정보 화면으로 이동
-                    .navigationDestination(isPresented: $isMatchSelected) {
-                        if let match = selectedMatch {
-                            SoccerMatchInfo(soccerMatch: match)
                                 .toolbarRole(.editor) // back 텍스트 숨기기
                                 .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         }
                     }
-                    
-                    //                Text("경기 일정이 없습니다.")
-                    //                    .pretendardTextStyle(.Body1Style)
-                    //                    .foregroundStyle(.gray500)
-                    //                    .padding(.top, 52)
-                    //
+                }
+                else {
+                    Text("경기 일정이 없습니다.")
+                        .pretendardTextStyle(.Body1Style)
+                        .foregroundStyle(.gray500)
+                        .padding(.top, 52)
+
+//                    // TODO: 없음으로 바꾸기
+//                    ForEach(dummySoccerMatches) { match in
+//                        SoccerMatchRow(soccerMatch: match)
+//                            .padding(.horizontal, 16)
+//                            .padding(.bottom, 12)
+//                            .onTapGesture {
+//                                selectedMatch = match
+//                                isMatchSelected = true
+//                            }
+//                    }
+//                    // 경기 정보 화면으로 이동
+//                    .navigationDestination(isPresented: $isMatchSelected) {
+//                        if let match = selectedMatch {
+//                            SoccerMatchInfo(soccerMatch: match)
+//                                
+//                        }
+//                    }
                 }
             }
         }
