@@ -57,15 +57,16 @@
 		E7ADBF972C57B5F600E877C5 /* MatchEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7ADBF962C57B5F600E877C5 /* MatchEventViewModel.swift */; };
 		E7ADBF992C57BAF300E877C5 /* TimelineEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7ADBF982C57BAF300E877C5 /* TimelineEventView.swift */; };
 		E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7ADBF9A2C57BB3400E877C5 /* TimelineEventRowView.swift */; };
+		E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B13FF92C85E98500CB351E /* KeyChain.swift */; };
+		E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B13FFB2C85E9EF00CB351E /* KeyChainKeys.swift */; };
+		E7B13FFE2C85EAC600CB351E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */; };
 		E7D7E7462C0CDA6800554EA7 /* SoccerMatchResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7452C0CDA6800554EA7 /* SoccerMatchResponseModel.swift */; };
 		E7D7E7482C0CDAA800554EA7 /* SoccerTeamResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7472C0CDAA800554EA7 /* SoccerTeamResponseModel.swift */; };
 		E7DBC0DC2C0CDBBE008D4300 /* MatchCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModel.swift */; };
 		E7DBC0DE2C0CDBFB008D4300 /* DefaultMatchCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DD2C0CDBFB008D4300 /* DefaultMatchCalendarViewModel.swift */; };
 		E7DBC0E02C0DC0E3008D4300 /* CommonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DF2C0DC0E3008D4300 /* CommonResponse.swift */; };
 		E7DBC0E22C0DC17A008D4300 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0E12C0DC17A008D4300 /* NetworkConstants.swift */; };
-		E7DBC0E52C0DD8B4008D4300 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E7DBC0E42C0DD8B4008D4300 /* Secrets.plist */; };
 		E7DBC0ED2C0DD9FD008D4300 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0EC2C0DD9FD008D4300 /* APIConstants.swift */; };
-		E7DBC0EF2C0DDAAE008D4300 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0EE2C0DDAAE008D4300 /* Bundle+.swift */; };
 		E7DBC0F22C0DE431008D4300 /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0F12C0DE431008D4300 /* BaseAPI.swift */; };
 		E7DBC0F52C0DE4CB008D4300 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0F42C0DE4CB008D4300 /* NetworkResult.swift */; };
 		E7DBC0F72C0DE519008D4300 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0F62C0DE519008D4300 /* TargetType.swift */; };
@@ -140,6 +141,9 @@
 		E7ADBF962C57B5F600E877C5 /* MatchEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventViewModel.swift; sourceTree = "<group>"; };
 		E7ADBF982C57BAF300E877C5 /* TimelineEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEventView.swift; sourceTree = "<group>"; };
 		E7ADBF9A2C57BB3400E877C5 /* TimelineEventRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineEventRowView.swift; sourceTree = "<group>"; };
+		E7B13FF92C85E98500CB351E /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
+		E7B13FFB2C85E9EF00CB351E /* KeyChainKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainKeys.swift; sourceTree = "<group>"; };
+		E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E7D311872C036F8F0070A31D /* VerticalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBarChart.swift; sourceTree = "<group>"; };
 		E7D7E7452C0CDA6800554EA7 /* SoccerMatchResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchResponseModel.swift; sourceTree = "<group>"; };
 		E7D7E7472C0CDAA800554EA7 /* SoccerTeamResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeamResponseModel.swift; sourceTree = "<group>"; };
@@ -147,9 +151,7 @@
 		E7DBC0DD2C0CDBFB008D4300 /* DefaultMatchCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMatchCalendarViewModel.swift; sourceTree = "<group>"; };
 		E7DBC0DF2C0DC0E3008D4300 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
 		E7DBC0E12C0DC17A008D4300 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
-		E7DBC0E42C0DD8B4008D4300 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		E7DBC0EC2C0DD9FD008D4300 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
-		E7DBC0EE2C0DDAAE008D4300 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		E7DBC0F12C0DE431008D4300 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
 		E7DBC0F42C0DE4CB008D4300 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		E7DBC0F62C0DE519008D4300 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				E79AFF952BEE6A2F004CAF75 /* Models */,
 				E79AFF922BEE08F0004CAF75 /* Helpers */,
 				E79AFF7F2BEDDC86004CAF75 /* Views */,
+				E7B13FF82C85E97600CB351E /* Config */,
 				E79553BD2C0C786600261DAF /* Font */,
 				E79553B82C0C749B00261DAF /* Utils */,
 			);
@@ -424,6 +427,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E7B13FF82C85E97600CB351E /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E7B13FF92C85E98500CB351E /* KeyChain.swift */,
+				E7B13FFB2C85E9EF00CB351E /* KeyChainKeys.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		E7D7E7412C0CDA4800554EA7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,8 +497,6 @@
 		E7DBC0F02C0DE3F7008D4300 /* APIEssentials */ = {
 			isa = PBXGroup;
 			children = (
-				E7DBC0E42C0DD8B4008D4300 /* Secrets.plist */,
-				E7DBC0EE2C0DDAAE008D4300 /* Bundle+.swift */,
 				E7DBC0EC2C0DD9FD008D4300 /* APIConstants.swift */,
 				E7DBC0DF2C0DC0E3008D4300 /* CommonResponse.swift */,
 				E7DBC0E12C0DC17A008D4300 /* NetworkConstants.swift */,
@@ -499,6 +509,7 @@
 			children = (
 				E7DBC0F42C0DE4CB008D4300 /* NetworkResult.swift */,
 				E7DBC0F62C0DE519008D4300 /* TargetType.swift */,
+				E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */,
 			);
 			path = Bases;
 			sourceTree = "<group>";
@@ -595,9 +606,9 @@
 			files = (
 				E79AFF782BEDC8DD004CAF75 /* Preview Assets.xcassets in Resources */,
 				E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */,
+				E7B13FFE2C85EAC600CB351E /* Secrets.xcconfig in Resources */,
 				E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */,
 				E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */,
-				E7DBC0E52C0DD8B4008D4300 /* Secrets.plist in Resources */,
 				E79553C22C0C78B700261DAF /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,7 +637,6 @@
 				E7E869152C568C7200DFBA85 /* HeartRateModel.swift in Sources */,
 				E7ADBF8F2C57ACC500E877C5 /* MatchEventModel.swift in Sources */,
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
-				E7DBC0EF2C0DDAAE008D4300 /* Bundle+.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
@@ -677,6 +687,8 @@
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
 				E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */,
 				E7ABF3D72C58AFC7001BAE0F /* MatchResultView.swift in Sources */,
+				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
+				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
 				E758BA982C1B53B0006BFCF6 /* HomeAPI.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
 			);
@@ -810,6 +822,7 @@
 		};
 		E79AFF7C2BEDC8DD004CAF75 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -847,6 +860,7 @@
 		};
 		E79AFF7D2BEDC8DD004CAF75 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

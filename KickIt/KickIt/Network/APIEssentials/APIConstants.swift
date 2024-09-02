@@ -10,13 +10,13 @@ import Foundation
 /// API 주소를 모아두는 파일
 struct APIConstants {
     /// 서버 URL
-    static let baseURL = prodURL
+    static let baseURL = devURL
     
     /// 실서버 URL
-    static let prodURL = Bundle.main.baseURL
+    static let prodURL = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String
     
     /// 테스트 서버 URL
-    static let devURL = "http://localhost:8080"
+    static let devURL = Bundle.main.object(forInfoDictionaryKey: "TEST_URL") as! String
     
     /// 프리미어리그 팀 조회 URL
     static let teamURL = "/teaminfo"
