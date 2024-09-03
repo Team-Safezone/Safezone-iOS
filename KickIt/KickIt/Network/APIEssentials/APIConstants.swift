@@ -18,9 +18,6 @@ struct APIConstants {
     /// 테스트 서버 URL
     static let devURL = Bundle.main.object(forInfoDictionaryKey: "TEST_URL") as! String
     
-    /// 프리미어리그 팀 조회 URL
-    static let teamURL = "/teaminfo"
-    
     /// 한달 경기 일정 조회 URL
     static let monthlyMatchURL = "/fixture/dates"
     
