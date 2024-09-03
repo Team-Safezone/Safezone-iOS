@@ -13,10 +13,10 @@ import Foundation
 
 enum MatchCalendarService {
     // 한달 경기 일정 조회 API
-    case getYearMonthSoccerMatches(yearMonth: String, teamName: String?)
+    case getYearMonthSoccerMatches(SoccerMatchMonthlyRequest)
     
     // 하루 경기 일정 조회 API
-    case getDaySoccerMatches(date: String, teamName: String?)
+    case getDailySoccerMatches(SoccerMatchDailyRequest)
 }
 
 extension MatchCalendarService: TargetType {
@@ -24,28 +24,29 @@ extension MatchCalendarService: TargetType {
     var endPoint: String {
         switch self {
         // 한달 경기 일정 조회 API
-        case .getYearMonthSoccerMatches(let yearMonth, let teamName):
+        case .getYearMonthSoccerMatches(let request):
             var components = URLComponents()
-            components.path = APIConstants.monthURL
+            components.path = APIConstants.monthlyMatchURL
             components.queryItems = [
-                URLQueryItem(name: "yearMonth", value: yearMonth)
+                URLQueryItem(name: "yearMonth", value: request.yearMonth)
             ]
-            if let teamName = teamName {
+            if let teamName = request.teamName {
                 components.queryItems?.append(URLQueryItem(name: "teamName", value: teamName))
             }
             
             return components.url!.absoluteString
             
         // 하루 경기 일정 조회 API
-        case .getDaySoccerMatches(let date, let teamName):
+        case .getDailySoccerMatches(let request):
             var components = URLComponents()
-            components.path = APIConstants.matchURL
+            components.path = APIConstants.dailyMatchURL
             components.queryItems = [
-                URLQueryItem(name: "date", value: date)
+                URLQueryItem(name: "date", value: request.date)
             ]
-            if let teamName = teamName {
+            if let teamName = request.teamName {
                 components.queryItems?.append(URLQueryItem(name: "teamName", value: teamName))
             }
+            
             return components.url!.absoluteString
         }
     }
@@ -58,7 +59,7 @@ extension MatchCalendarService: TargetType {
             return .get
             
         // 하루 경기 일정 조회
-        case .getDaySoccerMatches:
+        case .getDailySoccerMatches:
             return .get
         }
     }
@@ -71,7 +72,7 @@ extension MatchCalendarService: TargetType {
             return .basic
         
         // 하루 경기 일정 조회
-        case .getDaySoccerMatches:
+        case .getDailySoccerMatches:
             return .basic
         }
     }
@@ -84,7 +85,7 @@ extension MatchCalendarService: TargetType {
             return .requestPlain
         
         // 하루 경기 일정 조회
-        case .getDaySoccerMatches:
+        case .getDailySoccerMatches:
             return .requestPlain
         }
     }

@@ -5,12 +5,13 @@
 //  Created by 이윤지 on 6/3/24.
 //
 
+import Foundation
 import Alamofire
 import Combine
-import Foundation
 
 /// 경기 캘린더 화면에서 사용하는 API
 class MatchCalendarAPI: BaseAPI {
+    /// 경기 캘린더 전역 객체
     static let shared = MatchCalendarAPI()
     
     private override init() { 
@@ -18,117 +19,79 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 한달 경기 일정 조회 API
-    func getYearMonthSoccerMatches(yearMonth: String, teamName: String?) -> AnyPublisher<[SoccerMatchDate], Error> {
-        Future { [weak self] promise in
+    func getYearMonthSoccerMatches(request: SoccerMatchMonthlyRequest) -> AnyPublisher<SoccerMatchMonthlyResponse, NetworkError> {
+        return Future<SoccerMatchMonthlyResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 // 잘못된 요청
-                promise(.failure(NetworkError.invalidResponse))
+                promise(.failure(.pathErr))
                 return
             }
-            AlamoFireManager.request(MatchCalendarService.getYearMonthSoccerMatches(yearMonth: yearMonth, teamName: teamName)).responseData { response in
-                switch response.result {
-                // 응답 받기 성공
-                case .success(let data):
-                    guard let statusCode = response.response?.statusCode else {
-                        promise(.failure(NetworkError.invalidResponse))
-                        return
-                    }
-                    let result = self.judgeStatus(by: statusCode, data, [SoccerMatchMonthResponseModel].self)
-                    switch result {
-                    // 성공
-                    case .success(let matchDatesDTO):
-                        // 서버에서 전달받은 데이터를 앱 내부에서 사용하는 데이터 타입으로 변환
-                        let matchDates = matchDatesDTO.map { dto in
-                            SoccerMatchDate(matchDate: stringToDate2(date: dto.matchDate))
+            
+            self.AFManager.request(MatchCalendarService.getYearMonthSoccerMatches(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<SoccerMatchMonthlyResponse>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.success {
+                            promise(.success(result.data ?? SoccerMatchMonthlyResponse(soccerSeason: "", matchDates: [], soccerTeamNames: [])))
+                        } else {
+                            switch result.status {
+                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
                         }
-                        promise(.success(matchDates))
-                    // 실패
-                    // 요청 에러
-                    case .requestErr(let errorMessage):
-                        promise(.failure(NetworkError.requestError(errorMessage)))
-                    // 경로 에러
-                    case .pathErr:
-                        promise(.failure(NetworkError.pathError))
-                    // 서버 내부 에러
-                    case .serverErr:
-                        promise(.failure(NetworkError.serverError))
-                    // 네트워크 에러
-                    case .networkFail:
-                        promise(.failure(NetworkError.networkFail))
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
                     }
-                // 응답 받기 실패
-                case .failure(let error):
-                    promise(.failure(error))
                 }
-            }
         }
         .eraseToAnyPublisher()
     }
     
     /// 하루 경기 일정 조회 API
-    func getDaySoccerMatches(date: String, teamName: String?) -> AnyPublisher<[SoccerMatch], Error> {
-        Future { [weak self] promise in
+    func getDailySoccerMatches(request: SoccerMatchDailyRequest) -> AnyPublisher<[SoccerMatchDailyResponse], NetworkError> {
+        return Future<[SoccerMatchDailyResponse], NetworkError> { [weak self] promise in
             guard let self = self else {
                 // 잘못된 요청
-                promise(.failure(NetworkError.invalidResponse))
+                promise(.failure(.pathErr))
                 return
             }
-            AlamoFireManager.request(MatchCalendarService.getDaySoccerMatches(date: date, teamName: teamName)).responseData { response in
-                switch response.result {
-                // 성공
-                case .success(let data):
-                    guard let statusCode = response.response?.statusCode else {
-                        promise(.failure(NetworkError.invalidResponse))
-                        return
-                    }
-                    let result = self.judgeStatus(by: statusCode, data, [SoccerMatchResponseModel].self)
-                    switch result {
-                    // 응답 받기 성공
-                    case .success(let matchDTO):
-                        // 서버에서 전달받은 데이터를 앱 내부에서 사용하는 데이터 타입으로 변환
-                        let matches = matchDTO.map { dto in
-                            SoccerMatch(
-                                id: dto.id,
-                                // 2024-05-16
-                                soccerSeason: dto.soccerSeason,
-                                matchDate: stringToDate(date: dto.matchDate),
-                                matchTime: stringToTime(time: dto.matchTime),
-                                stadium: dto.stadium,
-                                matchRound: dto.matchRound,
-                                homeTeam: SoccerTeam(
-                                    ranking: 0,
-                                    teamEmblemURL: "엠블럼",
-                                    teamName: dto.homeTeamName
-                                ),
-                                awayTeam: SoccerTeam(
-                                    ranking: 0,
-                                    teamEmblemURL: "엠블럼",
-                                    teamName: dto.awayTeamName
-                                ),
-                                matchCode: dto.matchCode,
-                                homeTeamScore: dto.homeTeamScore,
-                                awayTeamScore: dto.awayTeamScore
-                            )
+            self.AFManager.request(MatchCalendarService.getDailySoccerMatches(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<[SoccerMatchDailyResponse]>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.success {
+                            promise(.success(result.data ?? []))
                         }
-                        promise(.success(matches))
-                    // 요청 에러
-                    case .requestErr(let errorMessage):
-                        promise(.failure(NetworkError.requestError(errorMessage)))
-                    // 경로 에러
-                    case .pathErr:
-                        promise(.failure(NetworkError.pathError))
-                    // 서버 내부 에러
-                    case .serverErr:
-                        promise(.failure(NetworkError.serverError))
-                    // 네트워크 에러
-                    case .networkFail:
-                        promise(.failure(NetworkError.networkFail))
+                        else {
+                            switch result.status {
+                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
                     }
-                // 응답 받기 실패
-                case .failure(let error):
-                    promise(.failure(error))
                 }
-            }
         }
         .eraseToAnyPublisher()
     }

@@ -19,19 +19,19 @@ final class DefaultHomeViewModel: HomeViewModel {
     
     /// 프리미어리그 팀 리스트 조회
     func requestSoccerTeams(soccerSeason: String) {
-        HomeAPI.shared.getSoccerTeams(soccerSeason: soccerSeason)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                case .finished:
-                    break
-                }
-            },
-            receiveValue: { [weak self] teams in
-                self?.soccerTeams = teams
-            })
-            .store(in: &cancellables)
+//        HomeAPI.shared.getSoccerTeams(soccerSeason: soccerSeason)
+//            .receive(on: DispatchQueue.main)
+//            .sink(receiveCompletion: { completion in
+//                switch completion {
+//                case .failure(let error):
+//                    print("Error: \(error.localizedDescription)")
+//                case .finished:
+//                    break
+//                }
+//            },
+//            receiveValue: { [weak self] teams in
+//                self?.soccerTeams = teams
+//            })
+//            .store(in: &cancellables)
     }
 }

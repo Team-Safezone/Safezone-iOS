@@ -13,7 +13,7 @@ struct CustomDatePicker: View {
     @Binding var currentDate: Date
     
     /// 경기 날짜 리스트
-    @Binding var matchDates: [SoccerMatchDate]
+    @Binding var matchDates: [Date]
     
     /// 현재 선택 중인 월 index
     @State var currentMonth: Int = 0 // default 0
@@ -96,7 +96,7 @@ struct CustomDatePicker: View {
             if (date.day != -1) {
                 // 해당 날짜에 경기 일정이 있는지에 대한 여부 반환
                 let isSoccerMatch = matchDates.contains { match in
-                    return isSameDay(date1: match.matchDate, date2: date.date)
+                    return isSameDay(date1: match, date2: date.date)
                 }
                 
                 // 오늘 날짜
@@ -150,7 +150,7 @@ struct CustomDatePicker: View {
                 .onTapGesture {
                     var isMatch: Bool = false
                     for matchDate in matchDates {
-                        if (matchDate.matchDate == date.date) {
+                        if (matchDate == date.date) {
                             isMatch = true
                             break
                         }

@@ -22,10 +22,10 @@ struct APIConstants {
     static let teamURL = "/teaminfo"
     
     /// 한달 경기 일정 조회 URL
-    static let monthURL = "/fixture/dates"
+    static let monthlyMatchURL = "/fixture/dates"
     
     /// 하루 경기 일정 조회 URL
-    static let matchURL = "/fixture"
+    static let dailyMatchURL = "/fixture"
 }
 
 /// 한글 인코딩
