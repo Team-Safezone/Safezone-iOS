@@ -27,7 +27,7 @@ struct CustomDatePicker: View {
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
             // MARK: - 월 정보
-            HStack(alignment: .center, spacing: 16) {
+            HStack(alignment: .center, spacing: 20) {
                 // MARK: 이전 월로 변경하는 버튼
                 Button {
                     withAnimation {
@@ -42,7 +42,7 @@ struct CustomDatePicker: View {
                 // MARK: 현재 월 정보
                 Text("\(extractMonth())월")
                     .font(.pretendard(.medium, size: 18))
-                    .foregroundStyle(.black0)
+                    .foregroundStyle(.white0)
                 
                 // MARK: 다음 월로 변경하는 버튼
                 Button {
@@ -75,8 +75,9 @@ struct CustomDatePicker: View {
             // 날짜 리스트 띄우기
             LazyVGrid(columns: dateColumns) {
                 ForEach(extractDate()) { date in
-                    // 각 날짜 뷰
-                    dateCardView(date: date)
+                    dateCardView(date: date) // 각 날짜 뷰
+                        // 경기 날짜가 아닌 날짜는 클릭 비활성화
+                        .disabled(!matchDates.contains(date.date))
                 }
             }
             .padding(.top, 8)
@@ -95,8 +96,8 @@ struct CustomDatePicker: View {
         VStack(spacing: 0) {
             if (date.day != -1) {
                 // 해당 날짜에 경기 일정이 있는지에 대한 여부 반환
-                let isSoccerMatch = matchDates.contains { match in
-                    return isSameDay(date1: match, date2: date.date)
+                let isSoccerMatch = dummySoccerMatches.contains { match in
+                    return isSameDay(date1: match.matchDate, date2: date.date)
                 }
                 
                 // 오늘 날짜
@@ -111,7 +112,8 @@ struct CustomDatePicker: View {
                         // 해당 날짜가 오늘이라면
                         if isToday {
                             Circle()
-                                .fill(isSelected ? .green0 : .gray600)
+                                .fill(isSelected ? .green0 : .gray900)
+                                .stroke(.green0, lineWidth: 1)
                                 .frame(maxWidth: .infinity)
                         }
                         else {
@@ -125,7 +127,8 @@ struct CustomDatePicker: View {
                         // 해당 날짜가 오늘이라면
                         if isToday {
                             Circle()
-                                .fill(isSelected ? .green0 : .gray600)
+                                .fill(.clear)
+                                .stroke(.green0, lineWidth: 1)
                                 .frame(maxWidth: .infinity)
                         }
                         else {
@@ -168,14 +171,14 @@ struct CustomDatePicker: View {
     /// 날짜 텍스트 색상을 조건별로 반환하는 함수
     func dateTextColor(isSelected: Bool, isToday: Bool) -> Color {
         if isSelected {
-            return Color.black
+            return .white0
         }
         else {
             if isToday {
-                return Color.gray100
+                return .gray300
             }
             else {
-                return Color.gray300
+                return .gray500
             }
         }
     }
@@ -240,6 +243,6 @@ extension Date {
     }
 }
 
-#Preview {
+#Preview("경기 캘린더-달력") {
     MatchCalendar()
 }
