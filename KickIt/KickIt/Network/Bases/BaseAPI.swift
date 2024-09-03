@@ -5,8 +5,8 @@
 //  Created by 이윤지 on 6/3/24.
 //
 
-import Alamofire
 import Foundation
+import Alamofire
 
 /// 모든 API를 구현할 때 상속을 통해서 사용할 기본 클래스
 class BaseAPI {

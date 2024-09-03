@@ -5,8 +5,8 @@
 //  Created by 이윤지 on 6/3/24.
 //
 
-import Combine
 import Foundation
+import Combine
 
 /// 경기 캘린더 화면의 뷰모델
 /// 설명: 뷰모델에서 데이터 변환(DTO -> Entity), 응답에 따른 에러 핸들링을 처리하기

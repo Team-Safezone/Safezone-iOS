@@ -5,8 +5,8 @@
 //  Created by 이윤지 on 6/4/24.
 //
 
-import Alamofire
 import Foundation
+import Alamofire
 
 /// 경기 캘린더 화면의 Router
 /// -> path, method, header, parameter를 라우터에 맞게 request를 만듦
