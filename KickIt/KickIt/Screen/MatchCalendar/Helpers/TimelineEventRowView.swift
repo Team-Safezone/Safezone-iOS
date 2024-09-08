@@ -9,7 +9,8 @@ import SwiftUI
 
 struct TimelineEventRowView: View {
     var event: MatchEvent
-    var arrayHR: [HeartRateRecord] = []
+    var arrayHR: [HeartRateRecord]
+    var matchStartTime: Date?
     
     var eventIcons: [String: String] = [
         "골!": "SoccerBall",
@@ -23,11 +24,13 @@ struct TimelineEventRowView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            Text("\(event.eventTime)분")
+            /// 타임라인 시간 계산 "yyyy/MM/dd HH:mm:ss" -> "n분"
+            let elapsedTime = calculateEventTime(from: matchStartTime, eventTime: event.eventTime)
+            Text("\(elapsedTime)분")
                 .pretendardTextStyle(.Body3Style)
                 .frame(width: 40, alignment: .center)
                 .multilineTextAlignment(.center)
-                .foregroundColor(Color.black0)
+                .foregroundColor(.black0)
             
             LoadableImage(image: event.teamUrl)
                 .frame(width: 30, height: 30)
@@ -41,58 +44,90 @@ struct TimelineEventRowView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(event.player1) \(event.eventName)")
                         .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(Color.black0)
+                        .foregroundStyle(.black0)
                     if event.player2 != "null" {
                         Text(event.player2)
                             .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(Color.gray300)
+                            .foregroundStyle(.gray300)
                     }
                 }
                 
                 Spacer()
                 
                 if let heartRate = getHeartRate(for: event.eventTime) {
-                    HStack(spacing: 4) {
-                        Image(heartRate > User.currentUser.avgHeartRate ? "ArrowUp" : "ArrowDown")
-                            .frame(width: 24, height: 24)
-                        HStack(spacing: 2) {
-                            Text("\(heartRate)")
-                                .pretendardTextStyle(.SubTitleStyle)
-                                .frame(width: 25, alignment: .trailing)
-                            Text("BPM")
-                                .pretendardTextStyle(.Caption1Style)
-                        }
-                    }.padding(.trailing, 6)
+                    HeartView(heartRate: heartRate)
                 } else {
-                    HeartRateView
+                    AverageHeartRateView()
                 }
             }
         }
         .padding(.vertical, 13)
-        .background {
-            if event.eventName == "골!" {
-                Color.lime.opacity(0.1)
-                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
-            } else if event.eventName == "자책골" {
-                Color.red0.opacity(0.2)
-                    .clipShape(RoundedRectangle(cornerRadius: 8.0))
-            }
-        }
         .padding(.horizontal, 18)
     }
     
-    private func getHeartRate(for eventTime: Int) -> Int? {
-        let filteredRecords = arrayHR.filter { record in
-            let recordTime = Int(record.date.split(separator: ":")[0]) ?? 0
-            return recordTime <= eventTime
+    /// 심박수 가져오기
+    private func getHeartRate(for eventTime: String) -> Int? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        
+        guard let eventDate = dateFormatter.date(from: eventTime),
+              let startTime = matchStartTime else {
+            print("Failed to parse dates")
+            return nil
         }
-        return filteredRecords.max(by: { $0.date < $1.date })?.heartRate
+        
+        print("Event time: \(eventTime), Start time: \(startTime)")
+        
+        // 이벤트 시간 이전의 모든 심박수 기록을 필터링
+        let filteredRecords = arrayHR.filter { record in
+            guard let recordDate = dateFormatter.date(from: record.date) else {
+                print("Failed to parse record date: \(record.date)")
+                return false
+            }
+            let isValid = recordDate <= eventDate && recordDate >= startTime
+            print("Record: \(record.date), HR: \(record.heartRate), Valid: \(isValid)")
+            return isValid
+        }
+        
+        print("Filtered records count: \(filteredRecords.count)")
+        
+        // 필터링된 기록 중 가장 최근의 심박수 반환
+        let result = filteredRecords.max(by: {
+            guard let date1 = dateFormatter.date(from: $0.date),
+                  let date2 = dateFormatter.date(from: $1.date) else {
+                return false
+            }
+            return date1 < date2
+        })?.heartRate
+        
+        print("Selected heart rate: \(result ?? -1)")
+        return result
     }
+}
+
+struct HeartView: View {
+    let heartRate: Int
     
-    private var HeartRateView: some View {
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(heartRate > User.currentUser.avgHeartRate ? "ArrowUp" : "ArrowDown")
+                .frame(width: 24, height: 24)
+            HStack(spacing: 2) {
+                Text("\(heartRate)")
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .frame(width: 25, alignment: .trailing)
+                Text("BPM")
+                    .pretendardTextStyle(.Caption1Style)
+            }
+        }.padding(.trailing, 6)
+    }
+}
+
+struct AverageHeartRateView: View {
+    var body: some View {
         let avgHeartRate = User.currentUser.avgHeartRate
         return HStack(spacing: 4) {
-            Image(avgHeartRate > User.currentUser.avgHeartRate ? "ArrowUp" : "ArrowDown")
+            Image("Dash")  // 평균 심박수일 때???
                 .frame(width: 24, height: 24)
             HStack(spacing: 2) {
                 Text("\(avgHeartRate)")
@@ -103,11 +138,4 @@ struct TimelineEventRowView: View {
             }
         }.padding(.trailing, 6)
     }
-}
-
-#Preview {
-    let sampleEvent = MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
-    let sampleHeartRateRecords = [HeartRateRecord(heartRate: 80, date: dateTimeToString(date3: Date()))]
-    
-    return TimelineEventRowView(event: sampleEvent, arrayHR: sampleHeartRateRecords)
 }

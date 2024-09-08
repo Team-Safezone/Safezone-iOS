@@ -6,40 +6,29 @@
 //
 
 import Combine
+import Foundation
 
 /// 경기 이벤트 뷰 모델
 class MatchEventViewModel: ObservableObject {
     @Published var matchEvents: [MatchEvent] = []
-    @Published var currentEventCode: Int = -1  // 경기 예정
-    @Published var currentMatch: SoccerMatch
+    @Published var currentEventCode: Int = -1
+    @Published var matchStartTime: Date?
     
     private var cancellables = Set<AnyCancellable>()
     var matchResultViewModel: MatchResultViewModel
     
     init(match: SoccerMatch, matchResultViewModel: MatchResultViewModel) {
-        self.currentMatch = match
         self.matchResultViewModel = matchResultViewModel
         fetchMatchEvents()
     }
     
-    func updateMatch(_ match: SoccerMatch) {
-        self.currentMatch = match
-        matchResultViewModel.updateMatch(match)
-    }
-    
     func fetchMatchEvents() {
-        MatchEventAPI.shared.getMatchEvents(matchID: Int(currentMatch.id))
-            .sink(receiveCompletion: { completion in
-                if case .failure(let error) = completion {
-                    print("Error fetching match events: \(error.localizedDescription)")
-                    self.matchEvents = []
-                    self.updateEventCode()
-                }
-            }, receiveValue: { [weak self] events in
-                self?.matchEvents = events
-                self?.updateEventCode()
-            })
-            .store(in: &cancellables)
+        // API 호출 시뮬레이션
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.matchEvents = DummyData.matchEvents
+            self.updateEventCode()
+            self.setMatchStartTime()
+        }
     }
     
     private func updateEventCode() {
@@ -49,7 +38,14 @@ class MatchEventViewModel: ObservableObject {
             currentEventCode = lastEvent.eventCode
         }
         matchResultViewModel.updateEventCode(currentEventCode)
-        matchResultViewModel.updateMatch(currentMatch)
+    }
+    
+    private func setMatchStartTime() {
+        if let startEvent = matchEvents.first(where: { $0.eventCode == 0 }) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+            matchStartTime = dateFormatter.date(from: startEvent.eventTime)
+        }
     }
 }
 

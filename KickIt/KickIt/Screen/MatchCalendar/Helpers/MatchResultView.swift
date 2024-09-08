@@ -59,10 +59,8 @@ struct MatchResultView: View {
                             Text(timeToString(time: viewModel.match?.matchTime))
                                 .font(.pretendard(.bold, size: 18))
                         } else {
-                            Text(color[max(0, min(viewModel.eventCode, color.count - 1))].1)
-                                .pretendardTextStyle(.SubTitleStyle)
-                            Text(formatElapsedTime(getElapsedTime()))
-                                .font(.pretendard(.bold, size: 18))
+                            Text("VS")
+                                .font(.pretendard(.bold, size: 16))
                         }
                     }
                     .foregroundStyle(Color.black0)
@@ -120,17 +118,6 @@ struct MatchResultView: View {
             default:
                 return Color.black
             }
-        }
-        
-        private func formatElapsedTime(_ time: TimeInterval) -> String {
-            let minutes = Int(time) / 60
-            let seconds = Int(time) % 60
-            return String(format: "%02d:%02d", minutes, seconds)
-        }
-        
-        private func getElapsedTime() -> TimeInterval {
-            // 경기 시작 시간부터 현재까지의 시간을 계산 로직
-            return 0 // 임시 반환값
         }
     }
 
@@ -232,11 +219,11 @@ struct LinkToSoccerView: View {
 }
 
 #Preview {
-    let dummyMatch = dummySoccerMatches[1]
+    let dummyMatch = dummySoccerMatches[2]
     
     let matchResultViewModel = MatchResultViewModel()
     matchResultViewModel.updateMatch(dummyMatch)
-    matchResultViewModel.updateEventCode(1) // 1: 전반전 상태로 설정
+    matchResultViewModel.updateEventCode(6)
     
     return MatchResultView(viewModel: matchResultViewModel)
         .previewLayout(.sizeThatFits)
