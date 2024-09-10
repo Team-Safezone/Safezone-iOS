@@ -5,97 +5,54 @@
 //  Created by DaeunLee on 7/29/24.
 //
 
+import Foundation
 import Alamofire
 import Combine
-import Foundation
-
-/// 심박수 데이터를 위한 구조체
-struct HeartRateData: Codable {
-    let min: Double
-    let avg: Double
-    let max: Double
-}
 
 /// 심박수 통계 API
 class HeartRateAPI: BaseAPI {
+    /// 심박수 통계 전역 객체
     static let shared = HeartRateAPI()
     
     private override init() {
         super.init()
     }
     
-    /// 홈 팀 시청자 비율 조회 API
-    func getViewerPercentage(matchID: Int) -> AnyPublisher<Int, Error> {
-            Future { [weak self] promise in
-                guard let self = self else {
-                    promise(.failure(NetworkError.invalidResponse))
-                    return
-                }
-                self.AlamoFireManager.request(
-                    HeartRateService.getViewerPercentage(matchID: matchID)
-                )
-                .responseData { response in
-                    switch response.result {
-                    case .success(let data):
-                        guard let statusCode = response.response?.statusCode else {
-                            promise(.failure(NetworkError.invalidResponse))
-                            return
-                        }
-                        let result = self.judgeStatus(by: statusCode, data, Int.self)
-                        switch result {
-                        case .success(let percentage):
-                            promise(.success(percentage))
-                        case .requestErr(let errorCode):
-                            promise(.failure(NetworkError.requestError(errorCode)))
-                        case .pathErr:
-                            promise(.failure(NetworkError.pathError))
-                        case .serverErr:
-                            promise(.failure(NetworkError.serverError))
-                        case .networkFail:
-                            promise(.failure(NetworkError.networkFail))
-                        }
-                    case .failure(let error):
-                        promise(.failure(error))
-                    }
-                }
-            }
-            .eraseToAnyPublisher()
-        }
-    
-    /// 팀 별 심박수 데이터 조회 API
-    func getTeamHeartRate(teamName: String) -> AnyPublisher<HeartRateData, Error> {
-        Future { [weak self] promise in
+    /// 심박수 통계 조회 API
+    func getHeartRateStatistics(request: HeartRateStatisticsRequest) -> AnyPublisher<HeartRateStatisticsResponse, NetworkError> {
+        return Future<HeartRateStatisticsResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
-                promise(.failure(NetworkError.invalidResponse))
+                // 잘못된 요청
+                promise(.failure(.pathErr))
                 return
             }
-            AlamoFireManager.request(
-                HeartRateService.getTeamHeartRate(teamName: teamName)
-            )
-            .responseData { response in
-                switch response.result {
-                case .success(let data):
-                    guard let statusCode = response.response?.statusCode else {
-                        promise(.failure(NetworkError.invalidResponse))
-                        return
+            
+            self.AFManager.request(HeartRateService.getHeartRateStatistics(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<HeartRateStatisticsResponse>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.success {
+                            promise(.success(result.data!))
+                        } else {
+                            switch result.status {
+                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
                     }
-                    let result = self.judgeStatus(by: statusCode, data, HeartRateData.self)
-                    switch result {
-                    case .success(let heartRateData):
-                        promise(.success(heartRateData))
-                    case .requestErr(let errorCode):
-                        promise(.failure(NetworkError.requestError(errorCode)))
-                    case .pathErr:
-                        promise(.failure(NetworkError.pathError))
-                    case .serverErr:
-                        promise(.failure(NetworkError.serverError))
-                    case .networkFail:
-                        promise(.failure(NetworkError.networkFail))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
                 }
-            }
         }
         .eraseToAnyPublisher()
     }
@@ -104,32 +61,32 @@ class HeartRateAPI: BaseAPI {
     func postUserHeartRate(teamName: String, min: Double, avg: Double, max: Double) -> AnyPublisher<Bool, Error> {
         Future { [weak self] promise in
             guard let self = self else {
-                promise(.failure(NetworkError.invalidResponse))
+                //promise(.failure(NetworkError.invalidResponse))
                 return
             }
-            AlamoFireManager.request(
+            AFManager.request(
                 HeartRateService.postUserHeartRate(teamName: teamName, min: min, avg: avg, max: max)
             )
             .responseData { response in
                 switch response.result {
                 case .success:
                     guard let statusCode = response.response?.statusCode else {
-                        promise(.failure(NetworkError.invalidResponse))
+                        //promise(.failure(NetworkError.invalidResponse))
                         return
                     }
-                    let result = self.judgeStatus(by: statusCode, Data(), Bool.self)
-                    switch result {
-                    case .success:
-                        promise(.success(true))
-                    case .requestErr(let errorCode):
-                        promise(.failure(NetworkError.requestError(errorCode)))
-                    case .pathErr:
-                        promise(.failure(NetworkError.pathError))
-                    case .serverErr:
-                        promise(.failure(NetworkError.serverError))
-                    case .networkFail:
-                        promise(.failure(NetworkError.networkFail))
-                    }
+//                    let result = self.judgeStatus(by: statusCode, Data(), Bool.self)
+//                    switch result {
+//                    case .success:
+//                        promise(.success(true))
+//                    case .requestErr(let errorCode):
+//                        promise(.failure(NetworkError.requestError(errorCode)))
+//                    case .pathErr:
+//                        promise(.failure(NetworkError.pathError))
+//                    case .serverErr:
+//                        promise(.failure(NetworkError.serverError))
+//                    case .networkFail:
+//                        promise(.failure(NetworkError.networkFail))
+//                    }
                 case .failure(let error):
                     promise(.failure(error))
                 }

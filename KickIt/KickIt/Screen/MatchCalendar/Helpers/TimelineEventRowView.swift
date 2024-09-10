@@ -83,10 +83,10 @@ struct TimelineEventRowView: View {
     
     private func getHeartRate(for eventTime: Int) -> Int? {
         let filteredRecords = arrayHR.filter { record in
-            let recordTime = Int(record.date.split(separator: ":")[0]) ?? 0
+            let recordTime = Int(record.date?.split(separator: ":")[0] ?? "0") ?? 0
             return recordTime <= eventTime
         }
-        return filteredRecords.max(by: { $0.date < $1.date })?.heartRate
+        return Int(filteredRecords.max(by: { $0.date ?? "" < $1.date ?? "" })?.heartRate ?? 0)
     }
     
     private var HeartRateView: some View {
@@ -107,7 +107,7 @@ struct TimelineEventRowView: View {
 
 #Preview {
     let sampleEvent = MatchEvent(id: UUID(), eventCode: 1, eventTime: 30, eventName: "골!", player1: "홍길동", player2: "null", teamName: "맨시티", teamUrl: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg")
-    let sampleHeartRateRecords = [HeartRateRecord(heartRate: 80, date: dateTimeToString(date3: Date()))]
+    let sampleHeartRateRecords = [HeartRateRecord(heartRate: 80, heartRateRecordTime: 1, date: dateTimeToString(date3: Date()))]
     
     return TimelineEventRowView(event: sampleEvent, arrayHR: sampleHeartRateRecords)
 }

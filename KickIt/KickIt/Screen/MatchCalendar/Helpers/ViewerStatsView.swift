@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+/// 심박수 통계 화면의 전체 시청자 분석 막대 그래프
 struct ViewerStatsView: View {
+    /// 홈팀 객체
+    var homeTeam: SoccerTeam
     
-    @ObservedObject var viewModel: ViewerStatsViewModel
+    /// 원정팀 객체
+    var awayTeam: SoccerTeam
+    
+    /// 홈팀 시청률 퍼센트율
+    var homeTeamPercentage: Int
     
     var body: some View {
         VStack {
@@ -24,18 +31,18 @@ struct ViewerStatsView: View {
             
             HStack {
                 HStack(spacing: 8) {
-                    LoadableImage(image: viewModel.homeTeam.teamEmblemURL)
+                    LoadableImage(image: homeTeam.teamEmblemURL)
                         .frame(width: 40, height: 40)
                         .background(.white)
                         .clipShape(Circle())
-                    Text(viewModel.homeTeam.teamName)
+                    Text(homeTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
                 }
                 Spacer()
                 HStack(spacing: 8) {
-                    Text(viewModel.awayTeam.teamName)
+                    Text(awayTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
-                    LoadableImage(image: viewModel.awayTeam.teamEmblemURL)
+                    LoadableImage(image: awayTeam.teamEmblemURL)
                         .frame(width: 40, height: 40)
                         .background(.white)
                         .clipShape(Circle())
@@ -49,16 +56,16 @@ struct ViewerStatsView: View {
                     .frame(maxWidth: .infinity, maxHeight: 10)
                 RoundedRectangle(cornerRadius: 8)
                     .fill(.violet)
-                    .frame(width: CGFloat(100 - viewModel.homeTeamPercentage) * 375 / 100, height: 10)
+                    .frame(width: CGFloat(100 - homeTeamPercentage) * 375 / 100, height: 10)
             }
             .padding(.horizontal, 20)
             
             HStack {
-                Text("\(Int(viewModel.homeTeamPercentage))%")
+                Text("\(Int(homeTeamPercentage))%")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(.green0)
                 Spacer()
-                Text("\(Int(100 - viewModel.homeTeamPercentage))%")
+                Text("\(Int(100 - homeTeamPercentage))%")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(.violet)
             }
@@ -69,5 +76,5 @@ struct ViewerStatsView: View {
 }
 
 #Preview {
-    ViewerStatsView(viewModel: ViewerStatsViewModel(homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1], homeTeamPercentage: 70))
+    ViewerStatsView(homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1], homeTeamPercentage: 55)
 }

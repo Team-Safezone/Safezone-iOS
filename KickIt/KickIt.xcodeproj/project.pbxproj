@@ -14,6 +14,7 @@
 		E764F9B12C15F8D500A2822A /* FinishWinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */; };
 		E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B42C15FD0900A2822A /* WinningPrediction.swift */; };
 		E76F765F2C1487A900BCD566 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E76F765E2C1487A900BCD566 /* Alamofire */; };
+		E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -58,6 +59,11 @@
 		E7B140002C85EE2100CB351E /* MyRequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B13FFF2C85EE2100CB351E /* MyRequestInterceptor.swift */; };
 		E7B140032C85F48400CB351E /* SoccerMatchMonthlyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B140022C85F48400CB351E /* SoccerMatchMonthlyRequest.swift */; };
 		E7B140052C85F66500CB351E /* SoccerMatchDailyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B140042C85F66500CB351E /* SoccerMatchDailyRequest.swift */; };
+		E7B140072C8745D900CB351E /* HeartRateStatisticsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B140062C8745D900CB351E /* HeartRateStatisticsRequest.swift */; };
+		E7B140092C8746B500CB351E /* HeartRateStatisticsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B140082C8746B500CB351E /* HeartRateStatisticsResponse.swift */; };
+		E7B1400B2C87F05600CB351E /* HeartRateMatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */; };
+		E7B1400D2C87F15400CB351E /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400C2C87F15400CB351E /* HeartRate.swift */; };
+		E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */; };
 		E7D7E7462C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */; };
 		E7DBC0DC2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift */; };
 		E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DD2C0CDBFB008D4300 /* MatchCalendarViewModel.swift */; };
@@ -78,7 +84,7 @@
 		E7DBC10E2C0F10C7008D4300 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC10D2C0F10C7008D4300 /* RadioButton.swift */; };
 		E7DBC1102C103982008D4300 /* SoccerMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC10F2C103982008D4300 /* SoccerMatch.swift */; };
 		E7DBC1122C1039D0008D4300 /* SoccerTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC1112C1039D0008D4300 /* SoccerTeam.swift */; };
-		E7E869152C568C7200DFBA85 /* HeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E869142C568C7200DFBA85 /* HeartRateModel.swift */; };
+		E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E869142C568C7200DFBA85 /* HeartRateRecordModel.swift */; };
 		E7E869172C568C9400DFBA85 /* HeartRateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E869162C568C9400DFBA85 /* HeartRateViewModel.swift */; };
 		E7E869192C568CDD00DFBA85 /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E869182C568CDD00DFBA85 /* HeartRateView.swift */; };
 		E7E8691B2C568D1300DFBA85 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E8691A2C568D1300DFBA85 /* LineChartView.swift */; };
@@ -92,6 +98,7 @@
 		E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificRoundedRectangle.swift; sourceTree = "<group>"; };
 		E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishWinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E764F9B42C15FD0900A2822A /* WinningPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningPrediction.swift; sourceTree = "<group>"; };
+		E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatistics.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -139,6 +146,11 @@
 		E7B13FFF2C85EE2100CB351E /* MyRequestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestInterceptor.swift; sourceTree = "<group>"; };
 		E7B140022C85F48400CB351E /* SoccerMatchMonthlyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchMonthlyRequest.swift; sourceTree = "<group>"; };
 		E7B140042C85F66500CB351E /* SoccerMatchDailyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchDailyRequest.swift; sourceTree = "<group>"; };
+		E7B140062C8745D900CB351E /* HeartRateStatisticsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatisticsRequest.swift; sourceTree = "<group>"; };
+		E7B140082C8746B500CB351E /* HeartRateStatisticsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatisticsResponse.swift; sourceTree = "<group>"; };
+		E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMatchEvent.swift; sourceTree = "<group>"; };
+		E7B1400C2C87F15400CB351E /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
+		E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateRecord.swift; sourceTree = "<group>"; };
 		E7D311872C036F8F0070A31D /* VerticalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBarChart.swift; sourceTree = "<group>"; };
 		E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchDailyResponse.swift; sourceTree = "<group>"; };
 		E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCalendarViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -158,7 +170,7 @@
 		E7DBC10D2C0F10C7008D4300 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		E7DBC10F2C103982008D4300 /* SoccerMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatch.swift; sourceTree = "<group>"; };
 		E7DBC1112C1039D0008D4300 /* SoccerTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeam.swift; sourceTree = "<group>"; };
-		E7E869142C568C7200DFBA85 /* HeartRateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateModel.swift; sourceTree = "<group>"; };
+		E7E869142C568C7200DFBA85 /* HeartRateRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateRecordModel.swift; sourceTree = "<group>"; };
 		E7E869162C568C9400DFBA85 /* HeartRateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateViewModel.swift; sourceTree = "<group>"; };
 		E7E869182C568CDD00DFBA85 /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
 		E7E8691A2C568D1300DFBA85 /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
@@ -405,7 +417,11 @@
 			isa = PBXGroup;
 			children = (
 				E7ADBF8E2C57ACC500E877C5 /* MatchEventModel.swift */,
-				E7E869142C568C7200DFBA85 /* HeartRateModel.swift */,
+				E7E869142C568C7200DFBA85 /* HeartRateRecordModel.swift */,
+				E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */,
+				E7B1400C2C87F15400CB351E /* HeartRate.swift */,
+				E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */,
+				E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -424,6 +440,7 @@
 			children = (
 				E7B140042C85F66500CB351E /* SoccerMatchDailyRequest.swift */,
 				E7B140022C85F48400CB351E /* SoccerMatchMonthlyRequest.swift */,
+				E7B140062C8745D900CB351E /* HeartRateStatisticsRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -511,6 +528,7 @@
 			children = (
 				E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */,
 				E758BA8B2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift */,
+				E7B140082C8746B500CB351E /* HeartRateStatisticsResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -621,11 +639,13 @@
 				E79553C82C0CA04C00261DAF /* TextStyle.swift in Sources */,
 				E764F98D2C14B79A00A2822A /* SpecificRoundedRectangle.swift in Sources */,
 				E79553BC2C0C760600261DAF /* Font+.swift in Sources */,
+				E7B1400D2C87F15400CB351E /* HeartRate.swift in Sources */,
+				E7B140072C8745D900CB351E /* HeartRateStatisticsRequest.swift in Sources */,
 				E7DBC1012C0E1531008D4300 /* MatchCalendarService.swift in Sources */,
 				E7DBC10C2C0F0F85008D4300 /* RadioButtonGroup.swift in Sources */,
 				E7DBC0E22C0DC17A008D4300 /* NetworkConstants.swift in Sources */,
 				E7DBC0F52C0DE4CB008D4300 /* NetworkError.swift in Sources */,
-				E7E869152C568C7200DFBA85 /* HeartRateModel.swift in Sources */,
+				E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */,
 				E7ADBF8F2C57ACC500E877C5 /* MatchEventModel.swift in Sources */,
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
@@ -636,21 +656,25 @@
 				E79AFF732BEDC8DC004CAF75 /* SplashView.swift in Sources */,
 				E79553D22C0CB29500261DAF /* LinearGradient+.swift in Sources */,
 				E7ADBF972C57B5F600E877C5 /* MatchEventViewModel.swift in Sources */,
+				E7B140092C8746B500CB351E /* HeartRateStatisticsResponse.swift in Sources */,
 				E7D7E7462C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift in Sources */,
 				E7ADBF702C57281600E877C5 /* OtherViewModels.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E7DBC0F72C0DE519008D4300 /* TargetType.swift in Sources */,
+				E7B1400B2C87F05600CB351E /* HeartRateMatchEvent.swift in Sources */,
 				E7E8691B2C568D1300DFBA85 /* LineChartView.swift in Sources */,
 				E7DBC0ED2C0DD9FD008D4300 /* APIConstants.swift in Sources */,
 				E7ADBF762C5753A300E877C5 /* HeartRateAPI.swift in Sources */,
 				E7ABF3D92C58B252001BAE0F /* MatchResultViewModel.swift in Sources */,
+				E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */,
 				E7DBC10E2C0F10C7008D4300 /* RadioButton.swift in Sources */,
 				E79AFF712BEDC8DC004CAF75 /* KickItApp.swift in Sources */,
 				E7DBC0F22C0DE431008D4300 /* BaseAPI.swift in Sources */,
 				E79AFF972BEE6B7B004CAF75 /* CustomDate.swift in Sources */,
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
+				E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */,
 				E7DBC0F92C0DE7AE008D4300 /* APIEventLogger.swift in Sources */,
 				E758BA8C2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift in Sources */,
 				E764F9B12C15F8D500A2822A /* FinishWinningTeamPrediction.swift in Sources */,

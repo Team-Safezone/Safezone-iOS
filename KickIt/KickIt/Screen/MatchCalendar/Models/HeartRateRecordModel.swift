@@ -8,12 +8,7 @@
 import Foundation
 import HealthKit
 
-struct HeartRateRecord {
-    let heartRate: Int
-    let date: String
-}
-
-class HeartRateModel {
+class HeartRateRecordModel {
     private var healthStore = HKHealthStore()
     var arrayHR: [HeartRateRecord] = []
 
@@ -52,7 +47,7 @@ class HeartRateModel {
                 let unit = HKUnit(from: "count/min")
                 let heartRate = Int(data.quantity.doubleValue(for: unit))
                 
-                records.append(HeartRateRecord(heartRate: heartRate, date: date))
+                records.append(HeartRateRecord(heartRate: CGFloat(heartRate), heartRateRecordTime: 0, date: date))
             }
             
             self?.arrayHR = records

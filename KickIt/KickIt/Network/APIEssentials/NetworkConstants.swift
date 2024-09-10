@@ -11,7 +11,7 @@ import Foundation
 
 /// API 요청 시, 헤더 유형을 정의하는 열거형
 enum HeaderType {
-    /// 기본, 추가 헤더 값이 없는 경우
+    /// 기본
     case basic
     
     /// 파일, 파일(이미지 등) 및 복합 데이터 전송이 필요한 경우

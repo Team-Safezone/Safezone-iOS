@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 심박수 통계 화면의 심박수 그래프
 struct LineChartView: View {
     @Binding var dataPointsChart: [CGFloat]
     @Binding var dataTimeChart: [Int]

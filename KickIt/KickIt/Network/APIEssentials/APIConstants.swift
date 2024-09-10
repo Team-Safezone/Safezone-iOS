@@ -23,6 +23,9 @@ struct APIConstants {
     
     /// 하루 경기 일정 조회 URL
     static let dailyMatchURL = "/fixture"
+    
+    /// 심박수 통계 조회 URL
+    static let heartRateStatisticsURL = "/나중에 입력하기!"
 }
 
 /// 한글 인코딩
