@@ -24,30 +24,12 @@ extension MatchCalendarService: TargetType {
     var endPoint: String {
         switch self {
         // 한달 경기 일정 조회 API
-        case .getYearMonthSoccerMatches(let request):
-            var components = URLComponents()
-            components.path = APIConstants.monthlyMatchURL
-            components.queryItems = [
-                URLQueryItem(name: "yearMonth", value: request.yearMonth)
-            ]
-            if let teamName = request.teamName {
-                components.queryItems?.append(URLQueryItem(name: "teamName", value: teamName))
-            }
-            
-            return components.url!.absoluteString
+        case .getYearMonthSoccerMatches:
+            return APIConstants.monthlyMatchURL
             
         // 하루 경기 일정 조회 API
-        case .getDailySoccerMatches(let request):
-            var components = URLComponents()
-            components.path = APIConstants.dailyMatchURL
-            components.queryItems = [
-                URLQueryItem(name: "date", value: request.date)
-            ]
-            if let teamName = request.teamName {
-                components.queryItems?.append(URLQueryItem(name: "teamName", value: teamName))
-            }
-            
-            return components.url!.absoluteString
+        case .getDailySoccerMatches:
+            return APIConstants.dailyMatchURL
         }
     }
     
@@ -81,12 +63,18 @@ extension MatchCalendarService: TargetType {
     var parameters: RequestParams {
         switch self {
         // 한달 경기 일정 조회
-        case .getYearMonthSoccerMatches:
-            return .requestPlain
+        case .getYearMonthSoccerMatches(let request):
+            return .query([
+                "yearMonth" : request.yearMonth,
+                "teamName" : request.teamName
+            ])
         
         // 하루 경기 일정 조회
-        case .getDailySoccerMatches:
-            return .requestPlain
+        case .getDailySoccerMatches(let request):
+            return .query([
+                "date" : request.date,
+                "teamName" : request.teamName
+            ])
         }
     }
 }

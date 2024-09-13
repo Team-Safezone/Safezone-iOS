@@ -86,15 +86,29 @@ extension TargetType {
         
         switch parameters {
         case .query(let query):
-            let params = query.toDictionary() 
-            let queryParams = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+            let params = query.toDictionary()
+            // parameter 중 nil값 처리
+            let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
+                if let value = value as? String, !value.isEmpty {
+                    let encoding = value.encodeURL() // 한글 인코딩
+                    return URLQueryItem(name: key, value: encoding)
+                }
+                return nil
+            }
             var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
         case .queryBody(let query, let body):
             let params = query.toDictionary()
-            let queryParams = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+            // parameter 중 nil값 처리
+            let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
+                if let value = value as? String, !value.isEmpty {
+                    let encoding = value.encodeURL() // 한글 인코딩
+                    return URLQueryItem(name: key, value: encoding)
+                }
+                return nil
+            }
             var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url

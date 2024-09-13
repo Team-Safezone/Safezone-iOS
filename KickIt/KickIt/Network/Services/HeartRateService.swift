@@ -34,13 +34,8 @@ extension HeartRateService: TargetType {
     var endPoint: String {
         switch self {
         // 심박수 통계 조회 API
-        case .getHeartRateStatistics(let request):
-            var components = URLComponents()
-            components.path = APIConstants.heartRateStatisticsURL
-            components.queryItems = [
-                URLQueryItem(name: "matchId", value: String(request.matchId))
-            ]
-            return components.url!.absoluteString
+        case .getHeartRateStatistics:
+            return APIConstants.heartRateStatisticsURL
         
         case .postUserHeartRate:
             return "/userHeartRate"
@@ -63,8 +58,8 @@ extension HeartRateService: TargetType {
     var parameters: RequestParams {
         switch self {
         // 심박수 통계 조회 API
-        case .getHeartRateStatistics:
-            return .requestPlain
+        case .getHeartRateStatistics(let request):
+            return .query(["matchId" : request.matchId])
         
         case .postUserHeartRate(let teamName, let min, let avg, let max):
             let body: [String: Any] = [
