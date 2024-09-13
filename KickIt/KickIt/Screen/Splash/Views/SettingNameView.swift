@@ -7,14 +7,12 @@
 
 import SwiftUI
 
+// 닉네임 설정 화면
 struct SettingNameView: View {
-    @State private var nickname = ""
-    @State private var isNicknameValid = false
-    @State private var errorMessage = ""
-    @State private var isCheckingDuplicate = false
+    @StateObject private var viewModel = SettingNameViewModel()
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack(alignment: .leading) {
                 // 상단 Progress Circle
                 HStack(spacing: 10) {
@@ -36,21 +34,18 @@ struct SettingNameView: View {
                 .padding(.top, 50)
                 .padding(.bottom, 36)
                 
-                VStack(alignment: .leading, spacing: 4){
-                    TextField("이름", text: $nickname)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                VStack(alignment: .leading, spacing: 4) {
+                    TextField("이름", text: $viewModel.nickname)
+                        .textFieldStyle(DefaultTextFieldStyle())
                         .padding(.leading, 12)
-                        .padding(.vertical, 12)
-                        .onChange(of: nickname) { _, _ in
-                            validateNickname()
-                        }
+                        .padding(.vertical, 15)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(borderColor, lineWidth: 1)
+                                .stroke(viewModel.borderColor, lineWidth: 1)
                         )
                     
-                    Text(statusMessage)
-                        .foregroundColor(statusColor)
+                    Text(viewModel.statusMessage)
+                        .foregroundColor(viewModel.statusColor)
                         .pretendardTextStyle(.Caption1Style)
                         .padding(.leading, 4)
                 }//:VSTACK
@@ -59,84 +54,18 @@ struct SettingNameView: View {
             }//:VSTACK
             Spacer()
             
-            NavigationLink{
+            NavigationLink {
                 SettingFavView()
-            }label: {
+            } label: {
                 DesignWideButton(
                     label: "다음",
-                    labelColor: isNicknameValid ? .background : .gray400,
-                    btnBGColor: isNicknameValid ? .lime : .gray600
+                    labelColor: viewModel.isNicknameValid ? .background : .gray400,
+                    btnBGColor: viewModel.isNicknameValid ? .lime : .gray600
                 )
-                .disabled(!isNicknameValid)
+                .disabled(!viewModel.isNicknameValid)
             }//:NAVIGATIONLINK
         }//:NAVIGATIONSTACK
         .navigationBarBackButtonHidden(true)
-    }
-    
-    // TextField 테두리 색상
-    private var borderColor: Color {
-        if nickname.isEmpty {
-            return .gray900
-        } else if isNicknameValid {
-            return .lime
-        } else {
-            return .red0
-        }
-    }
-    
-    // 경고, 성공 메시지 출력
-    private var statusMessage: String {
-        if nickname.isEmpty {
-            return "2~10자 이내, 영문/한글/숫자만 입력 가능"
-        } else if !errorMessage.isEmpty {
-            return errorMessage
-        } else if isNicknameValid {
-            return "사용 가능한 닉네임입니다"
-        } else {
-            return "2~10자 이내, 영문/한글/숫자만 입력 가능"
-        }
-    }
-    
-    // 유효 닉네임별 색상 변경
-    private var statusColor: Color {
-        if nickname.isEmpty || (!isNicknameValid && errorMessage.isEmpty) {
-            return .gray
-        } else if isNicknameValid {
-            return .green
-        } else {
-            return .red
-        }
-    }
-    
-    // 유효 닉네임 설정
-    private func validateNickname() {
-        let nicknameRegex = "^[a-zA-Z0-9가-힣]{2,10}$"
-        let nicknamePredicate = NSPredicate(format: "SELF MATCHES %@", nicknameRegex)
-        
-        if nickname.isEmpty {
-            isNicknameValid = false
-            errorMessage = ""
-        } else if !nicknamePredicate.evaluate(with: nickname) {
-            isNicknameValid = false
-            errorMessage = "사용 불가능한 닉네임입니다"
-        } else {
-            isCheckingDuplicate = true
-            // 여기에서 데이터베이스 중복 검사를 수행합니다.
-            // 예시를 위해 비동기 작업을 시뮬레이션합니다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // 향후 데이터베이스 쿼리로 대체
-                let isDuplicate = false // 예시: 중복이 아니라고 가정
-                
-                if isDuplicate {
-                    isNicknameValid = false
-                    errorMessage = "중복된 닉네임입니다"
-                } else {
-                    isNicknameValid = true
-                    errorMessage = ""
-                }
-                isCheckingDuplicate = false
-            }
-        }
     }
 }
 

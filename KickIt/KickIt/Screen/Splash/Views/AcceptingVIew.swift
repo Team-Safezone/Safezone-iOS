@@ -7,25 +7,21 @@
 
 import SwiftUI
 
+// 이용 약관 동의 화면
 struct AcceptingView: View {
-    // 동의 항목 상태 변수
-    @State private var CheckedAll = false
-    @State private var agreeToTerms = false
-    @State private var agreeToPrivacy = false
-    @State private var agreeToMarketing = false
-    @State private var showModal = false
+    @StateObject private var viewModel = AcceptingViewModel()
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
-                HStack{
+                HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("앱 이용을 위한\n이용 약관에 동의해주세요")
                             .pretendardTextStyle(.H2Style)
                         Text("약관을 클릭해 내용을 확인해주세요")
                             .pretendardTextStyle(.Body2Style)
                             .foregroundStyle(.gray500)
-                    } //:VSTACK
+                    }
                     .padding(.leading, 16)
                     .padding(.top, 84)
                     .padding(.bottom, 36)
@@ -39,15 +35,11 @@ struct AcceptingView: View {
                             .foregroundStyle(.black0)
                         Spacer()
                         Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(CheckedAll ? .lime : .gray800)
+                            .foregroundColor(viewModel.checkedAll ? .lime : .gray800)
                             .onTapGesture {
-                                CheckedAll.toggle()
-                                agreeToTerms = CheckedAll
-                                agreeToPrivacy = CheckedAll
-                                agreeToMarketing = CheckedAll
+                                viewModel.toggleAll()
                             }
-                    } //: HSTACK
-                    .padding(.trailing, 10)
+                    }
                     
                     Rectangle()
                         .fill(Color.gray900)
@@ -56,76 +48,70 @@ struct AcceptingView: View {
                         .padding(.bottom, 10)
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                            Toggle(isOn: $agreeToTerms) {
-                                HStack(spacing: 7) {
-                                    Text("필수")
-                                        .pretendardTextStyle(.Body2Style)
-                                        .foregroundStyle(.lime)
-                                    Text("서비스 이용약관")
-                                        .pretendardTextStyle(.Body2Style)
-                                        .foregroundStyle(.black0)
-                                    Button(action: {
-                                        showModal = true
-                                    }) {
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 12, height: 12)
-                                            .foregroundStyle(.gray300)
-                                    }
-                                    .sheet(isPresented: $showModal) {
-                                        Text("서비스 이용약관 내용")
-                                    }
-                                    Spacer()
-                                } //: HSTACK
-                            }
-                            Spacer()
-                        }
-                        .toggleStyle(CheckboxToggleStyle())
-                        
-                        HStack {
-                            Toggle(isOn: $agreeToPrivacy) {
-                                HStack(spacing: 7) {
-                                    Text("필수")
-                                        .pretendardTextStyle(.Body2Style)
-                                        .foregroundStyle(.lime)
-                                    Text("개인정보 수집 및 이용 동의")
-                                        .pretendardTextStyle(.Body2Style)
-                                        .foregroundStyle(.black0)
-                                    Button(action: {
-                                        showModal = true
-                                    }) {
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 12, height: 12)
-                                            .foregroundStyle(.gray300)
-                                    }
-                                    Spacer()
-                                } //: HSTACK
-                            }
-                            Spacer()
-                        }
-                        .toggleStyle(CheckboxToggleStyle())
-                        
-                        HStack {
-                            Toggle(isOn: $agreeToMarketing) {
-                                HStack(spacing: 7) {
-                                    Text("선택")
-                                        .pretendardTextStyle(.Body2Style)
+                        // 서비스 이용약관
+                        Toggle(isOn: $viewModel.agreeToTerms) {
+                            HStack(spacing: 7) {
+                                Text("필수")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.lime)
+                                Text("서비스 이용약관")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.black0)
+                                Button(action: {
+                                    viewModel.showModal = true
+                                }) {
+                                    Image(systemName: "chevron.right")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 12, height: 12)
                                         .foregroundStyle(.gray300)
-                                    Text("마케팅 정보 수신 동의")
-                                        .pretendardTextStyle(.Body2Style)
-                                        .foregroundStyle(.black0)
-                                    Spacer()
-                                } //: HSTACK
+                                }
+                                .sheet(isPresented: $viewModel.showModal) {
+                                    Text("서비스 이용약관 내용")
+                                }
+                                Spacer()
                             }
-                            Spacer()
                         }
                         .toggleStyle(CheckboxToggleStyle())
-                    } //: VSTACK
-                } //: VSTACK
+                        
+                        // 개인정보 수집 및 이용 동의
+                        Toggle(isOn: $viewModel.agreeToPrivacy) {
+                            HStack(spacing: 7) {
+                                Text("필수")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.lime)
+                                Text("개인정보 수집 및 이용 동의")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.black0)
+                                Button(action: {
+                                    viewModel.showModal = true
+                                }) {
+                                    Image(systemName: "chevron.right")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 12, height: 12)
+                                        .foregroundStyle(.gray300)
+                                }
+                                Spacer()
+                            }
+                        }
+                        .toggleStyle(CheckboxToggleStyle())
+                        
+                        // 마케팅 정보 수신 동의
+                        Toggle(isOn: $viewModel.agreeToMarketing) {
+                            HStack(spacing: 7) {
+                                Text("선택")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.gray300)
+                                Text("마케팅 정보 수신 동의")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.black0)
+                                Spacer()
+                            }
+                        }
+                        .toggleStyle(CheckboxToggleStyle())
+                    }
+                }
                 .padding(20)
                 .background {
                     RoundedRectangle(cornerRadius: 12)
@@ -135,16 +121,17 @@ struct AcceptingView: View {
                 
                 Spacer()
                 
+                // 시작하기 버튼
                 NavigationLink {
                     Home(soccerMatch: dummySoccerMatches[1])
                 } label: {
                     DesignWideButton(
                         label: "시작하기",
-                        labelColor: (agreeToTerms && agreeToPrivacy) ? .background : .gray400,
-                        btnBGColor: (agreeToTerms && agreeToPrivacy) ? .lime : .gray600
+                        labelColor: viewModel.canProceed ? .background : .gray400,
+                        btnBGColor: viewModel.canProceed ? .lime : .gray600
                     )
                 }
-                .disabled(!(agreeToTerms && agreeToPrivacy))
+                .disabled(!viewModel.canProceed)
             }
             .navigationBarBackButtonHidden(true)
         }

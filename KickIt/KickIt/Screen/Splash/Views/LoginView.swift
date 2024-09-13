@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// 로그인 화면
 struct LoginView: View {
     var body: some View {
         NavigationStack{
