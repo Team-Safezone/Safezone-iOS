@@ -10,22 +10,22 @@ import Foundation
 /// API 주소를 모아두는 파일
 struct APIConstants {
     /// 서버 URL
-    static let baseURL = prodURL
+    static let baseURL = devURL
     
     /// 실서버 URL
-    static let prodURL = Bundle.main.baseURL
+    static let prodURL = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as! String
     
     /// 테스트 서버 URL
-    static let devURL = "http://localhost:8080"
-    
-    /// 프리미어리그 팀 조회 URL
-    static let teamURL = "/teaminfo"
+    static let devURL = Bundle.main.object(forInfoDictionaryKey: "TEST_URL") as! String
     
     /// 한달 경기 일정 조회 URL
-    static let monthURL = "/fixture/dates"
+    static let monthlyMatchURL = "/fixture/dates"
     
     /// 하루 경기 일정 조회 URL
-    static let matchURL = "/fixture"
+    static let dailyMatchURL = "/fixture"
+    
+    /// 심박수 통계 조회 URL
+    static let heartRateStatisticsURL = "/나중에 입력하기!"
 }
 
 /// 한글 인코딩

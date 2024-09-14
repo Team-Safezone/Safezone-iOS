@@ -21,7 +21,7 @@ struct ContentView: View {
     
     // 탭바 색상 초기화
     init() {
-        UITabBar.appearance().backgroundColor = UIColor.black
+        UITabBar.appearance().backgroundColor = UIColor.black0
     }
     
     var body: some View {

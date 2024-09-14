@@ -60,9 +60,9 @@ struct DummyData {
     ]
     
     static let heartRateRecords: [HeartRateRecord] = [
-            HeartRateRecord(heartRate: 65, date: "2024/09/04 21:05"),
-            HeartRateRecord(heartRate: 80, date: "2024/09/04 21:15"),
-            HeartRateRecord(heartRate: 85, date: "2024/09/04 21:30")
-        ]
+        HeartRateRecord(heartRate: 75, heartRateRecordTime: 1, date: "00:05"),
+        HeartRateRecord(heartRate: 80, heartRateRecordTime: 1, date: "00:15"),
+        HeartRateRecord(heartRate: 85, heartRateRecordTime: 1, date: "00:30")
+    ]
 }
 

@@ -22,16 +22,25 @@ protocol TargetType: URLRequestConvertible {
 /// API 요청 시 parameter 정의
 enum RequestParams {
     /// URL 쿼리
-    case query(_ query: [String : Any])
+    case query(_ query: Encodable)
     
     /// URL 쿼리 & Body Parameter
-    case queryBody(_ query: [String : Any], _ body: [String : Any])
+    case queryBody(_ query: Encodable, _ body: Encodable)
     
     /// 요청 Body Parameter
-    case requestBody(_ body: [String : Any])
+    case requestBody(_ body: Encodable)
     
     /// 매개변수가 없는 경우(주로 get에서 사용)
     case requestPlain
+}
+
+extension Encodable {
+    func toDictionary() -> [String: Any] {
+        guard let data = try? JSONEncoder().encode(self),
+              let jsonData = try? JSONSerialization.jsonObject(with: data),
+              let dictionaryData = jsonData as? [String: Any] else { return [:] }
+        return dictionaryData
+    }
 }
 
 extension TargetType {
@@ -47,7 +56,6 @@ extension TargetType {
     func asURLRequest() throws -> URLRequest {
         // ?를 인코딩할 수 있는 형태로 변경
         let url = try (baseURL + endPoint).encodeURL()?.asURL()
-        
         var urlRequest = try URLRequest(url: url!, method: method)
         
         // header 설정
@@ -65,22 +73,8 @@ extension TargetType {
         case .basic:
             request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
             
-        case .auth:
-            request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-            request.setValue(ContentType.tokenSerial.rawValue, forHTTPHeaderField: HTTPHeaderField.accesstoken.rawValue)
-            
         case .multiPart:
             request.setValue(ContentType.multiPart.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-            
-        case .multiPartWithAuth:
-            request.setValue(ContentType.multiPart.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-            request.setValue(ContentType.tokenSerial.rawValue, forHTTPHeaderField: HTTPHeaderField.accesstoken.rawValue)
-        
-        case .headers(let headers):
-            request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
-            for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key)
-            }
         }
         
         return request
@@ -92,21 +86,39 @@ extension TargetType {
         
         switch parameters {
         case .query(let query):
-            let queryParams = query.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+            let params = query.toDictionary()
+            // parameter 중 nil값 처리
+            let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
+                if let value = value as? String, !value.isEmpty {
+                    let encoding = value.encodeURL() // 한글 인코딩
+                    return URLQueryItem(name: key, value: encoding)
+                }
+                return nil
+            }
             var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
         case .queryBody(let query, let body):
-            let queryParams = query.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+            let params = query.toDictionary()
+            // parameter 중 nil값 처리
+            let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
+                if let value = value as? String, !value.isEmpty {
+                    let encoding = value.encodeURL() // 한글 인코딩
+                    return URLQueryItem(name: key, value: encoding)
+                }
+                return nil
+            }
             var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
-            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+            let bodyParams = body.toDictionary()
+            request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .requestBody(let body):
-            request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+            let bodyParams = body.toDictionary()
+            request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
         
         case .requestPlain:
             break

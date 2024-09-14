@@ -64,7 +64,7 @@ struct TimelineEventRowView: View {
         .padding(.vertical, 13)
         .padding(.horizontal, 18)
     }
-    
+
     /// 심박수 가져오기
     private func getHeartRate(for eventTime: String) -> Int? {
         let dateFormatter = DateFormatter()

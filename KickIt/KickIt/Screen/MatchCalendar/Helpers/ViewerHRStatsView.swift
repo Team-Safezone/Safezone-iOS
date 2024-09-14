@@ -7,8 +7,19 @@
 
 import SwiftUI
 
+/// 심박수 통계 화면의 심박수 비교 표(홈팀, 원정팀의 최저, 평균, 최고 심박수 비교)
 struct ViewerHRStatsView: View {
-    @ObservedObject var viewModel: ViewerHRStatsViewModel
+    // 홈팀 심박수 배열
+    var homeTeamStats: [Int?]
+    
+    // 원정팀 심박수 배열
+    var awayTeamStats: [Int?]
+    
+    /// 홈팀 이름
+    var homeTeamName: String
+    
+    /// 원정팀 이름
+    var awayTeamName: String
     
     var body: some View {
         VStack(alignment: .leading){
@@ -17,13 +28,13 @@ struct ViewerHRStatsView: View {
         VStack{
             HStack {
                 HStack{
-                    Text(viewModel.homeTeamName+" 팬")
-                        .font(.pretendard(.bold, size: 16))
+                    Text(homeTeamName + " 팬")
+                        .pretendardTextStyle(.SubTitleStyle)
                         .frame(width: 80)
                 }
                 Spacer().frame(width: 100)
-                Text(viewModel.awayTeamName+" 팬")
-                    .font(.pretendard(.bold, size: 16))
+                Text(awayTeamName + " 팬")
+                    .pretendardTextStyle(.SubTitleStyle)
                     .frame(width: 80)
             }
             .padding(.vertical, 16)
@@ -33,10 +44,11 @@ struct ViewerHRStatsView: View {
                     .foregroundStyle(Color.gray900)
                     .frame(width: 355, height: 55)
             }
-            ForEach(0..<viewModel.homeTeamStats.count, id: \.self) { i in
+            
+            ForEach(0..<3, id: \.self) { i in
                 HStack {
                     HStack(spacing: 2) {
-                        Text(viewModel.homeTeamStats[i])
+                        Text("\(homeTeamStats[i] ?? 0)")
                             .font(.pretendard(.bold, size: 16))
                             .foregroundStyle(.black0)
                         Text(" BPM")
@@ -51,7 +63,7 @@ struct ViewerHRStatsView: View {
                         .foregroundStyle(.black0)
                     
                     HStack(spacing: 2) {
-                        Text(viewModel.awayTeamStats[i])
+                        Text("\(awayTeamStats[i] ?? 0)")
                             .font(.pretendard(.bold, size: 16))
                             .foregroundStyle(.black0)
                         Text(" BPM")
@@ -83,5 +95,5 @@ struct ViewerHRStatsView: View {
 }
 
 #Preview {
-    ViewerHRStatsView(viewModel: ViewerHRStatsViewModel(homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1]))
+    ViewerHRStatsView(homeTeamStats: [1,2,3], awayTeamStats: [1,2,3], homeTeamName: "토트넘", awayTeamName: "아스널")
 }

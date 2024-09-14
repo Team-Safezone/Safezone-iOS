@@ -12,9 +12,6 @@ struct Home: View {
     var soccerMatch: SoccerMatch
     var soccerMatches: [SoccerMatch] = dummySoccerMatches
     
-    /// 홈 화면 뷰모델
-    @ObservedObject var viewModel = DefaultHomeViewModel()
-    
     /// 프리미어리그 팀 리스트
     @State private var soccerTeams: [SoccerTeam] = []
     
@@ -81,16 +78,9 @@ struct Home: View {
         }
         .tint(.black0)
         .onAppear {
-            // 초기 진입 시, 프리미어리그 팀 조회 API 호출
-            requestSoccerTeams(soccerSeason: "2023-24")
+            // TODO: 초기 진입 시, 프리미어리그 팀 조회 API 호출
+            
         }
-    }
-    
-    /// 프리미어리그 팀 리스트 불러오기
-    private func requestSoccerTeams(soccerSeason: String) {
-        viewModel.requestSoccerTeams(soccerSeason: soccerSeason)
-        
-        soccerTeams = viewModel.soccerTeams // 팀 리스트 저장
     }
 }
 

@@ -13,9 +13,8 @@ class APIEventLogger: EventMonitor {
     /// 모든 이벤트를 저장하는 큐
     let queue = DispatchQueue(label: "NetworkLogger")
     
-    /// API 요청이 끝났을 때 호출 => 요청 내용 출력
     func requestDidFinish(_ request: Request) {
-        print("📡 NETWORK Reqeust LOG")
+        print("🛰 NETWORK Reqeust LOG")
         print(request.description)
         
         print("1️⃣ URL\n")
@@ -30,9 +29,8 @@ class APIEventLogger: EventMonitor {
         print("Body: " + (request.request?.httpBody?.toPrettyPrintedString ?? "Body가 없습니다."))
     }
     
-    /// API 요청 후, 응답을 받았을 때 호출
     func request<Value>(_ request: DataRequest, didParseResponse response: DataResponse<Value, AFError>) {
-        print("📡 NETWORK Response LOG")
+        print("🛰 NETWORK Response LOG")
         
         switch response.result {
         case .success(_):
