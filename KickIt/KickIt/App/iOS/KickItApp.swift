@@ -11,7 +11,7 @@ import SwiftUI
 struct KickItApp: App {
     var body: some Scene {
         WindowGroup {
-            Home(soccerMatch: dummySoccerMatches[1])
+            ContentView()
 //            SplashView()
         }
     }
