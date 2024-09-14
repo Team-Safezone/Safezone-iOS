@@ -5,16 +5,13 @@
 //  Created by DaeunLee on 7/29/24.
 //
 
-import Alamofire
 import Foundation
+import Alamofire
 
 /// 심박수 통계 Router
 enum HeartRateService {
-    // 홈 팀 시청자 비율 조회 API
-    case getViewerPercentage(matchID: Int)
-    
-    // 팀 별 심박수 데이터 조회 API
-    case getTeamHeartRate(teamName: String)
+    // 심박수 통계 조회 API
+    case getHeartRateStatistics(HeartRateStatisticsRequest)
     
     // 사용자의 심박수 데이터 업로드 API
     case postUserHeartRate(teamName: String, min: Double, avg: Double, max: Double)
@@ -22,10 +19,12 @@ enum HeartRateService {
 
 extension HeartRateService: TargetType {
     // method
-    var method: Alamofire.HTTPMethod {
+    var method: HTTPMethod {
         switch self {
-        case .getViewerPercentage, .getTeamHeartRate:
+        // 심박수 통계 조회 API
+        case .getHeartRateStatistics:
             return .get
+        
         case .postUserHeartRate:
             return .post
         }
@@ -34,10 +33,10 @@ extension HeartRateService: TargetType {
     // endpoint
     var endPoint: String {
         switch self {
-        case .getViewerPercentage(let matchID):
-            return "/viewerPercentage/\(matchID)"
-        case .getTeamHeartRate(let teamName):
-            return "/teamHeartRate/\(teamName)"
+        // 심박수 통계 조회 API
+        case .getHeartRateStatistics:
+            return APIConstants.heartRateStatisticsURL
+        
         case .postUserHeartRate:
             return "/userHeartRate"
         }
@@ -46,18 +45,22 @@ extension HeartRateService: TargetType {
     // 헤더
     var header: HeaderType {
         switch self {
-        case .getViewerPercentage, .getTeamHeartRate:
+        // 심박수 통계 조회 API
+        case .getHeartRateStatistics:
             return .basic
+        
         case .postUserHeartRate:
-            return .auth
+            return .basic
         }
     }
     
     // 파라미터
     var parameters: RequestParams {
         switch self {
-        case .getViewerPercentage, .getTeamHeartRate:
-            return .requestPlain
+        // 심박수 통계 조회 API
+        case .getHeartRateStatistics(let request):
+            return .query(["matchId" : request.matchId])
+        
         case .postUserHeartRate(let teamName, let min, let avg, let max):
             let body: [String: Any] = [
                 "teamName": teamName,
@@ -65,7 +68,7 @@ extension HeartRateService: TargetType {
                 "avg": avg,
                 "max": max
             ]
-            return .requestBody(body)
+            return .requestPlain
         }
     }
 }

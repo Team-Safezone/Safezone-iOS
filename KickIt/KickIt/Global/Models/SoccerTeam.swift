@@ -9,7 +9,7 @@ import Foundation
 
 /// [Entity] 축구 팀 모델
 struct SoccerTeam {
-    var ranking: Int // 랭킹
+    var ranking: Int? // 랭킹
     var teamEmblemURL: String // 팀 로고 이미지
     var teamName: String // 팀 이름
 }

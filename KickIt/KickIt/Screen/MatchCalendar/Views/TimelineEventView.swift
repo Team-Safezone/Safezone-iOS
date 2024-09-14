@@ -35,13 +35,13 @@ struct TimelineEventView: View {
                             .foregroundStyle(.black0)
                     } else {
                         LazyVStack {
-                            ForEach(matchEventViewModel.matchEvents.reversed()) { event in
-                                if event.teamName != "null" && event.teamUrl != "null" {
-                                    TimelineEventRowView(event: event, arrayHR: heartRateViewModel.arrayHR)
-                                } else if event.eventCode == 2 || event.eventCode == 4 {
-                                    HalfTimeView(event: event, eventCode: event.eventCode)
-                                }
-                            }
+//                            ForEach(matchEventViewModel.matchEvents.reversed()) { event in
+//                                if event.teamName != "null" && event.teamUrl != "null" {
+//                                    TimelineEventRowView(event: event, arrayHR: heartRateViewModel.arrayHR)
+//                                } else if event.eventCode == 2 || event.eventCode == 4 {
+//                                    HalfTimeView(event: event, eventCode: event.eventCode)
+//                                }
+//                            }
                         }
                     }
                 } //:SCROLLVIEW
