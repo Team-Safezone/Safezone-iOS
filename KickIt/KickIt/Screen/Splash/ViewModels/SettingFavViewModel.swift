@@ -46,7 +46,7 @@ class SettingFavViewModel: ObservableObject {
         }
     }
     
-    // API
+    /// 선호 팀 설정 API
     func setFavoriteTeams() {
             let selectedTeamNames = selectedTeams.map { teams[$0].teamName }
             UserAPI.shared.setFavoriteTeams(teams: selectedTeamNames)

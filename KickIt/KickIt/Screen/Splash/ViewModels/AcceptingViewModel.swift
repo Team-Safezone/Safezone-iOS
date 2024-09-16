@@ -17,6 +17,13 @@ class AcceptingViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    init() {
+            // 개별 동의 항목의 변화를 감지하고 전체 동의 상태 업데이트
+            Publishers.CombineLatest3($agreeToTerms, $agreeToPrivacy, $agreeToMarketing)
+                .map { $0 && $1 && $2 }
+                .assign(to: \.checkedAll, on: self)
+                .store(in: &cancellables)
+        }
     
     // 전체 동의 처리
     func toggleAll() {
@@ -31,22 +38,14 @@ class AcceptingViewModel: ObservableObject {
     // 개별 항목 동의 처리
     func toggleTerms() {
         agreeToTerms.toggle()
-        updateCheckedAll() // 개별 항목 상태에 따른 전체 동의 상태 업데이트
     }
     
     func togglePrivacy() {
         agreeToPrivacy.toggle()
-        updateCheckedAll() // 개별 항목 상태에 따른 전체 동의 상태 업데이트
     }
     
     func toggleMarketing() {
         agreeToMarketing.toggle()
-        updateCheckedAll() // 개별 항목 상태에 따른 전체 동의 상태 업데이트
-    }
-    
-    // 개별 항목에 따라 전체 동의 상태 업데이트
-    private func updateCheckedAll() {
-        checkedAll = agreeToTerms && agreeToPrivacy && agreeToMarketing
     }
     
     // 필수 항목 동의 여부 확인
@@ -54,7 +53,7 @@ class AcceptingViewModel: ObservableObject {
         agreeToTerms && agreeToPrivacy
     }
     
-    // API
+    /// 마케팅 동의 여부 API
     func setMarketingConsent(completion: @escaping () -> Void) {
         UserAPI.shared.setMarketingConsent(consent: agreeToMarketing)
             .receive(on: DispatchQueue.main)
