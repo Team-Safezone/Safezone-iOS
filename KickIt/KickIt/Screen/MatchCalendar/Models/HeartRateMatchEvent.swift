@@ -11,5 +11,6 @@ import Foundation
 struct HeartRateMatchEvent {
     var teamURL: String // 이벤트가 발생한 팀의 엠블럼 url
     var eventName: String // 이벤트명
+    var player1: String // 이벤트 주요 선수명
     var eventTime: Int // 이벤트 발생 시각
 }

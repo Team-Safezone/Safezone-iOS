@@ -64,5 +64,13 @@ struct DummyData {
         HeartRateRecord(heartRate: 80, heartRateRecordTime: 1, date: "00:15"),
         HeartRateRecord(heartRate: 85, heartRateRecordTime: 1, date: "00:30")
     ]
+    
+    static let heartRateMatchEvents: [HeartRateMatchEvent] = [
+        HeartRateMatchEvent(teamURL: "https://example.com/team1.png", eventName: "골!", player1: "손흥민", eventTime: 7),
+        HeartRateMatchEvent(teamURL: "https://example.com/team1.png", eventName: "자책골", player1: "베일", eventTime: 15),
+        HeartRateMatchEvent(teamURL: "https://example.com/team2.png", eventName: "교체", player1: "케인", eventTime: 30),
+        HeartRateMatchEvent(teamURL: "https://example.com/team2.png", eventName: "교체", player1: "손흥민", eventTime: 40),
+        HeartRateMatchEvent(teamURL: "https://example.com/team2.png", eventName: "경고", player1: "베일", eventTime: 60),
+        HeartRateMatchEvent(teamURL: "https://example.com/team2.png", eventName: "골!", player1: "케인", eventTime: 780)]
 }
 
