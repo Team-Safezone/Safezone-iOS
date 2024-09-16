@@ -2,7 +2,7 @@
 //  SettingNameViewModel.swift
 //  KickIt
 //
-//  Created by DaeunLee on 9/13/24.
+//  Created by DaeunLee on 9/14/24.
 //
 
 import SwiftUI
@@ -82,4 +82,3 @@ class SettingNameViewModel: ObservableObject {
         }
     }
 }
-

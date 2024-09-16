@@ -50,4 +50,3 @@ class AcceptingViewModel: ObservableObject {
         agreeToTerms && agreeToPrivacy
     }
 }
-

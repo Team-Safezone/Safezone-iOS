@@ -32,7 +32,7 @@ struct AcceptingView: View {
                     HStack {
                         Text("전체동의")
                             .pretendardTextStyle(.Title2Style)
-                            .foregroundStyle(.black0)
+                            .foregroundStyle(.white0)
                         Spacer()
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(viewModel.checkedAll ? .lime : .gray800)
@@ -56,7 +56,7 @@ struct AcceptingView: View {
                                     .foregroundStyle(.lime)
                                 Text("서비스 이용약관")
                                     .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.black0)
+                                    .foregroundStyle(.white0)
                                 Button(action: {
                                     viewModel.showModal = true
                                 }) {
@@ -82,7 +82,7 @@ struct AcceptingView: View {
                                     .foregroundStyle(.lime)
                                 Text("개인정보 수집 및 이용 동의")
                                     .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.black0)
+                                    .foregroundStyle(.white0)
                                 Button(action: {
                                     viewModel.showModal = true
                                 }) {
@@ -105,7 +105,7 @@ struct AcceptingView: View {
                                     .foregroundStyle(.gray300)
                                 Text("마케팅 정보 수신 동의")
                                     .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.black0)
+                                    .foregroundStyle(.white0)
                                 Spacer()
                             }
                         }
