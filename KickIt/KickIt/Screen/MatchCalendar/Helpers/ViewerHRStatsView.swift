@@ -50,7 +50,7 @@ struct ViewerHRStatsView: View {
                     HStack(spacing: 2) {
                         Text("\(homeTeamStats[i] ?? 0)")
                             .font(.pretendard(.bold, size: 16))
-                            .foregroundStyle(.black0)
+                            .foregroundStyle(.white0)
                         Text(" BPM")
                             .pretendardTextStyle(.Caption1Style)
                             .foregroundStyle(.gray500)
@@ -60,12 +60,12 @@ struct ViewerHRStatsView: View {
                     Text(i == 0 ? "최저" : i == 1 ? "평균" : "최고")
                         .font(.pretendard(.medium, size: 14))
                         .frame(width: 100)
-                        .foregroundStyle(.black0)
+                        .foregroundStyle(.white0)
                     
                     HStack(spacing: 2) {
                         Text("\(awayTeamStats[i] ?? 0)")
                             .font(.pretendard(.bold, size: 16))
-                            .foregroundStyle(.black0)
+                            .foregroundStyle(.white0)
                         Text(" BPM")
                             .pretendardTextStyle(.Caption1Style)
                             .foregroundStyle(.gray500)

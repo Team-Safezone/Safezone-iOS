@@ -13,11 +13,13 @@ class MatchEventViewModel: ObservableObject {
     @Published var matchEvents: [MatchEvent] = []
     @Published var currentEventCode: Int = -1
     @Published var matchStartTime: Date?
-    
+    let match: SoccerMatch
+
     private var cancellables = Set<AnyCancellable>()
     var matchResultViewModel: MatchResultViewModel
-    
+
     init(match: SoccerMatch, matchResultViewModel: MatchResultViewModel) {
+        self.match = match
         self.matchResultViewModel = matchResultViewModel
         fetchMatchEvents()
     }

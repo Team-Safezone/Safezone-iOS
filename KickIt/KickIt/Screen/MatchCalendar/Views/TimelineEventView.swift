@@ -12,13 +12,13 @@ struct TimelineEventView: View {
     @StateObject private var heartRateViewModel = HeartRateViewModel()
     @StateObject private var matchResultViewModel: MatchResultViewModel
     @State private var isShowingSoccerDiary = false
-    
+
     init(match: SoccerMatch) {
-            let resultViewModel = MatchResultViewModel(match: match)
-            _matchResultViewModel = StateObject(wrappedValue: resultViewModel)
-            _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: match, matchResultViewModel: resultViewModel))
-        }
-    
+        let resultViewModel = MatchResultViewModel(match: match)
+        _matchResultViewModel = StateObject(wrappedValue: resultViewModel)
+        _matchEventViewModel = StateObject(wrappedValue: MatchEventViewModel(match: match, matchResultViewModel: resultViewModel))
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -29,11 +29,11 @@ struct TimelineEventView: View {
                         EmptyStateView()
                     } else {
                         LazyVStack {
-                            ForEach(matchEventViewModel.matchEvents.reversed()) { event in
+                            ForEach(Array(matchEventViewModel.matchEvents.enumerated().reversed()), id: \.element.id) { _, event in
                                 if event.teamName != "null" && event.teamUrl != "null" {
                                     TimelineEventRowView(
                                         event: event,
-                                        arrayHR: heartRateViewModel.arrayHR,
+                                        arrayHR: heartRateViewModel.statistics?.homeTeamHeartRateRecords ?? [],
                                         matchStartTime: matchEventViewModel.matchStartTime
                                     )
                                 } else if event.eventCode == 2 || event.eventCode == 4 {
@@ -53,7 +53,7 @@ struct TimelineEventView: View {
             }
             .onAppear {
                 matchEventViewModel.fetchMatchEvents()
-                heartRateViewModel.updateHeartRateData()
+                heartRateViewModel.getHeartRateStatistics(request: HeartRateStatisticsRequest(matchId: Int64(Int(matchEventViewModel.match.id))))
             }
             .navigationTitle("경기 타임라인")
             .navigationBarTitleDisplayMode(.inline)
@@ -70,7 +70,7 @@ struct EmptyStateView: View {
             Spacer().frame(height: 200)
             Text("아직 경기가 시작되지 않았어요!")
                 .pretendardTextStyle(.SubTitleStyle)
-                .foregroundStyle(.black0)
+                .foregroundStyle(.white0)
         }
     }
 }
@@ -78,5 +78,3 @@ struct EmptyStateView: View {
 #Preview {
     TimelineEventView(match: dummySoccerMatches[0])
 }
-
-
