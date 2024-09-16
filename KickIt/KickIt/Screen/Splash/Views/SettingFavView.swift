@@ -54,8 +54,11 @@ struct SettingFavView: View {
                     btnBGColor: viewModel.selectedTeams.count == 3 ? .lime : .gray600
                 )
                 .disabled(viewModel.selectedTeams.count != 3)
-            }
-        }
+            }//:NAVIGATIONVIEW
+            .simultaneousGesture(TapGesture().onEnded {
+                viewModel.setFavoriteTeams()
+            })//:API 호출
+        }//:NAVIGATIONSTACK
         .navigationBarBackButtonHidden(true)
     }
     

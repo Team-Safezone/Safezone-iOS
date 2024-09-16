@@ -71,6 +71,8 @@
 		E7B1400B2C87F05600CB351E /* HeartRateMatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */; };
 		E7B1400D2C87F15400CB351E /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400C2C87F15400CB351E /* HeartRate.swift */; };
 		E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */; };
+		E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D21AEF2C9801F100FF8907 /* UserService.swift */; };
+		E7D21AF22C98062100FF8907 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D21AF12C98062100FF8907 /* UserAPI.swift */; };
 		E7D7E7462C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */; };
 		E7DBC0DC2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift */; };
 		E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DBC0DD2C0CDBFB008D4300 /* MatchCalendarViewModel.swift */; };
@@ -165,6 +167,8 @@
 		E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMatchEvent.swift; sourceTree = "<group>"; };
 		E7B1400C2C87F15400CB351E /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateRecord.swift; sourceTree = "<group>"; };
+		E7D21AEF2C9801F100FF8907 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		E7D21AF12C98062100FF8907 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		E7D311872C036F8F0070A31D /* VerticalBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBarChart.swift; sourceTree = "<group>"; };
 		E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchDailyResponse.swift; sourceTree = "<group>"; };
 		E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCalendarViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -356,11 +360,11 @@
 		E79AFF862BEDDDB2004CAF75 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E7A6A0682C95B7A60008447D /* AcceptingVIew.swift */,
-				E7A6A0662C95B7A60008447D /* LoginView.swift */,
-				E7A6A0652C95B7A60008447D /* SettingFavView.swift */,
-				E7A6A0672C95B7A60008447D /* SettingNameView.swift */,
 				E7A6A0712C95B8290008447D /* SplashView.swift */,
+				E7A6A0662C95B7A60008447D /* LoginView.swift */,
+				E7A6A0672C95B7A60008447D /* SettingNameView.swift */,
+				E7A6A0652C95B7A60008447D /* SettingFavView.swift */,
+				E7A6A0682C95B7A60008447D /* AcceptingVIew.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -435,8 +439,8 @@
 		E7A6A0742C95B9F40008447D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				E7A6A0752C95BA030008447D /* SettingFavViewModel.swift */,
 				E7A6A0772C95BA240008447D /* SettingNameViewModel.swift */,
+				E7A6A0752C95BA030008447D /* SettingFavViewModel.swift */,
 				E7A6A0792C95BA630008447D /* AcceptingViewModel.swift */,
 			);
 			path = ViewModels;
@@ -492,6 +496,7 @@
 				E7DBC1002C0E1531008D4300 /* MatchCalendarService.swift */,
 				E7ADBF772C5756DD00E877C5 /* HeartRateService.swift */,
 				E7ADBF942C57B5B700E877C5 /* MatchEventService.swift */,
+				E7D21AEF2C9801F100FF8907 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 				E7DBC0FA2C0E0F87008D4300 /* MatchCalendarAPI.swift */,
 				E7ADBF752C5753A300E877C5 /* HeartRateAPI.swift */,
 				E7ADBF922C57B45600E877C5 /* MatchEventAPI.swift */,
+				E7D21AF12C98062100FF8907 /* UserAPI.swift */,
 			);
 			path = APIManagers;
 			sourceTree = "<group>";
@@ -723,6 +729,7 @@
 				E7ADBF932C57B45600E877C5 /* MatchEventAPI.swift in Sources */,
 				E7ADBF782C5756DD00E877C5 /* HeartRateService.swift in Sources */,
 				E7DBC0E02C0DC0E3008D4300 /* CommonResponse.swift in Sources */,
+				E7D21AF22C98062100FF8907 /* UserAPI.swift in Sources */,
 				E7A6A0782C95BA240008447D /* SettingNameViewModel.swift in Sources */,
 				E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */,
 				E7B140032C85F48400CB351E /* SoccerMatchMonthlyRequest.swift in Sources */,
@@ -738,6 +745,7 @@
 				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
 				E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */,
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
+				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

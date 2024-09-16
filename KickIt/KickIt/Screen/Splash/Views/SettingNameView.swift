@@ -64,6 +64,9 @@ struct SettingNameView: View {
                 )
                 .disabled(!viewModel.isNicknameValid)
             }//:NAVIGATIONLINK
+            .simultaneousGesture(TapGesture().onEnded {
+                viewModel.setNickname()
+            })//:API 호출
         }//:NAVIGATIONSTACK
         .navigationBarBackButtonHidden(true)
     }

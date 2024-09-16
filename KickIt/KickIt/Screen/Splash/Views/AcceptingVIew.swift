@@ -10,6 +10,7 @@ import SwiftUI
 // 이용 약관 동의 화면
 struct AcceptingView: View {
     @StateObject private var viewModel = AcceptingViewModel()
+    @State private var navigateToHome = false
     
     var body: some View {
         NavigationStack {
@@ -122,9 +123,12 @@ struct AcceptingView: View {
                 Spacer()
                 
                 // 시작하기 버튼
-                NavigationLink {
-                    Home(soccerMatch: dummySoccerMatches[1])
-                } label: {
+                Button(action: {
+                    viewModel.setMarketingConsent {
+                        // API 호출이 완료된 후 Home 화면으로 이동
+                        navigateToHome = true
+                    }
+                }) {
                     DesignWideButton(
                         label: "시작하기",
                         labelColor: viewModel.canProceed ? .background : .gray400,
@@ -134,6 +138,9 @@ struct AcceptingView: View {
                 .disabled(!viewModel.canProceed)
             }
             .navigationBarBackButtonHidden(true)
+            .navigationDestination(isPresented: $navigateToHome) {
+                Home(soccerMatch: dummySoccerMatches[1])
+            }
         }
     }
     

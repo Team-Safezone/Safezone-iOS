@@ -5,49 +5,74 @@
 //  Created by DaeunLee on 9/14/24.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 class SettingNameViewModel: ObservableObject {
-    @Published var nickname = "" {
-        didSet {
-            validateNickname()
-        }
-    }
+    /// 사용자가 입력한 닉네임
+    @Published var nickname = ""
+    /// 닉네임의 유효성 여부
     @Published var isNicknameValid = false
+    /// 에러 메시지
     @Published var errorMessage = ""
+    /// 중복 검사 중 여부
     @Published var isCheckingDuplicate = false
     
-    // 닉네임 검증 로직
-    private func validateNickname() {
+    private var cancellables = Set<AnyCancellable>()
+    private var nicknameCheckSubject = PassthroughSubject<String, Never>()
+    
+    init() {
+        setupNicknameCheck()
+    }
+    
+    /// 닉네임 체크 설정
+    private func setupNicknameCheck() {
+        nicknameCheckSubject
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .filter { !$0.isEmpty }
+            .sink { [weak self] nickname in
+                self?.validateNickname(nickname)
+            }
+            .store(in: &cancellables)
+        
+        $nickname
+            .sink { [weak self] nickname in
+                self?.nicknameCheckSubject.send(nickname)
+            }
+            .store(in: &cancellables)
+    }
+    
+    /// 닉네임 유효성 검사 및 중복 체크
+    /// - Parameter nickname: 검사할 닉네임
+    private func validateNickname(_ nickname: String) {
         let nicknameRegex = "^[a-zA-Z0-9가-힣]{2,10}$"
         let nicknamePredicate = NSPredicate(format: "SELF MATCHES %@", nicknameRegex)
         
-        if nickname.isEmpty {
-            isNicknameValid = false
-            errorMessage = ""
-        } else if !nicknamePredicate.evaluate(with: nickname) {
+        if !nicknamePredicate.evaluate(with: nickname) {
             isNicknameValid = false
             errorMessage = "사용 불가능한 닉네임입니다"
-        } else {
-            isCheckingDuplicate = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // 예시를 위한 더미 중복 검사
-                let isDuplicate = false // 실제 데이터베이스 쿼리 결과에 따라 변경
-                
-                if isDuplicate {
-                    self.isNicknameValid = false
-                    self.errorMessage = "중복된 닉네임입니다"
-                } else {
-                    self.isNicknameValid = true
-                    self.errorMessage = ""
-                }
-                self.isCheckingDuplicate = false
-            }
+            return
         }
+        
+        isCheckingDuplicate = true
+        
+        UserAPI.shared.checkNicknameDuplicate(nickname: nickname)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isCheckingDuplicate = false
+                if case .failure(let error) = completion {
+                    self?.isNicknameValid = false
+                    self?.errorMessage = "중복 검사 중 오류가 발생했습니다" // 에러 명칭 \(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] isDuplicate in
+                self?.isNicknameValid = !isDuplicate
+                self?.errorMessage = isDuplicate ? "중복된 닉네임입니다" : ""
+            }
+            .store(in: &cancellables)
     }
     
-    // TextField 테두리 색상
+    /// TextField 테두리 색상
     var borderColor: Color {
         if nickname.isEmpty {
             return .gray900
@@ -58,7 +83,7 @@ class SettingNameViewModel: ObservableObject {
         }
     }
     
-    // 상태 메시지
+    /// 상태 메시지
     var statusMessage: String {
         if nickname.isEmpty {
             return "2~10자 이내, 영문/한글/숫자만 입력 가능"
@@ -71,7 +96,7 @@ class SettingNameViewModel: ObservableObject {
         }
     }
     
-    // 상태 메시지 색상
+    /// 상태 메시지 색상
     var statusColor: Color {
         if nickname.isEmpty || (!isNicknameValid && errorMessage.isEmpty) {
             return .gray
@@ -80,5 +105,32 @@ class SettingNameViewModel: ObservableObject {
         } else {
             return .red
         }
+    }
+    
+    /// 닉네임 설정 API 호출
+    func setNickname() {
+        guard isNicknameValid else {
+            errorMessage = "유효하지 않은 닉네임입니다."
+            return
+        }
+        
+        UserAPI.shared.setNickname(nickname: nickname)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("Nickname set successfully")
+                case .failure(let error):
+                    print("Failed to set nickname: \(error)")
+                    self?.errorMessage = "닉네임 설정에 실패했습니다: \(error.localizedDescription)"
+                }
+            } receiveValue: { [weak self] success in
+                if success {
+                    print("Nickname set successfully")
+                } else {
+                    self?.errorMessage = "닉네임 설정에 실패했습니다."
+                }
+            }
+            .store(in: &cancellables)
     }
 }

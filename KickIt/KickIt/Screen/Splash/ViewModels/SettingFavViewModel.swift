@@ -5,10 +5,14 @@
 //  Created by DaeunLee on 9/13/24.
 //
 
+import Combine
 import Foundation
 
 class SettingFavViewModel: ObservableObject {
     @Published var selectedTeams: [Int] = []
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     
     // 축구 팀 더미 데이터
     var teams: [SoccerTeam] = [
@@ -41,4 +45,22 @@ class SettingFavViewModel: ObservableObject {
             selectedTeams.append(teamIndex)
         }
     }
+    
+    // API
+    func setFavoriteTeams() {
+            let selectedTeamNames = selectedTeams.map { teams[$0].teamName }
+            UserAPI.shared.setFavoriteTeams(teams: selectedTeamNames)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        print("Favorite teams set successfully")
+                    case .failure(let error):
+                        print("Failed to set favorite teams: \(error)")
+                    }
+                } receiveValue: { _ in
+                    // 성공 처리
+                }
+                .store(in: &cancellables)
+        }
 }

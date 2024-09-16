@@ -45,7 +45,7 @@ struct LoginView: View {
                                             .padding(.leading, 16)
                                         Text("Apple로 로그인")
                                             .pretendardTextStyle(.Body1Style)
-                                            .foregroundStyle(.black0)
+                                            .foregroundStyle(.white0)
                                             .padding(.leading, 12)
                                         Spacer()
                                     }
@@ -69,7 +69,7 @@ struct LoginView: View {
                                             .padding(.leading, 16)
                                         Text("네이버로 로그인")
                                             .pretendardTextStyle(.Body1Style)
-                                            .foregroundStyle(.black0)
+                                            .foregroundStyle(.white0)
                                             .padding(.leading, 12)
                                         Spacer()
                                     }
