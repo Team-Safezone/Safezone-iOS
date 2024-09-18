@@ -11,7 +11,7 @@ import SwiftUI
 struct KickItApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SplashView(viewModel: MainViewModel())
         }
     }
 }

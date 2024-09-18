@@ -33,6 +33,8 @@
 		E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF9A2BEF7982004CAF75 /* Date+.swift */; };
 		E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFF9C2BEF8A86004CAF75 /* SoccerMatchRow.swift */; };
 		E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */; };
+		E79BF2B92C9AB0A900302BB8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF2B82C9AB0A900302BB8 /* MainView.swift */; };
+		E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */; };
 		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
 		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
 		E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A448D12C18239500F611A6 /* DragIndicator.swift */; };
@@ -129,6 +131,8 @@
 		E79AFF9A2BEF7982004CAF75 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		E79AFF9C2BEF8A86004CAF75 /* SoccerMatchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchRow.swift; sourceTree = "<group>"; };
 		E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
+		E79BF2B82C9AB0A900302BB8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchInfo.swift; sourceTree = "<group>"; };
 		E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPanel.swift; sourceTree = "<group>"; };
 		E7A448D12C18239500F611A6 /* DragIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragIndicator.swift; sourceTree = "<group>"; };
@@ -360,6 +364,7 @@
 		E79AFF862BEDDDB2004CAF75 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E79BF2B82C9AB0A900302BB8 /* MainView.swift */,
 				E7A6A0712C95B8290008447D /* SplashView.swift */,
 				E7A6A0662C95B7A60008447D /* LoginView.swift */,
 				E7A6A0672C95B7A60008447D /* SettingNameView.swift */,
@@ -439,6 +444,7 @@
 		E7A6A0742C95B9F40008447D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */,
 				E7A6A0772C95BA240008447D /* SettingNameViewModel.swift */,
 				E7A6A0752C95BA030008447D /* SettingFavViewModel.swift */,
 				E7A6A0792C95BA630008447D /* AcceptingViewModel.swift */,
@@ -665,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7DBC1082C0EE9AA008D4300 /* VerticalBarChart.swift in Sources */,
+				E79BF2B92C9AB0A900302BB8 /* MainView.swift in Sources */,
 				E7DBC1062C0EE9A4008D4300 /* SoccerDiary.swift in Sources */,
 				E7A6A06D2C95B7A60008447D /* AcceptingVIew.swift in Sources */,
 				E7E869172C568C9400DFBA85 /* HeartRateViewModel.swift in Sources */,
@@ -688,6 +695,7 @@
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
+				E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
 				E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */,
 				E7ADBF992C57BAF300E877C5 /* TimelineEventView.swift in Sources */,

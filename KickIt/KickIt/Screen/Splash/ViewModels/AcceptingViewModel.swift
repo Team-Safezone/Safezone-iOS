@@ -18,42 +18,38 @@ class AcceptingViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-            // 개별 동의 항목의 변화를 감지하고 전체 동의 상태 업데이트
-            Publishers.CombineLatest3($agreeToTerms, $agreeToPrivacy, $agreeToMarketing)
-                .map { $0 && $1 && $2 }
-                .assign(to: \.checkedAll, on: self)
-                .store(in: &cancellables)
-        }
+        // 개별 동의 상태 변경을 감지하여 전체 동의 상태만 업데이트
+        Publishers.CombineLatest3($agreeToTerms, $agreeToPrivacy, $agreeToMarketing)
+            .map { $0 && $1 && $2 }
+            .sink { [weak self] allAgreed in
+                self?.updateCheckedAll(allAgreed)
+            }
+            .store(in: &cancellables)
+    }
     
-    // 전체 동의 처리
+    // MARK: - Methods
+    /// 전체 동의 상태 업데이트 (개별 항목에 의한 변경)
+    private func updateCheckedAll(_ newValue: Bool) {
+        if checkedAll != newValue {
+            checkedAll = newValue
+        }
+    }
+    
+    /// 전체 동의 토글 함수 (직접 제어)
     func toggleAll() {
-        // 전체 동의 상태를 토글하고 개별 항목에 반영
-        let newState = !checkedAll // 전체 동의의 새로운 상태
-        checkedAll = newState
+        checkedAll.toggle()
+        let newState = checkedAll
         agreeToTerms = newState
         agreeToPrivacy = newState
         agreeToMarketing = newState
     }
     
-    // 개별 항목 동의 처리
-    func toggleTerms() {
-        agreeToTerms.toggle()
-    }
-    
-    func togglePrivacy() {
-        agreeToPrivacy.toggle()
-    }
-    
-    func toggleMarketing() {
-        agreeToMarketing.toggle()
-    }
-    
-    // 필수 항목 동의 여부 확인
+    /// 필수 동의 항목 확인
     var canProceed: Bool {
         agreeToTerms && agreeToPrivacy
     }
     
-    /// 마케팅 동의 여부 API
+    /// 마케팅 동의 여부 API 호출
     func setMarketingConsent(completion: @escaping () -> Void) {
         UserAPI.shared.setMarketingConsent(consent: agreeToMarketing)
             .receive(on: DispatchQueue.main)

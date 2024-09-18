@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SplashView: View {
+    @ObservedObject var viewModel: MainViewModel
     @State private var isActive: Bool = false
+    
     var body: some View {
         if isActive {
-                    LoginView()
+                    LoginView(viewModel: viewModel)
                 } else {
                     ZStack{
                         Text("LOGO")
@@ -35,5 +37,5 @@ struct SplashView: View {
 }
 
 #Preview {
-    SplashView()
+    SplashView(viewModel: MainViewModel())
 }
