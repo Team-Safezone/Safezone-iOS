@@ -28,7 +28,6 @@ struct DesignWideButton: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(btnBGColor)
             )
-            .padding([.leading, .trailing], 16)
     }
 }
 

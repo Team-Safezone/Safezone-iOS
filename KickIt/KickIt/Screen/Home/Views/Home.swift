@@ -90,7 +90,7 @@ struct btnCard1: View {
         ZStack{
             RoundedRectangle(cornerRadius: 8)
                 .frame(width: 165, height: 196)
-                .foregroundStyle(LinearGradient.limeGradient)
+                .foregroundStyle(LinearGradient.greenGradient)
             VStack(alignment: .center, spacing: 4){
                 VStack(alignment: .leading, spacing: 0){
                     VStack(alignment: .leading, spacing: 0){
