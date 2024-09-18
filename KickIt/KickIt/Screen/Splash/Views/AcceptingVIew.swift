@@ -141,7 +141,7 @@ struct AcceptingView: View {
             .navigationDestination(isPresented: $navigateToHome) {
                 Home(soccerMatch: dummySoccerMatches[1])
             }
-        }
+        }//:NAVIGATIONSTACK
     }
     
     // 체크박스 스타일 정의

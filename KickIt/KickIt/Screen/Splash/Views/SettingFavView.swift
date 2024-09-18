@@ -10,6 +10,7 @@ import SwiftUI
 // 팀 선택 화면
 struct SettingFavView: View {
     @StateObject private var viewModel = SettingFavViewModel()
+    @State private var navigateToAccepting = false
     
     var body: some View {
         NavigationStack {
@@ -45,33 +46,40 @@ struct SettingFavView: View {
             
             Spacer()
             
-            NavigationLink {
-                AcceptingView()
-            } label: {
+            Button(action: {
+                if viewModel.selectedTeams.count == 3 {
+                    viewModel.setFavoriteTeams {
+                        // API 호출이 완료된 후 AcceptingView로 이동
+                        navigateToAccepting = true
+                    }
+                }
+            }) {
                 DesignWideButton(
                     label: "다음",
                     labelColor: viewModel.selectedTeams.count == 3 ? .background : .gray400,
                     btnBGColor: viewModel.selectedTeams.count == 3 ? .lime : .gray600
                 )
-                .disabled(viewModel.selectedTeams.count != 3)
-            }//:NAVIGATIONVIEW
-            .simultaneousGesture(TapGesture().onEnded {
-                viewModel.setFavoriteTeams()
-            })//:API 호출
-        }//:NAVIGATIONSTACK
-        .navigationBarBackButtonHidden(true)
-    }
-    
+            }
+            .disabled(viewModel.selectedTeams.count != 3)
+        }.navigationBarBackButtonHidden(true)
+            .navigationDestination(isPresented: $navigateToAccepting) {
+                AcceptingView()
+            }
+        }
+
     private func teamSelectionButton(team: SoccerTeam, teamIndex: Int) -> some View {
         RoundedRectangle(cornerRadius: 4)
             .stroke(viewModel.selectedTeams.contains(teamIndex) ? Color.lime : Color.gray900, lineWidth: 1)
             .frame(width: 100, height: 112, alignment: .center)
             .overlay(
                 VStack {
-                    Image(team.teamEmblemURL)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 64, height: 64)
+                    AsyncImage(url: URL(string: team.teamEmblemURL)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .scaledToFit()
+                    .frame(width: 64, height: 64)
                     Text(team.teamName)
                         .pretendardTextStyle(.Caption1Style)
                 }

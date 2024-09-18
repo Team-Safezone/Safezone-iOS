@@ -10,11 +10,11 @@ import SwiftUI
 // 닉네임 설정 화면
 struct SettingNameView: View {
     @StateObject private var viewModel = SettingNameViewModel()
+    @State private var navigateToSettingFav = false
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                // 상단 Progress Circle
                 HStack(spacing: 10) {
                     Spacer()
                     CircleView(num: "1", numColor: .black, bgColor: .lime)
@@ -54,23 +54,27 @@ struct SettingNameView: View {
             }//:VSTACK
             Spacer()
             
-            NavigationLink {
-                SettingFavView()
-            } label: {
-                DesignWideButton(
-                    label: "다음",
-                    labelColor: viewModel.isNicknameValid ? .background : .gray400,
-                    btnBGColor: viewModel.isNicknameValid ? .lime : .gray600
-                )
-                .disabled(!viewModel.isNicknameValid)
-            }//:NAVIGATIONLINK
-            .simultaneousGesture(TapGesture().onEnded {
-                viewModel.setNickname()
-            })//:API 호출
-        }//:NAVIGATIONSTACK
-        .navigationBarBackButtonHidden(true)
-    }
-}
+            Button(action: {
+                            if viewModel.isNicknameValid {
+                                viewModel.setNickname {
+                                    navigateToSettingFav = true
+                                }
+                            }
+                        }) {
+                            DesignWideButton(
+                                label: "다음",
+                                labelColor: viewModel.isNicknameValid ? .background : .gray400,
+                                btnBGColor: viewModel.isNicknameValid ? .lime : .gray600
+                            )
+                        }
+                        .disabled(!viewModel.isNicknameValid)
+                    }
+                    .navigationBarBackButtonHidden(true)
+                    .navigationDestination(isPresented: $navigateToSettingFav) {
+                        SettingFavView()
+                    }
+                }
+            }
 
 // 상단 표기
 struct CircleView: View {

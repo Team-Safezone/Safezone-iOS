@@ -18,16 +18,17 @@ enum UserService {
     case setMarketingConsent(Bool)
     /// 닉네임 중복 검사 API
     case checkNicknameDuplicate(String)
+    /// 프리미어리그 팀 URL, Name API
+    case getTeams
 }
 
 extension UserService: TargetType {
-    /// HTTP 메소드 정의
     var method: HTTPMethod {
         switch self {
         case .setNickname, .setFavoriteTeams, .setMarketingConsent:
-            return .post // POST 메소드 사용
-        case .checkNicknameDuplicate:
-            return .get // GET 메소드 사용
+            return .post
+        case .checkNicknameDuplicate, .getTeams:
+            return .get
         }
     }
     
@@ -35,32 +36,36 @@ extension UserService: TargetType {
     var endPoint: String {
         switch self {
         case .setNickname:
-            return "/user/nickname" // 닉네임 설정 엔드포인트
+            return "/user/nickname"
         case .setFavoriteTeams:
-            return "/user/favorite-teams" // 선호 팀 설정 엔드포인트
+            return "/user/favorite-teams"
         case .setMarketingConsent:
-            return "/user/marketing-consent" // 마케팅 동의 설정 엔드포인트
+            return "/user/marketing-consent"
         case .checkNicknameDuplicate:
-            return "/user/check-nickname" // 닉네임 중복 검사 엔드포인트
+            return "/user/check-nickname"
+        case .getTeams:
+            return "/eplTeams"
         }
     }
     
     /// HTTP 헤더 타입 정의
     var header: HeaderType {
-        return .basic // 모든 요청에 대해 기본 헤더 사용
+        return .basic
     }
     
     /// API 요청 파라미터 정의
     var parameters: RequestParams {
         switch self {
         case .setNickname(let nickname):
-            return .requestBody(["nickname": nickname]) // 닉네임을 요청 바디에 포함
+            return .requestBody(["nickname": nickname])
         case .setFavoriteTeams(let teams):
-            return .requestBody(["favoriteTeams": teams]) // 선호 팀 목록을 요청 바디에 포함
+            return .requestBody(["favoriteTeams": teams])
         case .setMarketingConsent(let consent):
-            return .requestBody(["marketingConsent": consent]) // 마케팅 동의 여부를 요청 바디에 포함
+            return .requestBody(["marketingConsent": consent])
         case .checkNicknameDuplicate(let nickname):
-            return .query(["nickname": nickname]) // 닉네임을 쿼리 파라미터로 포함
+            return .query(["nickname": nickname])
+        case .getTeams:
+            return .requestPlain
         }
     }
 }
