@@ -12,18 +12,25 @@ struct AcceptingView: View {
     @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // 상단 텍스트
-            headerSection
+        ZStack(alignment: .top){
+            // 배경화면 색 지정
+            Color.background
+                .ignoresSafeArea()
             
-            // 동의 항목 섹션
-            agreementSection
-            
-            Spacer()
-            
-            // 시작하기 버튼
-            startButton
-        }
+            VStack(alignment: .leading, spacing: 16) {
+                // 상단 텍스트
+                headerSection
+                
+                // 동의 항목 섹션
+                agreementSection
+                
+                Spacer()
+                
+                // 시작하기 버튼
+                startButton
+            }//:VSTACK
+        }//:ZSTACK
+        
     }
     
     // MARK: - View Components
