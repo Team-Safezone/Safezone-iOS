@@ -13,7 +13,7 @@ struct SplashView: View {
     
     var body: some View {
         if isActive {
-            LoginView(viewModel: viewModel)
+            MainView(viewModel: viewModel)
         } else {
             ZStack{
                 Text("LOGO")
@@ -22,12 +22,9 @@ struct SplashView: View {
                 Color.background
                     .ignoresSafeArea()
                     .onAppear{
-                        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                            timer.invalidate()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                withAnimation(.linear(duration: -5)) {
-                                    isActive = true
-                                }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isActive = true
                             }
                         }
                     }//:COLOR

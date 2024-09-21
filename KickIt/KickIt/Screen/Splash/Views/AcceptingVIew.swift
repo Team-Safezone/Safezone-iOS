@@ -112,21 +112,24 @@ struct AcceptingView: View {
     
     private var startButton: some View {
         Button(action: {
-            if viewModel.acceptingViewModel.canProceed {
-                viewModel.acceptingViewModel.setMarketingConsent {
-                    // 홈으로 이동
+                    if viewModel.acceptingViewModel.canProceed {
+                        viewModel.acceptingViewModel.setMarketingConsent(to: viewModel) { success in
+                            if success {
+                                // 홈으로 이동 또는 다음 단계 처리
+                            } else {
+                                // 에러 처리
+                            }
+                        }
+                    }
+                }) {
+                    Text("시작하기")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(viewModel.acceptingViewModel.canProceed ? Color.lime : Color.gray600)
+                        .foregroundColor(viewModel.acceptingViewModel.canProceed ? .black : .gray400)
+                        .cornerRadius(8)
                 }
-            }
-        }) {
-            Text("시작하기")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(viewModel.acceptingViewModel.canProceed ? Color.lime : Color.gray600)
-                .foregroundColor(viewModel.acceptingViewModel.canProceed ? .black : .gray400)
-                .cornerRadius(8)
-        }
-        .disabled(!viewModel.acceptingViewModel.canProceed)
-        .padding(.horizontal, 16)
+                .disabled(!viewModel.acceptingViewModel.canProceed)
     }
 }
 

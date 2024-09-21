@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var viewModel = MainViewModel()
+    @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
         VStack {
@@ -22,12 +22,12 @@ struct MainView: View {
             case 3:
                 AcceptingView(viewModel: viewModel)
             default:
-                SplashView(viewModel: viewModel)
+                Text("Error: Invalid step")
             }
         }
     }
 }
 
 #Preview {
-    MainView()
+    MainView(viewModel: MainViewModel())
 }

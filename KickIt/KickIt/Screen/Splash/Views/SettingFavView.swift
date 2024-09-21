@@ -50,19 +50,19 @@ struct SettingFavView: View {
                 Spacer()
                 
                 Button(action: {
-                    if viewModel.settingFavViewModel.selectedTeams.count >= 1 && viewModel.settingFavViewModel.selectedTeams.count <= 3 {
-                        viewModel.settingFavViewModel.setFavoriteTeams {
-                            viewModel.nextStep()
+                            if viewModel.settingFavViewModel.selectedTeams.count >= 1 && viewModel.settingFavViewModel.selectedTeams.count <= 3 {
+                                viewModel.settingFavViewModel.setFavoriteTeams(to: viewModel) {
+                                    viewModel.nextStep()
+                                }
+                            }
+                        }) {
+                            DesignWideButton(
+                                label: "다음",
+                                labelColor: viewModel.settingFavViewModel.selectedTeams.count >= 1 ? .background : .gray400,
+                                btnBGColor: viewModel.settingFavViewModel.selectedTeams.count >= 1 ? .lime : .gray600
+                            )
                         }
-                    }
-                }) {
-                    DesignWideButton(
-                        label: "다음",
-                        labelColor: viewModel.settingFavViewModel.selectedTeams.count >= 1 ? .background : .gray400,
-                        btnBGColor: viewModel.settingFavViewModel.selectedTeams.count >= 1 ? .lime : .gray600
-                    )
-                }
-                .disabled(viewModel.settingFavViewModel.selectedTeams.count < 1)
+                        .disabled(viewModel.settingFavViewModel.selectedTeams.count < 1)
             }
         }
         

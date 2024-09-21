@@ -108,31 +108,13 @@ class SettingNameViewModel: ObservableObject {
     }
     
     /// 닉네임 설정 API 호출
-    func setNickname(completion: @escaping () -> Void) {
-        guard isNicknameValid else {
-            errorMessage = "유효하지 않은 닉네임입니다."
-            return
-        }
-        
-        UserAPI.shared.setNickname(nickname: nickname)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completionResult in
-                switch completionResult {
-                case .finished:
-                    print("Nickname set successfully")
-                    completion()
-                case .failure(let error):
-                    print("Failed to set nickname: \(error)")
-                    self?.errorMessage = "닉네임 설정에 실패했습니다: \(error.localizedDescription)"
-                }
-            } receiveValue: { [weak self] success in
-                if success {
-                    print("Nickname set successfully")
-                    completion()
-                } else {
-                    self?.errorMessage = "닉네임 설정에 실패했습니다."
-                }
+    func setNickname(to mainViewModel: MainViewModel, completion: @escaping () -> Void) {
+            guard isNicknameValid else {
+                errorMessage = "유효하지 않은 닉네임입니다."
+                return
             }
-            .store(in: &cancellables)
+            
+            mainViewModel.userSignUpInfo.nickname = nickname
+            completion()
+        }
     }
-}

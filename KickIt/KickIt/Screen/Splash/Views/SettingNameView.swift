@@ -58,19 +58,19 @@ struct SettingNameView: View {
                 
                 // 닉네임이 유효할 경우에만 다음 버튼 활성화
                 Button(action: {
-                    if viewModel.settingNameViewModel.isNicknameValid {
-                        viewModel.settingNameViewModel.setNickname {
-                            viewModel.nextStep()
+                            if viewModel.settingNameViewModel.isNicknameValid {
+                                viewModel.settingNameViewModel.setNickname(to: viewModel) {
+                                    viewModel.nextStep()
+                                }
+                            }
+                        }) {
+                            DesignWideButton(
+                                label: "다음",
+                                labelColor: viewModel.settingNameViewModel.isNicknameValid ? .black0 : .gray400,
+                                btnBGColor: viewModel.settingNameViewModel.isNicknameValid ? .lime : .gray600
+                            )
                         }
-                    }
-                }) {
-                    DesignWideButton(
-                        label: "다음",
-                        labelColor: viewModel.settingNameViewModel.isNicknameValid ? .black0 : .gray400,
-                        btnBGColor: viewModel.settingNameViewModel.isNicknameValid ? .lime : .gray600
-                    )
-                }
-                .disabled(!viewModel.settingNameViewModel.isNicknameValid)
+                        .disabled(!viewModel.settingNameViewModel.isNicknameValid)
             }//:VSTACK
         }//:ZSTACK
     }

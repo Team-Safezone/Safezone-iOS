@@ -50,22 +50,8 @@ class AcceptingViewModel: ObservableObject {
     }
     
     /// 마케팅 동의 여부 API 호출
-    func setMarketingConsent(completion: @escaping () -> Void) {
-        UserAPI.shared.setMarketingConsent(consent: agreeToMarketing)
-            .receive(on: DispatchQueue.main)
-            .sink { result in
-                switch result {
-                case .finished:
-                    print("Marketing consent set successfully")
-                case .failure(let error):
-                    print("Failed to set marketing consent: \(error)")
-                }
-                completion()
-            } receiveValue: { success in
-                if success {
-                    User.currentUser.agreeToMarketing = self.agreeToMarketing
-                }
-            }
-            .store(in: &cancellables)
+    func setMarketingConsent(to mainViewModel: MainViewModel, completion: @escaping (Bool) -> Void) {
+            mainViewModel.userSignUpInfo.agreeToMarketing = agreeToMarketing
+            mainViewModel.signUp(completion: completion)
     }
 }
