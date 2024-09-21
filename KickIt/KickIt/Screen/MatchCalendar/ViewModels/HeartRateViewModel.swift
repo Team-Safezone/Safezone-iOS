@@ -71,6 +71,7 @@ final class HeartRateViewModel: HeartRateViewModelProtocol {
                 HeartRateMatchEvent(
                     teamURL: event.teamURL,
                     eventName: event.eventName,
+                    player1: event.player1,
                     eventTime: event.eventTime
                 )
             } ?? [],

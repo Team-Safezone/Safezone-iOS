@@ -32,10 +32,11 @@ struct HeartRateStatisticsResponse: Codable {
 struct MatchEventResponse: Codable {
     var teamURL: String // 이벤트가 발생한 팀의 엠블럼 url
     var eventName: String // 이벤트명
+    var player1: String // 이벤트 주요 선수
     var eventTime: Int // 이벤트 발생 시각
     
     enum CodingKeys: String, CodingKey {
-        case teamURL, eventName, eventTime
+        case teamURL, eventName, player1, eventTime
     }
 }
 
