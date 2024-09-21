@@ -35,18 +35,14 @@ struct StartingLineupPrediction: View {
                     // 홈팀의 선발라인업 선택
                     StartingLineupPredictionView(
                         isHomeTeam: true,
-                        team: soccerMatch.homeTeam,
-                        teamPlayers: dummyStartingLineupPlayer,
-                        userPredictions: viewModel.homePredictions
+                        team: soccerMatch.homeTeam
                     )
                     .padding(.top, 20)
                     
                     // 원정팀의 선발라인업 선택
                     StartingLineupPredictionView(
                         isHomeTeam: false,
-                        team: soccerMatch.awayTeam,
-                        teamPlayers: dummyStartingLineupPlayer,
-                        userPredictions: viewModel.awayPredictions
+                        team: soccerMatch.awayTeam
                     )
                     .padding(.top, 20)
                     

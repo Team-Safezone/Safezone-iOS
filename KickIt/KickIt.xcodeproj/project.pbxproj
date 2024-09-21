@@ -33,6 +33,9 @@
 		E778A0882C98194B00B6117D /* PredictionPlayerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0872C98194B00B6117D /* PredictionPlayerCardView.swift */; };
 		E778A08A2C981F3600B6117D /* PredictionPlayerSelectedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0892C981F3600B6117D /* PredictionPlayerSelectedCardView.swift */; };
 		E778A08C2C99633D00B6117D /* PredictionPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A08B2C99633D00B6117D /* PredictionPlayerView.swift */; };
+		E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A08D2C9A6EB900B6117D /* SoccerPosition.swift */; };
+		E778A0902C9A6F6B00B6117D /* Formation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A08F2C9A6F6B00B6117D /* Formation.swift */; };
+		E778A0922C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -135,6 +138,9 @@
 		E778A0872C98194B00B6117D /* PredictionPlayerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPlayerCardView.swift; sourceTree = "<group>"; };
 		E778A0892C981F3600B6117D /* PredictionPlayerSelectedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPlayerSelectedCardView.swift; sourceTree = "<group>"; };
 		E778A08B2C99633D00B6117D /* PredictionPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPlayerView.swift; sourceTree = "<group>"; };
+		E778A08D2C9A6EB900B6117D /* SoccerPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerPosition.swift; sourceTree = "<group>"; };
+		E778A08F2C9A6F6B00B6117D /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
+		E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPlayerBottomSheetView.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -241,6 +247,7 @@
 				E778A0872C98194B00B6117D /* PredictionPlayerCardView.swift */,
 				E778A0892C981F3600B6117D /* PredictionPlayerSelectedCardView.swift */,
 				E778A08B2C99633D00B6117D /* PredictionPlayerView.swift */,
+				E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -468,6 +475,8 @@
 				E778A0752C94540300B6117D /* StartingLineupPlayer.swift */,
 				E778A0772C945B0E00B6117D /* UserStartingLineupPrediction.swift */,
 				E778A0792C945B9800B6117D /* SoccerPlayer.swift */,
+				E778A08D2C9A6EB900B6117D /* SoccerPosition.swift */,
+				E778A08F2C9A6F6B00B6117D /* Formation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -705,6 +714,7 @@
 				E7DBC0E22C0DC17A008D4300 /* NetworkConstants.swift in Sources */,
 				E7DBC0F52C0DE4CB008D4300 /* NetworkError.swift in Sources */,
 				E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */,
+				E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */,
 				E7ADBF8F2C57ACC500E877C5 /* MatchEventModel.swift in Sources */,
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
@@ -720,6 +730,7 @@
 				E7B140092C8746B500CB351E /* HeartRateStatisticsResponse.swift in Sources */,
 				E778A0802C97B78700B6117D /* StartingLineupPrediction.swift in Sources */,
 				E7D7E7462C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift in Sources */,
+				E778A0922C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift in Sources */,
 				E7ADBF702C57281600E877C5 /* OtherViewModels.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
@@ -771,6 +782,7 @@
 				E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */,
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
 				E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */,
+				E778A0902C9A6F6B00B6117D /* Formation.swift in Sources */,
 				E7ABF3D72C58AFC7001BAE0F /* MatchResultView.swift in Sources */,
 				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,

@@ -15,13 +15,13 @@ struct PredictionPlayerCardView: View {
     
     // MARK: - BODY
     var body: some View {
-        VStack(alignment: .center, spacing: 8) {
-            Image(systemName: "plus")
-                .frame(width: 12, height: 12)
+        VStack(alignment: .center, spacing: 2) {
+            Image(.plus)
+                .frame(width: 24, height: 24)
                 .foregroundStyle(.whiteInAssets)
             
             Text(positionName(position: playerPosition))
-                .pretendardTextStyle(.Caption1Style)
+                .pretendardTextStyle(.Caption2Style)
                 .foregroundStyle(.whiteInAssets)
         }
         .frame(width: 46, height: 54)
