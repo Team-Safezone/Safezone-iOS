@@ -40,11 +40,13 @@ final class MatchCalendarViewModel: NSObject, MatchCalendarViewModelProtocol, Ob
         MatchCalendarAPI.shared.getYearMonthSoccerMatches(request: request)
             // DTO -> Entity로 변경
             .map { responseDTO in
-                let dates = responseDTO.matchDates.compactMap { stringToDate2(date: $0) }
-                let teamNames = responseDTO.soccerTeamNames
-                let season = responseDTO.soccerSeason
+                // FIXME: dates, teamNames, season가 있는 버전으로 바꾸기. -> 주석 삭제!
+                let dates = responseDTO.compactMap { stringToDate2(date: $0.matchDates) }
+                //let dates = responseDTO.matchDates.compactMap { stringToDate2(date: $0) }
+                //let teamNames = responseDTO.soccerTeamNames
+                //let season = responseDTO.soccerSeason
                 
-                return (dates, teamNames, season)
+                return (dates)
             }
             // 메인 스레드에서 데이터 처리
             .receive(on: DispatchQueue.main)
@@ -58,15 +60,16 @@ final class MatchCalendarViewModel: NSObject, MatchCalendarViewModelProtocol, Ob
                 }
             },
             // monthlyMatches에 publisher 응답 결과 업데이트
-            receiveValue: { [weak self] (dates, teams, season) in
+            receiveValue: { [weak self] (dates) in
                 self?.matchDates = dates
-                self?.soccerTeamNames = ["전체"] + teams
-                self?.soccerSeason = season
+                //self?.soccerTeamNames = ["전체"] + teams
+                //self?.soccerSeason = season
             })
             .store(in: &cancellables)
     }
     
     /// 하루 경기 일정 조회
+    // FIXME: 홈팀, 원정팀 엠블럼 데이터 받아올 수 있게 되면, 추가하기!
     func getDailySoccerMatches(request: SoccerMatchDailyRequest) {
         MatchCalendarAPI.shared.getDailySoccerMatches(request: request)
             // DTO -> Entity로 변경
@@ -79,8 +82,8 @@ final class MatchCalendarViewModel: NSObject, MatchCalendarViewModelProtocol, Ob
                         matchTime: stringToTime(time: data.matchTime),
                         stadium: data.stadium,
                         matchRound: data.matchRound,
-                        homeTeam: SoccerTeam(teamEmblemURL: data.homeTeamEmblemURL, teamName: data.homeTeamName),
-                        awayTeam: SoccerTeam(teamEmblemURL: data.awayTeamEmblemURL, teamName: data.awayTeamName),
+                        homeTeam: SoccerTeam(teamEmblemURL: "", teamName: data.homeTeamName),
+                        awayTeam: SoccerTeam(teamEmblemURL: "", teamName: data.awayTeamName),
                         matchCode: data.matchCode)
                 }
             }

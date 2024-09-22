@@ -279,7 +279,7 @@ struct SoccerMatchInfo: View {
                                         .padding(12)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .fill(LinearGradient.blueGradient)
+                                                .fill(LinearGradient.greenGradient)
                                         )
                                         .overlay {
                                             if soccerMatch.matchCode == 0 {
@@ -325,7 +325,7 @@ struct SoccerMatchInfo: View {
                                         .padding(12)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .fill(LinearGradient.blueGradient)
+                                                .fill(LinearGradient.greenGradient)
                                         )
                                         .overlay {
                                             if soccerMatch.matchCode != 3 {
@@ -377,7 +377,7 @@ struct SoccerMatchInfo: View {
                                 .padding(12)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(LinearGradient.limeGradient)
+                                        .fill(LinearGradient.greenGradient)
                                 )
                             }
                             
@@ -407,7 +407,7 @@ struct SoccerMatchInfo: View {
                                 .padding(12)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(LinearGradient.limeGradient)
+                                        .fill(LinearGradient.greenGradient)
                                 )
                             }
                         }

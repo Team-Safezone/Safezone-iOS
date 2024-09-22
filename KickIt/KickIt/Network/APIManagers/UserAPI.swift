@@ -65,7 +65,7 @@ class UserAPI: BaseAPI {
                     switch response.result {
                     case .success(let result):
                         // API 호출 성공
-                        if result.success {
+                        if result.isSuccess {
                             // 응답 성공
                             promise(.success(result))
                         } else {

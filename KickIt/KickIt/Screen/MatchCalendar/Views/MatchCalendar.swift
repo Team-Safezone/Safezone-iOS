@@ -143,6 +143,14 @@ struct MatchCalendar: View {
                     teamName: selectedTeamName
                 )
             )
+            
+            // 하루 경기 일정 조회 API 연결
+            getDailySoccerMatches(
+                request: SoccerMatchDailyRequest(
+                    date: dateToString4(date: currentDate),
+                    teamName: selectedTeamName
+                )
+            )
         })
         .tint(.gray200)
         .navigationBarBackButtonHidden()
@@ -208,7 +216,7 @@ struct MatchCalendar: View {
                     .foregroundStyle(.gray500)
                     .padding(.top, 52)
                 
-                    // FIXME: api 연결 시, 더미 데이터 삭제하기
+                    // FIXME: api 연결 시, 아래 코드 삭제하기
                     ForEach(dummySoccerMatches) { match in
                         SoccerMatchRow(soccerMatch: match)
                             .padding(.horizontal, 16)
