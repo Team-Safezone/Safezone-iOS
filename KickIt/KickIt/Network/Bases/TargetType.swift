@@ -55,7 +55,7 @@ extension TargetType {
     /// URL 요청 생성
     func asURLRequest() throws -> URLRequest {
         // ?를 인코딩할 수 있는 형태로 변경
-        let url = try (baseURL + endPoint).encodeURL()?.asURL()
+        let url = try baseURL.encodeURL()?.asURL()
         var urlRequest = try URLRequest(url: url!, method: method)
         
         // header 설정
