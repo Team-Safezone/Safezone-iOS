@@ -10,18 +10,18 @@ import WatchKit
 
 // MARK: 세부화면
 struct MatchDetailView: View {
-    let match: SoccerMatch
+    let match: SoccerMatchWatch
     @ObservedObject var viewModel: SoccerMatchViewModel
     
     var body: some View {
         VStack {
-            Text("\(match.matchTime)")
+            Text("\(match.timeStr)")
                 .font(.headline)
-            Text("\(match.homeTeamName) vs \(match.awayTeamName)")
+            Text("\(match.homeTeam) vs \(match.awayTeam)")
                 .font(.subheadline)
             
             Button(action: {
-                // HeartRate 앱 실행
+                // TODO: - HeartRate 앱 실행
                 if let url = URL(string: "heartrate://") {
                     WKExtension.shared().openSystemURL(url)
                 }
@@ -35,5 +35,5 @@ struct MatchDetailView: View {
 
 
 #Preview{
-    MatchDetailView(match: SoccerMatch(id: 1, matchTime: "15:00", homeTeamName: "Team A", awayTeamName: "Team B"), viewModel: SoccerMatchViewModel())
+    MatchDetailView(match: SoccerMatchWatch(id: 1, timeStr: "15:00", homeTeam: "Team A", awayTeam: "Team B"), viewModel: SoccerMatchViewModel())
 }

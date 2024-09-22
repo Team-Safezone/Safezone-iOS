@@ -13,7 +13,6 @@
 		E764F98D2C14B79A00A2822A /* SpecificRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */; };
 		E764F9B12C15F8D500A2822A /* FinishWinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */; };
 		E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B42C15FD0900A2822A /* WinningPrediction.swift */; };
-		E76F765F2C1487A900BCD566 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E76F765E2C1487A900BCD566 /* Alamofire */; };
 		E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
@@ -44,8 +43,15 @@
 		E79F05D42CA01F310059E828 /* MatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D22CA01F310059E828 /* MatchDetailView.swift */; };
 		E79F05D52CA01F310059E828 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D32CA01F310059E828 /* ContentView.swift */; };
 		E79F05D72CA01F370059E828 /* SoccerMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D62CA01F370059E828 /* SoccerMatchViewModel.swift */; };
-		E79F05D92CA01F3D0059E828 /* SoccerMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */; };
+		E79F05D92CA01F3D0059E828 /* SoccerMatchWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D82CA01F3D0059E828 /* SoccerMatchWatch.swift */; };
 		E79F05DD2CA01F5E0059E828 /* SoccerMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */; };
+		E79F05E42CA039BB0059E828 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05E32CA039BB0059E828 /* TargetType.swift */; };
+		E79F05E82CA03AF20059E828 /* APIConstantsWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05E72CA03AF20059E828 /* APIConstantsWatch.swift */; };
+		E79F05EA2CA03DE50059E828 /* NetworkConstaintsWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05E92CA03DE50059E828 /* NetworkConstaintsWatch.swift */; };
+		E79F05F02CA0455F0059E828 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E79F05EF2CA0455F0059E828 /* Alamofire */; };
+		E79F05F22CA045700059E828 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E79F05F12CA045700059E828 /* Alamofire */; };
+		E79F05F52CA0490B0059E828 /* APIEventLoggetWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05F42CA0490B0059E828 /* APIEventLoggetWatch.swift */; };
+		E79F05F72CA04D300059E828 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E79F05F62CA04D300059E828 /* Secrets.xcconfig */; };
 		E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A448D12C18239500F611A6 /* DragIndicator.swift */; };
 		E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6A0652C95B7A60008447D /* SettingFavView.swift */; };
 		E7A6A06B2C95B7A60008447D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6A0662C95B7A60008447D /* LoginView.swift */; };
@@ -177,8 +183,14 @@
 		E79F05D22CA01F310059E828 /* MatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchDetailView.swift; sourceTree = "<group>"; };
 		E79F05D32CA01F310059E828 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E79F05D62CA01F370059E828 /* SoccerMatchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatchViewModel.swift; sourceTree = "<group>"; };
-		E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatch.swift; sourceTree = "<group>"; };
+		E79F05D82CA01F3D0059E828 /* SoccerMatchWatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatchWatch.swift; sourceTree = "<group>"; };
 		E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatchService.swift; sourceTree = "<group>"; };
+		E79F05E32CA039BB0059E828 /* TargetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		E79F05E72CA03AF20059E828 /* APIConstantsWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstantsWatch.swift; sourceTree = "<group>"; };
+		E79F05E92CA03DE50059E828 /* NetworkConstaintsWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstaintsWatch.swift; sourceTree = "<group>"; };
+		E79F05F32CA047CC0059E828 /* Watch-Kickit-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Watch-Kickit-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E79F05F42CA0490B0059E828 /* APIEventLoggetWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLoggetWatch.swift; sourceTree = "<group>"; };
+		E79F05F62CA04D300059E828 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E7A448D12C18239500F611A6 /* DragIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragIndicator.swift; sourceTree = "<group>"; };
 		E7A6A0652C95B7A60008447D /* SettingFavView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingFavView.swift; sourceTree = "<group>"; };
 		E7A6A0662C95B7A60008447D /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -249,7 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E76F765F2C1487A900BCD566 /* Alamofire in Frameworks */,
+				E79F05F02CA0455F0059E828 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79F05F22CA045700059E828 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +512,7 @@
 		E79F05BE2CA01EA90059E828 /* Watch-Kickit Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				E79F05F32CA047CC0059E828 /* Watch-Kickit-Watch-App-Info.plist */,
 				E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */,
 				E79F05DA2CA01F4C0059E828 /* Network */,
 				E79F05CF2CA01F080059E828 /* Models */,
@@ -521,7 +535,7 @@
 		E79F05CF2CA01F080059E828 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */,
+				E79F05D82CA01F3D0059E828 /* SoccerMatchWatch.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -546,6 +560,7 @@
 		E79F05DA2CA01F4C0059E828 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E79F05E02CA039690059E828 /* Base */,
 				E79F05DB2CA01F530059E828 /* Services */,
 			);
 			path = Network;
@@ -557,6 +572,18 @@
 				E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		E79F05E02CA039690059E828 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05E72CA03AF20059E828 /* APIConstantsWatch.swift */,
+				E79F05E92CA03DE50059E828 /* NetworkConstaintsWatch.swift */,
+				E79F05E32CA039BB0059E828 /* TargetType.swift */,
+				E79F05F42CA0490B0059E828 /* APIEventLoggetWatch.swift */,
+				E79F05F62CA04D300059E828 /* Secrets.xcconfig */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		E7A6A0742C95B9F40008447D /* ViewModels */ = {
@@ -729,7 +756,7 @@
 			);
 			name = KickIt;
 			packageProductDependencies = (
-				E76F765E2C1487A900BCD566 /* Alamofire */,
+				E79F05EF2CA0455F0059E828 /* Alamofire */,
 			);
 			productName = KickIt;
 			productReference = E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */;
@@ -748,6 +775,9 @@
 			dependencies = (
 			);
 			name = "Watch-Kickit Watch App";
+			packageProductDependencies = (
+				E79F05F12CA045700059E828 /* Alamofire */,
+			);
 			productName = "Watch-Kickit Watch App";
 			productReference = E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -812,6 +842,7 @@
 			files = (
 				E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */,
 				E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */,
+				E79F05F72CA04D300059E828 /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,12 +947,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79F05EA2CA03DE50059E828 /* NetworkConstaintsWatch.swift in Sources */,
+				E79F05E82CA03AF20059E828 /* APIConstantsWatch.swift in Sources */,
 				E79F05D42CA01F310059E828 /* MatchDetailView.swift in Sources */,
-				E79F05D92CA01F3D0059E828 /* SoccerMatch.swift in Sources */,
+				E79F05D92CA01F3D0059E828 /* SoccerMatchWatch.swift in Sources */,
 				E79F05D52CA01F310059E828 /* ContentView.swift in Sources */,
 				E79F05DD2CA01F5E0059E828 /* SoccerMatchService.swift in Sources */,
 				E79F05D72CA01F370059E828 /* SoccerMatchViewModel.swift in Sources */,
+				E79F05F52CA0490B0059E828 /* APIEventLoggetWatch.swift in Sources */,
 				E79F05C02CA01EA90059E828 /* Watch_KickitApp.swift in Sources */,
+				E79F05E42CA039BB0059E828 /* TargetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,6 +1174,7 @@
 		};
 		E79F05CC2CA01EAA0059E828 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1148,6 +1184,7 @@
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watch-Kickit-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
@@ -1169,6 +1206,7 @@
 		};
 		E79F05CD2CA01EAA0059E828 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1178,6 +1216,7 @@
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watch-Kickit-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
@@ -1241,7 +1280,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E76F765E2C1487A900BCD566 /* Alamofire */ = {
+		E79F05EF2CA0455F0059E828 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		E79F05F12CA045700059E828 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;

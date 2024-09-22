@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct User {
+/// [Entity] 사용자 모델
+struct User: Identifiable {
     let id: String
     let nickname: String
     var favoriteTeams: [String]
