@@ -14,7 +14,7 @@ struct StartingLineupPrediction: View {
     var soccerMatch: SoccerMatch
     
     /// 선발라인업 예측 뷰모델 객체
-    @ObservedObject var viewModel = StartingLineupPredictionViewModel()
+    @StateObject var viewModel = StartingLineupPredictionViewModel()
     
     // MARK: - BODY
     var body: some View {
@@ -34,6 +34,7 @@ struct StartingLineupPrediction: View {
                     
                     // 홈팀의 선발라인업 선택
                     StartingLineupPredictionView(
+                        viewModel: viewModel,
                         isHomeTeam: true,
                         team: soccerMatch.homeTeam
                     )
@@ -41,15 +42,29 @@ struct StartingLineupPrediction: View {
                     
                     // 원정팀의 선발라인업 선택
                     StartingLineupPredictionView(
+                        viewModel: viewModel,
                         isHomeTeam: false,
                         team: soccerMatch.awayTeam
                     )
                     .padding(.top, 20)
                     
                     // 예측하기 버튼
-                    DesignWideButton(label: "예측하기", labelColor: .black0, btnBGColor: .lime)
-                        .padding(.top, 80)
-                        .padding(.bottom, 40)
+                    DesignWideButton(
+                        label: "예측하기",
+                        labelColor: viewModel.areBothLineupsComplete() ? .blackInAssets : .blackInAssets.opacity(0.5),
+                        btnBGColor: .lime
+                    )
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(viewModel.areBothLineupsComplete() ? .clear : .blackInAssets)
+                            .opacity(viewModel.areBothLineupsComplete() ? 0 : 0.5)
+                    )
+                    .disabled(!viewModel.areBothLineupsComplete()) // 선발라인업 선택이 완료되지 않았다면 비활성화
+                    .padding(.top, 20)
+                    .padding(.bottom, 40)
                 }
                 .padding(.horizontal, 16)
             }

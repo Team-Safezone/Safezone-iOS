@@ -19,6 +19,7 @@ struct RadioButton: View {
             self.callback(id, label)
         } label: {
             Text(label)
+                .pretendardTextStyle(.Body2Style)
                 .padding(.vertical, 6)
                 .padding(.horizontal, 18)
         }

@@ -11,7 +11,7 @@ import SwiftUI
 struct StartingLineupPredictionView: View {
     // MARK: - PROPERTY
     /// 선발라인업 예측 뷰모델 객체
-    @StateObject private var viewModel = StartingLineupPredictionViewModel()
+    @ObservedObject var viewModel: StartingLineupPredictionViewModel
     
     /// 홈팀 여부
     var isHomeTeam: Bool
@@ -45,7 +45,7 @@ struct StartingLineupPredictionView: View {
                     isFormationPresented.toggle() // 시트 띄우기
                 } label: {
                     HStack {
-                        Text(viewModel.formationIndex == -1 ? "포메이션 선택" : formations[viewModel.formationIndex].name)
+                        Text(viewModel.presentFormationInfo(isHomeTeam: isHomeTeam))
                             .pretendardTextStyle(.SubTitleStyle)
                             .foregroundStyle(.white0)
                             .padding(.trailing, 4)
@@ -67,13 +67,13 @@ struct StartingLineupPredictionView: View {
                     )
                     .overlay {
                         SpecificRoundedRectangle(radius: 8, corners: isHomeTeam ? [.topLeft, .topRight] : [.bottomLeft, .bottomRight])
-                            .fill(viewModel.selectedFormation == nil ? .black : .clear)
+                            .fill(isHomeTeam ? (viewModel.homeSelectedFormation == nil ? .black : .clear) : (viewModel.awaySelectedFormation == nil ? .black : .clear))
                             .opacity(0.6)
                     }
                 
                 // MARK: 선택된 포메이션 리스트 띄우기
                 // 선택한 포메이션이 있는 경우
-                if let formation = viewModel.selectedFormation {
+                if let formation = isHomeTeam ? viewModel.homeSelectedFormation : viewModel.awaySelectedFormation {
                     selectedFormationView(formation: formation)
                 }
                 // 선택한 포메이션이 없는 경우
@@ -91,7 +91,7 @@ struct StartingLineupPredictionView: View {
         }
         // MARK: 선수 선택 바텀 시트
         .sheet(isPresented: $viewModel.isPlayerPresented) {
-            PredictionPlayerBottomSheetView(viewModel: viewModel)
+            PredictionPlayerBottomSheetView(viewModel: viewModel, isHomeTeam: isHomeTeam)
         } //: SHEET
     }
     
@@ -122,7 +122,7 @@ struct StartingLineupPredictionView: View {
                     .listRowInsets(EdgeInsets()) // List 내부의 기본 공백 제거
                     // 포메이션 1개를 클릭했을 경우
                     .onTapGesture {
-                        viewModel.selectFormation(formation: item, index: index)
+                        viewModel.selectFormation(formation: item, index: index, isHomeTeam: isHomeTeam)
                         isFormationPresented.toggle() // 시트 띄우기
                     }
                 }
@@ -139,7 +139,7 @@ struct StartingLineupPredictionView: View {
     private func selectedFormationView(formation: Formation) -> some View {
         VStack(spacing: 0) {
             // 포지션 배열이 3줄이라면
-            if (viewModel.formationIndex != 1) {
+            if (isHomeTeam ? viewModel.homeFormationIndex != 1 : viewModel.awayFormationIndex != 1) {
                 VStack(alignment: .center, spacing: 22) {
                     ForEach(Array(playerViews(for: formation).enumerated()), id: \.offset) { _, view in
                         view
@@ -221,7 +221,7 @@ struct StartingLineupPredictionView: View {
     @ViewBuilder
     private func playerView(for positionToInt: Int, position: SoccerPosition) -> some View {
         VStack(spacing: 0) {
-            if let player = viewModel.selectedPlayers[position] {
+            if let player = isHomeTeam ? viewModel.homeSelectedPlayers[position] : viewModel.awaySelectedPlayers[position] {
                 // 값이 있으면 PredictionPlayerSelectedCardView 사용
                 PredictionPlayerSelectedCardView(player: player)
                     .onTapGesture {
@@ -242,5 +242,5 @@ struct StartingLineupPredictionView: View {
 
 // MARK: - PREVIEW
 #Preview("선발라인업 예측 선택") {
-    StartingLineupPredictionView(isHomeTeam: true, team: dummySoccerTeams[1])
+    StartingLineupPredictionView(viewModel: StartingLineupPredictionViewModel(), isHomeTeam: true, team: dummySoccerTeams[1])
 }

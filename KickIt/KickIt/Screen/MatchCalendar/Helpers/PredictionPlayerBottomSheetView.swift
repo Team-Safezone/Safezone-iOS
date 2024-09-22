@@ -12,6 +12,9 @@ struct PredictionPlayerBottomSheetView: View {
     /// 선발라인업 예측 뷰모델 객체
     @ObservedObject var viewModel: StartingLineupPredictionViewModel
     
+    /// 홈팀 여부
+    var isHomeTeam: Bool
+    
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             // 인디케이터
@@ -25,39 +28,42 @@ struct PredictionPlayerBottomSheetView: View {
                 .padding(.bottom, 24)
             
             // 포지션 선택 리스트
-            ScrollView(.horizontal, showsIndicators: false) {
-                RadioButtonGroup(
-                    items: ["전체", "골키퍼", "수비수", "미드필더", "공격수"],
-                    selectedId: $viewModel.selectedRadioBtnID,
-                    selectedTeamName: $viewModel.selectedPositionName,
-                    callback: { previous, current, positionName in
-                        viewModel.selectedRadioBtnID = current
-                        viewModel.selectedPositionName = positionName
-                })
-                .frame(height: 32)
-                .padding(.horizontal, 16)
-            }
+            RadioButtonGroup(
+                items: ["골키퍼", "수비수", "미드필더", "공격수"],
+                padding: 12,
+                selectedId: $viewModel.selectedRadioBtnID,
+                selectedTeamName: $viewModel.selectedPositionName,
+                callback: { previous, current, positionName in
+                    viewModel.selectedRadioBtnID = current
+                    viewModel.selectedPositionName = positionName
+                    viewModel.selectPosition() // 선택한 포지션 정보 반영
+            })
+            .frame(height: 32, alignment: .center)
+            .padding(.horizontal, 18)
             
             // 날짜 열 리스트
             let columns = Array(repeating: GridItem(.flexible()), count: 3)
             
             // 선수 리스트
-            LazyVGrid(columns: columns) {
-                ForEach(Array(viewModel.filteredPlayers().enumerated()), id: \.offset) { _, player in
-                    PredictionPlayerView(player: player)
-                        .onTapGesture {
-                            if let position = viewModel.selectedPosition {
-                                viewModel.selectPlayer(player: player, position: position)
-                                viewModel.isPlayerPresented = false
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVGrid(columns: columns, spacing: 24) {
+                    ForEach(Array(viewModel.filteredPlayers().enumerated()), id: \.offset) { _, player in
+                        PredictionPlayerView(player: player)
+                            .onTapGesture {
+                                if let position = viewModel.selectedPosition {
+                                    viewModel.selectPlayer(player: player, position: position, isHomeTeam: isHomeTeam)
+                                    viewModel.isPlayerPresented = false
+                                    print("완성?: \(viewModel.areBothLineupsComplete())")
+                                    print("완성 홈 개수?: \(viewModel.homeSelectedPlayers.count)")
+                                    print("완성 원정 개수?: \(viewModel.awaySelectedPlayers.count)")
+                                }
                             }
-                        }
+                    }
                 }
             }
-            .frame(height: .infinity)
-            .padding(.top, 42)
-            .padding(.horizontal, 26)
-            
-            Spacer()
+            .frame(maxHeight: .infinity, alignment: .top)
+            .padding(.top, 24)
+            .padding(.horizontal, 28)
         }
         .presentationDetents([.medium])
         .presentationDragIndicator(.hidden)
@@ -65,5 +71,5 @@ struct PredictionPlayerBottomSheetView: View {
 }
 
 #Preview {
-    PredictionPlayerBottomSheetView(viewModel: StartingLineupPredictionViewModel())
+    PredictionPlayerBottomSheetView(viewModel: StartingLineupPredictionViewModel(), isHomeTeam: true)
 }
