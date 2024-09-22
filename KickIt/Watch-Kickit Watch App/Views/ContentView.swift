@@ -15,9 +15,17 @@ struct ContentView: View {
         NavigationView {
             Group {
                 if viewModel.isLoading {
-                    ProgressView()
+                    ProgressView("오늘 경기 찾는 중...")
+                } else if let errorMessage = viewModel.errorMessage {
+                    VStack {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                        Button("다시 시도") {
+                            viewModel.loadMatches()
+                        }
+                    }
                 } else if viewModel.matches.isEmpty {
-                    Text("경기가 없습니다.")
+                    Text("오늘은 경기가 없습니다.")
                 } else {
                     List(viewModel.matches) { match in
                         NavigationLink(destination: MatchDetailView(match: match, viewModel: viewModel)) {
@@ -27,7 +35,9 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("오늘의 경기")
-            .onAppear(perform: viewModel.loadMatches)
+            .onAppear {
+                viewModel.loadMatches()
+            }
         }
     }
 }

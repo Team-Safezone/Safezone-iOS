@@ -37,6 +37,15 @@
 		E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */; };
 		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
 		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
+		E79F05C02CA01EA90059E828 /* Watch_KickitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */; };
+		E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79F05C32CA01EAA0059E828 /* Assets.xcassets */; };
+		E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E79F05C62CA01EAA0059E828 /* Preview Assets.xcassets */; };
+		E79F05CA2CA01EAA0059E828 /* Watch-Kickit Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E79F05D42CA01F310059E828 /* MatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D22CA01F310059E828 /* MatchDetailView.swift */; };
+		E79F05D52CA01F310059E828 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D32CA01F310059E828 /* ContentView.swift */; };
+		E79F05D72CA01F370059E828 /* SoccerMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D62CA01F370059E828 /* SoccerMatchViewModel.swift */; };
+		E79F05D92CA01F3D0059E828 /* SoccerMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */; };
+		E79F05DD2CA01F5E0059E828 /* SoccerMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */; };
 		E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A448D12C18239500F611A6 /* DragIndicator.swift */; };
 		E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6A0652C95B7A60008447D /* SettingFavView.swift */; };
 		E7A6A06B2C95B7A60008447D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6A0662C95B7A60008447D /* LoginView.swift */; };
@@ -101,35 +110,26 @@
 		E7E8691B2C568D1300DFBA85 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E8691A2C568D1300DFBA85 /* LineChartView.swift */; };
 		E7FFA05F2C9EB7CC001FE588 /* SoccerTeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA05E2C9EB7CC001FE588 /* SoccerTeamRequest.swift */; };
 		E7FFA0612C9EBBE1001FE588 /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */; };
-		E7FFA0862C9EE267001FE588 /* Kickit-Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E7FFA0852C9EE267001FE588 /* Kickit-Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E7FFA08B2C9EE267001FE588 /* Kickit_WatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA08A2C9EE267001FE588 /* Kickit_WatchApp.swift */; };
-		E7FFA08D2C9EE267001FE588 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA08C2C9EE267001FE588 /* ContentView.swift */; };
-		E7FFA08F2C9EE269001FE588 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7FFA08E2C9EE269001FE588 /* Assets.xcassets */; };
-		E7FFA0922C9EE269001FE588 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7FFA0912C9EE269001FE588 /* Preview Assets.xcassets */; };
-		E7FFA09D2C9EE4FA001FE588 /* SoccerMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA09C2C9EE4FA001FE588 /* SoccerMatch.swift */; };
-		E7FFA0A12C9EE553001FE588 /* SoccerMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA0A02C9EE553001FE588 /* SoccerMatchService.swift */; };
-		E7FFA0A32C9EE58C001FE588 /* MatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA0A22C9EE58C001FE588 /* MatchDetailView.swift */; };
-		E7FFA0A72C9EE71F001FE588 /* SoccerMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA0A62C9EE71F001FE588 /* SoccerMatchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E7FFA0872C9EE267001FE588 /* PBXContainerItemProxy */ = {
+		E79F05C82CA01EAA0059E828 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E79AFF652BEDC8DC004CAF75 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = E7FFA0842C9EE267001FE588;
-			remoteInfo = "Kickit-Watch Watch App";
+			remoteGlobalIDString = E79F05BC2CA01EA90059E828;
+			remoteInfo = "Watch-Kickit Watch App";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E7FFA0952C9EE269001FE588 /* Embed Watch Content */ = {
+		E79F05CE2CA01EAA0059E828 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				E7FFA0862C9EE267001FE588 /* Kickit-Watch Watch App.app in Embed Watch Content */,
+				E79F05CA2CA01EAA0059E828 /* Watch-Kickit Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +170,15 @@
 		E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchInfo.swift; sourceTree = "<group>"; };
 		E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPanel.swift; sourceTree = "<group>"; };
+		E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch-Kickit Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch_KickitApp.swift; sourceTree = "<group>"; };
+		E79F05C32CA01EAA0059E828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E79F05C62CA01EAA0059E828 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E79F05D22CA01F310059E828 /* MatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchDetailView.swift; sourceTree = "<group>"; };
+		E79F05D32CA01F310059E828 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E79F05D62CA01F370059E828 /* SoccerMatchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatchViewModel.swift; sourceTree = "<group>"; };
+		E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatch.swift; sourceTree = "<group>"; };
+		E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoccerMatchService.swift; sourceTree = "<group>"; };
 		E7A448D12C18239500F611A6 /* DragIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragIndicator.swift; sourceTree = "<group>"; };
 		E7A6A0652C95B7A60008447D /* SettingFavView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingFavView.swift; sourceTree = "<group>"; };
 		E7A6A0662C95B7A60008447D /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -233,16 +242,6 @@
 		E7E8691A2C568D1300DFBA85 /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		E7FFA05E2C9EB7CC001FE588 /* SoccerTeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeamRequest.swift; sourceTree = "<group>"; };
 		E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
-		E7FFA0802C9EE267001FE588 /* Kickit-Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kickit-Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7FFA0852C9EE267001FE588 /* Kickit-Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kickit-Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7FFA08A2C9EE267001FE588 /* Kickit_WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kickit_WatchApp.swift; sourceTree = "<group>"; };
-		E7FFA08C2C9EE267001FE588 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		E7FFA08E2C9EE269001FE588 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E7FFA0912C9EE269001FE588 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E7FFA09C2C9EE4FA001FE588 /* SoccerMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatch.swift; sourceTree = "<group>"; };
-		E7FFA0A02C9EE553001FE588 /* SoccerMatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchService.swift; sourceTree = "<group>"; };
-		E7FFA0A22C9EE58C001FE588 /* MatchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailView.swift; sourceTree = "<group>"; };
-		E7FFA0A62C9EE71F001FE588 /* SoccerMatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7FFA0822C9EE267001FE588 /* Frameworks */ = {
+		E79F05BA2CA01EA90059E828 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,7 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF6F2BEDC8DC004CAF75 /* KickIt */,
-				E7FFA0892C9EE267001FE588 /* Kickit-Watch Watch App */,
+				E79F05BE2CA01EA90059E828 /* Watch-Kickit Watch App */,
 				E79AFF6E2BEDC8DC004CAF75 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -331,8 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */,
-				E7FFA0802C9EE267001FE588 /* Kickit-Watch.app */,
-				E7FFA0852C9EE267001FE588 /* Kickit-Watch Watch App.app */,
+				E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -498,6 +496,69 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E79F05BE2CA01EA90059E828 /* Watch-Kickit Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */,
+				E79F05DA2CA01F4C0059E828 /* Network */,
+				E79F05CF2CA01F080059E828 /* Models */,
+				E79F05D12CA01F1B0059E828 /* ViewModels */,
+				E79F05D02CA01F0F0059E828 /* Views */,
+				E79F05C32CA01EAA0059E828 /* Assets.xcassets */,
+				E79F05C52CA01EAA0059E828 /* Preview Content */,
+			);
+			path = "Watch-Kickit Watch App";
+			sourceTree = "<group>";
+		};
+		E79F05C52CA01EAA0059E828 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05C62CA01EAA0059E828 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E79F05CF2CA01F080059E828 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05D82CA01F3D0059E828 /* SoccerMatch.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E79F05D02CA01F0F0059E828 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05D32CA01F310059E828 /* ContentView.swift */,
+				E79F05D22CA01F310059E828 /* MatchDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E79F05D12CA01F1B0059E828 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05D62CA01F370059E828 /* SoccerMatchViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E79F05DA2CA01F4C0059E828 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05DB2CA01F530059E828 /* Services */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		E79F05DB2CA01F530059E828 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		E7A6A0742C95B9F40008447D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,77 +710,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E7FFA0892C9EE267001FE588 /* Kickit-Watch Watch App */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA08A2C9EE267001FE588 /* Kickit_WatchApp.swift */,
-				E7FFA09E2C9EE52D001FE588 /* Network */,
-				E7FFA0A52C9EE6F4001FE588 /* Screen */,
-				E7FFA08E2C9EE269001FE588 /* Assets.xcassets */,
-				E7FFA0902C9EE269001FE588 /* Preview Content */,
-			);
-			path = "Kickit-Watch Watch App";
-			sourceTree = "<group>";
-		};
-		E7FFA0902C9EE269001FE588 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA0912C9EE269001FE588 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		E7FFA09A2C9EE4C9001FE588 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		E7FFA09B2C9EE4DA001FE588 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA08C2C9EE267001FE588 /* ContentView.swift */,
-				E7FFA0A22C9EE58C001FE588 /* MatchDetailView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		E7FFA09E2C9EE52D001FE588 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA09F2C9EE537001FE588 /* Services */,
-				E7FFA0A02C9EE553001FE588 /* SoccerMatchService.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		E7FFA09F2C9EE537001FE588 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		E7FFA0A42C9EE6CA001FE588 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA0A62C9EE71F001FE588 /* SoccerMatchViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		E7FFA0A52C9EE6F4001FE588 /* Screen */ = {
-			isa = PBXGroup;
-			children = (
-				E7FFA09A2C9EE4C9001FE588 /* Models */,
-				E7FFA09C2C9EE4FA001FE588 /* SoccerMatch.swift */,
-				E7FFA0A42C9EE6CA001FE588 /* ViewModels */,
-				E7FFA09B2C9EE4DA001FE588 /* Views */,
-			);
-			path = Screen;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -730,10 +720,12 @@
 				E79AFF692BEDC8DC004CAF75 /* Sources */,
 				E79AFF6A2BEDC8DC004CAF75 /* Frameworks */,
 				E79AFF6B2BEDC8DC004CAF75 /* Resources */,
+				E79F05CE2CA01EAA0059E828 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E79F05C92CA01EAA0059E828 /* PBXTargetDependency */,
 			);
 			name = KickIt;
 			packageProductDependencies = (
@@ -743,38 +735,21 @@
 			productReference = E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E7FFA07F2C9EE267001FE588 /* Kickit-Watch */ = {
+		E79F05BC2CA01EA90059E828 /* Watch-Kickit Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E7FFA0992C9EE269001FE588 /* Build configuration list for PBXNativeTarget "Kickit-Watch" */;
+			buildConfigurationList = E79F05CB2CA01EAA0059E828 /* Build configuration list for PBXNativeTarget "Watch-Kickit Watch App" */;
 			buildPhases = (
-				E7FFA07E2C9EE267001FE588 /* Resources */,
-				E7FFA0952C9EE269001FE588 /* Embed Watch Content */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E7FFA0882C9EE267001FE588 /* PBXTargetDependency */,
-			);
-			name = "Kickit-Watch";
-			productName = "Kickit-Watch";
-			productReference = E7FFA0802C9EE267001FE588 /* Kickit-Watch.app */;
-			productType = "com.apple.product-type.application.watchapp2-container";
-		};
-		E7FFA0842C9EE267001FE588 /* Kickit-Watch Watch App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E7FFA0982C9EE269001FE588 /* Build configuration list for PBXNativeTarget "Kickit-Watch Watch App" */;
-			buildPhases = (
-				E7FFA0812C9EE267001FE588 /* Sources */,
-				E7FFA0822C9EE267001FE588 /* Frameworks */,
-				E7FFA0832C9EE267001FE588 /* Resources */,
+				E79F05B92CA01EA90059E828 /* Sources */,
+				E79F05BA2CA01EA90059E828 /* Frameworks */,
+				E79F05BB2CA01EA90059E828 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Kickit-Watch Watch App";
-			productName = "Kickit-Watch Watch App";
-			productReference = E7FFA0852C9EE267001FE588 /* Kickit-Watch Watch App.app */;
+			name = "Watch-Kickit Watch App";
+			productName = "Watch-Kickit Watch App";
+			productReference = E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -790,10 +765,7 @@
 					E79AFF6C2BEDC8DC004CAF75 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
-					E7FFA07F2C9EE267001FE588 = {
-						CreatedOnToolsVersion = 15.3;
-					};
-					E7FFA0842C9EE267001FE588 = {
+					E79F05BC2CA01EA90059E828 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -815,8 +787,7 @@
 			projectRoot = "";
 			targets = (
 				E79AFF6C2BEDC8DC004CAF75 /* KickIt */,
-				E7FFA07F2C9EE267001FE588 /* Kickit-Watch */,
-				E7FFA0842C9EE267001FE588 /* Kickit-Watch Watch App */,
+				E79F05BC2CA01EA90059E828 /* Watch-Kickit Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -835,19 +806,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7FFA07E2C9EE267001FE588 /* Resources */ = {
+		E79F05BB2CA01EA90059E828 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E7FFA0832C9EE267001FE588 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E7FFA0922C9EE269001FE588 /* Preview Assets.xcassets in Resources */,
-				E7FFA08F2C9EE269001FE588 /* Assets.xcassets in Resources */,
+				E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */,
+				E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,26 +912,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7FFA0812C9EE267001FE588 /* Sources */ = {
+		E79F05B92CA01EA90059E828 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7FFA0A12C9EE553001FE588 /* SoccerMatchService.swift in Sources */,
-				E7FFA08D2C9EE267001FE588 /* ContentView.swift in Sources */,
-				E7FFA0A32C9EE58C001FE588 /* MatchDetailView.swift in Sources */,
-				E7FFA0A72C9EE71F001FE588 /* SoccerMatchViewModel.swift in Sources */,
-				E7FFA08B2C9EE267001FE588 /* Kickit_WatchApp.swift in Sources */,
-				E7FFA09D2C9EE4FA001FE588 /* SoccerMatch.swift in Sources */,
+				E79F05D42CA01F310059E828 /* MatchDetailView.swift in Sources */,
+				E79F05D92CA01F3D0059E828 /* SoccerMatch.swift in Sources */,
+				E79F05D52CA01F310059E828 /* ContentView.swift in Sources */,
+				E79F05DD2CA01F5E0059E828 /* SoccerMatchService.swift in Sources */,
+				E79F05D72CA01F370059E828 /* SoccerMatchViewModel.swift in Sources */,
+				E79F05C02CA01EA90059E828 /* Watch_KickitApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E7FFA0882C9EE267001FE588 /* PBXTargetDependency */ = {
+		E79F05C92CA01EAA0059E828 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E7FFA0842C9EE267001FE588 /* Kickit-Watch Watch App */;
-			targetProxy = E7FFA0872C9EE267001FE588 /* PBXContainerItemProxy */;
+			target = E79F05BC2CA01EA90059E828 /* Watch-Kickit Watch App */;
+			targetProxy = E79F05C82CA01EAA0059E828 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1099,6 +1063,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KickIt/KickIt.entitlements;
@@ -1137,6 +1102,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E7B13FFD2C85EAC600CB351E /* Secrets.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KickIt/KickIt.entitlements;
@@ -1171,56 +1137,26 @@
 			};
 			name = Release;
 		};
-		E7FFA0932C9EE269001FE588 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NL8Y67QBFG;
-				INFOPLIST_KEY_CFBundleDisplayName = "Kickit-Watch";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Kickit-Watch";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		E7FFA0942C9EE269001FE588 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NL8Y67QBFG;
-				INFOPLIST_KEY_CFBundleDisplayName = "Kickit-Watch";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Kickit-Watch";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		E7FFA0962C9EE269001FE588 /* Debug */ = {
+		E79F05CC2CA01EAA0059E828 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Kickit-Watch Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Watch-Kickit Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Kickit-Watch";
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Kickit-Watch.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1231,26 +1167,26 @@
 			};
 			name = Debug;
 		};
-		E7FFA0972C9EE269001FE588 /* Release */ = {
+		E79F05CD2CA01EAA0059E828 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Kickit-Watch Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Watch-Kickit Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = NL8Y67QBFG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Kickit-Watch";
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Kickit-Watch.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.KickIt-iOS.Safezone.KickIt.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1282,20 +1218,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E7FFA0982C9EE269001FE588 /* Build configuration list for PBXNativeTarget "Kickit-Watch Watch App" */ = {
+		E79F05CB2CA01EAA0059E828 /* Build configuration list for PBXNativeTarget "Watch-Kickit Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E7FFA0962C9EE269001FE588 /* Debug */,
-				E7FFA0972C9EE269001FE588 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E7FFA0992C9EE269001FE588 /* Build configuration list for PBXNativeTarget "Kickit-Watch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E7FFA0932C9EE269001FE588 /* Debug */,
-				E7FFA0942C9EE269001FE588 /* Release */,
+				E79F05CC2CA01EAA0059E828 /* Debug */,
+				E79F05CD2CA01EAA0059E828 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
