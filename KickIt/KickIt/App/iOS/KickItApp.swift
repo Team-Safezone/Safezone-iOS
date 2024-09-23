@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct KickItApp: App {
+    @StateObject private var viewModel = MainViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-//            SplashView()
+            SplashView(viewModel: viewModel)
         }
     }
 }

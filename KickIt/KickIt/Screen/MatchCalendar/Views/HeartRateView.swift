@@ -15,9 +15,6 @@ struct HeartRateView: View {
     /// 사용자가 선택한 축구 경기 객체
     var selectedMatch: SoccerMatch
     
-    //    // Timer 객체 선언
-    //    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             HStack {
@@ -36,9 +33,14 @@ struct HeartRateView: View {
             .padding(.top, 30)
             
             // MARK: 심박수 그래프
-            //LineChartView(dataPointsChart: $viewModel.dataPoints, dataTimeChart: $viewModel.dataTime, matchEvents: matchEventViewModel.matchEvents)
-                .padding(.leading, 16)
-
+            LineChartView(
+                userHeartRates: .constant(viewModel.statistics?.homeTeamHeartRateRecords ?? []),
+                homeTeamHeartRates: .constant(viewModel.statistics?.homeTeamHeartRateRecords ?? []),
+                awayTeamHeartRates: .constant(viewModel.statistics?.awayTeamHeartRateRecords ?? []),
+                matchEvents: viewModel.statistics?.events ?? []
+            )
+            .padding(.leading, 16)
+            
             // MARK: 심박수 통계 그래프 아래의 정보 뷰(나, 홈팀, 원정팀)
             FanListView(homeTeamName: selectedMatch.homeTeam.teamName, awayTeamName: selectedMatch.awayTeam.teamName)
             
@@ -71,10 +73,9 @@ struct HeartRateView: View {
                 homeTeamPercentage: viewModel.statistics?.homeTeamViewerPercentage ?? 0
             )
             
+        }.onAppear {
+            viewModel.getHeartRateStatistics(request: HeartRateStatisticsRequest(matchId: selectedMatch.id))
         }
-//            .onReceive(timer) { _ in
-//                viewModel.updateHeartRateData()
-//            }
         .navigationTitle("심박수 통계")
         .navigationBarTitleDisplayMode(.inline)
     }

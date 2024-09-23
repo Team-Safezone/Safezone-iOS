@@ -124,6 +124,19 @@ func dateTimeToString(date3: Date) -> String {
     return datetimeToString
 }
 
+/// 타임라인 시간 계산
+func calculateEventTime(from matchStartTime: Date?, eventTime: String) -> Int {
+    guard let startTime = matchStartTime else { return 0 }
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    
+    guard let eventDate = dateFormatter.date(from: eventTime) else { return 0 }
+    
+    let elapsedTime = Int(eventDate.timeIntervalSince(startTime) / 60)
+    return elapsedTime
+}
+
 /// 경기 시작 시간 설정
 func setStartTime() -> DateComponents {
     var dateComponents = DateComponents()

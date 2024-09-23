@@ -11,6 +11,10 @@ class MatchResultViewModel: ObservableObject {
     @Published var match: SoccerMatch?
     @Published var eventCode: Int = -1
     
+    init(match: SoccerMatch? = nil) {
+        self.match = match
+    }
+    
     func updateMatch(_ match: SoccerMatch?) {
         self.match = match
     }

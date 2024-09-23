@@ -13,8 +13,8 @@ struct SoccerMatchDailyResponse: Codable {
     let soccerSeason: String // 축구 경기 시즌
     var matchDate: String // 축구 경기 날짜
     var matchTime: String // 축구 경기 시간
-    var homeTeamEmblemURL: String // 홈팀 엠블럼
-    var awayTeamEmblemURL: String // 원정팀 엠블럼
+    //var homeTeamEmblemURL: String // 홈팀 엠블럼
+    //var awayTeamEmblemURL: String // 원정팀 엠블럼
     var homeTeamName: String // 홈팀 이름
     var awayTeamName: String // 원정팀 이름
     var homeTeamScore: Int? // 홈팀 스코어
@@ -32,6 +32,7 @@ struct SoccerMatchDailyResponse: Codable {
         case matchRound = "round"
         case matchCode = "status"
         case awayTeamScore = "awayteamScore"
-        case id, homeTeamEmblemURL, awayTeamEmblemURL, homeTeamScore, stadium
+        case id, homeTeamScore, stadium
+        //case homeTeamEmblemURL, awayTeamEmblemURL,
     }
 }

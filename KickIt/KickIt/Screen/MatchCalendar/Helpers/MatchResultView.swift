@@ -10,7 +10,7 @@ import SwiftUI
 struct MatchResultView: View {
     @ObservedObject var viewModel: MatchResultViewModel
     
-    var color: [(Color, String)] = [(Color.black0, "경기 시작"), (Color.lime, "전반전"), (Color.lime, "하프타임"), (Color.lime, "후반전"), (Color.lime, "추가시간"), (Color.lime, "추가시간"), (Color.gray800, "경기 종료")]
+    var color: [(Color, String)] = [(Color.white0, "경기 시작"), (Color.lime, "전반전"), (Color.lime, "하프타임"), (Color.lime, "후반전"), (Color.lime, "추가시간"), (Color.lime, "추가시간"), (Color.gray800, "경기 종료")]
     
     var body: some View {
         ZStack {
@@ -41,7 +41,7 @@ struct MatchResultView: View {
                             .foregroundStyle(.gray400)
                             .frame(width: 16, height: 16)
                         Text(viewModel.match?.homeTeam.teamName ?? "")
-                            .foregroundStyle(Color.black0)
+                            .foregroundStyle(Color.white0)
                             .pretendardTextStyle(.Body3Style)
                     }
                 }
@@ -50,7 +50,7 @@ struct MatchResultView: View {
                 HStack(spacing: 14) {
                     Text(viewModel.match?.homeTeamScore?.description ?? "0")
                         .pretendardTextStyle(.H1Style)
-                        .foregroundStyle(Color.black0)
+                        .foregroundStyle(Color.white0)
                     
                     VStack(spacing: 0) {
                         if viewModel.eventCode == -1 || viewModel.eventCode == 6 {
@@ -59,17 +59,15 @@ struct MatchResultView: View {
                             Text(timeToString(time: viewModel.match?.matchTime))
                                 .font(.pretendard(.bold, size: 18))
                         } else {
-                            Text(color[max(0, min(viewModel.eventCode, color.count - 1))].1)
-                                .pretendardTextStyle(.SubTitleStyle)
-                            Text(formatElapsedTime(getElapsedTime()))
-                                .font(.pretendard(.bold, size: 18))
+                            Text("VS")
+                                .font(.pretendard(.bold, size: 16))
                         }
                     }
-                    .foregroundStyle(Color.black0)
+                    .foregroundStyle(Color.white0)
                     
                     Text(viewModel.match?.awayTeamScore?.description ?? "0")
                         .pretendardTextStyle(.H1Style)
-                        .foregroundStyle(Color.black0)
+                        .foregroundStyle(Color.white0)
                 }
                 
                 VStack {
@@ -79,7 +77,7 @@ struct MatchResultView: View {
                         .background(.white)
                         .clipShape(Circle())
                     Text(viewModel.match?.awayTeam.teamName ?? "")
-                        .foregroundStyle(Color.black0)
+                        .foregroundStyle(Color.white0)
                         .pretendardTextStyle(.Body3Style)
                 }
                 .frame(width: 100, height: 64, alignment: .center)
@@ -90,7 +88,7 @@ struct MatchResultView: View {
     private func getStatusColor() -> Color {
             switch viewModel.eventCode {
             case -1:
-                return Color.black0
+                return Color.white0
             case 6:
                 return Color.gray800
             default:
@@ -121,24 +119,13 @@ struct MatchResultView: View {
                 return Color.black
             }
         }
-        
-        private func formatElapsedTime(_ time: TimeInterval) -> String {
-            let minutes = Int(time) / 60
-            let seconds = Int(time) % 60
-            return String(format: "%02d:%02d", minutes, seconds)
-        }
-        
-        private func getElapsedTime() -> TimeInterval {
-            // 경기 시작 시간부터 현재까지의 시간을 계산 로직
-            return 0 // 임시 반환값
-        }
     }
 
 
 struct TableLable: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 8)
-            .foregroundStyle(Color.black0.opacity(0.1))
+            .foregroundStyle(Color.white0.opacity(0.1))
             .frame(maxWidth: .infinity, maxHeight: 40)
             .overlay {
                 HStack {
@@ -153,7 +140,7 @@ struct TableLable: View {
                         .pretendardTextStyle(.Body3Style)
                 }
                 .padding(.horizontal, 10)
-                .foregroundStyle(Color.black0)
+                .foregroundStyle(Color.white0)
             }
             .padding(.horizontal, 16)
     }
@@ -179,13 +166,13 @@ struct HalfTimeView: View {
                         .pretendardTextStyle(.SubTitleStyle)
                     Text("\(event.player1) - \(event.player2)")
                         .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.black0)
+                        .foregroundStyle(.white0)
                 case 4:
                     Text("추가시간")
                         .pretendardTextStyle(.SubTitleStyle)
                     Text("\(event.player1)분")
                         .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.black0)
+                        .foregroundStyle(.white0)
                 default:
                     EmptyView()
                 }
@@ -198,7 +185,7 @@ struct HalfTimeView: View {
             }
             .stroke(Color.gray950, lineWidth: 1)
         }
-        .foregroundStyle(Color.black0)
+        .foregroundStyle(Color.white0)
     }
 }
 
@@ -232,11 +219,11 @@ struct LinkToSoccerView: View {
 }
 
 #Preview {
-    let dummyMatch = dummySoccerMatches[1]
+    let dummyMatch = dummySoccerMatches[2]
     
     let matchResultViewModel = MatchResultViewModel()
     matchResultViewModel.updateMatch(dummyMatch)
-    matchResultViewModel.updateEventCode(1) // 1: 전반전 상태로 설정
+    matchResultViewModel.updateEventCode(6)
     
     return MatchResultView(viewModel: matchResultViewModel)
         .previewLayout(.sizeThatFits)

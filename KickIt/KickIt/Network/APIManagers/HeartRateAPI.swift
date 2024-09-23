@@ -33,20 +33,19 @@ class HeartRateAPI: BaseAPI {
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
-                        // 응답 성공
-                        if result.success {
-                            promise(.success(result.data!))
-                        } else {
-                            switch result.status {
-                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
-                                return promise(.failure(.authFailed))
-                            case 400..<500: // 요청 실패
-                                return promise(.failure(.requestErr(result.message)))
-                            case 500: // 서버 오류
-                                return promise(.failure(.serverErr(result.message)))
-                            default: // 알 수 없는 오류
-                                return promise(.failure(.unknown(result.message)))
-                            }
+                        // FIXME: 백엔드에서 isSuccess값 보내주면, 이에 맞춰 로직 변경하기!
+                        // 이거는 내가 어떻게 바꾸는지 알려줄게!!
+                        switch result.status {
+                        case 200:
+                            return promise(.success(result.data!))
+                        case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                            return promise(.failure(.authFailed))
+                        case 400..<500: // 요청 실패
+                            return promise(.failure(.requestErr(result.message)))
+                        case 500: // 서버 오류
+                            return promise(.failure(.serverErr(result.message)))
+                        default: // 알 수 없는 오류
+                            return promise(.failure(.unknown(result.message)))
                         }
                     // API 호출 실패
                     case .failure(let error):

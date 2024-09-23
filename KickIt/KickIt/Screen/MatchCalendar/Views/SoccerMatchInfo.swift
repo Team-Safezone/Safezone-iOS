@@ -279,7 +279,7 @@ struct SoccerMatchInfo: View {
                                         .padding(12)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .fill(LinearGradient.purpleGradient)
+                                                .fill(LinearGradient.greenGradient)
                                         )
                                         .overlay {
                                             if soccerMatch.matchCode == 0 {
@@ -325,7 +325,7 @@ struct SoccerMatchInfo: View {
                                         .padding(12)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .fill(LinearGradient.purpleGradient)
+                                                .fill(LinearGradient.greenGradient)
                                         )
                                         .overlay {
                                             if soccerMatch.matchCode != 3 {
