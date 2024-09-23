@@ -24,23 +24,8 @@ protocol StartingLineupPredictionViewModelProtocol: ObservableObject {
     /// 선발라인업 예측 조회
     func getStartingLineupPrediction(request: StartingLineupPredictionRequest)
     
-    /// 현재 선택 중인 홈팀 포메이션
-    var homeSelectedFormation: Formation? { get set }
-    
-    /// 현재 선택 중인 원정팀 포메이션
-    var awaySelectedFormation: Formation? { get set }
-    
-    /// 현재 선택 중인 홈팀 포메이션의 배열 순서
-    var homeFormationIndex: Int { get set }
-    
-    /// 현재 선택 중인 원정팀 포메이션의 배열 순서
-    var awayFormationIndex: Int { get set }
-    
-    /// 사용자가 선택한 홈팀 선수 리스트
-    var homeSelectedPlayers: [SoccerPosition : StartingLineupPlayer] { get set }
-    
-    /// 사용자가 선택한 원정팀 선수 리스트
-    var awaySelectedPlayers: [SoccerPosition : StartingLineupPlayer] { get set }
+    /// 현재 선택 중인 팀 포메이션
+    var selectedFormation: Formation? { get set }
     
     /// 현재 선택 중인 선수 포지션
     var selectedPositionToInt: Int? { get set }

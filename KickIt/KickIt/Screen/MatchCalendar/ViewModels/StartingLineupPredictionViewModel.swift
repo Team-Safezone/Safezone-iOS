@@ -22,23 +22,8 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     /// 사용자가 예측했던 원정팀 선수 리스트
     @Published var awayPredictions: UserStartingLineupPrediction?
     
-    /// 현재 선택 중인 홈팀 포메이션
-    @Published var homeSelectedFormation: Formation?
-    
-    /// 현재 선택 중인 원정팀 포메이션
-    @Published var awaySelectedFormation: Formation?
-    
-    /// 현재 선택 중인 홈팀 포메이션의 배열 순서
-    @Published var homeFormationIndex: Int = -1
-    
-    /// 현재 선택 중인 원정팀 포메이션의 배열 순서
-    @Published var awayFormationIndex: Int = -1
-    
-    /// 사용자가 선택한 홈팀 선수 리스트
-    @Published var homeSelectedPlayers: [SoccerPosition : StartingLineupPlayer] = [:]
-    
-    /// 사용자가 선택한 원정팀 선수 리스트
-    @Published var awaySelectedPlayers: [SoccerPosition : StartingLineupPlayer] = [:]
+    /// 현재 선택 중인 팀 포메이션
+    @Published var selectedFormation: Formation?
     
     /// 현재 선택 중인 선수 포지션
     @Published var selectedPositionToInt: Int?
@@ -145,39 +130,13 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     }
     
     /// 포메이션 이름 반환
-    func presentFormationInfo(isHomeTeam: Bool) -> String {
-        if isHomeTeam {
-            homeFormationIndex == -1 ? "포메이션 선택" : formations[homeFormationIndex].name
-        }
-        else {
-            awayFormationIndex == -1 ? "포메이션 선택" : formations[awayFormationIndex].name
-        }
+    func presentFormationInfo(formationIndex: Int) -> String {
+        formationIndex == -1 ? "포메이션 선택" : formations[formationIndex].name
     }
     
     /// 포메이션 선택
-    func selectFormation(formation: Formation, index: Int, isHomeTeam: Bool) {
-        if isHomeTeam {
-            homeSelectedFormation = formation
-            homeFormationIndex = index
-            homeSelectedPlayers.removeAll() // 포메이션 변경 시, 선수 초기화
-        }
-        else {
-            awaySelectedFormation = formation
-            awayFormationIndex = index
-            awaySelectedPlayers.removeAll()
-        }
-    }
-    
-    /// 포지션에 선수 배치 또는 변경
-    func selectPlayer(player: StartingLineupPlayer, position: SoccerPosition, isHomeTeam: Bool) {
-        if isHomeTeam {
-            homeSelectedPlayers[position] = player
-            print("홈팀 선수 리스트", homeSelectedPlayers.values)
-        }
-        else {
-            awaySelectedPlayers[position] = player
-            print("원정팀 선수 리스트", awaySelectedPlayers.values)
-        }
+    func selectFormation(formation: Formation) {
+        selectedFormation = formation
     }
     
     /// 특정 포지션에 대한 바텀 시트 호출
@@ -199,14 +158,9 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     }
     
     /// 특정 포지션에 있는 선수 삭제
-    func removePlayer(position: SoccerPosition, isHomeTeam: Bool) {
-        if isHomeTeam {
-            homeSelectedPlayers[position] = nil
-        }
-        else {
-            awaySelectedPlayers[position] = nil
-        }
-    }
+//    func removePlayer(position: SoccerPosition) {
+//        selectedPlayers[position] = nil
+//    }
     
     /// 선수 리스트 필터링
     func filteredPlayers() -> [StartingLineupPlayer] {
@@ -228,14 +182,14 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     }
     
     /// 각 팀의 라인업 완성 여부를 확인하는 함수
-    func isLineupComplete(isHomeTeam: Bool) -> Bool {
+    func isLineupComplete(selectedPlayers: [SoccerPosition:StartingLineupPlayer]) -> Bool {
         // 사용자가 선택한 선수 개수
-        let selectedPlayers = isHomeTeam ? homeSelectedPlayers.count : awaySelectedPlayers.count
+        let selectedPlayers = selectedPlayers.count
         return selectedPlayers == 11
     }
     
     /// 홈팀과 원정팀의 선발라인업 완성 여부
-    func areBothLineupsComplete() -> Bool {
-        return isLineupComplete(isHomeTeam: true) && isLineupComplete(isHomeTeam: false)
+    func areBothLineupsComplete(home: [SoccerPosition:StartingLineupPlayer], away: [SoccerPosition:StartingLineupPlayer]) -> Bool {
+        return isLineupComplete(selectedPlayers: home) && isLineupComplete(selectedPlayers: away)
     }
 }

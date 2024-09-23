@@ -11,13 +11,19 @@ import SwiftUI
 struct StartingLineupPredictionView: View {
     // MARK: - PROPERTY
     /// 선발라인업 예측 뷰모델 객체
-    @ObservedObject var viewModel: StartingLineupPredictionViewModel
+    @StateObject private var viewModel = StartingLineupPredictionViewModel()
     
     /// 홈팀 여부
     var isHomeTeam: Bool
     
     /// 축구 팀 객체
     var team: SoccerTeam
+    
+    /// 선택 중인 선수 리스트
+    @Binding var selectedPlayers: [SoccerPosition : StartingLineupPlayer]
+    
+    /// 선택한 포메이션 배열 순서
+    @Binding var formationIndex: Int
     
     /// 포메이션 선택 시트를 띄우기 위한 변수
     @State private var isFormationPresented = false
@@ -45,7 +51,7 @@ struct StartingLineupPredictionView: View {
                     isFormationPresented.toggle() // 시트 띄우기
                 } label: {
                     HStack {
-                        Text(viewModel.presentFormationInfo(isHomeTeam: isHomeTeam))
+                        Text(viewModel.presentFormationInfo(formationIndex: formationIndex))
                             .pretendardTextStyle(.SubTitleStyle)
                             .foregroundStyle(.white0)
                             .padding(.trailing, 4)
@@ -67,13 +73,13 @@ struct StartingLineupPredictionView: View {
                     )
                     .overlay {
                         SpecificRoundedRectangle(radius: 8, corners: isHomeTeam ? [.topLeft, .topRight] : [.bottomLeft, .bottomRight])
-                            .fill(isHomeTeam ? (viewModel.homeSelectedFormation == nil ? .black : .clear) : (viewModel.awaySelectedFormation == nil ? .black : .clear))
+                            .fill(viewModel.selectedFormation == nil ? .black : .clear)
                             .opacity(0.6)
                     }
                 
                 // MARK: 선택된 포메이션 리스트 띄우기
                 // 선택한 포메이션이 있는 경우
-                if let formation = isHomeTeam ? viewModel.homeSelectedFormation : viewModel.awaySelectedFormation {
+                if let formation = viewModel.selectedFormation {
                     selectedFormationView(formation: formation)
                 }
                 // 선택한 포메이션이 없는 경우
@@ -91,7 +97,7 @@ struct StartingLineupPredictionView: View {
         }
         // MARK: 선수 선택 바텀 시트
         .sheet(isPresented: $viewModel.isPlayerPresented) {
-            PredictionPlayerBottomSheetView(viewModel: viewModel, isHomeTeam: isHomeTeam)
+            PredictionPlayerBottomSheetView(viewModel: viewModel, isHomeTeam: isHomeTeam, selectedPlayers: $selectedPlayers)
         } //: SHEET
     }
     
@@ -122,7 +128,9 @@ struct StartingLineupPredictionView: View {
                     .listRowInsets(EdgeInsets()) // List 내부의 기본 공백 제거
                     // 포메이션 1개를 클릭했을 경우
                     .onTapGesture {
-                        viewModel.selectFormation(formation: item, index: index, isHomeTeam: isHomeTeam)
+                        viewModel.selectFormation(formation: item)
+                        formationIndex = index // 인덱스 설정
+                        selectedPlayers.removeAll() // 포메이션 변경 시, 선수 초기화
                         isFormationPresented.toggle() // 시트 띄우기
                     }
                 }
@@ -139,7 +147,7 @@ struct StartingLineupPredictionView: View {
     private func selectedFormationView(formation: Formation) -> some View {
         VStack(spacing: 0) {
             // 포지션 배열이 3줄이라면
-            if (isHomeTeam ? viewModel.homeFormationIndex != 1 : viewModel.awayFormationIndex != 1) {
+            if formationIndex != 1 {
                 VStack(alignment: .center, spacing: 22) {
                     ForEach(Array(playerViews(for: formation).enumerated()), id: \.offset) { _, view in
                         view
@@ -170,9 +178,6 @@ struct StartingLineupPredictionView: View {
         let defenders = HStack(spacing: 12) {
             ForEach(Array(0..<(formation.positionsToInt[0])), id: \.self) { i in
                 playerView(for: 2, position: filteredDefend[i])
-                    .onAppear {
-                        print("수비수 \(filteredDefend[i])")
-                    }
             }
         }
         views.append(AnyView(defenders))
@@ -182,9 +187,6 @@ struct StartingLineupPredictionView: View {
         let midfielders = HStack(spacing: 12) {
             ForEach(Array(0..<(formation.positionsToInt[1])), id: \.self) { i in
                 playerView(for: 3, position: filteredMidfield[i])
-                    .onAppear {
-                        print("미드필더 \(filteredMidfield[i])")
-                    }
             }
         }
         views.append(AnyView(midfielders))
@@ -194,9 +196,6 @@ struct StartingLineupPredictionView: View {
             let midfielders2 = HStack(spacing: 12) {
                 ForEach(Array(0..<(formation.positionsToInt[2])), id: \.self) { i in
                     playerView(for: 3, position: filteredMidfield[i + 2])
-                        .onAppear {
-                            print("미드필더 \(filteredMidfield[i + 2])")
-                        }
                 }
             }
             views.append(AnyView(midfielders2))
@@ -207,9 +206,6 @@ struct StartingLineupPredictionView: View {
         let strikers = HStack(spacing: 12) {
             ForEach(Array(0..<(formation.positionsToInt[extraMidfielders ? 3 : 2])), id: \.self) { i in
                 playerView(for: 4, position: filteredStrike[i])
-                    .onAppear {
-                        print("공격수 \(filteredStrike[i])")
-                    }
             }
         }
         views.append(AnyView(strikers))
@@ -221,7 +217,7 @@ struct StartingLineupPredictionView: View {
     @ViewBuilder
     private func playerView(for positionToInt: Int, position: SoccerPosition) -> some View {
         VStack(spacing: 0) {
-            if let player = isHomeTeam ? viewModel.homeSelectedPlayers[position] : viewModel.awaySelectedPlayers[position] {
+            if let player = selectedPlayers[position] {
                 // 값이 있으면 PredictionPlayerSelectedCardView 사용
                 PredictionPlayerSelectedCardView(player: player)
                     .onTapGesture {
@@ -242,5 +238,9 @@ struct StartingLineupPredictionView: View {
 
 // MARK: - PREVIEW
 #Preview("선발라인업 예측 선택") {
-    StartingLineupPredictionView(viewModel: StartingLineupPredictionViewModel(), isHomeTeam: true, team: dummySoccerTeams[1])
+    StartingLineupPredictionView(
+        isHomeTeam: true,
+        team: dummySoccerTeams[1],
+        selectedPlayers: .constant([SoccerPosition.DF1:StartingLineupPlayer(playerImgURL: "", playerName: "", backNum: 2, playerPosition: 2)]),
+        formationIndex: .constant(-1))
 }

@@ -15,12 +15,16 @@ struct PredictionPlayerBottomSheetView: View {
     /// 홈팀 여부
     var isHomeTeam: Bool
     
+    /// 선택한 선수 리스트
+    @Binding var selectedPlayers: [SoccerPosition : StartingLineupPlayer]
+    
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             // 인디케이터
             DragIndicator()
                 .foregroundStyle(.white0)
             
+            Text("Selecting for \(isHomeTeam ? "Home" : "Away") Team")
             Text("선수 선택")
                 .pretendardTextStyle(.Title1Style)
                 .foregroundStyle(.white0)
@@ -51,11 +55,10 @@ struct PredictionPlayerBottomSheetView: View {
                         PredictionPlayerView(player: player)
                             .onTapGesture {
                                 if let position = viewModel.selectedPosition {
-                                    viewModel.selectPlayer(player: player, position: position, isHomeTeam: isHomeTeam)
+                                    selectedPlayers[position] = player
                                     viewModel.isPlayerPresented = false
-                                    print("완성?: \(viewModel.areBothLineupsComplete())")
-                                    print("완성 홈 개수?: \(viewModel.homeSelectedPlayers.count)")
-                                    print("완성 원정 개수?: \(viewModel.awaySelectedPlayers.count)")
+                                    print("1 팀 선수 리스트 수?: \(selectedPlayers.count)")
+                                    print("1 팀 선수 리스트?: \(selectedPlayers)")
                                 }
                             }
                     }
@@ -71,5 +74,5 @@ struct PredictionPlayerBottomSheetView: View {
 }
 
 #Preview {
-    PredictionPlayerBottomSheetView(viewModel: StartingLineupPredictionViewModel(), isHomeTeam: true)
+    PredictionPlayerBottomSheetView(viewModel: StartingLineupPredictionViewModel(), isHomeTeam: true, selectedPlayers: .constant([SoccerPosition.DF1:StartingLineupPlayer(playerImgURL: "", playerName: "", backNum: 2, playerPosition: 2)]))
 }
