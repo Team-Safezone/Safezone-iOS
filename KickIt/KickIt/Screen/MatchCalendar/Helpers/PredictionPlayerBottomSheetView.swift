@@ -24,7 +24,6 @@ struct PredictionPlayerBottomSheetView: View {
             DragIndicator()
                 .foregroundStyle(.white0)
             
-            Text("Selecting for \(isHomeTeam ? "Home" : "Away") Team")
             Text("선수 선택")
                 .pretendardTextStyle(.Title1Style)
                 .foregroundStyle(.white0)
@@ -52,15 +51,28 @@ struct PredictionPlayerBottomSheetView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(Array(viewModel.filteredPlayers().enumerated()), id: \.offset) { _, player in
-                        PredictionPlayerView(player: player)
-                            .onTapGesture {
-                                if let position = viewModel.selectedPosition {
-                                    selectedPlayers[position] = player
-                                    viewModel.isPlayerPresented = false
-                                    print("1 팀 선수 리스트 수?: \(selectedPlayers.count)")
-                                    print("1 팀 선수 리스트?: \(selectedPlayers)")
+                        // 이미 선택되어 있는 선수라면 true
+                        let isSelected = viewModel.isPlayerAlreadySelected(selectedPlayers: selectedPlayers, player: player)
+                        if isSelected {
+                            PredictionPlayerView(player: player, isSelected: true)
+                                .onTapGesture {
+                                    // 재선택시 선수 선택 해제
+                                    if let position = viewModel.selectedPosition {
+                                        selectedPlayers[position] = nil
+                                        viewModel.isPlayerPresented = false
+                                    }
                                 }
-                            }
+                        }
+                        // 선택되어있지 않은 선수라면
+                        else {
+                            PredictionPlayerView(player: player, isSelected: false)
+                                .onTapGesture {
+                                    if let position = viewModel.selectedPosition {
+                                        selectedPlayers[position] = player
+                                        viewModel.isPlayerPresented = false
+                                    }
+                                }
+                        }
                     }
                 }
             }

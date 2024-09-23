@@ -157,6 +157,11 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
         isPlayerPresented = true
     }
     
+    /// 이미 선택된 선수인지 확인하는 함수
+    func isPlayerAlreadySelected(selectedPlayers: [SoccerPosition:StartingLineupPlayer], player: StartingLineupPlayer) -> Bool {
+        return selectedPlayers.contains(where: { $0.value.backNum == player.backNum }) // 등번호로 비교
+    }
+    
     /// 특정 포지션에 있는 선수 삭제
 //    func removePlayer(position: SoccerPosition) {
 //        selectedPlayers[position] = nil

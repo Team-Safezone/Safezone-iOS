@@ -12,6 +12,9 @@ struct PredictionPlayerView: View {
     /// 선수 객체
     var player: StartingLineupPlayer
     
+    /// 선수 선택 여부
+    var isSelected: Bool
+    
     var body: some View {
         VStack(spacing: 8) {
             // 선수 프로필 사진
@@ -19,15 +22,20 @@ struct PredictionPlayerView: View {
                 .frame(width: 80, height: 80)
                 .background(.whiteInAssets)
                 .clipShape(Circle())
+                .overlay(
+                    Circle()
+                        .fill(isSelected ? .blackInAssets : .clear)
+                        .opacity(isSelected ? 0.5 : 0)
+                )
             
             // 선수 등번호 및 이름
             Text("\(player.backNum). \(player.playerName)")
                 .pretendardTextStyle(.Body2Style)
-                .foregroundStyle(.white0)
+                .foregroundStyle(isSelected ? .gray500 : .white0)
         }
     }
 }
 
 #Preview("선수 선택 뷰") {
-    PredictionPlayerView(player: StartingLineupPlayer(playerImgURL: "", playerName: "손흥민", backNum: 7, playerPosition: 4))
+    PredictionPlayerView(player: StartingLineupPlayer(playerImgURL: "", playerName: "손흥민", backNum: 7, playerPosition: 4), isSelected: true)
 }
