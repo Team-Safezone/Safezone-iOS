@@ -66,6 +66,7 @@ struct MatchCalendar: View {
                         RadioButtonGroup(
                             // 팀 리스트 띄우기
                             items: viewModel.soccerTeamNames,
+                            padding: 8,
                             selectedId: $selectedRadioBtnID,
                             selectedTeamName: $selectedTeamName,
                             callback: { previous, current, teamName in

@@ -12,6 +12,9 @@ struct RadioButtonGroup: View {
     /// 라디오 버튼 텍스트 리스트
     var items: [String]
     
+    /// 라디오 버튼 사이의 여백
+    var padding: CGFloat
+    
     /// 선택한 팀 id
     @Binding var selectedId: Int
     
@@ -27,7 +30,7 @@ struct RadioButtonGroup: View {
     }
     
     var body: some View {
-        LazyHStack(spacing: 8) {
+        LazyHStack(spacing: padding) {
             ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                 RadioButton(
                     id: index,

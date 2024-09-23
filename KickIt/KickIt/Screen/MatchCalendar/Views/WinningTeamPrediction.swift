@@ -14,9 +14,6 @@ struct WinningTeamPrediction: View {
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
-    /// 현재 날짜 및 시간
-    @State private var nowDate = Date()
-    
     /// 홈팀의 예상 골 개수
     @State private var homeTeamGoal = 0
     
@@ -44,12 +41,9 @@ struct WinningTeamPrediction: View {
                             .pretendardTextStyle(.Caption1Style)
                             .foregroundStyle(.gray300)
                         
-                        Text("\(timePredictionInterval(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime))")
-                            .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(.white)
-                            .onAppear {
-                                startTimer()
-                            }
+//                        Text("\(timePredictionInterval(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime))")
+//                            .pretendardTextStyle(.Caption1Style)
+//                            .foregroundStyle(.white)
                     }
                     .padding(.top, 10)
                 }
@@ -230,13 +224,6 @@ struct WinningTeamPrediction: View {
         .ignoresSafeArea(edges: .bottom)
         .toolbarBackground(Color.background, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-    }
-    
-    /// 예측 종료 마감까지의 시간 계산
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.nowDate = Date()
-        }
     }
 }
 
