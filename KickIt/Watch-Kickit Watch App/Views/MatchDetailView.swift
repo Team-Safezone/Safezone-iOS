@@ -21,11 +21,6 @@ struct MatchDetailView: View {
                 PlayingView(match: match)
                     .padding(.bottom, 42)
                 Button(action: {
-                    // 심박수 앱 열기
-    //                if let url = URL(string: "heartrate://") {
-    //                    WKExtension.shared().openSystemURL(url)
-    //                }
-                    
                     // iOS로 match ID 전송
                     viewModel.sendMatchIdToiOS(matchId: match.id)
                 }) {
