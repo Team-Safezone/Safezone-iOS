@@ -525,16 +525,14 @@
 				E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */,
 				E79F05F32CA047CC0059E828 /* Watch-Kickit-Watch-App-Info.plist */,
 				E79F05C32CA01EAA0059E828 /* Assets.xcassets */,
-				E744887E2CA2D0490080EA1C /* Date+.swift */,
-				E744887F2CA2D0490080EA1C /* Font+.swift */,
-				E74488802CA2D0490080EA1C /* TextStyle.swift */,
+				E7CD31F72CA2EF9300CBC086 /* Helpers */,
+				E7CD31F62CA2EF2B00CBC086 /* Utils */,
 				E73788542CA2C3F7009727C6 /* Font */,
 				E79F05DA2CA01F4C0059E828 /* Network */,
 				E79F05CF2CA01F080059E828 /* Models */,
 				E79F05D12CA01F1B0059E828 /* ViewModels */,
 				E79F05D02CA01F0F0059E828 /* Views */,
 				E79F05C52CA01EAA0059E828 /* Preview Content */,
-				E7CD31F22CA2D3D500CBC086 /* LoadableImage.swift */,
 			);
 			path = "Watch-Kickit Watch App";
 			sourceTree = "<group>";
@@ -644,6 +642,24 @@
 				E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		E7CD31F62CA2EF2B00CBC086 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E744887E2CA2D0490080EA1C /* Date+.swift */,
+				E744887F2CA2D0490080EA1C /* Font+.swift */,
+				E74488802CA2D0490080EA1C /* TextStyle.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		E7CD31F72CA2EF9300CBC086 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E7CD31F22CA2D3D500CBC086 /* LoadableImage.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E7D7E7412C0CDA4800554EA7 /* Network */ = {
