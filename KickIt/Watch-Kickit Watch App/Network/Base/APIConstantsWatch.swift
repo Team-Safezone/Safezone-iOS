@@ -10,7 +10,6 @@ import Foundation
 struct APIConstantsWatch {
     /// 서버 URL
     static let baseURL: String = {
-        // URL이 비어있으면 기본 URL을 설정하거나 로그를 출력합니다.
         guard let url = Bundle.main.object(forInfoDictionaryKey: "BASE_URL") as? String, !url.isEmpty else {
             fatalError("BASE_URL is missing or invalid in Info.plist")
         }
