@@ -7,30 +7,52 @@
 
 import SwiftUI
 import Combine
+import WatchConnectivity
 
 /// watchOS 앱의 축구 경기 뷰모델
-class SoccerMatchViewModel: NSObject, ObservableObject { //WCSessionDelegate
+class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     @Published var matches: [SoccerMatchWatch] = [] // 현재 표시 중인 축구 경기 목록
     @Published var isLoading = false // 데이터 로딩 중 여부
-    @Published var errorMessage: String? // 데이터 로딩 중 여부
-    
-    //    private var session: WCSession?  //Watch Connectivity 세션
+    @Published var errorMessage: String? // 에러 메시지
+    @Published var wcSessionState: WCSessionActivationState = .notActivated // WCSession 활성화 상태
+    private var pendingMessage: [String: Any]? // 전송 실패한 메시지 보관
     private var cancellables = Set<AnyCancellable>()
+    private var session: WCSession? // WCSession 인스턴스
+    
+    override init() {
+        super.init()
+        setupWCSession() // WCSession 초기화 및 활성화
+    }
+    
+    /// WCSession 설정 및 활성화
+    private func setupWCSession() {
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self // Delegate 설정
+            session?.activate() // WCSession 활성화
+        }
+    }
+    
+    // MARK: - dummydata
+    let dummySoccerMatches: [SoccerMatchWatch] = [
+        SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
+        SoccerMatchWatch(id: 1, timeStr: "21:30", homeTeam: "아스널", homeTeamScore: 2, awayTeam: "풀럼", awayTeamScore: 4, status: 1),
+        SoccerMatchWatch(id: 2, timeStr: "22:30", homeTeam: "토트넘", homeTeamScore: 2, awayTeam: "맨시티", awayTeamScore: 1, status: 3)]
+    
+    
     
     // MARK: - get API
     
+    /// 하루 경기 일정 데이터 가져오기
     func loadMatches() {
         isLoading = true
         errorMessage = nil
         
-        SoccerMatchService.shared.fetchMatches(for: Date())
+        SoccerMatchService.shared.fetchMatches(for: Date()) //Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()) //
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
+                if case .failure(let error) = completion {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] matches in
@@ -38,86 +60,68 @@ class SoccerMatchViewModel: NSObject, ObservableObject { //WCSessionDelegate
             }
             .store(in: &cancellables)
     }
-}
+    
+    // MARK: - iOS 전송 관련 함수들
+    /// iOS로 match ID 전송
+    func sendMatchIdToiOS(matchId: Int64) {
+        let message = ["matchId": matchId]
+        
+        if let session = session, session.isReachable {
+            session.sendMessage(message, replyHandler: { response in
+                print("Message sent to iOS with matchId: \(matchId)")
+            }, errorHandler: { error in
+                print("Error sending message to iOS: \(error.localizedDescription)")
+                self.storePendingMessage(message)
+            })
+        } else {
+            print("WCSession is not reachable, saving message locally")
+            storePendingMessage(message)
+        }
+    }
 
-//    // MARK: - Initialization
-//
-//    override init() {
-//        super.init()
-//        setupWatchConnectivity()
-//    }
-//
-//    // MARK: - Watch Connectivity Setup
-//
-//    private func setupWatchConnectivity() {
-//        if WCSession.isSupported() {
-//            session = WCSession.default
-//            session?.delegate = self
-//            session?.activate()
-//        }
-//    }
-//
-//    // MARK: - Data Loading
-//
-//    /// 경기 데이터 로드 요청
-//    func loadMatches() {
-//        isLoading = true
-//        errorMessage = nil
-//        requestDataFromiOS()
-//    }
-//
-//    /// iOS 기기에 데이터 요청
-//    private func requestDataFromiOS() {
-//        // WCSession이 활성화되었는지 확인
-//        guard let session = session, session.activationState == .activated else {
-//            isLoading = false
-//            errorMessage = "WCSession is not activated"
-//            return
-//        }
-//
-//        // iOS 기기가 연결 가능한 상태인지 확인
-//        guard session.isReachable else {
-//            isLoading = false
-//            errorMessage = "iPhone에 연결할 수 없습니다."
-//            return
-//        }
-//
-//        // iOS 기기에 데이터 요청 메시지 전송
-//        session.sendMessage(["request": "dailyMatches"], replyHandler: { _ in
-//            print("Request sent successfully to iPhone")
-//        }) { error in
-//            DispatchQueue.main.async {
-//                self.isLoading = false
-//                self.errorMessage = "데이터 요청 중 오류 발생: \(error.localizedDescription)"
-//            }
-//        }
-//    }
-//
-//    // MARK: - WCSessionDelegate Methods
-//
-//    /// WCSession 활성화가 완료되었을 때 호출되는 메서드
-//    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-//        if let error = error {
-//            print("watchOS WCSession activation failed with error: \(error.localizedDescription)")
-//        } else {
-//            print("watchOS WCSession activated with state: \(activationState.rawValue)")
-//        }
-//    }
-//
-//    /// iOS 기기로부터 메시지 데이터를 수신했을 때 호출되는 메서드
-//    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
-//        do {
-//            let decodedMatches = try JSONDecoder().decode([WatchSoccerMatch].self, from: messageData)
-//            DispatchQueue.main.async {
-//                self.matches = decodedMatches
-//                self.isLoading = false
-//                self.errorMessage = nil
-//            }
-//        } catch {
-//            DispatchQueue.main.async {
-//                self.isLoading = false
-//                self.errorMessage = "데이터 디코딩 중 오류 발생: \(error.localizedDescription)"
-//            }
-//        }
-//    }
-//}
+    /// 실패한 메시지 저장 (나중에 재시도)
+    private func storePendingMessage(_ message: [String: Any]) {
+        UserDefaults.standard.set(message, forKey: "pendingMessage")
+    }
+
+    /// 메시지 재전송 로직
+    private func retryPendingMessage() {
+        if let message = UserDefaults.standard.dictionary(forKey: "pendingMessage") {
+            if let session = session, session.isReachable {
+                session.sendMessage(message, replyHandler: { response in
+                    print("Pending message sent to iOS successfully.")
+                    UserDefaults.standard.removeObject(forKey: "pendingMessage")
+                }, errorHandler: { error in
+                    print("Error retrying message: \(error.localizedDescription)")
+                })
+            }
+        }
+    }
+    
+    /// WCSessionDelegate 메서드: 세션 활성화 완료 시 호출
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        DispatchQueue.main.async {
+            self.wcSessionState = activationState
+            if let error = error {
+                self.errorMessage = "WCSession activation error: \(error.localizedDescription)"
+            } else {
+                switch activationState {
+                case .activated:
+                    self.errorMessage = nil
+                    self.retryPendingMessage() // 활성화 시 메시지 재전송
+                case .inactive:
+                    self.errorMessage = "WCSession is inactive"
+                case .notActivated:
+                    self.errorMessage = "WCSession is not activated"
+                @unknown default:
+                    self.errorMessage = "Unknown WCSession state"
+                }
+            }
+        }
+    }
+
+    /// iOS로부터 메시지 수신 시 호출 (옵션)
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        // 수신된 메시지 처리 로직 추가 가능
+    }
+}
