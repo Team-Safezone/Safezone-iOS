@@ -17,7 +17,7 @@ struct PredictionPlayerSelectedCardView: View {
             // 선수 프로필 사진
             LoadableImage(image: player.playerImgURL)
                 .frame(width: 40, height: 40)
-                .background(.whiteInAssets)
+                .background(.whiteAssets)
                 .clipShape(Circle())
             
             // 선수 등번호 및 이름

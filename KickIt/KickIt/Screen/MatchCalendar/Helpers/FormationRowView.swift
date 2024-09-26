@@ -27,7 +27,7 @@ struct FormationRowView: View {
                 
                 Text(formationType)
                     .pretendardTextStyle(.Body3Style)
-                    .foregroundStyle(.gray500Down)
+                    .foregroundStyle(.gray500Text)
             }
             Spacer()
             HStack(spacing: 4) {
@@ -36,7 +36,7 @@ struct FormationRowView: View {
                         .resizable()
                         .renderingMode(.template)
                         .frame(width: 32, height: 32)
-                        .foregroundStyle(.gray500Down)
+                        .foregroundStyle(.gray500Text)
                 }
             }
         }

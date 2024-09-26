@@ -33,7 +33,7 @@ class StartingLineupPredictionAPI: BaseAPI {
                     // API 호출 성공
                     case .success(let result):
                         // 응답 성공
-                        if result.success {
+                        if result.isSuccess {
                             promise(.success(result.data!))
                         } else {
                             switch result.status {

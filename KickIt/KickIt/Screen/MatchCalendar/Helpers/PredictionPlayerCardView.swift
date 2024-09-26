@@ -18,11 +18,11 @@ struct PredictionPlayerCardView: View {
         VStack(alignment: .center, spacing: 2) {
             Image(.plus)
                 .frame(width: 24, height: 24)
-                .foregroundStyle(.whiteInAssets)
+                .foregroundStyle(.whiteAssets)
             
             Text(positionName(position: playerPosition))
                 .pretendardTextStyle(.Caption2Style)
-                .foregroundStyle(.whiteInAssets)
+                .foregroundStyle(.whiteAssets)
         }
         .frame(width: 46, height: 54)
         .background(

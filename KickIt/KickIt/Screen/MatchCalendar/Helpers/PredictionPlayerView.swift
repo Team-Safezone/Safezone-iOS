@@ -20,11 +20,11 @@ struct PredictionPlayerView: View {
             // 선수 프로필 사진
             LoadableImage(image: player.playerImgURL)
                 .frame(width: 80, height: 80)
-                .background(.whiteInAssets)
+                .background(.whiteAssets)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
-                        .fill(isSelected ? .blackInAssets : .clear)
+                        .fill(isSelected ? .blackAssets : .clear)
                         .opacity(isSelected ? 0.5 : 0)
                 )
             

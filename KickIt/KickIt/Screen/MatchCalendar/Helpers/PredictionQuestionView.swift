@@ -37,7 +37,7 @@ struct PredictionQuestionView: View {
             // 예측 질문 타이틀
             Text("Q. \(questionTitle)")
                 .pretendardTextStyle(.SubTitleStyle)
-                .foregroundStyle(.gray500Down)
+                .foregroundStyle(.gray500Text)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             // 예측 질문

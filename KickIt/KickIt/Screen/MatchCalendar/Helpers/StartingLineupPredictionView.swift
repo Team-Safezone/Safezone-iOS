@@ -86,7 +86,7 @@ struct StartingLineupPredictionView: View {
                 else {
                     Text("포메이션을 선택한 후 선수를 배치해 주세요")
                         .pretendardTextStyle(.Body2Style)
-                        .foregroundStyle(.whiteInAssets)
+                        .foregroundStyle(.whiteAssets)
                 }
             } //: ZSTACK
             
