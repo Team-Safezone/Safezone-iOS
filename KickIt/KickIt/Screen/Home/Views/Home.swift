@@ -15,68 +15,107 @@ struct Home: View {
     /// 프리미어리그 팀 리스트
     @State private var soccerTeams: [SoccerTeam] = []
     
+    /// 사용자가 선택한 축구 경기
+    @State private var selectedMatch: SoccerMatch?
+    
+    /// 네비게이션 선택 변수
+    @Binding var selectedMenu: Tab
+    
+    /// 네비게이션 경로 변수
+    @Binding var path: NavigationPath
+    
     var body: some View {
-        NavigationStack{
-            Header()
-            ScrollView(.vertical, showsIndicators: false){
-                // MARK: 경기 이벤트
-                VStack(alignment: .center, spacing: 13){
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0){
-                            Text("진행 중인 경기 이벤트\n바로 참여해볼까요?")
+        NavigationStack(path: $path) {
+            ZStack {
+                Color(.background)
+                VStack(spacing: 0) {
+                    // 상단 헤더 뷰
+                    Header()
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("진행 중인 경기 이벤트")
                                 .pretendardTextStyle(.H2Style)
-                            Text("참여하면 GOAL을 얻을 수 있어요")
+                                .foregroundStyle(.white0)
+                            Text("참여하면 골을 얻을 수 있어요")
                                 .pretendardTextStyle(.Body2Style)
-                                .foregroundStyle(.gray500)
-                        }
-                        Spacer()
-                    }
-                    .padding(.leading, 16)
-                    HStack(spacing: 16){
-                        /// 카드
-                        NavigationLink{
-                            SoccerMatchInfo(soccerMatch: soccerMatch)
-                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                        }label:{
-                            btnCard1(matchText: "\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
-                        }
-                        btnCard2(matchText: "토트넘 VS 아스널")
-                    }
-                }.frame(width: 375, height: 321, alignment: .center)
-                
-                // MARK: 경기 일정
-                VStack(alignment: .leading, spacing: 12){
-                    VStack(alignment: .leading, spacing: 4){
-                        HStack(spacing: 7){
-                            Text("나를 위한 경기 일정")
-                                .pretendardTextStyle(.H2Style)
-                            HStack(spacing: -6){
-                                ForEach(3..<soccerMatches.count, id: \.self){ i in
-                                    LoadableImage(image: dummySoccerMatches[i].homeTeam.teamEmblemURL)
-                                        .scaledToFit()
-                                        .clipShape(Circle())
-                                        .frame(width: 24, height: 24)
-                                        
-                                }
+                                .foregroundStyle(.gray500Text)
+                            
+                            // MARK: 경기 예측하기
+                            NavigationLink {
+                                WinningTeamPrediction(soccerMatch: soccerMatch)
+                                    .toolbarRole(.editor) // back 텍스트 숨기기
+                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                            } label: {
+                                MatchEventCardView(match: soccerMatch)
+                                    .padding(.top, 16)
                             }
-                        }
-                        Text("내가 관심있는 팀의 경기 일정만 모아봐요")
-                            .pretendardTextStyle(.Body2Style)
-                    }
-                    VStack(spacing: 12){
-                        ForEach(3..<soccerMatches.count, id: \.self) {i in
-                            matchList(soccerMatch: dummySoccerMatches[i])
-                        }
-                        NavigationLink(destination: MatchCalendar()){
-                            DesignHalfButton2(label: "경기 더보기", labelColor: .white, btnBGColor: .background, img: "greaterthan")
-                                .frame(width: 343, height: 50, alignment: .center)
-                        }
-                    }
-                }
-            }
-        }
-        .tint(.black0)
+                            
+                            // MARK: 일기 쓰기
+                            NavigationLink {
+                                // TODO: 일기 쓰기 화면 연결
+                            } label: {
+                                DiaryEventCardView(match: soccerMatch)
+                                    .padding(.top, 12)
+                            }
+                            
+                            // MARK: 경기 일정
+                            VStack(alignment: .leading, spacing: 12) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack(spacing: 7) {
+                                        Text("나를 위한 경기 일정")
+                                            .pretendardTextStyle(.H2Style)
+                                            .foregroundStyle(.white0)
+                                        
+                                        // MARK: 선호하는 팀 이미지 리스트
+                                        HStack(spacing: 0) {
+                                            ForEach(0..<soccerMatches.count, id: \.self) { i in
+                                                LoadableImage(image: dummySoccerMatches[i].homeTeam.teamEmblemURL)
+                                                    .clipShape(Circle())
+                                                    .frame(width: 24, height: 24)
+                                            }
+                                        }
+                                    }
+                                    
+                                    Text("내가 관심있는 팀의 경기 일정만 모아봐요")
+                                        .pretendardTextStyle(.Body2Style)
+                                        .foregroundStyle(.gray500Text)
+                                }
+                                
+                                // MARK: 경기 일정 리스트
+                                VStack(spacing: 12) {
+                                    ForEach(0..<soccerMatches.count, id: \.self) {i in
+                                        NavigationLink {
+                                            // 경기 정보 화면으로 이동
+                                            SoccerMatchInfo(soccerMatch: soccerMatches[i])
+                                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                                        } label: {
+                                            MatchCardView(soccerMatch: soccerMatches[i])
+                                        }
+                                    }
+                                    
+                                    Button {
+                                        withAnimation {
+                                            // 경로를 초기화하고 새로운 경로로 이동
+                                            path.removeLast(path.count)
+                                            selectedMenu = .calendar
+                                        }
+                                    } label: {
+                                        DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
+                                    }
+                                }
+                                .padding(.bottom, 20)
+                            }
+                            .padding(.top, 40)
+                        } //: VSTACK
+                        .padding(.horizontal, 16)
+                    } //: SCROLLVIEW
+                } //: VSTACK
+            } //: ZSTACK
+            .ignoresSafeArea(edges: .top)
+        } //: NAVIGATIONSTACK
+        .tint(.gray200)
         .onAppear {
             // TODO: 초기 진입 시, 프리미어리그 팀 조회 API 호출
             
@@ -84,126 +123,49 @@ struct Home: View {
     }
 }
 
-struct btnCard1: View {
-    var matchText: String
-    var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 8)
-                .frame(width: 165, height: 196)
-                .foregroundStyle(LinearGradient.greenGradient)
-            VStack(alignment: .center, spacing: 4){
-                VStack(alignment: .leading, spacing: 0){
-                    VStack(alignment: .leading, spacing: 0){
-                        Text(matchText)
-                        Text("경기 예측하기")
-                    }
-                    .pretendardTextStyle(.Title1Style)
-                    Text("내일 4:30 예정 경기")
-                        .pretendardTextStyle(.Body3Style)
-                }
-                .foregroundStyle(Color.black)
-                .frame(width: 141, height: 68, alignment: .leading)
-                Image("Trophys")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100, alignment: .center)
-            }
-        }
-    }
-}
-
-struct btnCard2: View {
-    var matchText: String
-    var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 8)
-                .frame(width: 165, height: 196)
-                .foregroundStyle(LinearGradient.pinkGradient)
-            VStack(alignment: .center, spacing: 4){
-                VStack(alignment: .leading, spacing: 0){
-                    VStack(alignment: .leading, spacing: 0){
-                        Text(matchText)
-                        Text("축구 일기쓰기")
-                    }
-                    .pretendardTextStyle(.Title1Style)
-                    Text("내일 4:30 예정 경기")
-                        .pretendardTextStyle(.Body3Style)
-                }
-                .foregroundStyle(Color.white)
-                .frame(width: 141, height: 68, alignment: .leading)
-                Image(uiImage: .heart)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100, alignment: .center)
-            }
-        }
-    }
-}
-
-struct matchList: View {
-    var soccerMatch: SoccerMatch
-    var body: some View {
-        HStack(spacing: 30){
-            VStack(spacing: 4) {
-                LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
-                    .frame(width: 40, height: 40)
-                    .background(.white)
-                    .clipShape(Circle())
-                Text("\(soccerMatch.homeTeam.teamName)")
-                    .pretendardTextStyle(.Body3Style)
-            }
-            .frame(width: 80)
-            VStack(alignment: .center, spacing: 5) {
-                Text("\(dateToString2(date: soccerMatch.matchDate))")
-                    .pretendardTextStyle(.Body1Style)
-                Text("\(timeToString(time: soccerMatch.matchTime))")
-                    .pretendardTextStyle(.Title1Style)
-            }
-            VStack(spacing: 4) {
-                LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
-                    .frame(width: 40, height: 40)
-                    .background(.white)
-                    .clipShape(Circle())
-                Text("\(soccerMatch.awayTeam.teamName)")
-                    .pretendardTextStyle(.Body3Style)
-                    .frame(width: 80)
-            }
-            .frame(width: 80)
-        }
-        .frame(width: 343, height: 88, alignment: .center)
-        .foregroundStyle(.black0)
-        .background{
-            RoundedRectangle(cornerRadius: 8).fill(Color.gray950)
-                .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
-        }
-    }
-}
-
+/// 상단 뷰
 struct Header: View {
     var body: some View {
-        HStack{
+        HStack(spacing: 0) {
             Text("LOGO")
                 .font(.pretendard(.semibold, size: 20))
-                .foregroundStyle(.black0)
+                .foregroundStyle(.white0)
+            
             Spacer()
-            HStack(spacing: 4){
-                Image(uiImage: .soccer)
+            
+            HStack(spacing: 2){
+                Image(uiImage: .coin)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 32, height: 32, alignment: .center)
+                    .frame(width: 24, height: 24, alignment: .center)
                 Text("10")
-                    .pretendardTextStyle(.Body1Style)
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(.white0)
             }
-            Spacer().frame(width: 16)
-            Image(systemName: "bell")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 28, height: 28, alignment: .center)
+            .padding(.vertical, 6)
+            .padding(.horizontal, 8)
+            
+            ZStack {
+                // 알림 on, off 설정을 위한 알림 아이콘
+                Image(uiImage: .alarmOn)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24, alignment: .center)
+                    .padding(10)
+                
+                // 라이트모드를 위한 알림 아이콘
+                Image(uiImage: .alarm)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24, alignment: .center)
+                    .foregroundStyle(.lime)
+            }
         }
+        .padding(.top, 60)
         .padding(.horizontal, 16)
     }
 }
 
-#Preview {
-    Home(soccerMatch: dummySoccerMatches[0])
+#Preview("홈 화면") {
+    Home(soccerMatch: dummySoccerMatches[0], selectedMenu: .constant(.home), path: .constant(NavigationPath()))
 }

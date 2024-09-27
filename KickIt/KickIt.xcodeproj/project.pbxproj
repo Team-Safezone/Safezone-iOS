@@ -36,6 +36,9 @@
 		E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A08D2C9A6EB900B6117D /* SoccerPosition.swift */; };
 		E778A0902C9A6F6B00B6117D /* Formation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A08F2C9A6F6B00B6117D /* Formation.swift */; };
 		E778A0922C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */; };
+		E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779705D2CA59C5800DA5C00 /* MatchEventCardView.swift */; };
+		E77970602CA5B3BF00DA5C00 /* DiaryEventCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779705F2CA5B3BF00DA5C00 /* DiaryEventCardView.swift */; };
+		E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970612CA5B93300DA5C00 /* MatchCardView.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -154,6 +157,9 @@
 		E778A08D2C9A6EB900B6117D /* SoccerPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerPosition.swift; sourceTree = "<group>"; };
 		E778A08F2C9A6F6B00B6117D /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 		E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPlayerBottomSheetView.swift; sourceTree = "<group>"; };
+		E779705D2CA59C5800DA5C00 /* MatchEventCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventCardView.swift; sourceTree = "<group>"; };
+		E779705F2CA5B3BF00DA5C00 /* DiaryEventCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEventCardView.swift; sourceTree = "<group>"; };
+		E77970612CA5B93300DA5C00 /* MatchCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCardView.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -278,6 +284,16 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		E779705C2CA59C3F00DA5C00 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E779705D2CA59C5800DA5C00 /* MatchEventCardView.swift */,
+				E779705F2CA5B3BF00DA5C00 /* DiaryEventCardView.swift */,
+				E77970612CA5B93300DA5C00 /* MatchCardView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		E79553B62C0C6AFC00261DAF /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +408,7 @@
 		E79AFF832BEDDDA3004CAF75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E779705C2CA59C3F00DA5C00 /* Helpers */,
 				E79AFF842BEDDDA8004CAF75 /* Views */,
 			);
 			path = Home;
@@ -771,6 +788,7 @@
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
 				E778A0782C945B0E00B6117D /* UserStartingLineupPrediction.swift in Sources */,
 				E778A0882C98194B00B6117D /* PredictionPlayerCardView.swift in Sources */,
+				E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
 				E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
@@ -787,6 +805,7 @@
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
 				E778A0842C97F3FD00B6117D /* StartingLineupPredictionView.swift in Sources */,
+				E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E7FFA05F2C9EB7CC001FE588 /* SoccerTeamRequest.swift in Sources */,
 				E7DBC0F72C0DE519008D4300 /* TargetType.swift in Sources */,
@@ -805,6 +824,7 @@
 				E79AFF972BEE6B7B004CAF75 /* CustomDate.swift in Sources */,
 				E778A0862C97FCC200B6117D /* FormationRowView.swift in Sources */,
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
+				E77970602CA5B3BF00DA5C00 /* DiaryEventCardView.swift in Sources */,
 				E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */,
 				E7A6A0722C95B8290008447D /* SplashView.swift in Sources */,
 				E7DBC0F92C0DE7AE008D4300 /* APIEventLogger.swift in Sources */,

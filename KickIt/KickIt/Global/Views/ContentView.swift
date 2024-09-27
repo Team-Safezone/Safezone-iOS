@@ -7,17 +7,20 @@
 
 import SwiftUI
 
+enum Tab {
+    case home
+    case calendar
+    case diary
+    case mypage
+}
+
 /// 메인 네비게이션 설정 화면
 struct ContentView: View {
     /// 사용자가 선택한 네비게이션 화면 tag 변수
     @State private var selectedMenu: Tab = .home
     
-    enum Tab {
-        case home
-        case calendar
-        case diary
-        case mypage
-    }
+    /// 네비게이션 스택 관리 변수
+    @State private var path = NavigationPath()
     
     // 탭바 색상 초기화
     init() {
@@ -27,7 +30,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedMenu) {
             /// 홈 화면
-            Home(soccerMatch: dummySoccerMatches[0])
+            Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, path: $path)
                 .tabItem {
                     Image(systemName: "house")
                     Text("홈")
@@ -36,7 +39,7 @@ struct ContentView: View {
                 .tag(Tab.home)
             
             /// 경기 일정 & 캘린더 화면
-            MatchCalendar()
+            MatchCalendar(path: $path)
                 .tabItem {
                     Image(systemName: "soccerball")
                     Text("경기 캘린더")
