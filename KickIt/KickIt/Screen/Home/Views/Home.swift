@@ -37,12 +37,16 @@ struct Home: View {
                     
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 0) {
-                            Text("진행 중인 경기 이벤트")
-                                .pretendardTextStyle(.H2Style)
-                                .foregroundStyle(.white0)
-                            Text("참여하면 골을 얻을 수 있어요")
-                                .pretendardTextStyle(.Body2Style)
-                                .foregroundStyle(.gray500Text)
+                            if viewModel.matchPredictions != nil {
+                                if viewModel.matchDiarys != nil {
+                                    Text("진행 중인 경기 이벤트")
+                                        .pretendardTextStyle(.H2Style)
+                                        .foregroundStyle(.white0)
+                                    Text("참여하면 골을 얻을 수 있어요")
+                                        .pretendardTextStyle(.Body2Style)
+                                        .foregroundStyle(.gray500Text)
+                                }
+                            }
                             
                             // MARK: 경기 예측하기
                             if let predictions = viewModel.matchPredictions {
@@ -54,12 +58,6 @@ struct Home: View {
                                     MatchEventCardView(match: predictions)
                                         .padding(.top, 16)
                                 }
-                            }
-                            else {
-                                // TODO: 디자이너가 경기 이벤트가 없을 때의 화면도 만들었을 때 수정하기
-                                Text("진행 중인 경기 이벤트가 없어요!")
-                                    .frame(maxWidth: .infinity)
-                                    .padding(72)
                             }
                             
                             // MARK: 일기 쓰기
@@ -94,6 +92,7 @@ struct Home: View {
                                         .pretendardTextStyle(.Body2Style)
                                         .foregroundStyle(.gray500Text)
                                 }
+                                .padding(.top, 20)
                                 
                                 // MARK: 경기 일정 리스트
                                 if let matches = viewModel.matches {
@@ -108,27 +107,40 @@ struct Home: View {
                                                 MatchCardView(soccerMatch: matches[i])
                                             }
                                         }
-                                        
-                                        Button {
-                                            withAnimation {
-                                                // 경로를 초기화하고 새로운 경로로 이동
-                                                path.removeLast(path.count)
-                                                selectedMenu = .calendar
-                                            }
-                                        } label: {
-                                            DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
-                                        }
                                     }
-                                    .padding(.bottom, 20)
                                 }
+                                // 경기 일정이 없을 경우
                                 else {
-                                    // TODO: 디자이너가 경기 이벤트가 없을 때의 화면도 만들었을 때 수정하기
-                                    Text("진행 예정인 경기가 없어요!")
-                                        .frame(maxWidth: .infinity)
-                                        .padding(72)
+                                    VStack(alignment: .center, spacing: 0) {
+                                        // FIXME: 추후 그래픽 이미지로 변경 필요
+                                        Rectangle()
+                                            .frame(width: 80, height: 80)
+                                        
+                                        Text("현재 선호하는 팀의 경기 일정이 없습니다")
+                                            .pretendardTextStyle(.Body1Style)
+                                            .foregroundStyle(.white0)
+                                            .padding(.top, 16)
+                                        
+                                        Text("다른 팀의 경기 일정을 확인해 보시겠어요?")
+                                            .pretendardTextStyle(.Body2Style)
+                                            .foregroundStyle(.gray500Text)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 8)
                                 }
-                            }
-                            .padding(.top, 40)
+                                
+                                // MARK: 경기 더보기
+                                Button {
+                                    withAnimation {
+                                        // 경로를 초기화하고 새로운 경로로 이동
+                                        path.removeLast(path.count)
+                                        selectedMenu = .calendar
+                                    }
+                                } label: {
+                                    DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
+                                }
+                                .padding(.bottom, 20)
+                            } //: 경기 일정 리스트 VSTACK
                         } //: VSTACK
                         .padding(.horizontal, 16)
                     } //: SCROLLVIEW
