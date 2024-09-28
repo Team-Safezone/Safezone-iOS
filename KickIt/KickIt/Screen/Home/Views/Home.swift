@@ -42,6 +42,7 @@ struct Home: View {
                                     Text("진행 중인 경기 이벤트")
                                         .pretendardTextStyle(.H2Style)
                                         .foregroundStyle(.white0)
+                                        .padding(.top, 16)
                                     Text("참여하면 골을 얻을 수 있어요")
                                         .pretendardTextStyle(.Body2Style)
                                         .foregroundStyle(.gray500Text)
@@ -139,6 +140,7 @@ struct Home: View {
                                 } label: {
                                     DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
                                 }
+                                .padding(.top, 8)
                                 .padding(.bottom, 20)
                             } //: 경기 일정 리스트 VSTACK
                         } //: VSTACK
