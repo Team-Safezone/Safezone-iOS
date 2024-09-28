@@ -39,6 +39,12 @@
 		E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779705D2CA59C5800DA5C00 /* MatchEventCardView.swift */; };
 		E77970602CA5B3BF00DA5C00 /* DiaryEventCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779705F2CA5B3BF00DA5C00 /* DiaryEventCardView.swift */; };
 		E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970612CA5B93300DA5C00 /* MatchCardView.swift */; };
+		E77970672CA6774200DA5C00 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970662CA6774200DA5C00 /* HomeAPI.swift */; };
+		E77970692CA6775D00DA5C00 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970682CA6775D00DA5C00 /* HomeService.swift */; };
+		E779706B2CA69F5D00DA5C00 /* HomeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706A2CA69F5600DA5C00 /* HomeResponse.swift */; };
+		E779706D2CA6A5ED00DA5C00 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */; };
+		E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */; };
+		E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970712CA8403100DA5C00 /* HomeDiary.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -160,6 +166,12 @@
 		E779705D2CA59C5800DA5C00 /* MatchEventCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventCardView.swift; sourceTree = "<group>"; };
 		E779705F2CA5B3BF00DA5C00 /* DiaryEventCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEventCardView.swift; sourceTree = "<group>"; };
 		E77970612CA5B93300DA5C00 /* MatchCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCardView.swift; sourceTree = "<group>"; };
+		E77970662CA6774200DA5C00 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
+		E77970682CA6775D00DA5C00 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
+		E779706A2CA69F5600DA5C00 /* HomeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeResponse.swift; sourceTree = "<group>"; };
+		E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatch.swift; sourceTree = "<group>"; };
+		E77970712CA8403100DA5C00 /* HomeDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiary.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -294,6 +306,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		E77970632CA6760A00DA5C00 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E779706E2CA83F8600DA5C00 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */,
+				E77970712CA8403100DA5C00 /* HomeDiary.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		E79553B62C0C6AFC00261DAF /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,8 +437,10 @@
 		E79AFF832BEDDDA3004CAF75 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E779706E2CA83F8600DA5C00 /* Models */,
 				E779705C2CA59C3F00DA5C00 /* Helpers */,
 				E79AFF842BEDDDA8004CAF75 /* Views */,
+				E77970632CA6760A00DA5C00 /* ViewModels */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -583,6 +614,7 @@
 				E7ADBF942C57B5B700E877C5 /* MatchEventService.swift */,
 				E778A0692C91431900B6117D /* StartingLineupPredictionService.swift */,
 				E7D21AEF2C9801F100FF8907 /* UserService.swift */,
+				E77970682CA6775D00DA5C00 /* HomeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -595,6 +627,7 @@
 				E7ADBF922C57B45600E877C5 /* MatchEventAPI.swift */,
 				E778A0712C914E0C00B6117D /* StartingLineupPredictionAPI.swift */,
 				E7D21AF12C98062100FF8907 /* UserAPI.swift */,
+				E77970662CA6774200DA5C00 /* HomeAPI.swift */,
 			);
 			path = APIManagers;
 			sourceTree = "<group>";
@@ -650,6 +683,7 @@
 		E7DBC0FC2C0E13CF008D4300 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				E779706A2CA69F5600DA5C00 /* HomeResponse.swift */,
 				E7D7E7452C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift */,
 				E758BA8B2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift */,
 				E7B140082C8746B500CB351E /* HeartRateStatisticsResponse.swift */,
@@ -784,6 +818,7 @@
 				E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */,
 				E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */,
 				E7ADBF8F2C57ACC500E877C5 /* MatchEventModel.swift in Sources */,
+				E779706D2CA6A5ED00DA5C00 /* HomeViewModel.swift in Sources */,
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
 				E778A0782C945B0E00B6117D /* UserStartingLineupPrediction.swift in Sources */,
@@ -791,6 +826,7 @@
 				E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
 				E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */,
+				E77970692CA6775D00DA5C00 /* HomeService.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
 				E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */,
 				E7ADBF992C57BAF300E877C5 /* TimelineEventView.swift in Sources */,
@@ -826,6 +862,7 @@
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
 				E77970602CA5B3BF00DA5C00 /* DiaryEventCardView.swift in Sources */,
 				E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */,
+				E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */,
 				E7A6A0722C95B8290008447D /* SplashView.swift in Sources */,
 				E7DBC0F92C0DE7AE008D4300 /* APIEventLogger.swift in Sources */,
 				E758BA8C2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift in Sources */,
@@ -847,6 +884,7 @@
 				E7ADBF932C57B45600E877C5 /* MatchEventAPI.swift in Sources */,
 				E7ADBF782C5756DD00E877C5 /* HeartRateService.swift in Sources */,
 				E7DBC0E02C0DC0E3008D4300 /* CommonResponse.swift in Sources */,
+				E77970672CA6774200DA5C00 /* HomeAPI.swift in Sources */,
 				E7D21AF22C98062100FF8907 /* UserAPI.swift in Sources */,
 				E7A6A0782C95BA240008447D /* SettingNameViewModel.swift in Sources */,
 				E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */,
@@ -857,6 +895,7 @@
 				E79AFF942BEE0934004CAF75 /* CustomDatePicker.swift in Sources */,
 				E7DBC1102C103982008D4300 /* SoccerMatch.swift in Sources */,
 				E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */,
+				E779706B2CA69F5D00DA5C00 /* HomeResponse.swift in Sources */,
 				E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */,
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
 				E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */,
@@ -867,6 +906,7 @@
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
 				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
+				E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

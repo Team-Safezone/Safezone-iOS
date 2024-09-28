@@ -10,7 +10,6 @@ import Foundation
 /// [Entity] 축구 경기 모델
 struct SoccerMatch: Identifiable {
     let id: Int64 // 고유 id
-    let soccerSeason: String // 축구 경기 시즌
     let matchDate: Date // 축구 경기 날짜
     let matchTime: Date // 축구 경기 시간
     let stadium: String // 축구 경기 장소
@@ -26,7 +25,6 @@ struct SoccerMatch: Identifiable {
 let dummySoccerMatches: [SoccerMatch] = [
     SoccerMatch(
         id: 0,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 20, minute: 30))!,
         stadium: "장소",
@@ -40,7 +38,6 @@ let dummySoccerMatches: [SoccerMatch] = [
     
     SoccerMatch(
         id: 1,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 23, minute: 00))!,
         stadium: "장소",
@@ -52,7 +49,6 @@ let dummySoccerMatches: [SoccerMatch] = [
 
     SoccerMatch(
         id: 2,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 15))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 00))!,
         stadium: "장소",
@@ -65,7 +61,6 @@ let dummySoccerMatches: [SoccerMatch] = [
     /// 예정 경기
     SoccerMatch(
         id: 3,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 22))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 30))!,
         stadium: "장소",
@@ -76,7 +71,6 @@ let dummySoccerMatches: [SoccerMatch] = [
     ),
     SoccerMatch(
         id: 4,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 24))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 12, minute: 30))!,
         stadium: "장소",
@@ -87,7 +81,6 @@ let dummySoccerMatches: [SoccerMatch] = [
     ),
     SoccerMatch(
         id: 5,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 28))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 10, minute: 30))!,
         stadium: "장소",

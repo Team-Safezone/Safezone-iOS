@@ -10,13 +10,13 @@ import SwiftUI
 /// 홈 화면에서 사용되는 상단 일기 쓰기 카드 뷰
 struct DiaryEventCardView: View {
     /// 경기 객체
-    var match: SoccerMatch
+    var match: HomeDiary
     
     var body: some View {
         VStack(alignment: .leading) {
             // 예정 시간 및 획득할 수 있는 골 정보
             HStack(alignment: .center) {
-                Text("\(dateToDay(date: match.matchDate)) \(timeToString(time: match.matchTime))에 본 경기")
+                Text("\(match.matchDate) \(match.matchTime)에 본 경기")
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.blackAssets)
                 
@@ -80,5 +80,5 @@ struct DiaryEventCardView: View {
 }
 
 #Preview {
-    DiaryEventCardView(match: dummySoccerMatches[4])
+    DiaryEventCardView(match: HomeDiary(diaryId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1]))
 }

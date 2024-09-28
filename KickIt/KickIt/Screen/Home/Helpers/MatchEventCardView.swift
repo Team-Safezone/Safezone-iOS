@@ -10,13 +10,13 @@ import SwiftUI
 /// 홈 화면에서 사용되는 상단 경기 예측 카드 뷰
 struct MatchEventCardView: View {
     /// 경기 객체
-    var match: SoccerMatch
+    var match: HomeMatch
     
     var body: some View {
         VStack(alignment: .leading) {
             // 예정 시간 및 획득할 수 있는 골 정보
             HStack(alignment: .center) {
-                Text("\(dateToDay(date: match.matchDate)) \(timeToString(time: match.matchTime)) 예정 경기")
+                Text("\(match.matchDate) \(match.matchTime) 예정 경기")
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.blackAssets)
                 
@@ -82,5 +82,5 @@ struct MatchEventCardView: View {
 }
 
 #Preview {
-    MatchEventCardView(match: dummySoccerMatches[4])
+    MatchEventCardView(match: HomeMatch(matchId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1]))
 }

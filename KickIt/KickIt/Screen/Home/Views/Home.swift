@@ -24,6 +24,9 @@ struct Home: View {
     /// 네비게이션 경로 변수
     @Binding var path: NavigationPath
     
+    /// 홈 뷰모델
+    @ObservedObject var viewModel = HomeViewModel()
+    
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
@@ -42,21 +45,31 @@ struct Home: View {
                                 .foregroundStyle(.gray500Text)
                             
                             // MARK: 경기 예측하기
-                            NavigationLink {
-                                WinningTeamPrediction(soccerMatch: soccerMatch)
-                                    .toolbarRole(.editor) // back 텍스트 숨기기
-                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                            } label: {
-                                MatchEventCardView(match: soccerMatch)
-                                    .padding(.top, 16)
+                            if let predictions = viewModel.matchPredictions {
+                                NavigationLink {
+                                    WinningTeamPrediction(soccerMatch: soccerMatch)
+                                        .toolbarRole(.editor) // back 텍스트 숨기기
+                                        .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                                } label: {
+                                    MatchEventCardView(match: predictions)
+                                        .padding(.top, 16)
+                                }
+                            }
+                            else {
+                                // TODO: 디자이너가 경기 이벤트가 없을 때의 화면도 만들었을 때 수정하기
+                                Text("진행 중인 경기 이벤트가 없어요!")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(72)
                             }
                             
                             // MARK: 일기 쓰기
-                            NavigationLink {
-                                // TODO: 일기 쓰기 화면 연결
-                            } label: {
-                                DiaryEventCardView(match: soccerMatch)
-                                    .padding(.top, 12)
+                            if let diarys = viewModel.matchDiarys {
+                                NavigationLink {
+                                    // TODO: 일기 쓰기 화면 연결
+                                } label: {
+                                    DiaryEventCardView(match: diarys)
+                                        .padding(.top, 12)
+                                }
                             }
                             
                             // MARK: 경기 일정
@@ -69,8 +82,8 @@ struct Home: View {
                                         
                                         // MARK: 선호하는 팀 이미지 리스트
                                         HStack(spacing: 0) {
-                                            ForEach(0..<soccerMatches.count, id: \.self) { i in
-                                                LoadableImage(image: dummySoccerMatches[i].homeTeam.teamEmblemURL)
+                                            ForEach(0..<viewModel.favoriteImagesURL.count, id: \.self) { i in
+                                                LoadableImage(image: viewModel.favoriteImagesURL[i])
                                                     .clipShape(Circle())
                                                     .frame(width: 24, height: 24)
                                             }
@@ -83,29 +96,37 @@ struct Home: View {
                                 }
                                 
                                 // MARK: 경기 일정 리스트
-                                VStack(spacing: 12) {
-                                    ForEach(0..<soccerMatches.count, id: \.self) {i in
-                                        NavigationLink {
-                                            // 경기 정보 화면으로 이동
-                                            SoccerMatchInfo(soccerMatch: soccerMatches[i])
-                                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                                if let matches = viewModel.matches {
+                                    VStack(spacing: 12) {
+                                        ForEach(0..<(matches.count), id: \.self) {i in
+                                            NavigationLink {
+                                                // 경기 정보 화면으로 이동
+                                                SoccerMatchInfo(soccerMatch: matches[i])
+                                                    .toolbarRole(.editor) // back 텍스트 숨기기
+                                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                                            } label: {
+                                                MatchCardView(soccerMatch: matches[i])
+                                            }
+                                        }
+                                        
+                                        Button {
+                                            withAnimation {
+                                                // 경로를 초기화하고 새로운 경로로 이동
+                                                path.removeLast(path.count)
+                                                selectedMenu = .calendar
+                                            }
                                         } label: {
-                                            MatchCardView(soccerMatch: soccerMatches[i])
+                                            DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
                                         }
                                     }
-                                    
-                                    Button {
-                                        withAnimation {
-                                            // 경로를 초기화하고 새로운 경로로 이동
-                                            path.removeLast(path.count)
-                                            selectedMenu = .calendar
-                                        }
-                                    } label: {
-                                        DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
-                                    }
+                                    .padding(.bottom, 20)
                                 }
-                                .padding(.bottom, 20)
+                                else {
+                                    // TODO: 디자이너가 경기 이벤트가 없을 때의 화면도 만들었을 때 수정하기
+                                    Text("진행 예정인 경기가 없어요!")
+                                        .frame(maxWidth: .infinity)
+                                        .padding(72)
+                                }
                             }
                             .padding(.top, 40)
                         } //: VSTACK
@@ -117,15 +138,14 @@ struct Home: View {
         } //: NAVIGATIONSTACK
         .tint(.gray200)
         .onAppear {
-            // TODO: 초기 진입 시, 프리미어리그 팀 조회 API 호출
-            
+            // MARK: 홈 조회 API 호출
+            viewModel.getHome()
         }
     }
-}
-
-/// 상단 뷰
-struct Header: View {
-    var body: some View {
+    
+    /// 상단 뷰
+    @ViewBuilder
+    func Header() -> some View {
         HStack(spacing: 0) {
             Text("LOGO")
                 .font(.pretendard(.semibold, size: 20))
@@ -138,7 +158,7 @@ struct Header: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24, alignment: .center)
-                Text("10")
+                Text(viewModel.gradePoint.description)
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.white0)
             }
