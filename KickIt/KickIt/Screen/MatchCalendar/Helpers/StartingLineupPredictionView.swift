@@ -72,8 +72,8 @@ struct StartingLineupPredictionView: View {
                     )
                     .overlay {
                         SpecificRoundedRectangle(radius: 8, corners: isHomeTeam ? [.topLeft, .topRight] : [.bottomLeft, .bottomRight])
-                            .fill(viewModel.selectedFormation == nil ? .black : .clear)
-                            .opacity(0.6)
+                            .fill(.black)
+                            .opacity(viewModel.selectedFormation == nil ? 0.6 : 0.2)
                     }
                 
                 // MARK: 선택된 포메이션 리스트 띄우기
