@@ -57,12 +57,12 @@ struct DiaryEventCardView: View {
                 
                 // FIXME: 엠블럼 이미지 받아온 걸로 수정하기!
                 HStack(spacing: 12) {
-                    Image(uiImage: .city)
+                    LoadableImage(image: match.homeTeam.teamEmblemURL)
                         .frame(width: 50, height: 50)
                         .padding(.bottom, 17)
                         .shadow(color: .black.opacity(0.15), radius: 2, x: 3, y: 3)
                     
-                    Image(uiImage: .switch)
+                    LoadableImage(image: match.awayTeam.teamEmblemURL)
                         .frame(width: 50, height: 50)
                         .padding(.top, 19)
                         .shadow(color: .black.opacity(0.15), radius: 2, x: 3, y: 3)

@@ -33,7 +33,6 @@ struct SoccerMatchRow: View {
                     // 홈 팀 엠블럼
                     LoadableImage(image: soccerMatch.homeTeam.teamEmblemURL)
                         .frame(width: 40, height: 40)
-                        .background(.white)
                         .clipShape(Circle())
                     
                     // 홈 팀 이름
@@ -83,7 +82,6 @@ struct SoccerMatchRow: View {
                     // 원정 팀 엠블럼
                     LoadableImage(image: soccerMatch.awayTeam.teamEmblemURL)
                         .frame(width: 40, height: 40)
-                        .background(.white)
                         .clipShape(Circle())
                     
                     // 원정 팀 이름

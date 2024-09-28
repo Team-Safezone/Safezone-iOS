@@ -36,7 +36,6 @@ struct StartingLineupPredictionView: View {
                 // 팀 이미지
                 LoadableImage(image: team.teamEmblemURL)
                     .frame(width: 32, height: 32)
-                    .background(.white)
                     .clipShape(Circle())
                 
                 // 팀 이름

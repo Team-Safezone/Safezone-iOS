@@ -20,7 +20,6 @@ struct MatchCardView: View {
             VStack(spacing: 4) {
                 LoadableImage(image: "\(soccerMatch.homeTeam.teamEmblemURL)")
                     .frame(width: 40, height: 40)
-                    .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.homeTeam.teamName)")
                     .pretendardTextStyle(.Body3Style)
@@ -41,7 +40,6 @@ struct MatchCardView: View {
             VStack(spacing: 4) {
                 LoadableImage(image: "\(soccerMatch.awayTeam.teamEmblemURL)")
                     .frame(width: 40, height: 40)
-                    .background(.white)
                     .clipShape(Circle())
                 Text("\(soccerMatch.awayTeam.teamName)")
                     .pretendardTextStyle(.Body3Style)
@@ -61,5 +59,5 @@ struct MatchCardView: View {
 }
 
 #Preview {
-    MatchCardView(soccerMatch: dummySoccerMatches[4])
+    MatchCardView(soccerMatch: dummySoccerMatches[0])
 }
