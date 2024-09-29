@@ -54,6 +54,7 @@ struct MatchCalendar: View {
                             Image(.trophy)
                                 .frame(width: 44, height: 44)
                                 .padding(.top, 57)
+                                .foregroundStyle(.lime)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -102,6 +103,7 @@ struct MatchCalendar: View {
                         // MARK: - 경기 일정 리스트
                         soccerMatchesView()
                             .padding(.top, 12)
+                            .padding(.bottom, 32)
                     }
                 }
             }
@@ -144,7 +146,7 @@ struct MatchCalendar: View {
         VStack(alignment: .center, spacing: 0) {
             HStack(spacing: 0) {
                 Text("경기 일정")
-                    .pretendardTextStyle(.SubTitleStyle)
+                    .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.gray200)
                 
                 Text("\(viewModel.soccerMatches.count)")
@@ -185,8 +187,8 @@ struct MatchCalendar: View {
             else {
                 Text("경기 일정이 없습니다.")
                     .pretendardTextStyle(.Body1Style)
-                    .foregroundStyle(.gray500)
-                    .padding(.top, 52)
+                    .foregroundStyle(.gray500Text)
+                    .padding(.top, 48)
                 
                     // FIXME: api 연결 시, 아래 코드 삭제하기
                     ForEach(dummySoccerMatches) { match in
