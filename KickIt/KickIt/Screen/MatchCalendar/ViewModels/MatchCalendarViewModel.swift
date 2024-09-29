@@ -16,6 +16,12 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     @Published var soccerTeamNames: [String] = [] // 팀 이름 리스트
     @Published var soccerMatches: [SoccerMatch] = [] // 하루 경기 일정 리스트
     
+    /// 라디오그룹에서 선택한 팀 아이디
+    @Published var selectedRadioBtnID: Int = 0
+    
+    /// 라디오그룹에서 선택한 팀 이름 정보
+    @Published var selectedTeamName: String?
+    
     private var cancellables = Set<AnyCancellable>()
     
     /// 한달 경기 일정(날짜) 조회
@@ -85,5 +91,17 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                 self?.soccerMatches = matches
             })
             .store(in: &cancellables)
+    }
+    
+    /// 라디오 버튼 클릭 이벤트
+    func selectedTeam(_ teamName: String, id: Int) {
+        selectedRadioBtnID = id
+        
+        if (selectedTeamName == "전체") {
+            selectedTeamName = nil
+        }
+        else {
+            selectedTeamName = teamName
+        }
     }
 }

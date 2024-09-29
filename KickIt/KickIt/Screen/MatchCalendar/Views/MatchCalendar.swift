@@ -24,10 +24,6 @@ struct MatchCalendar: View {
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel = MatchCalendarViewModel()
     
-    /// 라디오그룹에서 선택한 팀 아이디, 팀 이름 정보
-    @State private var selectedRadioBtnID: Int = 0
-    @State private var selectedTeamName: String? = nil
-    
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
@@ -37,17 +33,16 @@ struct MatchCalendar: View {
                     // MARK: - 상단 정보
                     HStack(alignment: .top, spacing: 0) {
                         // MARK: 타이틀
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: 3) {
                             Text("경기 캘린더")
-                                .font(.Title1)
+                                .font(.pretendard(.bold, size: 18))
                                 .foregroundStyle(.white0)
                                 .padding(.top, 60)
                             
                             // MARK: 프리미어리그 시즌
                             Text("프리미어리그 \(viewModel.soccerSeason) 시즌")
-                                .font(.SubTitle)
-                                .foregroundStyle(.gray500)
-                                .padding(.top, 4)
+                                .pretendardTextStyle(.SubTitleStyle)
+                                .foregroundStyle(.gray500Text)
                         }
                         
                         Spacer()
@@ -69,33 +64,17 @@ struct MatchCalendar: View {
                             // 팀 리스트 띄우기
                             items: viewModel.soccerTeamNames,
                             padding: 8,
-                            selectedId: $selectedRadioBtnID,
-                            selectedTeamName: $selectedTeamName,
+                            selectedId: $viewModel.selectedRadioBtnID,
+                            selectedTeamName: $viewModel.selectedTeamName,
                             callback: { previous, current, teamName in
-                                selectedRadioBtnID = current
+                                // 팀 선택
+                                viewModel.selectedTeam(teamName, id: current)
                                 
-                                if (selectedTeamName == "전체") {
-                                    selectedTeamName = nil
-                                }
-                                else {
-                                    selectedTeamName = teamName
-                                }
-                                
-                                print("teamName 팀 이름 \(selectedTeamName ?? "null")")
                                 // 한달 경기 일정 조회
-                                getDayYearMonthSoccerMatches(
-                                    request: SoccerMatchMonthlyRequest(
-                                        yearMonth: dateToString5(date: currentDate),
-                                        teamName: selectedTeamName
-                                    )
-                                )
+                                getDayYearMonthSoccerMatches()
+                                
                                 // 하루 경기 일정 조회
-                                getDailySoccerMatches(
-                                    request: SoccerMatchDailyRequest(
-                                        date: dateToString4(date: currentDate),
-                                        teamName: selectedTeamName
-                                    )
-                                )
+                                getDailySoccerMatches()
                             }
                         )
                         .frame(height: 32)
@@ -110,22 +89,12 @@ struct MatchCalendar: View {
                                 // 같은 달이라면
                                 if (isSameMonth(date1: preDate, date2: newDate)) {
                                     // 하루 경기 일정 조회 API 연결
-                                    getDailySoccerMatches(
-                                        request: SoccerMatchDailyRequest(
-                                            date: dateToString4(date: currentDate),
-                                            teamName: selectedTeamName
-                                        )
-                                    )
+                                    getDailySoccerMatches()
                                 }
                                 // 다른 달이라면
                                 else {
                                     // 한달 경기 날짜 조회 API 연결
-                                    getDayYearMonthSoccerMatches(
-                                        request: SoccerMatchMonthlyRequest(
-                                            yearMonth: dateToString5(date: currentDate),
-                                            teamName: selectedTeamName
-                                        )
-                                    )
+                                    getDayYearMonthSoccerMatches()
                                 }
                             }
                             .padding(.top, 20)
@@ -140,33 +109,33 @@ struct MatchCalendar: View {
         }
         .onAppear(perform: {
             // 초기 진입 시, 한달 경기 날짜 조회 API 호출
-            getDayYearMonthSoccerMatches(
-                request: SoccerMatchMonthlyRequest(
-                    yearMonth: dateToString5(date: currentDate),
-                    teamName: selectedTeamName
-                )
-            )
+            getDayYearMonthSoccerMatches()
             
             // 하루 경기 일정 조회 API 연결
-            getDailySoccerMatches(
-                request: SoccerMatchDailyRequest(
-                    date: dateToString4(date: currentDate),
-                    teamName: selectedTeamName
-                )
-            )
+            getDailySoccerMatches()
         })
         .tint(.gray200)
         .navigationBarBackButtonHidden()
     }
     
     /// 하루 축구 경기 일정 불러오기
-    private func getDailySoccerMatches(request: SoccerMatchDailyRequest) {
-        viewModel.getDailySoccerMatches(request: request)
+    private func getDailySoccerMatches() {
+        viewModel.getDailySoccerMatches(
+            request: SoccerMatchDailyRequest(
+                date: dateToString4(date: currentDate),
+                teamName: viewModel.selectedTeamName
+            )
+        )
     }
     
     /// 한달 축구 경기 일정 불러오기
-    private func getDayYearMonthSoccerMatches(request: SoccerMatchMonthlyRequest) {
-        viewModel.getYearMonthSoccerMatches(request: request)
+    private func getDayYearMonthSoccerMatches() {
+        viewModel.getYearMonthSoccerMatches(
+            request: SoccerMatchMonthlyRequest(
+                yearMonth: dateToString5(date: currentDate),
+                teamName: viewModel.selectedTeamName
+            )
+        )
     }
     
     /// 경기 일정 리스트
