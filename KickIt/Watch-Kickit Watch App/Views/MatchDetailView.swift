@@ -13,84 +13,197 @@ import WatchConnectivity
 struct MatchDetailView: View {
     let match: SoccerMatchWatch
     @ObservedObject var viewModel: SoccerMatchViewModel
+    @State private var isRecordingHeartRate: Bool = false // 현재 심박수 기록 중인지
+    @State private var timer: Timer? // 심박수 주기적 업데이트
     
     var body: some View {
-        VStack {
-            if match.status != 3{
-                // 경기 전, 경기 중인 경우
-                PlayingView(match: match)
-                    .padding(.bottom, 42)
-                Button(action: {
-                    // iOS로 match ID 전송
-                    viewModel.sendMatchIdToiOS(matchId: match.id)
-                }) {
-                    Text("심박수 측정")
-                }
-            } else {
-                // 경기 후인 경우
-                PlayingView(match: match)
-                    .padding(.bottom, 16)
-                ScoreView(match: match)
+        if isRecordingHeartRate {
+            TabView {
+                RecordingView(match: match, heartrate: Int(viewModel.currentHeartRate))
+                    .tabItem {
+                        Image(systemName: "moonphase.full.moon")
+                    }
+                
+                EndView(isRecordingHeartRate: $isRecordingHeartRate, viewModel: viewModel)
+                    .tabItem {
+                        Image(systemName: "moonphase.full.moon")
+                    }
             }
-            
-            
+            .onAppear {
+                startTimer()
+            }
+            .onDisappear {
+                stopTimer()
+                viewModel.stopHeartRateQuery()
+            }
+        } else {
+            VStack(spacing: 5) {
+                if match.status != 3 {
+                    PlayingView(match: match)
+                        .safeAreaInset(edge: .bottom){
+                            Button(action: {
+                                viewModel.sendMatchIdToiOS(matchId: match.id)
+                                isRecordingHeartRate = true
+                            }) {
+                                Text("심박수 기록")
+                                    .font(.pretendard(.medium, size: 15))
+                                    .foregroundColor(.white)
+                            }.frame(maxHeight: 44)
+                        }
+                    
+                } else {
+                    PlayingView(match: match)
+                    ScoreView(match: match)
+                }
+            }
         }
     }
+    // 타이머 함수
+    private func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            // UI 자동 업데이트 됨
+        }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
 }
 
+// MARK: - 경기 예정 상세 화면 UI
 struct PlayingView: View {
     let match: SoccerMatchWatch
     
     var body: some View {
-        HStack(alignment: .center) {
-            Spacer()
-            VStack{
-                LoadableImage(image: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F15%2F146_2845915_team_image_url_1586327694696.jpg")
-                    .frame(width: 44, height: 44, alignment: .center)
-                Text("\(match.homeTeam)")
-                    .font(.pretendard(.medium, size: 10))
-            }
-            Spacer()
-            VStack{
-                Text("\(match.timeStr)")
+        HStack(alignment: .center, spacing: 5) {
+            teamView(teamName: match.homeTeam, image: "리버풀")
+                .frame(maxWidth: .infinity)
+            VStack(spacing: 2) {
+                Text(match.timeStr)
                     .font(.pretendard(.medium, size: 14))
                 Text("VS")
                     .font(.pretendard(.bold, size: 24))
-                    .frame(width: 36, height: 29, alignment: .center)
-            }.frame(width: 36, height: 46, alignment: .center)
-            Spacer()
-            VStack{
-                LoadableImage(image: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F15%2F146_2845915_team_image_url_1586327694696.jpg")
-                    .frame(width: 44, height: 44, alignment: .center)
-                Text("\(match.awayTeam)")
-                    .font(.pretendard(.medium, size: 10))
-            }
-            Spacer()
+            }.frame(minWidth: 36, minHeight: 46)
+            
+            teamView(teamName: match.awayTeam, image: "뉴캐슬")
+                .frame(maxWidth: .infinity)
+        }.padding(.bottom, 40)
+    }
+    
+    private func teamView(teamName: String, image: String) -> some View {
+        VStack(spacing: 4) {
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 44, height: 44)
+            Text(teamName)
+                .font(.pretendard(.medium, size: 12))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
-        
     }
 }
 
+// MARK: - 경기 종료 상세 화면 UI
 struct ScoreView: View {
     let match: SoccerMatchWatch
     
     var body: some View {
-        HStack{
+        HStack(spacing: 20) {
             Text("\(match.homeTeamScore ?? 0)")
                 .font(.pretendard(.bold, size: 24))
-                .frame(width: 36, height: 29, alignment: .center)
-            Spacer()
-            Text("\(match.homeTeamScore ?? 0)")
+                .frame(width: 36)
+            Spacer().frame(width: 45)
+            Text("\(match.awayTeamScore ?? 0)")
                 .font(.pretendard(.bold, size: 24))
-                .frame(width: 36, height: 29, alignment: .center)
-        }.frame(width: 150, height: 29, alignment: .center)
+                .frame(width: 36)
+        }
     }
 }
 
-#Preview{
-    MatchDetailView(match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0), viewModel: SoccerMatchViewModel())
+// MARK: - 심박수 기록 중 UI
+struct RecordingView: View {
+    let match: SoccerMatchWatch
+    let heartrate: Int
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 2) {
+            Text("\(match.homeTeam) VS \(match.awayTeam)")
+                .font(.pretendard(.medium, size: 14))
+            Image("heart")
+                .resizable()
+                .scaledToFit()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100)
+            HStack(alignment: .bottom, spacing: 4){
+                Text("\(heartrate)")
+                    .font(.pretendard(.bold, size: 40))
+                    .frame(maxHeight: 34)
+                Text("BPM")
+                    .foregroundStyle(.gray500)
+            }
+            
+        }
+    }
+}
+
+// MARK: - 심박수 기록 종료 화면 UI
+struct EndView: View {
+    @Binding var isRecordingHeartRate: Bool
+    var viewModel: SoccerMatchViewModel
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 10) {
+            Text("심박수 기록을\n종료하시겠습니까?")
+                .multilineTextAlignment(.center)
+                .font(.pretendard(.medium, size: 14))
+                .lineSpacing(2)
+            Spacer().frame(maxHeight: 10)
+            VStack{
+                Button(action: {
+                    isRecordingHeartRate = false
+                    viewModel.sendMatchIdToiOS(matchId: 0)
+                }) {
+                    Image(systemName: "xmark")
+                        .frame(width: 64, height: 34)
+                        .foregroundColor(Color.red0)
+                }
+                .frame(width: 64, height: 34)
+                .background(Color.red.opacity(0.2))
+                .cornerRadius(25)
+                Text("기록 종료")
+                    .font(.pretendard(.medium, size: 12))
+                    .padding(.top, 2)
+            }//:VSTACK
+            
+            
+        }
+    }
+}
+
+#Preview {
+    @State var isRecordingHeartRate = false
+    return MatchDetailView(
+        match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
+        viewModel: SoccerMatchViewModel()
+    )
+}
+
+#Preview {
+    @State var isRecordingHeartRate = false
+    return MatchDetailView(
+        match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 3),
+        viewModel: SoccerMatchViewModel()
+    )
 }
 
 #Preview{
-    MatchDetailView(match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 3), viewModel: SoccerMatchViewModel())
+    RecordingView(match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0), heartrate: 84)
+}
+
+#Preview {
+    @State var isRecordingHeartRate = true
+    return EndView(isRecordingHeartRate: $isRecordingHeartRate, viewModel: SoccerMatchViewModel())
 }

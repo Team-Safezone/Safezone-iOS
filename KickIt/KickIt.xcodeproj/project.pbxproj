@@ -278,6 +278,7 @@
 		E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMatchEvent.swift; sourceTree = "<group>"; };
 		E7B1400C2C87F15400CB351E /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateRecord.swift; sourceTree = "<group>"; };
+		E7C4AD012CAD864D00D7E590 /* Watch-Kickit Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Watch-Kickit Watch App.entitlements"; sourceTree = "<group>"; };
 		E7CD31F22CA2D3D500CBC086 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
 		E7D21AEF2C9801F100FF8907 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		E7D21AF12C98062100FF8907 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -572,6 +573,7 @@
 		E79F05BE2CA01EA90059E828 /* Watch-Kickit Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				E7C4AD012CAD864D00D7E590 /* Watch-Kickit Watch App.entitlements */,
 				E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */,
 				E79F05F32CA047CC0059E828 /* Watch-Kickit-Watch-App-Info.plist */,
 				E79F05C32CA01EAA0059E828 /* Assets.xcassets */,
@@ -1298,6 +1300,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Watch-Kickit Watch App/Watch-Kickit Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch-Kickit Watch App/Preview Content\"";
@@ -1306,6 +1309,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Watch-Kickit-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "심박수 데이터를 읽기 위해 건강 데이터 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 업데이트하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1330,6 +1336,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Watch-Kickit Watch App/Watch-Kickit Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch-Kickit Watch App/Preview Content\"";
@@ -1338,6 +1345,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Watch-Kickit-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch-Kickit";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "심박수 데이터를 읽기 위해 건강 데이터 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 업데이트하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.KickIt-iOS.Safezone.KickIt";
 				LD_RUNPATH_SEARCH_PATHS = (

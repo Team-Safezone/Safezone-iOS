@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import HealthKit
 import WatchConnectivity
 
 /// watchOS 앱의 축구 경기 뷰모델
@@ -19,26 +20,66 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     private var cancellables = Set<AnyCancellable>()
     private var session: WCSession? // WCSession 인스턴스
     
+    @Published var currentHeartRate: Double = 0 // 현재 심박수
+    private var healthStore: HKHealthStore? // 심박수 저장
+    private var heartRateQuery: HKQuery? // 심박수 가져오기
+    
     override init() {
         super.init()
         setupWCSession() // WCSession 초기화 및 활성화
-    }
-    
-    /// WCSession 설정 및 활성화
-    private func setupWCSession() {
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self // Delegate 설정
-            session?.activate() // WCSession 활성화
-        }
+        setupHealthKit() // Health 초기화 및 활성화
     }
     
     // MARK: - dummydata
     let dummySoccerMatches: [SoccerMatchWatch] = [
         SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
         SoccerMatchWatch(id: 1, timeStr: "21:30", homeTeam: "아스널", homeTeamScore: 2, awayTeam: "풀럼", awayTeamScore: 4, status: 1),
-        SoccerMatchWatch(id: 2, timeStr: "22:30", homeTeam: "토트넘", homeTeamScore: 2, awayTeam: "맨시티", awayTeamScore: 1, status: 3)]
+        SoccerMatchWatch(id: 2, timeStr: "22:30", homeTeam: "토트넘", homeTeamScore: 2, awayTeam: "크리스탈 팰리스", awayTeamScore: 1, status: 3)]
     
+    // MARK: - HealthKit 관련 함수
+    private func setupHealthKit() {
+        if HKHealthStore.isHealthDataAvailable() {
+            healthStore = HKHealthStore()
+            
+            let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+            
+            // 권한 받기
+            healthStore?.requestAuthorization(toShare: nil, read: [heartRateType]) { success, error in
+                if success {
+                    self.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+                }
+            }
+        }
+    }
+    
+    // 현재 심박수 가져오기
+    private func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
+            query, samples, deletedObjects, queryAnchor, error in
+            
+            guard let samples = samples as? [HKQuantitySample] else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.currentHeartRate = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min")) ?? 0
+            }
+        }
+        
+        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
+        
+        query.updateHandler = updateHandler
+        
+        healthStore?.execute(query)
+        self.heartRateQuery = query
+    }
+    
+    func stopHeartRateQuery() {
+        if let query = self.heartRateQuery {
+            healthStore?.stop(query)
+        }
+    }
     
     
     // MARK: - get API
@@ -62,6 +103,16 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     }
     
     // MARK: - iOS 전송 관련 함수들
+    
+    /// WCSession 설정 및 활성화
+    private func setupWCSession() {
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self // Delegate 설정
+            session?.activate() // WCSession 활성화
+        }
+    }
+    
     /// iOS로 match ID 전송
     func sendMatchIdToiOS(matchId: Int64) {
         let message = ["matchId": matchId]
@@ -78,12 +129,12 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
             storePendingMessage(message)
         }
     }
-
+    
     /// 실패한 메시지 저장 (나중에 재시도)
     private func storePendingMessage(_ message: [String: Any]) {
         UserDefaults.standard.set(message, forKey: "pendingMessage")
     }
-
+    
     /// 메시지 재전송 로직
     private func retryPendingMessage() {
         if let message = UserDefaults.standard.dictionary(forKey: "pendingMessage") {
@@ -119,7 +170,7 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
             }
         }
     }
-
+    
     /// iOS로부터 메시지 수신 시 호출 (옵션)
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         // 수신된 메시지 처리 로직 추가 가능
