@@ -29,6 +29,18 @@ struct APIConstants {
     
     /// 심박수 통계 조회 URL
     static let heartRateStatisticsURL = "/나중에 입력하기!"
+    
+    /// 경기 이벤트 조회 URL
+    static let matchEventURL = "/realtime"
+    
+    /// 회원 가입 정보 전송 URL
+    static let signupURL = "/users/signup"
+    
+    /// 닉네임 중복 검사 조회 URL
+    static let checkNicknameDuplicateURL = "/users/check-nickname"
+    
+    /// 팀 로고, 이름 조회 URL
+    static let getTeamsURL = "/eplTeams"
 }
 
 /// 한글 인코딩

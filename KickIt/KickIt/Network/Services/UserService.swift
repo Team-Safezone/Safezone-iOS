@@ -34,15 +34,15 @@ extension UserService: TargetType {
     
     /// API 엔드포인트 URL 정의
     var endPoint: String {
-        switch self {
-        case .signUp:
-            return "/user/signup"
-        case .checkNicknameDuplicate:
-            return "/user/check-nickname"
-        case .getTeams:
-            return "/eplTeams"
+            switch self {
+            case .signUp:
+                return APIConstants.signupURL
+            case .checkNicknameDuplicate:
+                return APIConstants.checkNicknameDuplicateURL
+            case .getTeams:
+                return APIConstants.getTeamsURL
+            }
         }
-    }
     
     /// HTTP 헤더 타입 정의
     var header: HeaderType {
