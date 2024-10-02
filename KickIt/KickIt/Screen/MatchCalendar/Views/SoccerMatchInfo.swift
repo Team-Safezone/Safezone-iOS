@@ -383,7 +383,8 @@ struct SoccerMatchInfo: View {
                             
                             // 선발 라인업 예측 화면으로 이동하는 버튼
                             NavigationLink {
-                                
+                                StartingLineupPrediction(soccerMatch: soccerMatch)
+                                    .toolbarRole(.editor) // back 텍스트 숨기기
                             } label: {
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {

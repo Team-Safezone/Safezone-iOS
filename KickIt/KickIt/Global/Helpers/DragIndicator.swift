@@ -11,7 +11,6 @@ import SwiftUI
 struct DragIndicator: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 16)
-            .fill(.black0)
             .frame(width: 80, height: 4)
             .padding(.top, 10)
     }
