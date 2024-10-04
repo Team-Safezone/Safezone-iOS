@@ -113,11 +113,11 @@ struct ScoreView: View {
     var body: some View {
         HStack(spacing: 20) {
             Text("\(match.homeTeamScore ?? 0)")
-                .font(.pretendard(.bold, size: 24))
+                .font(.pretendard(.bold, size: 32))
                 .frame(width: 36)
-            Spacer().frame(width: 45)
+            Spacer().frame(width: 40)
             Text("\(match.awayTeamScore ?? 0)")
-                .font(.pretendard(.bold, size: 24))
+                .font(.pretendard(.bold, size: 32))
                 .frame(width: 36)
         }
     }
