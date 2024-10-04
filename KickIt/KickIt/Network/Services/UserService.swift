@@ -5,10 +5,7 @@
 //  Created by DaeunLee on 9/16/24.
 //
 
-import Combine
-import Alamofire
-
-import Combine
+import Foundation
 import Alamofire
 
 /// 사용자 관련 API 서비스를 정의하는 열거형

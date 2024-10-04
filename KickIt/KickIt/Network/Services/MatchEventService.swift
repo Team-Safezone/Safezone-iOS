@@ -5,36 +5,58 @@
 //  Created by DaeunLee on 7/29/24.
 //
 
-import Alamofire
 import Foundation
+import Alamofire
 
+/// 경기 이벤트 서비스를 위한 Router
 enum MatchEventService {
-    case getMatchEvents(matchID: Int)
+    // 타임라인 이벤트 API
+    case getMatchEvents(MatchEventsRequest)
+    // 사용자의 심박수 데이터 업로드 API
+    case postMatchHeartRate(MatchHeartRateRequest)
+    // 데이터 존제 체크 API
+    case checkHeartRateDataExists(HeartRateDataExistsRequest)
 }
 
-extension MatchEventService {
-    var method: Alamofire.HTTPMethod {
+extension MatchEventService: TargetType {
+    
+    var method: HTTPMethod {
         switch self {
-        case .getMatchEvents:
+        case .getMatchEvents, .checkHeartRateDataExists:
             return .get
+        case .postMatchHeartRate:
+            return .post
         }
     }
     
-    var path: String {
+    var endPoint: String {
         switch self {
-        case .getMatchEvents(let matchID):
-            return "/matchEvents/\(matchID)"
+        case .getMatchEvents:
+            return APIConstants.matchEventURL
+        case .postMatchHeartRate:
+            return APIConstants.matchHeartRateURL
+        case .checkHeartRateDataExists:
+            return APIConstants.checkDataExistsURL
+        }
+    }
+    
+    var header: HeaderType {
+        switch self {
+        case .getMatchEvents, .postMatchHeartRate, .checkHeartRateDataExists:
+            return .basic
         }
     }
     
     var parameters: RequestParams {
         switch self {
-        case .getMatchEvents:
-            return .requestPlain
+        case .getMatchEvents(let request):
+            return .query(["matchId" : request.matchId])
+            
+        case .postMatchHeartRate(let request):
+            return .requestBody(request)
+            
+        case .checkHeartRateDataExists(let request):
+            return .query(["matchId" : request.matchId])
         }
-    }
-    
-    var header: HeaderType {
-        return .basic
     }
 }

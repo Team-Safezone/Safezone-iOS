@@ -28,10 +28,19 @@ struct APIConstants {
     static let startingLineupPredictionURL = "/"
     
     /// 심박수 통계 조회 URL
-    static let heartRateStatisticsURL = "/나중에 입력하기!"
+    static let heartRateStatisticsURL = "/"
     
     /// 경기 이벤트 조회 URL
-    static let matchEventURL = "/realtime"
+    static let matchEventURL = "/realTime"
+    
+    /// 사용자 평균 심박수 URL
+    static let avgHeartRateURL = "/avgHeartRate"
+    
+    /// 사용자 심박수 데이터 존재 여부 URL
+    static let checkDataExistsURL = "/check-dataExists"
+    
+    /// 사용자 심박수 전송 URL
+    static let matchHeartRateURL = "/match-heart-rate"
     
     /// 회원 가입 정보 전송 URL
     static let signupURL = "/users/signup"
