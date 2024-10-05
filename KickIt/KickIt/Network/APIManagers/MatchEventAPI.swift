@@ -20,8 +20,8 @@ class MatchEventAPI: BaseAPI {
     }
     
     /// 경기 이벤트 GET API
-    func getMatchEvents(request: MatchEventsRequest) -> AnyPublisher<MatchEventsResponse, NetworkError> {
-        return Future<MatchEventsResponse, NetworkError> { [weak self] promise in
+    func getMatchEvents(request: MatchEventsRequest) -> AnyPublisher<[MatchEventsData], NetworkError> {
+        return Future<[MatchEventsData], NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
@@ -30,23 +30,24 @@ class MatchEventAPI: BaseAPI {
             // API 호출
             self.AFManager.request(MatchEventService.getMatchEvents(request), interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<MatchEventsResponse>.self) { response in
+                .responseDecodable(of: CommonResponse<[MatchEventsData]>.self) { response in
                     switch response.result {
                     case .success(let result):
-                        if result.isSuccess {
-                            promise(.success(result.data!))
+                        if result.isSuccess, let data = result.data {
+                            promise(.success(data))
                         } else {
-                            print("Server Error Message: \(result.message)")
+                            let error: NetworkError
                             switch result.status {
                             case 401:
-                                return promise(.failure(.authFailed))
+                                error = .authFailed
                             case 400..<500:
-                                return promise(.failure(.requestErr(result.message)))
+                                error = .requestErr(result.message)
                             case 500:
-                                return promise(.failure(.serverErr(result.message)))
+                                error = .serverErr(result.message)
                             default:
-                                return promise(.failure(.unknown(result.message)))
+                                error = .unknown(result.message)
                             }
+                            promise(.failure(error))
                         }
                     case .failure(let error):
                         if let statusCode = response.response?.statusCode {

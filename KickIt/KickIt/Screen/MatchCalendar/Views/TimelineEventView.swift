@@ -36,8 +36,9 @@ struct TimelineEventView: View {
                             EmptyStateView()
                         } else {
                             LazyVStack {
-                                ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.element.matchId) { _, event in
-                                    if let teamName = event.teamName {
+                                ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.offset) { index, event in
+                                    if event.eventCode == 1 || event.eventCode == 3 || event.eventCode == 5 {
+                                        
                                         // 타임라인 출력
                                         TimelineEventRowView(
                                             event: event,
@@ -89,7 +90,7 @@ struct TimelineEventView: View {
     
     //MARK: - 타이머 함수
     private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 180, repeats: true) { _ in
             if viewModel.match.matchCode != 3 {
                 viewModel.fetchMatchEvents()
                 viewModel.fetchUserAverageHeartRate()
@@ -113,7 +114,7 @@ struct EmptyStateView: View {
             Spacer().frame(height: 200)
             Text("경기 이벤트를 가져오는 중이에요!")
                 .pretendardTextStyle(.SubTitleStyle)
-                .foregroundStyle(.white0)
+                .foregroundStyle(.gray500Text)
         }
     }
 }
@@ -122,7 +123,7 @@ struct EmptyStateView: View {
 struct TableLable: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 8)
-            .foregroundStyle(Color.white0.opacity(0.1))
+            .foregroundStyle(Color.gray900Assets)
             .frame(maxWidth: .infinity, maxHeight: 40)
             .overlay {
                 HStack {
@@ -181,7 +182,7 @@ struct HalfTimeView: View {
                 path.addLine(to: CGPoint(x: 126, y: 8))
                 path.closeSubpath()
             }
-            .stroke(Color.gray950, lineWidth: 1)
+            .stroke(Color.gray900, lineWidth: 1)
         }
         .foregroundStyle(Color.white0)
     }

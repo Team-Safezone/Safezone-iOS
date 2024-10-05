@@ -46,12 +46,13 @@ struct TimelineEventRowView: View {
                     if let player2 = event.player2 {
                         Text(player2)
                             .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(.gray300)
+                            .foregroundStyle(.gray800Assets)
                     }
                 }
                 
                 Spacer()
                 
+                let _ = print("selected matchId: \(viewModel.currentMatchId ?? 00), this matchId: \(viewModel.match.id)")
                 // 사용자가 워치에서 선택한 경기가 맞는지 확인
                 if viewModel.currentMatchId == viewModel.match.id {
                     // 심박수 데이터와 사용자 평균 심박수를 가져와 전달
@@ -61,8 +62,17 @@ struct TimelineEventRowView: View {
                     )
                 }//:IF
             }//:HSTACK
+        }//:HSTACK
+        .padding(.vertical, 8)
+        .background{
+            if event.eventName == "골!" {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.limeTransparent)
+            } else if event.eventName == "자책골" {
+                    RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.redTransparent)
+            }
         }
-        .padding(.vertical, 13)
         .padding(.horizontal, 18)
     }
 }
@@ -88,22 +98,37 @@ struct HeartView: View {
                 // 심박수가 있으면 해당 값 표시, 없으면 평균 심박수 표시
                 Text("\(heartRate ?? userAvgHeartRate)")
                     .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(.white0)
                     .frame(width: 25, alignment: .trailing)
                 Text("BPM")
                     .pretendardTextStyle(.Caption1Style)
+                    .foregroundStyle(.gray800Assets)
             }
         }.padding(.trailing, 6)
     }
 }
 
-#Preview{
+#Preview("골"){
     TimelineEventRowView(event: MatchEventsData(
-        eventTime: "2023/09/11 20:40:00",
-        eventCode: 1,
-        player2: "베인",
-        player1: "손흥민",
         matchId: 175,
+        eventCode: 1,
+        eventTime: "2023/09/11 20:40:00",
         eventName: "골!",
+        player1: "손흥민",
+        player2: "베인",
+        teamName: "토트넘",
+        teamUrl: "https://example.com/team-logo.png"
+    ), viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))
+}
+
+#Preview("자책골"){
+    TimelineEventRowView(event: MatchEventsData(
+        matchId: 175,
+        eventCode: 1,
+        eventTime: "2023/09/11 20:40:00",
+        eventName: "자책골",
+        player1: "손흥민",
+        player2: "베인",
         teamName: "토트넘",
         teamUrl: "https://example.com/team-logo.png"
     ), viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))

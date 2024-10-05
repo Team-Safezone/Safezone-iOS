@@ -33,6 +33,22 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
         return formatter
     }()
     
+    init(match: SoccerMatch) {
+        self.match = match
+        super.init()
+        setupWCSession()
+        loadCurrentMatchId()
+        authorizeHealthKit()
+    }
+    
+    private func setupWCSession() {
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
+    }
+    
     // watch - ios
     @Published var errorMessage: String? // 에러 메시지
     @Published var wcSessionState: WCSessionActivationState = .notActivated
@@ -61,13 +77,14 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
                 if case .failure(let error) = completion {
                     print("Error fetching match events: \(error)")
                 }
-            } receiveValue: { [weak self] response in
-                self?.matchEvents = response.data
-                print("Received \(response.data.count) events")
-                self?.updateMatchCode()
-                self?.setMatchStartTime()
-                self?.loadHeartRateData()
+            } receiveValue: { [weak self] events in
+                self?.matchEvents = events
+                print("Received \(events.count) events")
+                self?.updateMatchCode() // eventCode 마지막 -> matchCode 업데이트
+                self?.setMatchStartTime()   // 경기 시작 시간 설정
+                self?.loadHeartRateData()   // 심박수 데이터 호출
             }
+            .store(in: &cancellables)
     }
     
     // 사용자 평균 심박수 GET
@@ -230,50 +247,43 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    //MARK: - 심박수 관련 함수
-    // 심박수 기능 사용
-    private let heartRateModel = HeartRateRecordModel()
+    //MARK: - 심박수 관련 프로퍼티 및 함수
+        private let heartRateModel = HeartRateRecordModel()
+        @Published var heartRateRecords: [HeartRateDate] = []
     
-    init(match: SoccerMatch) {
-        self.match = match
-        super.init()
-        setupWCSession()
-        loadCurrentMatchId()
-        authorizeHealthKit()
-    }
-    
-    private func setupWCSession() {
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
-        }
-    }
-    
-    // 심박수 권한 사용
+    // 심박수 권한 요청
     private func authorizeHealthKit() {
-        heartRateModel.authorizeHealthKit { success in
+        heartRateModel.authorizeHealthKit { [weak self] success in
             if success {
-                self.loadHeartRateData()
+                self?.loadHeartRateData()
+            } else {
+                print("Failed to authorize HealthKit")
             }
         }
     }
     
-    // 심박수 로딩 사용
+    // 심박수 데이터 로딩
     func loadHeartRateData() {
-        guard let startTime = matchStartTime else { return }
+        guard let startTime = matchStartTime else {
+            print("Match start time is not set")
+            return
+        }
         let endTime = Date()
         
         heartRateModel.loadHeartRate(startDate: startTime, endDate: endTime) { [weak self] records in
             DispatchQueue.main.async {
+                self?.heartRateRecords = records
                 self?.objectWillChange.send()
+                print("Loaded \(records.count) heart rate records")
             }
         }
     }
     
-    // 심박수 가져오기 사용
+    // 특정 이벤트 시간에 대한 심박수 가져오기
     func getHeartRate(for eventTime: String) -> Int? {
-        return heartRateModel.getHeartRate(for: eventTime)
+        let heartRate = heartRateModel.getHeartRate(for: eventTime)
+        print("Heart rate for event at \(eventTime): \(heartRate ?? -1)")
+        return heartRate
     }
     
     //MARK: - UI 관련 함수
@@ -286,42 +296,54 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
     
     // 경기 시작 시각 설정
     private func setMatchStartTime() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+
         if let startEvent = matchEvents.first(where: { $0.eventCode == 0 }) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
             matchStartTime = dateFormatter.date(from: startEvent.eventTime)
+            print("Match start time set from event with code 0: \(matchStartTime?.description ?? "nil")")
+        } else {
+            // eventCode = 0인 이벤트가 없는 경우, 가장 이른 이벤트 시간을 사용
+            matchStartTime = matchEvents.compactMap { dateFormatter.date(from: $0.eventTime) }.min()
+            print("Match start time set to earliest event: \(matchStartTime?.description ?? "nil")")
+        }
+
+        if matchStartTime == nil {
+            print("Warning: Failed to set match start time")
         }
     }
     
     // 경기 코드에 따른 색상
     func getStatusColor() -> Color {
         switch match.matchCode {
-        case 0: return Color.white0
+        case 0: return Color.whiteText
         case 1, 2: return Color.lime
-        case 3: return Color.gray800
-        case 4: return Color.red0
+        case 3: return Color.gray800Assets
+        case 4: return Color.gray800Assets
         default: return Color.white0
         }
     }
     
     // 경기 코드에 따른 글
-    func getStatusText() -> String {
+    func getStatusText() -> String { // 경기 상태(0: 예정, 1: 경기중, 2: 휴식, 3: 종료, 4: 연기)
         switch match.matchCode {
         case 0: return "경기예정"
-        case 1: return "실시간"
-        case 2: return "휴식"
+        case 1, 2: return "경기중"
         case 3: return "경기종료"
-        case 4: return "경기연기"
+        case 4: return "연기"
         default: return ""
         }
     }
     
     // 경기 코드에 따른 글자 색상
-    func getStatusTextColor() -> Color {
+    func getStatusTextColor() -> Color { // 경기 상태(0: 예정, 1: 경기중, 2: 휴식, 3: 종료, 4: 연기)
         switch match.matchCode {
-        case 0: return Color.black0
-        case 3: return Color.gray300
-        default: return Color.black0
+        case 0: return Color.blackAssets
+        case 1: return Color.blackAssets
+        case 3: return Color.whiteAssets
+        case 4: return Color.gray300Assets
+        default: return Color.blackAssets
         }
     }
 }

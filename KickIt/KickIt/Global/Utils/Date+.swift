@@ -130,11 +130,15 @@ func calculateEventTime(from matchStartTime: Date?, eventTime: String) -> Int {
     
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    dateFormatter.timeZone = TimeZone.current  // 현재 시간대 사용
     
-    guard let eventDate = dateFormatter.date(from: eventTime) else { return 0 }
+    guard let eventDate = dateFormatter.date(from: eventTime) else {
+        print("Failed to parse date: \(eventTime)")
+        return 0
+    }
     
     let elapsedTime = Int(eventDate.timeIntervalSince(startTime) / 60)
-    return elapsedTime
+    return max(elapsedTime, 0)  // 음수 값 방지
 }
 
 /// 경기 시작 시간 설정

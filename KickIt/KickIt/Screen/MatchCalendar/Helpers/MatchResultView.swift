@@ -37,7 +37,7 @@ struct MatchResultView: View {
                         Image(systemName: "house.fill")
                             .resizable()
                             .scaledToFit()
-                            .foregroundStyle(.gray400)
+                            .foregroundStyle(.gray500Assets)
                             .frame(width: 16, height: 16)
                         Text(viewModel.match.homeTeam.teamName)
                             .foregroundStyle(Color.white0)
@@ -49,7 +49,7 @@ struct MatchResultView: View {
                 HStack(spacing: 14) {
                     Text(viewModel.match.homeTeamScore?.description ?? "0")
                         .pretendardTextStyle(.H1Style)
-                        .foregroundStyle(Color.white0)
+                        .foregroundStyle(Color.gray200)
                     
                     VStack(spacing: 0) {
                         if viewModel.match.matchCode == 0 || viewModel.match.matchCode == 3 {
@@ -66,7 +66,7 @@ struct MatchResultView: View {
                     
                     Text(viewModel.match.awayTeamScore?.description ?? "0")
                         .pretendardTextStyle(.H1Style)
-                        .foregroundStyle(Color.white0)
+                        .foregroundStyle(Color.gray200)
                 }
                 
                 VStack {
@@ -86,6 +86,14 @@ struct MatchResultView: View {
     }
 }
 
-#Preview {
+#Preview("경기예정") {
+    MatchResultView(viewModel: MatchEventViewModel(match: dummySoccerMatches[1]))
+}
+
+#Preview("경기중") {
     MatchResultView(viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))
+}
+
+#Preview("경기종료") {
+    MatchResultView(viewModel: MatchEventViewModel(match: dummySoccerMatches[2]))
 }
