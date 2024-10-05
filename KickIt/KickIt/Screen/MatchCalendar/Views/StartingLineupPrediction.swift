@@ -112,15 +112,10 @@ struct StartingLineupPrediction: View {
                     } label: {
                         DesignWideButton(
                             label: "예측하기",
-                            labelColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .blackAssets : .blackAssets.opacity(0.5),
-                            btnBGColor: .lime
+                            labelColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .blackAssets : .gray400,
+                            btnBGColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .lime : .gray600
                         )
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .clear : .blackAssets)
-                            .opacity(viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? 0 : 0.5)
-                    )
                     // 선발라인업 선택이 완료되지 않았다면 비활성화
                     .disabled(!viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers))
                     .padding(.top, 20)

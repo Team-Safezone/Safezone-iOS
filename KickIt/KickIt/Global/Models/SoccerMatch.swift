@@ -10,7 +10,6 @@ import Foundation
 /// [Entity] 축구 경기 모델
 struct SoccerMatch: Identifiable {
     let id: Int64 // 고유 id
-    let soccerSeason: String // 축구 경기 시즌
     let matchDate: Date // 축구 경기 날짜
     let matchTime: Date // 축구 경기 시간
     let stadium: String // 축구 경기 장소
@@ -26,13 +25,12 @@ struct SoccerMatch: Identifiable {
 let dummySoccerMatches: [SoccerMatch] = [
     SoccerMatch(
         id: 0,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 20, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
         matchCode: 1,
         homeTeamScore: 1,
         awayTeamScore: 0
@@ -40,60 +38,55 @@ let dummySoccerMatches: [SoccerMatch] = [
     
     SoccerMatch(
         id: 1,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 23, minute: 00))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F3_300300.png", teamName: "울버햄튼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F7_300300.png", teamName: "팰리스"),
         matchCode: 0
     ),
 
     SoccerMatch(
         id: 2,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 15))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 00))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F91%2F146_100338091_team_image_url_1436770583726.jpg", teamName: "울버햄튼"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F48_300300.png", teamName: "에버턴"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F42_300300.png", teamName: "아스널"),
         matchCode: 0
     ),
     
     /// 예정 경기
     SoccerMatch(
         id: 3,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 22))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 1, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "아스널"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F15%2F146_2845915_team_image_url_1586327694696.jpg", teamName: "리버풀"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F42_300300.png", teamName: "아스널"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F44_300300.png", teamName: "리버풀"),
         matchCode: 0
     ),
     SoccerMatch(
         id: 4,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 24))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 12, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F84%2F59%2F06%2F146_2845906_team_image_url_1467618027703.jpg", teamName: "맨시티"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F05%2F146_100303305_team_image_url_1435202894494.jpg", teamName: "토트넘"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F33_300300.png", teamName: "토트넘"),
         matchCode: 0
     ),
     SoccerMatch(
         id: 5,
-        soccerSeason: "2023/24",
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 28))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 10, minute: 30))!,
         stadium: "장소",
         matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F33%2F80%2F97%2F146_100338097_team_image_url_1436772555621.jpg", teamName: "풀럼"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://search.pstatic.net/common?type=o&size=152x114&expire=1&refresh=true&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fkeypage%2Fimage%2Fdss%2F146%2F30%2F33%2F13%2F146_100303313_team_image_url_1435211926961.png", teamName: "팰리스"),
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F7_300300.png", teamName: "팰리스"),
         matchCode: 0
     )
     

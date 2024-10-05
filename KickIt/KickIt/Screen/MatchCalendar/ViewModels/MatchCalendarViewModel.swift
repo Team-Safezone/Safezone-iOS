@@ -60,7 +60,6 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                 responseDTO.map { data in
                     SoccerMatch(
                         id: data.id,
-                        soccerSeason: data.soccerSeason,
                         matchDate: stringToDate(date: data.matchDate),
                         matchTime: stringToTime(time: data.matchTime),
                         stadium: data.stadium,

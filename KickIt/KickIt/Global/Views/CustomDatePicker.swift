@@ -244,5 +244,5 @@ extension Date {
 }
 
 #Preview("경기 캘린더-달력") {
-    MatchCalendar()
+    MatchCalendar(path: .constant(NavigationPath()))
 }
