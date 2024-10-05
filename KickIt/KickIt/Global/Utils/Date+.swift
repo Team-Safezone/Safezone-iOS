@@ -21,7 +21,7 @@ func dateToString(date: Date) -> String {
 /// Date -> 0월 0일 (요일) 형식으로 변경하는 함수
 func dateToString2(date: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "M월 dd일 (E)"
+    dateFormatter.dateFormat = "M월 dd일(E)"
     //dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
     dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
     
@@ -239,7 +239,7 @@ func timePredictionInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> 
 }
 
 /// 입력받은 날짜, 시간 정보를 바탕으로 하나의 date값을 반환하는 함수
-private func extractDateTime(date: Date, time: Date) -> Date {
+func extractDateTime(date: Date, time: Date) -> Date {
     // 날짜 formatter
     //let dateFormatter = DateFormatter()
     //dateFormatter.dateFormat = "yyyy-MM-dd"

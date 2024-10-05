@@ -15,12 +15,6 @@ struct MatchCalendar: View {
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
     
-    /// 경기 정보 클릭 여부
-    @State private var isMatchSelected = false
-    
-    /// 클릭한 경기 정보
-    @State private var selectedMatch: SoccerMatch?
-    
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel = MatchCalendarViewModel()
     
@@ -60,7 +54,7 @@ struct MatchCalendar: View {
                     .padding(.horizontal, 16)
                     
                     // MARK: - 프리미어리그 팀 리스트
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         RadioButtonGroup(
                             // 팀 리스트 띄우기
                             items: viewModel.soccerTeamNames,
@@ -82,8 +76,9 @@ struct MatchCalendar: View {
                         .padding(.horizontal, 16)
                     }
                     .padding(.top, 20)
+                    .scrollIndicators(.never)
                     
-                    ScrollView(.vertical, showsIndicators: false) {
+                    ScrollView(.vertical) {
                         // MARK: - 달력
                         CustomDatePicker(currentDate: $currentDate, matchDates: $viewModel.matchDates)
                             .onChange(of: currentDate) { preDate, newDate in
@@ -105,6 +100,7 @@ struct MatchCalendar: View {
                             .padding(.top, 12)
                             .padding(.bottom, 32)
                     }
+                    .scrollIndicators(.never)
                 }
             }
             .ignoresSafeArea(edges: .top)
@@ -167,20 +163,14 @@ struct MatchCalendar: View {
             // MARK: - 경기 리스트
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
-                    SoccerMatchRow(soccerMatch: match)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                        .onTapGesture {
-                            selectedMatch = match
-                            isMatchSelected = true
-                        }
-                }
-                // 경기 정보 화면으로 이동
-                .navigationDestination(isPresented: $isMatchSelected) {
-                    if let match = selectedMatch {
+                    NavigationLink {
                         SoccerMatchInfo(soccerMatch: match)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                    } label: {
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
                     }
                 }
             }
@@ -192,20 +182,14 @@ struct MatchCalendar: View {
                 
                     // FIXME: api 연결 시, 아래 코드 삭제하기
                     ForEach(dummySoccerMatches) { match in
-                        SoccerMatchRow(soccerMatch: match)
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 12)
-                            .onTapGesture {
-                                selectedMatch = match
-                                isMatchSelected = true
-                            }
-                    }
-                    // 경기 정보 화면으로 이동
-                    .navigationDestination(isPresented: $isMatchSelected) {
-                        if let match = selectedMatch {
+                        NavigationLink {
                             SoccerMatchInfo(soccerMatch: match)
                                 .toolbarRole(.editor) // back 텍스트 숨기기
                                 .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                        } label: {
+                            SoccerMatchRow(soccerMatch: match)
+                                .padding(.horizontal, 16)
+                                .padding(.bottom, 12)
                         }
                     }
             }
