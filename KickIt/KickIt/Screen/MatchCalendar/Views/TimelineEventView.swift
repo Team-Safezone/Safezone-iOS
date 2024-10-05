@@ -38,7 +38,6 @@ struct TimelineEventView: View {
                             LazyVStack {
                                 ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.offset) { index, event in
                                     if event.eventCode == 1 || event.eventCode == 3 || event.eventCode == 5 {
-                                        
                                         // 타임라인 출력
                                         TimelineEventRowView(
                                             event: event,

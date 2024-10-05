@@ -89,7 +89,7 @@ struct HeartView: View {
                 Image(rate > userAvgHeartRate ? "ArrowUp" : "ArrowDown")
                     .frame(width: 24, height: 24)
             } else {
-                Text("-")
+                Image("ArrowAvg")
                     .frame(width: 24, height: 24)
                     .pretendardTextStyle(.SubTitleStyle)
             }
