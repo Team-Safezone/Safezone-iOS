@@ -29,6 +29,11 @@ struct SoccerMatchInfo: View {
                 // MARK: 상단 경기 정보
                 TopMatchInfo()
                 
+                // 구분선
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundStyle(.gray900Assets)
+                
                 ScrollView {
                     VStack(spacing: 0) {
                         // MARK: 팀 및 스코어 정보
@@ -48,6 +53,10 @@ struct SoccerMatchInfo: View {
                                 if isShowMatchInfo {
                                     // MARK: 경기 정보
                                     MatchInfo()
+                                    
+                                    // 하단 공백
+                                    Spacer()
+                                        .frame(height: 200)
                                 }
                                 // 경기 예측 버튼을 눌렀다면
                                 else {
@@ -60,13 +69,11 @@ struct SoccerMatchInfo: View {
                     } //: VSTACK
                 } //: ScrollView
                 .scrollIndicators(.never)
-            }
+            } //: VSTACK
         } //: ZSTACK
         // 툴 바, 상태 바 색상 변경
         .ignoresSafeArea(edges: .bottom)
         .navigationTitle("\(viewModel.selectedSoccerMatch!.homeTeam.teamName) VS \(viewModel.selectedSoccerMatch!.awayTeam.teamName)")
-        .toolbarBackground(Color.background, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     // MARK: - FUNCTION
