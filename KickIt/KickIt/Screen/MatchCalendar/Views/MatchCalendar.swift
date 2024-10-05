@@ -16,7 +16,7 @@ struct MatchCalendar: View {
     @State var currentDate: Date = Date()
     
     /// 경기 캘린더 뷰모델
-    @ObservedObject var viewModel = MatchCalendarViewModel()
+    @ObservedObject var viewModel: MatchCalendarViewModel
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -164,7 +164,7 @@ struct MatchCalendar: View {
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
                     NavigationLink {
-                        SoccerMatchInfo(soccerMatch: match)
+                        SoccerMatchInfo(soccerMatch: match, viewModel: viewModel)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                     } label: {
@@ -183,7 +183,7 @@ struct MatchCalendar: View {
                     // FIXME: api 연결 시, 아래 코드 삭제하기
                     ForEach(dummySoccerMatches) { match in
                         NavigationLink {
-                            SoccerMatchInfo(soccerMatch: match)
+                            SoccerMatchInfo(soccerMatch: match, viewModel: viewModel)
                                 .toolbarRole(.editor) // back 텍스트 숨기기
                                 .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         } label: {
@@ -198,5 +198,5 @@ struct MatchCalendar: View {
 }
 
 #Preview("경기 캘린더") {
-    MatchCalendar(path: .constant(NavigationPath()))
+    MatchCalendar(path: .constant(NavigationPath()), viewModel: MatchCalendarViewModel())
 }

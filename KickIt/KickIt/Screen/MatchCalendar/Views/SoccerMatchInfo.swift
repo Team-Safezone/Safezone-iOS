@@ -13,6 +13,9 @@ struct SoccerMatchInfo: View {
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
+    /// 경기 캘린더 뷰모델
+    @ObservedObject var viewModel: MatchCalendarViewModel
+    
     /// 경기 정보 텍스트 버튼 클릭 상태 여부
     @State private var isShowMatchInfo = true
     
@@ -457,5 +460,5 @@ struct SoccerMatchInfo: View {
 
 // MARK: - PREVIEW
 #Preview("경기 정보") {
-    SoccerMatchInfo(soccerMatch: dummySoccerMatches[1])
+    SoccerMatchInfo(soccerMatch: dummySoccerMatches[1], viewModel: MatchCalendarViewModel())
 }

@@ -25,7 +25,10 @@ struct Home: View {
     @Binding var path: NavigationPath
     
     /// 홈 뷰모델
-    @ObservedObject var viewModel = HomeViewModel()
+    @ObservedObject var viewModel: HomeViewModel
+    
+    /// 경기 캘린더 뷰모델
+    @ObservedObject var calendarViewModel: MatchCalendarViewModel
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -101,7 +104,7 @@ struct Home: View {
                                         ForEach(0..<(matches.count), id: \.self) {i in
                                             NavigationLink {
                                                 // 경기 정보 화면으로 이동
-                                                SoccerMatchInfo(soccerMatch: matches[i])
+                                                SoccerMatchInfo(soccerMatch: matches[i], viewModel: calendarViewModel)
                                                     .toolbarRole(.editor) // back 텍스트 숨기기
                                                     .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                                             } label: {
@@ -201,5 +204,5 @@ struct Home: View {
 }
 
 #Preview("홈 화면") {
-    Home(soccerMatch: dummySoccerMatches[0], selectedMenu: .constant(.home), path: .constant(NavigationPath()))
+    Home(soccerMatch: dummySoccerMatches[0], selectedMenu: .constant(.home), path: .constant(NavigationPath()), viewModel: HomeViewModel(), calendarViewModel: MatchCalendarViewModel())
 }

@@ -22,6 +22,12 @@ struct ContentView: View {
     /// 네비게이션 스택 관리 변수
     @State private var path = NavigationPath()
     
+    /// 홈 뷰모델
+    @StateObject var homeViewModel = HomeViewModel()
+    
+    /// 경기 캘린더 뷰모델
+    @StateObject var matchCalendarViewModel = MatchCalendarViewModel()
+    
     // 탭바 색상 초기화
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black0
@@ -30,7 +36,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedMenu) {
             /// 홈 화면
-            Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, path: $path)
+            Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, path: $path, viewModel: homeViewModel, calendarViewModel: matchCalendarViewModel)
                 .tabItem {
                     Image(systemName: "house")
                     Text("홈")
@@ -39,7 +45,7 @@ struct ContentView: View {
                 .tag(Tab.home)
             
             /// 경기 일정 & 캘린더 화면
-            MatchCalendar(path: $path)
+            MatchCalendar(path: $path, viewModel: matchCalendarViewModel)
                 .tabItem {
                     Image(systemName: "soccerball")
                     Text("경기 캘린더")
