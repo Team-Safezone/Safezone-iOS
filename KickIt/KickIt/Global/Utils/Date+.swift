@@ -37,6 +37,7 @@ func dateToString3(date: Date?) -> String {
     
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "M월 dd일"
+    //dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
     dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
     
     return dateFormatter.string(from: date)
@@ -56,6 +57,18 @@ func dateToString4(date: Date) -> String {
 func dateToString5(date: Date) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy/MM"
+    
+    let dateToString = dateFormatter.string(from: date)
+    
+    return dateToString
+}
+
+/// Date -> 요일로 변경하는 함수
+func dateToDay(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "E요일"
+    //dateFormatter.locale = Locale.autoupdatingCurrent // 사용자의 위치에 따른 로케일
+    dateFormatter.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
     
     let dateToString = dateFormatter.string(from: date)
     

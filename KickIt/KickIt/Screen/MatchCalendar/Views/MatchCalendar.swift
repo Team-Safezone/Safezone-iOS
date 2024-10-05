@@ -9,6 +9,8 @@ import SwiftUI
 
 /// 경기 일정 & 캘린더 화면
 struct MatchCalendar: View {
+    /// 네비게이션 경로
+    @Binding var path: NavigationPath
     
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
@@ -27,7 +29,7 @@ struct MatchCalendar: View {
     @State private var selectedTeamName: String? = nil
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 Color(.background)
                 
@@ -241,5 +243,5 @@ struct MatchCalendar: View {
 }
 
 #Preview("경기 캘린더") {
-    MatchCalendar()
+    MatchCalendar(path: .constant(NavigationPath()))
 }

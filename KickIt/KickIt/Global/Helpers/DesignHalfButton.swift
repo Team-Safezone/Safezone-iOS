@@ -55,7 +55,7 @@ struct DesignHalfButton2: View {
     var btnBGColor: Color
     
     /// 우측 이모지
-    var img: String?
+    var img: UIImage?
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -64,27 +64,22 @@ struct DesignHalfButton2: View {
                 .foregroundStyle(labelColor)
             
             // 우측 이미지가 있다면 배치하기
-            if img != nil {
-                Image(systemName: img!)
+            if let tempImg = img {
+                Image(uiImage: tempImg)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(labelColor)
-                    .padding(.leading, 8)
             }
         }
-        .padding([.top, .bottom], 15)
+        .padding([.top, .bottom], 13)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 8).fill(btnBGColor)
-                .stroke(.gray950, style: StrokeStyle(lineWidth: 1))
+                .stroke(.gray800, style: StrokeStyle(lineWidth: 1))
                 
         )
     }
 }
 
 #Preview {
-    DesignHalfButton2(label: "다음 예측하기", labelColor: .white, btnBGColor: .gray600, img: "arrow.right")
-}
-
-#Preview {
-    DesignHalfButton(label: "다음 예측하기", labelColor: .white, btnBGColor: .gray600, img: "arrow.right")
+    DesignHalfButton(label: "다음 예측하기", labelColor: .white, btnBGColor: .gray600)
 }

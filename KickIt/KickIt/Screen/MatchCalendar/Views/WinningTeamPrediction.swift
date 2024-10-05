@@ -62,7 +62,6 @@ struct WinningTeamPrediction: View {
                         // 홈 팀 엠블럼 이미지
                         LoadableImage(image: soccerMatch.homeTeam.teamEmblemURL)
                             .frame(width: 88, height: 88)
-                            .background(.white)
                             .clipShape(Circle())
                         
                         HStack(spacing: 0) {
@@ -86,7 +85,6 @@ struct WinningTeamPrediction: View {
                         // 원정 팀 엠블럼 이미지
                         LoadableImage(image: soccerMatch.awayTeam.teamEmblemURL)
                             .frame(width: 88, height: 88)
-                            .background(.white)
                             .clipShape(Circle())
                             
                             // 팀 명
