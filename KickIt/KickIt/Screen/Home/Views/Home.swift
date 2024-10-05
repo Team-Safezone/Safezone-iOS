@@ -104,11 +104,14 @@ struct Home: View {
                                         ForEach(0..<(matches.count), id: \.self) {i in
                                             NavigationLink {
                                                 // 경기 정보 화면으로 이동
-                                                SoccerMatchInfo(soccerMatch: matches[i], viewModel: calendarViewModel)
+                                                SoccerMatchInfo(viewModel: calendarViewModel)
                                                     .toolbarRole(.editor) // back 텍스트 숨기기
                                                     .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                                             } label: {
                                                 MatchCardView(soccerMatch: matches[i])
+                                                    .onTapGesture {
+                                                        calendarViewModel.selectedMatch(match: matches[i])
+                                                    }
                                             }
                                         }
                                     }

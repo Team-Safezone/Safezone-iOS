@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import UIKit
+import SwiftUI
 
 /// 경기 캘린더 화면의 뷰모델
 /// 설명: 뷰모델에서 데이터 변환(DTO -> Entity), 응답에 따른 에러 핸들링을 처리하기
@@ -21,6 +23,9 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     
     /// 라디오그룹에서 선택한 팀 이름 정보
     @Published var selectedTeamName: String?
+    
+    /// 사용자가 선택한 경기
+    @Published var selectedSoccerMatch: SoccerMatch? = dummySoccerMatches[1] // FIXME: api연동시 초기값 삭제!
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -103,5 +108,20 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
         else {
             selectedTeamName = teamName
         }
+    }
+    
+    /// 사용자가 선택한 경기 정보 업데이트
+    func selectedMatch(match: SoccerMatch) {
+        selectedSoccerMatch = match
+    }
+    
+    /// 텍스트 스타일 업데이트
+    func updateTextStyle(isShowMatchInfo: Bool) -> TextStyle {
+        return isShowMatchInfo ? .Title1Style : TextStyle(font: .pretendard(.medium, size: 18), tracking: -0.4, uiFont: UIFont(name: "Pretendard-Medium", size: 18)!, lineHeight: 24)
+    }
+    
+    /// 텍스트 색상업데이트
+    func updateTextColor(isShowMatchInfo: Bool) -> Color {
+        return isShowMatchInfo ? Color.white0 : Color.gray500
     }
 }

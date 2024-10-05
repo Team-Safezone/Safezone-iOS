@@ -38,7 +38,7 @@ let dummySoccerMatches: [SoccerMatch] = [
     
     SoccerMatch(
         id: 1,
-        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 10, day: 2))!,
+        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 12, day: 7))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 3, minute: 20))!,
         stadium: "장소",
         matchRound: 37,

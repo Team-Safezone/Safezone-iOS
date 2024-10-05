@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB532BF5D5F800AE526C /* DesignWideButton.swift */; };
+		E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523EFE2CB12170007AE457 /* MatchPredictionView.swift */; };
+		E7523F012CB162E5007AE457 /* LineupPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523F002CB162E5007AE457 /* LineupPredictionView.swift */; };
 		E758BA8C2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E758BA8B2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift */; };
 		E7592AA82CA93FDA008E9E6E /* Shadow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7592AA72CA93FDA008E9E6E /* Shadow+.swift */; };
 		E76391772C0377D600B565BE /* DesignHalfButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76391762C0377D600B565BE /* DesignHalfButton.swift */; };
@@ -137,6 +139,8 @@
 /* Begin PBXFileReference section */
 		E708EB532BF5D5F800AE526C /* DesignWideButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignWideButton.swift; sourceTree = "<group>"; };
 		E722770F2BF8917900DE9A7C /* KickIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickIt.entitlements; sourceTree = "<group>"; };
+		E7523EFE2CB12170007AE457 /* MatchPredictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchPredictionView.swift; sourceTree = "<group>"; };
+		E7523F002CB162E5007AE457 /* LineupPredictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupPredictionView.swift; sourceTree = "<group>"; };
 		E758BA8B2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchMonthlyResponse.swift; sourceTree = "<group>"; };
 		E7592AA72CA93FDA008E9E6E /* Shadow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shadow+.swift"; sourceTree = "<group>"; };
 		E76391762C0377D600B565BE /* DesignHalfButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignHalfButton.swift; sourceTree = "<group>"; };
@@ -294,6 +298,8 @@
 				E778A0892C981F3600B6117D /* PredictionPlayerSelectedCardView.swift */,
 				E778A08B2C99633D00B6117D /* PredictionPlayerView.swift */,
 				E778A0912C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift */,
+				E7523EFE2CB12170007AE457 /* MatchPredictionView.swift */,
+				E7523F002CB162E5007AE457 /* LineupPredictionView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -799,6 +805,7 @@
 				E7A6A06D2C95B7A60008447D /* AcceptingVIew.swift in Sources */,
 				E7E869172C568C9400DFBA85 /* HeartRateViewModel.swift in Sources */,
 				E7B140002C85EE2100CB351E /* MyRequestInterceptor.swift in Sources */,
+				E7523F012CB162E5007AE457 /* LineupPredictionView.swift in Sources */,
 				E7DBC1122C1039D0008D4300 /* SoccerTeam.swift in Sources */,
 				E7E869192C568CDD00DFBA85 /* HeartRateView.swift in Sources */,
 				E7ADBF7B2C57667A00E877C5 /* HeartRateProtocol.swift in Sources */,
@@ -909,6 +916,7 @@
 				E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */,
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
 				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
+				E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
 				E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */,
 			);

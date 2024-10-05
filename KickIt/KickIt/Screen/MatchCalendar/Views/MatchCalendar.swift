@@ -164,7 +164,7 @@ struct MatchCalendar: View {
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
                     NavigationLink {
-                        SoccerMatchInfo(soccerMatch: match, viewModel: viewModel)
+                        SoccerMatchInfo(viewModel: viewModel)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                     } label: {
@@ -172,6 +172,12 @@ struct MatchCalendar: View {
                             .padding(.horizontal, 16)
                             .padding(.bottom, 12)
                     }
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            // 화면 전환 전에 선택한 경기 업데이트
+                            viewModel.selectedMatch(match: match)
+                        }
+                    )
                 }
             }
             else {
@@ -183,7 +189,7 @@ struct MatchCalendar: View {
                     // FIXME: api 연결 시, 아래 코드 삭제하기
                     ForEach(dummySoccerMatches) { match in
                         NavigationLink {
-                            SoccerMatchInfo(soccerMatch: match, viewModel: viewModel)
+                            SoccerMatchInfo(viewModel: viewModel)
                                 .toolbarRole(.editor) // back 텍스트 숨기기
                                 .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                         } label: {
@@ -191,6 +197,12 @@ struct MatchCalendar: View {
                                 .padding(.horizontal, 16)
                                 .padding(.bottom, 12)
                         }
+                        .simultaneousGesture(
+                            TapGesture().onEnded {
+                                // 화면 전환 전에 선택한 경기 업데이트
+                                viewModel.selectedMatch(match: match)
+                            }
+                        )
                     }
             }
         }

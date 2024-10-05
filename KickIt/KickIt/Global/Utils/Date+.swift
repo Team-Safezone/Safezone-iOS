@@ -238,6 +238,51 @@ func timePredictionInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> 
     return "\(hour)시간 \(minute)분 \(second)초 남음"
 }
 
+/// [예측] 선발라인업 예측 종료까지 남은 시간을 계산하는 함수
+func timePredictionInterval2(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
+    
+    // 1시간 전의 날짜와 시간 계산
+    guard let oneHourBefore = Calendar.current.date(byAdding: .hour, value: -1, to: matchDateTime) else {
+        return "00:00:00"
+    }
+    
+    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: oneHourBefore)
+    let hour = components.hour ?? 0
+    let minute = components.minute ?? 0
+    let second = components.second ?? 0
+    
+    return "\(hour)시간 \(minute)분 \(second)초 남음"
+}
+
+/// [경기 정보-예측] 경기 예측 종료까지 남은 시간을 계산하는 함수
+func timePredictionInterval3(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
+    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: matchDateTime)
+    let hour = components.hour ?? 0
+    let minute = components.minute ?? 0
+    let second = components.second ?? 0
+    
+    return "\(hour):\(minute):\(second)"
+}
+
+/// [경기 정보-예측] 선발라인업 예측 종료까지 남은 시간을 계산하는 함수
+func timePredictionInterval4(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
+    
+    // 1시간 전의 날짜와 시간 계산
+    guard let oneHourBefore = Calendar.current.date(byAdding: .hour, value: -1, to: matchDateTime) else {
+        return "00:00:00"
+    }
+    
+    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: oneHourBefore)
+    let hour = components.hour ?? 0
+    let minute = components.minute ?? 0
+    let second = components.second ?? 0
+    
+    return "\(hour):\(minute):\(second)"
+}
+
 /// 입력받은 날짜, 시간 정보를 바탕으로 하나의 date값을 반환하는 함수
 func extractDateTime(date: Date, time: Date) -> Date {
     // 날짜 formatter
