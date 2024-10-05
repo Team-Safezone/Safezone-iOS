@@ -164,7 +164,7 @@ struct EndView: View {
             VStack{
                 Button(action: {
                     isRecordingHeartRate = false
-                    viewModel.sendMatchIdToiOS(matchId: 0)
+                    viewModel.sendMatchIdToiOS(matchId: -1)
                 }) {
                     Image(systemName: "xmark")
                         .frame(width: 64, height: 34)
@@ -183,7 +183,7 @@ struct EndView: View {
     }
 }
 
-#Preview {
+#Preview("경기 상세"){
     @State var isRecordingHeartRate = false
     return MatchDetailView(
         match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
@@ -191,7 +191,7 @@ struct EndView: View {
     )
 }
 
-#Preview {
+#Preview("경기종료") {
     @State var isRecordingHeartRate = false
     return MatchDetailView(
         match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 3),
@@ -199,11 +199,11 @@ struct EndView: View {
     )
 }
 
-#Preview{
+#Preview("기록 중"){
     RecordingView(match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0), heartrate: 84)
 }
 
-#Preview {
+#Preview("기록 취소"){
     @State var isRecordingHeartRate = true
     return EndView(isRecordingHeartRate: $isRecordingHeartRate, viewModel: SoccerMatchViewModel())
 }

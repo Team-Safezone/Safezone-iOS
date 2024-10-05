@@ -32,8 +32,8 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
     
     // MARK: - dummydata
     let dummySoccerMatches: [SoccerMatchWatch] = [
-        SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
-        SoccerMatchWatch(id: 1, timeStr: "21:30", homeTeam: "아스널", homeTeamScore: 2, awayTeam: "풀럼", awayTeamScore: 4, status: 1),
+        SoccerMatchWatch(id: 53, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
+        SoccerMatchWatch(id: 54, timeStr: "21:30", homeTeam: "아스널", homeTeamScore: 2, awayTeam: "풀럼", awayTeamScore: 4, status: 1),
         SoccerMatchWatch(id: 2, timeStr: "22:30", homeTeam: "토트넘", homeTeamScore: 2, awayTeam: "크리스탈 팰리스", awayTeamScore: 1, status: 3)]
     
     // MARK: - HealthKit 관련 함수
