@@ -24,7 +24,7 @@ struct SoccerMatch: Identifiable {
 /// 축구 경기 리스트 더미 데이터
 let dummySoccerMatches: [SoccerMatch] = [
     SoccerMatch(
-        id: 0,
+        id: 53,
         matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
         matchTime: Calendar.current.date(from: DateComponents(hour: 20, minute: 30))!,
         stadium: "장소",
@@ -55,7 +55,7 @@ let dummySoccerMatches: [SoccerMatch] = [
         matchRound: 37,
         homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F48_300300.png", teamName: "에버턴"),
         awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F42_300300.png", teamName: "아스널"),
-        matchCode: 0
+        matchCode: 3
     ),
     
     /// 예정 경기

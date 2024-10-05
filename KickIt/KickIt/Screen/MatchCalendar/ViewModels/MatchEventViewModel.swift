@@ -6,49 +6,344 @@
 //
 
 import Combine
-import Foundation
+import SwiftUI
+import WatchConnectivity
 
-/// 경기 이벤트 뷰 모델
-class MatchEventViewModel: ObservableObject {
-    @Published var matchEvents: [MatchEvent] = []
-    @Published var currentEventCode: Int = -1
+// 타임라인 화면 뷰모델
+class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
+    // Timeline API
+    @Published var match: SoccerMatch
+    @Published var matchEvents: [MatchEventsData] = []
     @Published var matchStartTime: Date?
-    let match: SoccerMatch
-
+    @Published var isLoading = false
+    
     private var cancellables = Set<AnyCancellable>()
-    var matchResultViewModel: MatchResultViewModel
-
-    init(match: SoccerMatch, matchResultViewModel: MatchResultViewModel) {
+    
+    // 평균 심박수
+    @Published var userAverageHeartRate: Int?
+    
+    // 사용자 경기 심박수 POST API
+    @Published var isHeartRateDataUploaded = false
+    var heartRateDates: [HeartRateDate] = []
+    
+    // DateFormatter 인스턴스
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        return formatter
+    }()
+    
+    init(match: SoccerMatch) {
         self.match = match
-        self.matchResultViewModel = matchResultViewModel
-        fetchMatchEvents()
+        super.init()
+        setupWCSession()
+        loadCurrentMatchId()
+        authorizeHealthKit()
     }
     
+    private func setupWCSession() {
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
+    }
+    
+    // watch - ios
+    @Published var errorMessage: String? // 에러 메시지
+    @Published var wcSessionState: WCSessionActivationState = .notActivated
+    private var session: WCSession?
+    
+    @Published var currentMatchId: Int64? {
+        didSet {
+            if let matchId = currentMatchId {
+                UserDefaults.standard.set(matchId, forKey: "currentMatchId")
+            } else {
+                UserDefaults.standard.removeObject(forKey: "currentMatchId")
+            }
+        }
+    }
+    
+    // MARK: - API
+    // 타임라인 GET
     func fetchMatchEvents() {
-        // API 호출 시뮬레이션
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.matchEvents = DummyData.matchEvents
-            self.updateEventCode()
-            self.setMatchStartTime()
+        guard !isLoading else { return }
+        isLoading = true
+        
+        MatchEventAPI.shared.getMatchEvents(request: MatchEventsRequest(matchId: match.id))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                if case .failure(let error) = completion {
+                    print("Error fetching match events: \(error)")
+                }
+            } receiveValue: { [weak self] events in
+                self?.matchEvents = events
+                print("Received \(events.count) events")
+                self?.updateMatchCode() // eventCode 마지막 -> matchCode 업데이트
+                self?.setMatchStartTime()   // 경기 시작 시간 설정
+                self?.loadHeartRateData()   // 심박수 데이터 호출
+            }
+            .store(in: &cancellables)
+    }
+    
+    // 사용자 평균 심박수 GET
+    func fetchUserAverageHeartRate() {
+        AvgHeartRateAPI.shared.getUserAverageHeartRate()
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Error fetching user average heart rate: \(error)")
+                }
+            } receiveValue: { [weak self] averageHeartRate in
+                self?.userAverageHeartRate = averageHeartRate
+            }
+            .store(in: &cancellables)
+    }
+    
+    // onChange 호출 함수
+    func handleMatchEnd() {
+        guard match.matchCode == 3, // 경기가 종료되었는지 확인
+              currentMatchId == match.id, // 현재 경기가 사용자가 선택한 경기인지 확인
+              !isHeartRateDataUploaded else { return }
+        
+        checkAndUploadHeartRateData()
+    }
+    
+    // 사용자 심박수 데이터 존재 여부 GET
+    private func checkAndUploadHeartRateData() {
+        MatchEventAPI.shared.checkHeartRateDataExists(request: HeartRateDataExistsRequest(matchId: match.id))
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Failed to check heart rate data: \(error)")
+                }
+            } receiveValue: { [weak self] response in
+                guard let self = self else { return }
+                if !response.exists {
+                    self.uploadHeartRateData()
+                } else {
+                    self.isHeartRateDataUploaded = true
+                    print("Heart rate data already exists for this match")
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    // 사용자 심박수 POST
+    func uploadHeartRateData() {
+        guard let startTime = matchStartTime else { return }
+
+        let endTime = Date()
+
+        // 시작 시간부터 종료 시간까지의 심박수 데이터 가져오기
+        let heartRateData = heartRateDates.filter { record in
+            guard let recordDate = dateFormatter.date(from: record.date) else { return false }
+            return recordDate >= startTime && recordDate <= endTime
+        }
+
+        // 5분 지연 적용 및 데이터 변환
+        let delayedHeartRateData = heartRateData.map { record -> MatchHeartRateRecord in
+            guard let recordDate = dateFormatter.date(from: record.date) else {
+                return MatchHeartRateRecord(heartRate: 0, date: "")
+            }
+            let delayedDate = recordDate.addingTimeInterval(-5 * 60)
+            let formattedDate = dateFormatter.string(from: delayedDate)
+
+            return MatchHeartRateRecord(heartRate: Int(record.heartRate), date: formattedDate)
+        }
+
+        let request = MatchHeartRateRequest(matchId: match.id, MatchHeartRateRecords: delayedHeartRateData)
+
+        // API 호출
+        MatchEventAPI.shared.postMatchHeartRate(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion {
+                case .finished:
+                    print("Heart rate data uploaded successfully")
+                    self?.isHeartRateDataUploaded = true
+                case .failure(let error):
+                    print("Failed to upload heart rate data: \(error)")
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
+
+    // MARK: - iOS 데이터 저장
+    /// 앱 재시작 시 저장된 matchId 불러오기
+    private func loadCurrentMatchId() {
+        if let savedMatchId = UserDefaults.standard.value(forKey: "currentMatchId") as? Int64 {
+            currentMatchId = savedMatchId
         }
     }
     
-    private func updateEventCode() {
-        if matchEvents.isEmpty {
-            currentEventCode = -1
-        } else if let lastEvent = matchEvents.last {
-            currentEventCode = lastEvent.eventCode
-        }
-        matchResultViewModel.updateEventCode(currentEventCode)
+    // iOS가 꺼졌을 때도 currentMatchId 보존
+    func saveMatchId(_ matchId: Int64) {
+        self.currentMatchId = matchId
     }
     
+    // MARK: - WCSessionDelegate 메서드
+    /// WCSession이 비활성화될 때 호출
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        DispatchQueue.main.async {
+            self.errorMessage = "iOS WCSession became inactive"
+        }
+    }
+    
+    /// WCSession이 비활성화된 후 호출
+    func sessionDidDeactivate(_ session: WCSession) {
+        DispatchQueue.main.async {
+            self.errorMessage = "iOS WCSession deactivated"
+        }
+        // 세션 재활성화
+        //            WCSession.default.activate()
+    }
+    
+    
+    /// iOS 기기로부터 메시지 받을 때 호출 (필수 구현)
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: (([String : Any]) -> Void)? = nil) {
+        DispatchQueue.main.async {
+            if let matchId = message["matchId"] as? Int64 {
+                self.currentMatchId = matchId
+                print("Received match ID: \(matchId)")
+                
+                // 필요에 따라 응답 메시지 처리
+                replyHandler?(["response": "Match ID received"])
+            } else {
+                self.errorMessage = "Invalid data received"
+            }
+        }
+    }
+    
+    
+    /// 오류 처리 메서드: 메시지 전송 실패 시 호출
+    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
+        if let error = error {
+            print("Message delivery failed: \(error.localizedDescription)")
+        } else {
+            print("Message delivered successfully")
+        }
+    }
+    
+    /// WCSession 활성화 완료 시 호출
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        DispatchQueue.main.async {
+            self.wcSessionState = activationState
+            if let error = error {
+                self.errorMessage = "iOS WCSession activation error: \(error.localizedDescription)"
+            } else {
+                switch activationState {
+                case .activated:
+                    self.errorMessage = nil
+                case .inactive:
+                    self.errorMessage = "iOS WCSession is inactive"
+                case .notActivated:
+                    self.errorMessage = "iOS WCSession is not activated"
+                @unknown default:
+                    self.errorMessage = "iOS Unknown WCSession state"
+                }
+            }
+        }
+    }
+    
+    //MARK: - 심박수 관련 프로퍼티 및 함수
+        private let heartRateModel = HeartRateRecordModel()
+        @Published var heartRateRecords: [HeartRateDate] = []
+    
+    // 심박수 권한 요청
+    private func authorizeHealthKit() {
+        heartRateModel.authorizeHealthKit { [weak self] success in
+            if success {
+                self?.loadHeartRateData()
+            } else {
+                print("Failed to authorize HealthKit")
+            }
+        }
+    }
+    
+    // 심박수 데이터 로딩
+    func loadHeartRateData() {
+        guard let startTime = matchStartTime else {
+            print("Match start time is not set")
+            return
+        }
+        let endTime = Date()
+        
+        heartRateModel.loadHeartRate(startDate: startTime, endDate: endTime) { [weak self] records in
+            DispatchQueue.main.async {
+                self?.heartRateRecords = records
+                self?.objectWillChange.send()
+                print("Loaded \(records.count) heart rate records")
+            }
+        }
+    }
+    
+    // 특정 이벤트 시간에 대한 심박수 가져오기
+    func getHeartRate(for eventTime: String) -> Int? {
+        let heartRate = heartRateModel.getHeartRate(for: eventTime)
+        print("Heart rate for event at \(eventTime): \(heartRate ?? -1)")
+        return heartRate
+    }
+    
+    //MARK: - UI 관련 함수
+    // 경기 코드 반영
+    private func updateMatchCode() {
+        if let lastEventCode = matchEvents.last?.eventCode {
+            match.matchCode = lastEventCode == 6 ? 3 : (lastEventCode == 2 ? 2 : 1)
+        }
+    }
+    
+    // 경기 시작 시각 설정
     private func setMatchStartTime() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+
         if let startEvent = matchEvents.first(where: { $0.eventCode == 0 }) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
             matchStartTime = dateFormatter.date(from: startEvent.eventTime)
+            print("Match start time set from event with code 0: \(matchStartTime?.description ?? "nil")")
+        } else {
+            // eventCode = 0인 이벤트가 없는 경우, 가장 이른 이벤트 시간을 사용
+            matchStartTime = matchEvents.compactMap { dateFormatter.date(from: $0.eventTime) }.min()
+            print("Match start time set to earliest event: \(matchStartTime?.description ?? "nil")")
+        }
+
+        if matchStartTime == nil {
+            print("Warning: Failed to set match start time")
+        }
+    }
+    
+    // 경기 코드에 따른 색상
+    func getStatusColor() -> Color {
+        switch match.matchCode {
+        case 0: return Color.whiteText
+        case 1, 2: return Color.lime
+        case 3: return Color.gray800Assets
+        case 4: return Color.gray800Assets
+        default: return Color.white0
+        }
+    }
+    
+    // 경기 코드에 따른 글
+    func getStatusText() -> String { // 경기 상태(0: 예정, 1: 경기중, 2: 휴식, 3: 종료, 4: 연기)
+        switch match.matchCode {
+        case 0: return "경기예정"
+        case 1, 2: return "경기중"
+        case 3: return "경기종료"
+        case 4: return "연기"
+        default: return ""
+        }
+    }
+    
+    // 경기 코드에 따른 글자 색상
+    func getStatusTextColor() -> Color { // 경기 상태(0: 예정, 1: 경기중, 2: 휴식, 3: 종료, 4: 연기)
+        switch match.matchCode {
+        case 0: return Color.blackAssets
+        case 1: return Color.blackAssets
+        case 3: return Color.whiteAssets
+        case 4: return Color.gray300Assets
+        default: return Color.blackAssets
         }
     }
 }
-
-

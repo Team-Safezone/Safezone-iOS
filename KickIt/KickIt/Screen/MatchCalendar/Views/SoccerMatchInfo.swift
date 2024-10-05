@@ -225,6 +225,7 @@ struct SoccerMatchInfo: View {
                             // 경기 타임라인 화면으로 이동하는 버튼
                             NavigationLink {
                                 TimelineEventView(match: soccerMatch)
+                                    .toolbarRole(.editor) // back 텍스트 숨기기
                             } label: {
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .center) {
@@ -302,6 +303,7 @@ struct SoccerMatchInfo: View {
                                 // 심박수 통계 화면으로 이동하는 버튼
                                 NavigationLink {
                                     HeartRateView(selectedMatch: soccerMatch)
+                                        .toolbarRole(.editor) // back 텍스트 숨기기
                                 } label: {
                                     ZStack {
                                         VStack(alignment: .leading, spacing: 0) {
