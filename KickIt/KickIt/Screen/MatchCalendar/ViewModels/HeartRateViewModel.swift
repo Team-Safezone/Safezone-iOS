@@ -7,59 +7,29 @@
 
 import Foundation
 import Combine
-import WatchConnectivity
 
 /// 심박수 통계 조회 화면의 뷰모델
 /// 설명: 뷰모델에서 데이터 변환(DTO -> Entity), 응답에 따른 에러 핸들링을 처리하기
-final class HeartRateViewModel: HeartRateViewModelProtocol { // NSObject, WCSessionDelegate
+class HeartRateViewModel: ObservableObject {
+    // 심박수 통계 API
+    @Published var statistics: HeartRateStatistics?
     
-    @Published var statistics: HeartRateStatistics? /// 심박수 통계 조회 결과 모델
-//    @Published var currentMatchId: Int64? {  // 사용자가 관람한 경기 id
-//        didSet {
-//            if let matchId = currentMatchId {
-//                UserDefaults.standard.set(matchId, forKey: "currentMatchId")
-//            } else {
-//                UserDefaults.standard.removeObject(forKey: "currentMatchId")
-//            }
-//        }
-//    }
-//    
+    // 사용자 심박수 호출
+    @Published var userHeartRates: [HeartRateRecord] = []
+    private var heartRateRecordModel = HeartRateRecordModel()
+    
+    // 그래프 그리기 & 드래그
+    @Published var boxEventViewModel: BoxEventViewModel?
+    @Published var isDragging = false
+    @Published var pathPosition = CGPoint.zero
+    
+    private var lastValidUserHR: Int?
+    private var lastValidHomeTeamHR: Int?
+    private var lastValidAwayTeamHR: Int?
+    
+
     private var cancellables = Set<AnyCancellable>()
     
-//    @Published var errorMessage: String? // 에러 메시지
-//    @Published var wcSessionState: WCSessionActivationState = .notActivated // WCSession 활성화 상태
-//    private var session: WCSession?
-    
-//    override init() {
-//            super.init()
-//            setupWCSession()
-//            loadCurrentMatchId()
-//    }
-    
-//    /// WCSession 설정 및 활성화
-//    private func setupWCSession() {
-//        if WCSession.isSupported() {
-//            session = WCSession.default
-//            session?.delegate = self
-//            session?.activate()
-//        }
-//    }
-//    
-    //    @Published var dataPoints: [CGFloat] = []
-    //    @Published var dataTime: [Int] = []
-    //    @Published var arrayHR: [HeartRateRecord] = []
-    //    @Published var homeTeamPercentage: Int = 0
-    //    @Published var teamHeartRateData: HeartRateData?
-    //
-    //    private var model = HeartRateRecord()
-    
-    //    init() {
-    ////        model.authorizeHealthKit { [weak self] success in
-    ////            if success {
-    ////                self?.updateHeartRateData()
-    ////            }
-    ////        }
-    //    }
     
     /// 심박수 통계 조회
     func getHeartRateStatistics(request: HeartRateStatisticsRequest) {
@@ -91,6 +61,8 @@ final class HeartRateViewModel: HeartRateViewModelProtocol { // NSObject, WCSess
     ///     두 가지 경우 참고하여, 상황에 맞게 클린한 코드를 작성하시면 돼요!
     private func heartRateToEntity(_ dto: HeartRateStatisticsResponse) -> HeartRateStatistics {
         return HeartRateStatistics(
+            startDate: dto.startDate ?? "",
+            endDate: dto.endDate ?? "",
             lowHeartRate: dto.lowHeartRate ?? 0,
             highHeartRate: dto.highHeartRate ?? 0,
             minBPM: dto.minBPM ?? 0,
@@ -101,7 +73,7 @@ final class HeartRateViewModel: HeartRateViewModelProtocol { // NSObject, WCSess
                     teamURL: event.teamURL,
                     eventName: event.eventName,
                     player1: event.player1,
-                    eventTime: event.eventTime
+                    eventMTime: event.eventMTime
                 )
             } ?? [],
             homeTeamHeartRateRecords: dto.homeTeamHeartRateRecords?.map { record in
@@ -116,14 +88,14 @@ final class HeartRateViewModel: HeartRateViewModelProtocol { // NSObject, WCSess
                     heartRateRecordTime: record.heartRateRecordTime
                 )
             } ?? [],
-            homeTeamHeartRate: dto.homeTeamHeartRate.map{ heartRate in
+            homeTeamHeartRate: dto.homeTeamHeartRate.map { heartRate in
                 HeartRate(
                     min: heartRate.min,
                     avg: heartRate.avg,
                     max: heartRate.max
                 )
             } ?? HeartRate(min: 0, avg: 0, max: 0),
-            awayTeamHeartRate: dto.awayTeamHeartRate.map{ heartRate in
+            awayTeamHeartRate: dto.awayTeamHeartRate.map { heartRate in
                 HeartRate(
                     min: heartRate.min,
                     avg: heartRate.avg,
@@ -134,126 +106,103 @@ final class HeartRateViewModel: HeartRateViewModelProtocol { // NSObject, WCSess
         )
     }
     
-    // 사용자 심박수 업로드 함수
-    func uploadUserHeartRate(teamName: String, min: Double, avg: Double, max: Double) {
-//        guard let matchId = currentMatchId else { return }
+    // 박스이벤트 업데이트
+    func updateBoxEventViewModel(at position: CGPoint, in size: CGSize) {
+        guard let stats = statistics else { return }
         
-        // TODO: API 호출 로직 구현
-        // TODO: matchId, teamName, min, avg, max 값을 사용하여 서버에 데이터 업로드
+        // 시간 계산
+        let calculatedTime = Int(round((position.x - 64) * 90 / (size.width - 64))) // 90분 기준으로 수정
+        
+        // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
+        if let userHR = userHeartRates.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+            lastValidUserHR = Int(userHR)
+        }
+        
+        // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
+        if let homeHR = stats.homeTeamHeartRateRecords.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+            lastValidHomeTeamHR = Int(homeHR)
+        }
+        
+        // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
+        if let awayHR = stats.awayTeamHeartRateRecords.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+            lastValidAwayTeamHR = Int(awayHR)
+        }
+        
+        let event = stats.events.first(where: { $0.eventMTime == calculatedTime })
+        
+        boxEventViewModel = BoxEventViewModel(
+            dataPoint: CGFloat(lastValidUserHR ?? 0),
+            time: calculatedTime,
+            event: event,
+            homeTeamEmblemURL: event?.teamURL,
+            homeTeamHR: lastValidHomeTeamHR ?? 0,
+            awayTeamHR: lastValidAwayTeamHR ?? 0
+        )
     }
     
-    /// 심박수 업데이트 함수
-    func updateHeartRateData(useDummyData: Bool = false) {
-        //        let startDate = Calendar.current.date(from: setStartTime()) ?? Date() // 경기 시작 날짜
-        //        let endDate = Calendar.current.date(from: setEndTime()) ?? Date() // 경기 종료 날짜
-        //        if useDummyData {
-        //            self.arrayHR = DummyData.heartRateRecords
-        //        } else {
-        //            model.loadHeartRate(startDate: startDate, endDate: endDate) { [weak self] records in
-        //                DispatchQueue.main.async {
-        //                    self?.arrayHR = records.reversed()
-        //                    self?.dataPoints = records.map { CGFloat($0.heartRate) }
-        //                    self?.dataTime = records.compactMap { minutesExtracted(from: $0.date) }
-        ////                    let _ = print(self?.arrayHR)
-        //                }
-        //            }
+    // 드래그 유무 체크
+    func endDragging() {
+        isDragging = false
     }
     
-    /// 사용자의 심박수 데이터 업로드
-    //        func uploadUserHeartRate(teamName: String, min: Double, avg: Double, max: Double) {
-    //            HeartRateAPI.shared.postUserHeartRate(teamName: teamName, min: min, avg: avg, max: max)
-    //                .sink(receiveCompletion: { completion in
-    //                    switch completion {
-    //                    case .finished:
-    //                        break
-    //                    case .failure(let error):
-    //                        print("Error uploading user heart rate: \(error)")
-    //                    }
-    //                }, receiveValue: { success in
-    //                    if success {
-    //                        print("User heart rate uploaded successfully")
-    //                    }
-    //                })
-    //                .store(in: &cancellables)
-    //        }
-    //    }
+    //MARK: - 사용자 심박수 가져오기
+    private func loadUserHeartRates() {
+        guard let stats = statistics else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        guard let matchStartTime = dateFormatter.date(from: stats.startDate),
+              let matchEndTime = dateFormatter.date(from: stats.endDate) else {
+            print("Failed to parse match start or end time")
+            return
+        }
+        
+        let halfTime = 15 * 60 // 15 minutes in seconds
+        let firstHalfEnd = matchStartTime.addingTimeInterval(45 * 60)
+        let secondHalfStart = firstHalfEnd.addingTimeInterval(TimeInterval(halfTime))
+        
+        heartRateRecordModel.loadHeartRate(startDate: matchStartTime.addingTimeInterval(5 * 60), endDate: firstHalfEnd.addingTimeInterval(5 * 60)) { [weak self] firstHalfRecords in
+            self?.heartRateRecordModel.loadHeartRate(startDate: secondHalfStart.addingTimeInterval(5 * 60), endDate: matchEndTime.addingTimeInterval(5 * 60)) { secondHalfRecords in
+                let allRecords = firstHalfRecords + secondHalfRecords
+                self?.userHeartRates = allRecords.map { HeartRateRecord(heartRate: CGFloat($0.heartRate), heartRateRecordTime: self?.minutesSinceMatchStart(date: $0.date, matchStartTime: matchStartTime) ?? 0) }
+                self?.objectWillChange.send()
+            }
+        }
+    }
     
-    
+    // 사용자 심박수 fetch를 위한 시간 계산
+    private func minutesSinceMatchStart(date: String?, matchStartTime: Date) -> Int {
+        guard let dateString = date else { return 0 }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        guard let recordDate = dateFormatter.date(from: dateString) else { return 0 }
+        
+        let timeInterval = recordDate.timeIntervalSince(matchStartTime)
+        return Int(timeInterval / 60)
+    }
+}
 
-//    // MARK: - iOS 데이터 저장
-//    /// 앱 재시작 시 저장된 matchId 불러오기
-//    private func loadCurrentMatchId() {
-//        if let savedMatchId = UserDefaults.standard.value(forKey: "currentMatchId") as? Int64 {
-//            currentMatchId = savedMatchId
-//        }
-//    }
-//    
-//    // iOS가 꺼졌을 때도 currentMatchId 보존
-//    func saveMatchId(_ matchId: Int64) {
-//        self.currentMatchId = matchId
-//    }
-//    
-//    // MARK: - WCSessionDelegate 메서드
-//    /// WCSession이 비활성화될 때 호출
-//        func sessionDidBecomeInactive(_ session: WCSession) {
-//            DispatchQueue.main.async {
-//                self.errorMessage = "iOS WCSession became inactive"
-//            }
-//        }
-//
-//        /// WCSession이 비활성화된 후 호출
-//        func sessionDidDeactivate(_ session: WCSession) {
-//            DispatchQueue.main.async {
-//                self.errorMessage = "iOS WCSession deactivated"
-//            }
-//            // 세션 재활성화
-////            WCSession.default.activate()
-//        }
-//    
-//
-//    /// iOS 기기로부터 메시지 받을 때 호출 (필수 구현)
-//    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: (([String : Any]) -> Void)? = nil) {
-//        DispatchQueue.main.async {
-//            if let matchId = message["matchId"] as? Int64 {
-//                self.currentMatchId = matchId
-//                print("Received match ID: \(matchId)")
-//                
-//                // 필요에 따라 응답 메시지 처리
-//                replyHandler?(["response": "Match ID received"])
-//            } else {
-//                self.errorMessage = "Invalid data received"
-//            }
-//        }
-//    }
-//    
-//    
-//    /// 오류 처리 메서드: 메시지 전송 실패 시 호출
-//    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
-//        if let error = error {
-//            print("Message delivery failed: \(error.localizedDescription)")
-//        } else {
-//            print("Message delivered successfully")
-//        }
-//    }
-//    
-//    /// WCSession 활성화 완료 시 호출
-//    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-//        DispatchQueue.main.async {
-//            self.wcSessionState = activationState
-//            if let error = error {
-//                self.errorMessage = "iOS WCSession activation error: \(error.localizedDescription)"
-//            } else {
-//                switch activationState {
-//                case .activated:
-//                    self.errorMessage = nil
-//                case .inactive:
-//                    self.errorMessage = "iOS WCSession is inactive"
-//                case .notActivated:
-//                    self.errorMessage = "iOS WCSession is not activated"
-//                @unknown default:
-//                    self.errorMessage = "iOS Unknown WCSession state"
-//                }
-//            }
-//        }
-//    }
+// 프리뷰 시 더미데이터 출력
+extension HeartRateViewModel {
+    static func withDummyData() -> HeartRateViewModel {
+        let viewModel = HeartRateViewModel()
+        viewModel.statistics = HeartRateStatistics(
+            startDate: "2024/10/05 8:33",
+            endDate: "2024/10/05 10:06",
+            lowHeartRate: 60,
+            highHeartRate: 120,
+            minBPM: 55,
+            avgBPM: 80,
+            maxBPM: 110,
+            events: DummyData.heartRateMatchEvents,
+            homeTeamHeartRateRecords: DummyData.homeTeamHeartRateRecords,
+            awayTeamHeartRateRecords: DummyData.awayTeamHeartRateRecords,
+            homeTeamHeartRate: HeartRate(min: 60, avg: 75, max: 90),
+            awayTeamHeartRate: HeartRate(min: 65, avg: 80, max: 95),
+            homeTeamViewerPercentage: 55
+        )
+        return viewModel
+    }
 }
