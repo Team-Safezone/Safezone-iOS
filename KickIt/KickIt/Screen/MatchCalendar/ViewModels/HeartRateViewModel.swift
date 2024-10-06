@@ -51,6 +51,8 @@ class HeartRateViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] in
                 self?.statistics = $0
+                // 사용자 healthkit에서 심박수 가져오는 함수
+                self?.loadUserHeartRates()
             }
             .store(in: &cancellables)
     }
@@ -61,8 +63,8 @@ class HeartRateViewModel: ObservableObject {
     ///     두 가지 경우 참고하여, 상황에 맞게 클린한 코드를 작성하시면 돼요!
     private func heartRateToEntity(_ dto: HeartRateStatisticsResponse) -> HeartRateStatistics {
         return HeartRateStatistics(
-            startDate: dto.startDate ?? "",
-            endDate: dto.endDate ?? "",
+            startDate: dto.startDate,
+            endDate: dto.endDate,
             lowHeartRate: dto.lowHeartRate ?? 0,
             highHeartRate: dto.highHeartRate ?? 0,
             minBPM: dto.minBPM ?? 0,
@@ -146,32 +148,48 @@ class HeartRateViewModel: ObservableObject {
     }
     
     //MARK: - 사용자 심박수 가져오기
+    /// 사용자의 심박수 데이터를 로드하는 함수
     private func loadUserHeartRates() {
+        // statistics가 nil이 아닌지 확인
         guard let stats = statistics else { return }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
-        guard let matchStartTime = dateFormatter.date(from: stats.startDate),
-              let matchEndTime = dateFormatter.date(from: stats.endDate) else {
-            print("Failed to parse match start or end time")
+        // lowHeartRate와 highHeartRate가 0인 경우 심박수 수치를 가져오지 않음
+        guard stats.lowHeartRate != 0 && stats.highHeartRate != 0 else {
+            print("사용자가 이 경기를 관람하지 않아 심박수 데이터를 가져오지 않음")
             return
         }
         
-        let halfTime = 15 * 60 // 15 minutes in seconds
+        // 날짜 형식 설정
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        // 경기 시작 시간과 종료 시간을 파싱
+        guard let matchStartTime = dateFormatter.date(from: stats.startDate),
+              let matchEndTime = dateFormatter.date(from: stats.endDate) else {
+            print("시작 - 끝 시간을 계산하는데 실패함")
+            return
+        }
+        
+        // 하프타임 설정 (15분)
+        let halfTime = 15 * 60
+        // 전반전 종료 시간 계산
         let firstHalfEnd = matchStartTime.addingTimeInterval(45 * 60)
+        // 후반전 시작 시간 계산
         let secondHalfStart = firstHalfEnd.addingTimeInterval(TimeInterval(halfTime))
         
+        // 전반전 심박수 데이터 로드 (경기 시작 5분 후부터)
         heartRateRecordModel.loadHeartRate(startDate: matchStartTime.addingTimeInterval(5 * 60), endDate: firstHalfEnd.addingTimeInterval(5 * 60)) { [weak self] firstHalfRecords in
+            // 후반전 심박수 데이터 로드 (후반전 시작 5분 후부터)
             self?.heartRateRecordModel.loadHeartRate(startDate: secondHalfStart.addingTimeInterval(5 * 60), endDate: matchEndTime.addingTimeInterval(5 * 60)) { secondHalfRecords in
                 let allRecords = firstHalfRecords + secondHalfRecords
+                // 심박수 데이터를 HeartRateRecord 형식으로 변환
                 self?.userHeartRates = allRecords.map { HeartRateRecord(heartRate: CGFloat($0.heartRate), heartRateRecordTime: self?.minutesSinceMatchStart(date: $0.date, matchStartTime: matchStartTime) ?? 0) }
                 self?.objectWillChange.send()
             }
         }
     }
     
-    // 사용자 심박수 fetch를 위한 시간 계산
+    // 사용자 심박수 fetch를 위한 경기 시간 계산
     private func minutesSinceMatchStart(date: String?, matchStartTime: Date) -> Int {
         guard let dateString = date else { return 0 }
         let dateFormatter = DateFormatter()
