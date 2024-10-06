@@ -142,7 +142,7 @@ struct BoxEventView: View {
                 }
                 Spacer()
                 Text("\(viewModel.time)분")
-                    .font(.pretendard(.semibold, size: 14))
+                    .pretendardTextStyle(.SubTitleStyle)
             }
             .foregroundStyle(.white0)
             .padding(.horizontal, 20)
