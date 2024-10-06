@@ -64,35 +64,27 @@ class UserAPI: BaseAPI {
                 .responseDecodable(of: CommonResponse<T>.self) { response in
                     switch response.result {
                     case .success(let result):
-                        // API 호출 성공
+                        // 응답 성공
                         if result.isSuccess {
-                            // 응답 성공
                             promise(.success(result))
                         } else {
-                            // 응답은 받았지만 서버에서 에러 반환
-                            let error = self.handleServerError(status: result.status, message: result.message)
-                            promise(.failure(error))
+                            switch result.status {
+                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
                         }
+                    // API 호출 실패
                     case .failure(let error):
-                        // API 호출 실패
                         promise(.failure(.networkFail(error.localizedDescription)))
                     }
                 }
         }
         .eraseToAnyPublisher()
-    }
-    
-    /// 서버 에러 처리 메서드
-    private func handleServerError(status: Int, message: String) -> NetworkError {
-        switch status {
-        case 401:
-            return .authFailed
-        case 400..<500:
-            return .requestErr(message)
-        case 500:
-            return .serverErr(message)
-        default:
-            return .unknown(message)
-        }
     }
 }

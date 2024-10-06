@@ -245,6 +245,7 @@ struct SoccerMatchInfo: View {
             // MARK: 경기 타임라인 버튼
             NavigationLink {
                 TimelineEventView(match: viewModel.selectedSoccerMatch!)
+                    .toolbarRole(.editor) // back 텍스트 숨기기
             } label: {
                 VStack(alignment: .leading) {
                     HStack(alignment: .center, spacing: 0) {
@@ -325,6 +326,7 @@ struct SoccerMatchInfo: View {
                 // MARK: 심박수 통계 버튼
                 NavigationLink {
                     HeartRateView(selectedMatch: viewModel.selectedSoccerMatch!)
+                        .toolbarRole(.editor) // back 텍스트 숨기기
                 } label: {
                     ZStack {
                         VStack(alignment: .leading, spacing: 0) {

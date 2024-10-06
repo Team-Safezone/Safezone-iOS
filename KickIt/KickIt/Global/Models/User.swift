@@ -7,8 +7,8 @@
 
 import Foundation
 
+/// [Entity] 사용자 모델
 struct User {
-    let id: String
     let nickname: String
     var favoriteTeams: [String]
     let minHeartRate: Int
@@ -17,8 +17,7 @@ struct User {
     var agreeToMarketing: Bool
     
     static var currentUser = User(
-        id: UUID().uuidString,
-        nickname: "이다",
+        nickname: "이",
         favoriteTeams: ["토트넘", "아스널", "맨시티"],
         minHeartRate: 45,
         avgHeartRate: 80,

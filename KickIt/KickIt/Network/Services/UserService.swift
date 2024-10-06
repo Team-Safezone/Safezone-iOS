@@ -5,10 +5,7 @@
 //  Created by DaeunLee on 9/16/24.
 //
 
-import Combine
-import Alamofire
-
-import Combine
+import Foundation
 import Alamofire
 
 /// 사용자 관련 API 서비스를 정의하는 열거형
@@ -34,15 +31,15 @@ extension UserService: TargetType {
     
     /// API 엔드포인트 URL 정의
     var endPoint: String {
-        switch self {
-        case .signUp:
-            return "/user/signup"
-        case .checkNicknameDuplicate:
-            return "/user/check-nickname"
-        case .getTeams:
-            return "/eplTeams"
+            switch self {
+            case .signUp:
+                return APIConstants.signupURL
+            case .checkNicknameDuplicate:
+                return APIConstants.checkNicknameDuplicateURL
+            case .getTeams:
+                return APIConstants.getTeamsURL
+            }
         }
-    }
     
     /// HTTP 헤더 타입 정의
     var header: HeaderType {

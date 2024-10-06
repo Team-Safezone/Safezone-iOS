@@ -32,7 +32,7 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     /// 한달 경기 일정(날짜) 조회
     func getYearMonthSoccerMatches(request: SoccerMatchMonthlyRequest) {
         MatchCalendarAPI.shared.getYearMonthSoccerMatches(request: request)
-            // DTO -> Entity로 변경
+        // DTO -> Entity로 변경
             .map { responseDTO in
                 // FIXME: dates, teamNames, season가 있는 버전으로 바꾸기. -> 주석 삭제!
                 let dates = responseDTO.compactMap { stringToDate2(date: $0.matchDates) }
@@ -42,9 +42,9 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                 
                 return (dates)
             }
-            // 메인 스레드에서 데이터 처리
+        // 메인 스레드에서 데이터 처리
             .receive(on: DispatchQueue.main)
-            // publisher 결과 구독
+        // publisher 결과 구독
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
@@ -53,8 +53,8 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                     break
                 }
             },
-            // monthlyMatches에 publisher 응답 결과 업데이트
-            receiveValue: { [weak self] (dates) in
+                  // monthlyMatches에 publisher 응답 결과 업데이트
+                  receiveValue: { [weak self] (dates) in
                 self?.matchDates = dates
                 //self?.soccerTeamNames = ["전체"] + teams
                 //self?.soccerSeason = season
@@ -66,7 +66,7 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     // FIXME: 홈팀, 원정팀 엠블럼 데이터 받아올 수 있게 되면, 추가하기!
     func getDailySoccerMatches(request: SoccerMatchDailyRequest) {
         MatchCalendarAPI.shared.getDailySoccerMatches(request: request)
-            // DTO -> Entity로 변경
+        // DTO -> Entity로 변경
             .map { responseDTO in
                 responseDTO.map { data in
                     SoccerMatch(
@@ -80,9 +80,9 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                         matchCode: data.matchCode)
                 }
             }
-            // 메인 스레드에서 데이터 처리
+        // 메인 스레드에서 데이터 처리
             .receive(on: DispatchQueue.main)
-            // publisher 결과 구독
+        // publisher 결과 구독
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
@@ -91,8 +91,8 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                     break
                 }
             },
-            // publisher 결과 구독 성공
-            receiveValue: { [weak self] matches in
+                  // publisher 결과 구독 성공
+                  receiveValue: { [weak self] matches in
                 self?.soccerMatches = matches
             })
             .store(in: &cancellables)
