@@ -102,8 +102,8 @@ class HeartRateRecordModel {
         
         // HeartRateDates 배열을 날짜순으로 정렬
         let sortedHeartRates = HeartRateDates.sorted { (a, b) -> Bool in
-            guard let dateA = dateFormatter.date(from: a.date ?? ""),
-                  let dateB = dateFormatter.date(from: b.date ?? "") else {
+            guard let dateA = dateFormatter.date(from: a.date),
+                  let dateB = dateFormatter.date(from: b.date) else {
                 return false
             }
             return dateA < dateB
@@ -114,7 +114,7 @@ class HeartRateRecordModel {
         var smallestTimeDifference = Double.greatestFiniteMagnitude
         
         for record in sortedHeartRates {
-            guard let recordDate = dateFormatter.date(from: record.date ?? "") else { continue }
+            guard let recordDate = dateFormatter.date(from: record.date) else { continue }
             
             let timeDifference = abs(recordDate.timeIntervalSince(fiveMinutesLater))
             
@@ -132,7 +132,7 @@ class HeartRateRecordModel {
         
         // 결과 출력 및 반환
         if let record = closestRecord {
-            print("Found heart rate \(record.heartRate) at \(record.date ?? "unknown time") for event time: \(eventTime)")
+            print("Found heart rate \(record.heartRate) at \(record.date) for event time: \(eventTime)")
             return record.heartRate
         } else {
             print("No matching heart rate found for event time: \(eventTime)")
