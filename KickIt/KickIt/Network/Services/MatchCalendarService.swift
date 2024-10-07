@@ -17,6 +17,9 @@ enum MatchCalendarService {
     
     // 하루 경기 일정 조회 API
     case getDailySoccerMatches(SoccerMatchDailyRequest)
+    
+    // 경기 예측 버튼 클릭 조회 API
+    case getPredictionButton(PredictionButtonRequest)
 }
 
 extension MatchCalendarService: TargetType {
@@ -30,6 +33,10 @@ extension MatchCalendarService: TargetType {
         // 하루 경기 일정 조회 API
         case .getDailySoccerMatches:
             return APIConstants.dailyMatchURL
+        
+        // 경기 예측 버튼 클릭 조회 API
+        case .getPredictionButton:
+            return APIConstants.predictionButtonClickURL
         }
     }
     
@@ -43,6 +50,10 @@ extension MatchCalendarService: TargetType {
         // 하루 경기 일정 조회
         case .getDailySoccerMatches:
             return .get
+        
+        // 경기 예측 버튼 클릭 조회
+        case .getPredictionButton:
+            return .get
         }
     }
     
@@ -55,6 +66,10 @@ extension MatchCalendarService: TargetType {
         
         // 하루 경기 일정 조회
         case .getDailySoccerMatches:
+            return .basic
+            
+        // 경기 예측 버튼 클릭 조회
+        case .getPredictionButton:
             return .basic
         }
     }
@@ -74,6 +89,12 @@ extension MatchCalendarService: TargetType {
             return .query([
                 "date" : request.date,
                 "teamName" : request.teamName
+            ])
+            
+        // 경기 예측 버튼 클릭 조회
+        case .getPredictionButton(let request):
+            return .query([
+                "matchId" : request.matchId
             ])
         }
     }

@@ -124,4 +124,20 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     func updateTextColor(isShowMatchInfo: Bool) -> Color {
         return isShowMatchInfo ? Color.white0 : Color.gray500
     }
+    
+    /// 우승팀 예측 종료 타이머
+    func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+    }
+    
+    /// 선발라인업 예측 종료 타이머
+    func lineupEndTimePredictionInterval(_ nowDate: Date) -> String {
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+    }
+    
+    /// 팀 정보에 따른 값(이름, 이미지) 반환
+    func teamInfoView(for isHomeTeam: Bool) -> (String, String) {
+        let team = isHomeTeam ? selectedSoccerMatch?.homeTeam : selectedSoccerMatch?.awayTeam
+        return (team?.teamEmblemURL ?? "", team?.teamName ?? "")
+    }
 }

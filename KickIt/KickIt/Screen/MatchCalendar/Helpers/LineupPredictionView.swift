@@ -12,6 +12,9 @@ struct LineupPredictionView: View {
     // MARK: - PROPERTY
     @ObservedObject var viewModel: MatchCalendarViewModel
     
+    /// 경기 예측 조회 뷰모델
+    @ObservedObject var pViewModel: PredictionButtonViewModel
+    
     /// 현재 날짜 및 시간
     @State private var nowDate = Date()
     
@@ -22,7 +25,7 @@ struct LineupPredictionView: View {
                 .stroke(.limeTransparent, lineWidth: 1)
             
             VStack(alignment: .leading, spacing: 0) {
-                HStack {
+                HStack(spacing: 0) {
                     // 질문
                     VStack(alignment: .leading) {
                         Text("이번 경기 선발 라인업은?")
@@ -31,29 +34,25 @@ struct LineupPredictionView: View {
                         HStack(spacing: 4) {
                             switch viewModel.selectedSoccerMatch?.matchCode {
                             // 예정
-                            case 0:
+                            case 0, 4:
                                 Text("진행중")
                                     .pretendardTextStyle(.Body3Style)
                                     .foregroundStyle(.limeText)
                                 
-                                Text(timePredictionInterval4(nowDate: nowDate, matchDate: viewModel.selectedSoccerMatch!.matchDate, matchTime: viewModel.selectedSoccerMatch!.matchTime))
+                                Text(viewModel.lineupEndTimePredictionInterval(nowDate))
                                     .pretendardTextStyle(.Body3Style)
                                     .foregroundStyle(.white0)
-                                    .onAppear {
-                                        startTimer()
-                                    }
+                                    
                             // 경기중, 휴식, 종료
                             case 1, 2, 3:
                                 Text("예측 종료")
                                     .pretendardTextStyle(.Body3Style)
                                     .foregroundStyle(.gray300)
-                                // TODO: 경기 예측 뷰모델 변경
-                                Text("300명 참여")
+                                
+                                Text("\(pViewModel.lineupPrediction.participant ?? 0)명 참여")
                                     .pretendardTextStyle(.Body3Style)
                                     .foregroundStyle(.white0)
-                            // 연기
-                            case 4:
-                                EmptyView()
+                            
                             default:
                                 EmptyView()
                             }
@@ -64,15 +63,30 @@ struct LineupPredictionView: View {
                     
                     // 참여여부
                     ZStack {
-                        Image(uiImage: .dashCircle)
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .foregroundStyle(.gray800Btn)
-                        Text("참여")
-                            .pretendardTextStyle(.Caption2Style)
-                            .foregroundStyle(.gray500Text)
-                    }
-                    
+                        if pViewModel.lineupPrediction.isParticipated {
+                            Image(uiImage: .coin)
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                            
+                            if let isSuccessful = pViewModel.lineupPrediction.isPredictionSuccessful {
+                                if isSuccessful {
+                                    Image(uiImage: .coin)
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                        .offset(x: -15, y: 0)
+                                }
+                            }
+                        }
+                        else {
+                            Image(uiImage: .dashCircle)
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                                .foregroundStyle(.gray800Btn)
+                            Text("참여")
+                                .pretendardTextStyle(.Caption2Style)
+                                .foregroundStyle(.gray500Text)
+                        }
+                    } //: ZSTACK
                 } //: HSTACK
                 
                 // 실시간 예측
@@ -91,29 +105,30 @@ struct LineupPredictionView: View {
                 .padding(.top, 8)
                 
                 // 홈팀
-                teamFormationInfo(true)
+                teamFormationInfo(viewModel.teamInfoView(for: true).0, viewModel.teamInfoView(for: true).1, true)
                 
                 // 원정팀
-                teamFormationInfo(false)
+                teamFormationInfo(viewModel.teamInfoView(for: false).0, viewModel.teamInfoView(for: false).1, false)
+                    .padding(.top, 12)
                 
                 // 버튼
-                Button {
-                    
-                } label: {
-                    Text("참여하기")
-                        .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.blackAssets)
-                }
-                .padding(.vertical, 11)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 6)
-                        .foregroundStyle(.lime)
-                )
-                .padding(.top, 16)
+                let isParticipated = pViewModel.lineupPrediction.isParticipated
+                Text(isParticipated ? "결과보기" : "참여하기")
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(isParticipated ? .whiteAssets : .blackAssets)
+                    .padding(.vertical, 11)
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .foregroundStyle(isParticipated ? .violet : .lime)
+                    )
+                    .padding(.top, 16)
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 12)
+        }
+        .onAppear {
+            startTimer()
         }
     }
     
@@ -127,23 +142,22 @@ struct LineupPredictionView: View {
     
     /// 팀 포메이션 정보
     @ViewBuilder
-    private func teamFormationInfo(_ isHomeTeam: Bool) -> some View {
-        // 원정팀
+    private func teamFormationInfo(_ url: String, _ name: String, _ isHomeTeam: Bool) -> some View {
         HStack(spacing: 0) {
-            LoadableImage(image: isHomeTeam ? (viewModel.selectedSoccerMatch?.homeTeam.teamEmblemURL)! :
-                            (viewModel.selectedSoccerMatch?.awayTeam.teamEmblemURL)!)
+            // 팀 엠블럼
+            LoadableImage(image: url)
                 .frame(width: 44, height: 44)
                 .padding(.trailing, 6)
             
-            Text(isHomeTeam ? (viewModel.selectedSoccerMatch?.homeTeam.teamName)! :
-                    (viewModel.selectedSoccerMatch?.awayTeam.teamName)!)
+            // 팀 이름
+            Text(name)
                 .pretendardTextStyle(.Caption1Style)
                 .foregroundStyle(.white0)
             
             Spacer()
             
             // 포메이션
-            Text("4-2-3-1")
+            Text(pViewModel.formationInfo(for: isHomeTeam).0)
                 .pretendardTextStyle(.Title2Style)
                 .foregroundStyle(.white0)
                 .padding(.trailing, 4)
@@ -153,18 +167,30 @@ struct LineupPredictionView: View {
                 .foregroundStyle(.white0)
                 .padding(.trailing, 10)
             
-            Text("50")
-                .pretendardTextStyle(.Title1Style)
-                .foregroundStyle(.limeText)
-            
-            Text("%")
-                .pretendardTextStyle(.Title1Style)
-                .foregroundStyle(.lime)
+            // 0퍼센트라면(예측을 안 했다면)
+            let percentage = pViewModel.formationInfo(for: isHomeTeam).1
+            if percentage == 0 {
+                Text("\(percentage)")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.gray300)
+                Text("%")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.gray300Assets)
+            }
+            // 예측 결과가 있다면
+            else {
+                Text("\(percentage)")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.limeText)
+                Text("%")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.lime)
+            }
         }
     }
 }
 
 // MARK: - PREVIEW
-#Preview {
-    LineupPredictionView(viewModel: MatchCalendarViewModel())
+#Preview("선발라인업 예측 조회") {
+    LineupPredictionView(viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel())
 }

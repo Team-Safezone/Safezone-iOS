@@ -13,6 +13,9 @@ struct SoccerMatchInfo: View {
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel: MatchCalendarViewModel
     
+    /// 경기 예측 조회 뷰모델
+    @StateObject var predictionViewModel = PredictionButtonViewModel()
+    
     /// 경기 정보 텍스트 버튼 클릭 상태 여부
     @State private var isShowMatchInfo = true
     
@@ -379,12 +382,18 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func MatchPrediction() -> some View {
         VStack(spacing: 0) {
-            // 우승 팀 예측 화면으로 이동하는 버튼
+            // 우승팀 예측
             NavigationLink {
-                WinningTeamPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
-                    .toolbarRole(.editor) // back 텍스트 숨기기
+                if (predictionViewModel.matchPrediction.isParticipated) {
+                    // TODO: 우승팀 예측 결과 조회 화면으로 이동
+                }
+                else {
+                    // 우승 팀 예측 화면으로 이동
+                    WinningTeamPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
+                        .toolbarRole(.editor) // back 텍스트 숨기기
+                }
             } label: {
-                MatchPredictionView(viewModel: viewModel)
+                MatchPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
             }
             
             // 연결선
@@ -399,12 +408,18 @@ struct SoccerMatchInfo: View {
             }
             .padding(.horizontal, 24)
             
-            // 선발 라인업 예측 화면으로 이동하는 버튼
+            // 선발 라인업 예측
             NavigationLink {
-                StartingLineupPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
-                    .toolbarRole(.editor) // back 텍스트 숨기기
+                if predictionViewModel.lineupPrediction.isParticipated {
+                    // TODO: 선발라인업 예측 결과 조회 화면으로 이동
+                }
+                else {
+                    // 선발라인업 예측 화면으로 이동
+                    StartingLineupPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
+                        .toolbarRole(.editor) // back 텍스트 숨기기
+                }
             } label: {
-                LineupPredictionView(viewModel: viewModel)
+                LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
             }
         }
         .padding(16)
