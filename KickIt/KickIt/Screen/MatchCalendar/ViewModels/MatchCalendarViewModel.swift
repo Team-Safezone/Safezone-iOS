@@ -7,17 +7,27 @@
 
 import Foundation
 import Combine
+import UIKit
+import SwiftUI
 
 /// 경기 캘린더 화면의 뷰모델
 /// 설명: 뷰모델에서 데이터 변환(DTO -> Entity), 응답에 따른 에러 핸들링을 처리하기
-final class MatchCalendarViewModel: NSObject, MatchCalendarViewModelProtocol, ObservableObject {
+final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     @Published var soccerSeason: String = "" // 축구 시즌
     @Published var matchDates: [Date] = [] // 한달 경기 날짜 리스트
     @Published var soccerTeamNames: [String] = [] // 팀 이름 리스트
     @Published var soccerMatches: [SoccerMatch] = [] // 하루 경기 일정 리스트
     
-    private var cancellables = Set<AnyCancellable>() // Combine 구독을 저장하는 집합
+    /// 라디오그룹에서 선택한 팀 아이디
+    @Published var selectedRadioBtnID: Int = 0
     
+    /// 라디오그룹에서 선택한 팀 이름 정보
+    @Published var selectedTeamName: String?
+    
+    /// 사용자가 선택한 경기
+    @Published var selectedSoccerMatch: SoccerMatch? = dummySoccerMatches[1] // FIXME: api연동시 초기값 삭제!
+    
+    private var cancellables = Set<AnyCancellable>()
     
     /// 한달 경기 일정(날짜) 조회
     func getYearMonthSoccerMatches(request: SoccerMatchMonthlyRequest) {
@@ -86,5 +96,48 @@ final class MatchCalendarViewModel: NSObject, MatchCalendarViewModelProtocol, Ob
                 self?.soccerMatches = matches
             })
             .store(in: &cancellables)
+    }
+    
+    /// 라디오 버튼 클릭 이벤트
+    func selectedTeam(_ teamName: String, id: Int) {
+        selectedRadioBtnID = id
+        
+        if (selectedTeamName == "전체") {
+            selectedTeamName = nil
+        }
+        else {
+            selectedTeamName = teamName
+        }
+    }
+    
+    /// 사용자가 선택한 경기 정보 업데이트
+    func selectedMatch(match: SoccerMatch) {
+        selectedSoccerMatch = match
+    }
+    
+    /// 텍스트 스타일 업데이트
+    func updateTextStyle(isShowMatchInfo: Bool) -> TextStyle {
+        return isShowMatchInfo ? .Title1Style : TextStyle(font: .pretendard(.medium, size: 18), tracking: -0.4, uiFont: UIFont(name: "Pretendard-Medium", size: 18)!, lineHeight: 24)
+    }
+    
+    /// 텍스트 색상업데이트
+    func updateTextColor(isShowMatchInfo: Bool) -> Color {
+        return isShowMatchInfo ? Color.white0 : Color.gray500
+    }
+    
+    /// 우승팀 예측 종료 타이머
+    func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+    }
+    
+    /// 선발라인업 예측 종료 타이머
+    func lineupEndTimePredictionInterval(_ nowDate: Date) -> String {
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+    }
+    
+    /// 팀 정보에 따른 값(이름, 이미지) 반환
+    func teamInfoView(for isHomeTeam: Bool) -> (String, String) {
+        let team = isHomeTeam ? selectedSoccerMatch?.homeTeam : selectedSoccerMatch?.awayTeam
+        return (team?.teamEmblemURL ?? "", team?.teamName ?? "")
     }
 }

@@ -25,8 +25,8 @@ struct RadioButton: View {
         }
         .buttonStyle(
             DesignChip(
-                labelColor: self.selectedId == self.id ? .black0 : .white0,
-                labelBGColor: self.selectedId == self.id ? .lime : .gray900
+                labelColor: self.selectedId == self.id ? .blackAssets : .white0,
+                labelBGColor: self.selectedId == self.id ? .lime : .gray900Assets
             )
         )
     }

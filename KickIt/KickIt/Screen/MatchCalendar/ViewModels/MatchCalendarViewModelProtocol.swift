@@ -15,6 +15,12 @@ protocol MatchCalendarViewModelProtocol: ObservableObject {
     var matchDates: [Date] { get } // 한달 경기 날짜 리스트
     var soccerTeamNames: [String] { get } // 팀 이름 리스트
     
+    /// 라디오그룹에서 선택한 팀 아이디
+    var selectedRadioBtnID: Int { get set }
+    
+    /// 라디오그룹에서 선택한 팀 이름 정보
+    var selectedTeamName: String? { get set }
+    
     /// 한달 경기 날짜 조회
     func getYearMonthSoccerMatches(request: SoccerMatchMonthlyRequest)
     

@@ -16,12 +16,12 @@ struct SoccerMatchRow: View {
     /// 경기 상태, 라벨 배경 색상, 라벨 색상
     func matchStatus() -> (String, Color, Color) {
         switch (soccerMatch.matchCode) {
-        case 0: ("예정", Color.white0, Color.black0)
-        case 1: ("경기중", Color.lime, Color.black0)
+        case 0: ("예정", Color.whiteText, Color.blackAssets)
+        case 1: ("경기중", Color.lime, Color.blackAssets)
         //case 2: ("휴식", Color.gray800, Color.white)
-        case 3: ("종료", Color.gray800, Color.white0)
-        case 4: ("연기", Color.gray800, Color.gray300)
-        default: ("예정", Color.white0, Color.black0)
+        case 3: ("종료", Color.gray800Assets, Color.whiteAssets)
+        case 4: ("연기", Color.gray800Assets, Color.gray300Assets)
+        default: ("예정", Color.whiteText, Color.blackAssets)
         }
     }
     
@@ -38,7 +38,7 @@ struct SoccerMatchRow: View {
                     // 홈 팀 이름
                     Text(soccerMatch.homeTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
-                        .foregroundStyle(.gray200)
+                        .foregroundStyle(.gray200Assets)
                         .frame(width: 80)
                 }
                 
@@ -87,7 +87,7 @@ struct SoccerMatchRow: View {
                     // 원정 팀 이름
                     Text(soccerMatch.awayTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
-                        .foregroundStyle(.gray200)
+                        .foregroundStyle(.gray200Assets)
                         .frame(width: 80)
                 }
             }
@@ -99,6 +99,7 @@ struct SoccerMatchRow: View {
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(.gray950)
+                .cardShadow()
         )
     }
 }

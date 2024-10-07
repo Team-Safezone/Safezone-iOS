@@ -66,22 +66,23 @@ struct CustomDatePicker: View {
                 .frame(maxWidth: .infinity)
             }
             .padding(.top, 18)
-            .padding(.horizontal, 26)
+            .padding(.horizontal, 27)
             
             // MARK: - 날짜 정보
             /// 날짜 열 리스트
             let dateColumns = Array(repeating: GridItem(.flexible()), count: 7)
             
             // 날짜 리스트 띄우기
-            LazyVGrid(columns: dateColumns) {
+            LazyVGrid(columns: dateColumns, spacing: 12) {
                 ForEach(extractDate()) { date in
                     dateCardView(date: date) // 각 날짜 뷰
+                        .frame(width: 38, height: 38)
                         // 경기 날짜가 아닌 날짜는 클릭 비활성화
                         .disabled(!matchDates.contains(date.date))
                 }
             }
             .padding(.top, 8)
-            .padding(.horizontal, 26)
+            .padding(.horizontal, 27)
         }
         // 월이 바뀌면 현재 선택 중인 날짜도 변경
         .onChange(of: currentMonth) { preDate, newDate in
@@ -114,12 +115,10 @@ struct CustomDatePicker: View {
                             Circle()
                                 .fill(isSelected ? .green0 : .gray900)
                                 .stroke(.green0, lineWidth: 1)
-                                .frame(maxWidth: .infinity)
                         }
                         else {
                             Circle()
-                                .fill(isSelected ? .green0 : .gray900)
-                                .frame(maxWidth: .infinity)
+                                .fill(isSelected ? .green0 : .gray900Assets)
                         }
                     }
                     // 해당 날짜에 경기 일정이 없다면
@@ -129,12 +128,10 @@ struct CustomDatePicker: View {
                             Circle()
                                 .fill(.clear)
                                 .stroke(.green0, lineWidth: 1)
-                                .frame(maxWidth: .infinity)
                         }
                         else {
                             Circle()
                                 .fill(.clear)
-                                .frame(maxWidth: .infinity)
                         }
                     }
                     
@@ -142,7 +139,6 @@ struct CustomDatePicker: View {
                     Text("\(date.day)")
                         .pretendardTextStyle(isSelected ? .SubTitleStyle : .Body2Style)
                         .foregroundStyle(dateTextColor(isSelected: isSelected, isToday: isToday))
-                        .frame(maxWidth: .infinity)
                 }
                 // 다른 날짜 클릭 시, 날짜 색상&배경 바꾸기
                 .background(
@@ -171,15 +167,10 @@ struct CustomDatePicker: View {
     /// 날짜 텍스트 색상을 조건별로 반환하는 함수
     func dateTextColor(isSelected: Bool, isToday: Bool) -> Color {
         if isSelected {
-            return .white0
+            return .whiteAssets
         }
         else {
-            if isToday {
-                return .gray300
-            }
-            else {
-                return .gray500
-            }
+            return .gray500Text
         }
     }
     
@@ -244,5 +235,5 @@ extension Date {
 }
 
 #Preview("경기 캘린더-달력") {
-    MatchCalendar(path: .constant(NavigationPath()))
+    MatchCalendar(path: .constant(NavigationPath()), viewModel: MatchCalendarViewModel())
 }

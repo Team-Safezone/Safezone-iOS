@@ -53,8 +53,8 @@ struct MatchCardView: View {
         .background{
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.gray950)
+                .cardShadow()
         }
-        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 0)
     }
 }
 
