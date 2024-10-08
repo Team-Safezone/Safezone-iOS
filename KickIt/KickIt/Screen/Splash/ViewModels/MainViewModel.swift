@@ -33,7 +33,6 @@ class MainViewModel: ObservableObject {
     /// 사용자 회원가입 정보
     @Published var userSignUpInfo = UserSignUpInfo()
     
-    /// Combine 구독을 저장할 변수
     private var cancellables = Set<AnyCancellable>()
     
     /// 다음 단계로 이동하는 메서드
@@ -50,14 +49,10 @@ class MainViewModel: ObservableObject {
         // 회원가입 API 호출
         UserAPI.shared.signUp(signUpData: signUpData)
             .receive(on: DispatchQueue.main)
-            .sink { completionResult in
-                switch completionResult {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("Failed to sign up: \(error)")
-                    completion(false)
-                }
+            .sink { completion in
+                if case .failure(let error) = completion {
+                 print("Error Sign up: \(error)")
+                                }
             } receiveValue: { success in
                 print("Sign up result: \(success)")
                 completion(success)
