@@ -142,14 +142,14 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
             let adjustedStartTime = startTime.addingTimeInterval(5 * 60) // 경기 시작 시각 + 5분
             let adjustedEndTime = endTime.addingTimeInterval(5 * 60) // 경기 종료 시각 + 5분
             
-            var heartRateRecords: [MatchHeartRateRecord] = []
+            var heartRateRecords: [matchHeartRateRecord] = []
             
             // 5분마다의 심박수 기록 추가
             var currentTime = adjustedStartTime
             var elapsedMinutes = 5
             while currentTime <= adjustedEndTime {
                 if let heartRate = getClosestHeartRate(for: currentTime) {
-                    heartRateRecords.append(MatchHeartRateRecord(heartRate: heartRate, date: elapsedMinutes))
+                    heartRateRecords.append(matchHeartRateRecord(heartRate: heartRate, date: elapsedMinutes))
                 }
                 currentTime = currentTime.addingTimeInterval(5 * 60) // 5분 간격
                 elapsedMinutes += 5
@@ -160,7 +160,7 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
                 guard let eventDate = dateFormatter.date(from: event.eventTime)?.addingTimeInterval(5 * 60) else { continue }
                 let eventElapsedMinutes = Int(eventDate.timeIntervalSince(startTime) / 60)
                 if let heartRate = getClosestHeartRate(for: eventDate) {
-                    let record = MatchHeartRateRecord(heartRate: heartRate, date: eventElapsedMinutes)
+                    let record = matchHeartRateRecord(heartRate: heartRate, date: eventElapsedMinutes)
                     if !heartRateRecords.contains(where: { $0.date == record.date }) {
                         heartRateRecords.append(record)
                     }
@@ -170,7 +170,7 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
             // 중복 제거 및 정렬
             heartRateRecords = Array(Set(heartRateRecords)).sorted { $0.date < $1.date }
             
-            let request = MatchHeartRateRequest(matchId: match.id, MatchHeartRateRecords: heartRateRecords)
+            let request = MatchHeartRateRequest(matchId: match.id, matchHeartRateRecords: heartRateRecords)
             
             // API 호출
             MatchEventAPI.shared.postMatchHeartRate(request: request)
