@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+// 약관 동의 화면 뷰모델
 class AcceptingViewModel: ObservableObject {
     @Published var checkedAll: Bool = false
     @Published var agreeToTerms: Bool = false
@@ -18,24 +19,16 @@ class AcceptingViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        // 개별 동의 상태 변경을 감지하여 전체 동의 상태만 업데이트
+        // 개별 동의 상태 변경을 감지하여 전체 동의 상태 업데이트
         Publishers.CombineLatest3($agreeToTerms, $agreeToPrivacy, $agreeToMarketing)
             .map { $0 && $1 && $2 }
             .sink { [weak self] allAgreed in
-                self?.updateCheckedAll(allAgreed)
+                self?.checkedAll = allAgreed
             }
             .store(in: &cancellables)
     }
     
-    // MARK: - Methods
-    /// 전체 동의 상태 업데이트 (개별 항목에 의한 변경)
-    private func updateCheckedAll(_ newValue: Bool) {
-        if checkedAll != newValue {
-            checkedAll = newValue
-        }
-    }
-    
-    /// 전체 동의 토글 함수 (직접 제어)
+    /// 전체 동의 토글 함수
     func toggleAll() {
         checkedAll.toggle()
         let newState = checkedAll
@@ -51,7 +44,7 @@ class AcceptingViewModel: ObservableObject {
     
     /// 마케팅 동의 여부 API 호출
     func setMarketingConsent(to mainViewModel: MainViewModel, completion: @escaping (Bool) -> Void) {
-            mainViewModel.userSignUpInfo.agreeToMarketing = agreeToMarketing
-            mainViewModel.signUp(completion: completion)
+        mainViewModel.userSignUpInfo.agreeToMarketing = agreeToMarketing
+        mainViewModel.signUp(completion: completion)
     }
 }

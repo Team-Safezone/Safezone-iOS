@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// 사용자 가입 온보딩
 struct MainView: View {
     @ObservedObject var viewModel: MainViewModel
     

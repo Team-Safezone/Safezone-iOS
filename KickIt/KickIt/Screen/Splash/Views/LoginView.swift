@@ -13,6 +13,8 @@ struct LoginView: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
+            Color.background.ignoresSafeArea()
+            
             Image("login_bg")
                 .resizable()
                 .scaledToFill()
@@ -79,7 +81,7 @@ struct LoginView: View {
                 .padding(.bottom, 96)
             }
             .padding(.horizontal, 16)
-        }
+        }.environment(\.colorScheme, .dark) // 무조건 다크모드
     }
 }
 

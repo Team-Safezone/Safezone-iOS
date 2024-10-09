@@ -21,6 +21,7 @@ struct SplashView: View {
                     .zIndex(1.0)
                 Color.background
                     .ignoresSafeArea()
+                    .environment(\.colorScheme, .dark) // 무조건 다크모드
                     .onAppear{
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {

@@ -10,6 +10,12 @@ import SwiftUI
 // 이용 약관 동의 화면
 struct AcceptingView: View {
     @ObservedObject var viewModel: MainViewModel
+    @ObservedObject var acceptingViewModel: AcceptingViewModel
+    
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        self.acceptingViewModel = viewModel.acceptingViewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top){
@@ -27,10 +33,11 @@ struct AcceptingView: View {
                 Spacer()
                 
                 // 시작하기 버튼
-                startButton
+                startButton.padding()
             }//:VSTACK
+            
         }//:ZSTACK
-        
+        .environment(\.colorScheme, .dark) // 무조건 다크모드
     }
     
     // MARK: - View Components
@@ -59,10 +66,13 @@ struct AcceptingView: View {
                     .foregroundStyle(.white0)
                 Spacer()
                 Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(viewModel.acceptingViewModel.checkedAll ? .lime : .gray800)
+                    .foregroundColor(acceptingViewModel.checkedAll ? .lime : .gray800)
                     .onTapGesture {
-                        viewModel.acceptingViewModel.toggleAll()
+                        acceptingViewModel.toggleAll()
                     }
+            }
+            .onTapGesture {
+                acceptingViewModel.toggleAll()
             }
             
             Divider()
@@ -71,9 +81,9 @@ struct AcceptingView: View {
             
             // 개별 동의 항목
             VStack(alignment: .leading, spacing: 10) {
-                agreementToggle(isOn: $viewModel.acceptingViewModel.agreeToTerms, title: "서비스 이용약관", isRequired: true)
-                agreementToggle(isOn: $viewModel.acceptingViewModel.agreeToPrivacy, title: "개인정보 수집 및 이용 동의", isRequired: true)
-                agreementToggle(isOn: $viewModel.acceptingViewModel.agreeToMarketing, title: "마케팅 정보 수신 동의", isRequired: false)
+                agreementToggle(isOn: $acceptingViewModel.agreeToTerms, title: "서비스 이용약관", isRequired: true)
+                agreementToggle(isOn: $acceptingViewModel.agreeToPrivacy, title: "개인정보 수집 및 이용 동의", isRequired: true)
+                agreementToggle(isOn: $acceptingViewModel.agreeToMarketing, title: "마케팅 정보 수신 동의", isRequired: false)
             }
         }
         .padding(20)
@@ -92,7 +102,7 @@ struct AcceptingView: View {
                     .foregroundStyle(.white0)
                 if isRequired {
                     Button(action: {
-                        viewModel.acceptingViewModel.showModal = true
+                        acceptingViewModel.showModal = true
                     }) {
                         Image(systemName: "chevron.right")
                             .resizable()
@@ -100,8 +110,9 @@ struct AcceptingView: View {
                             .frame(width: 12, height: 12)
                             .foregroundStyle(.gray300)
                     }
-                    .sheet(isPresented: $viewModel.acceptingViewModel.showModal) {
-                        Text("\(title) 내용")
+                    .sheet(isPresented: $acceptingViewModel.showModal) {
+                        Text("\(title)")
+                            .foregroundStyle(.black0)
                     }
                 }
                 Spacer()
@@ -112,24 +123,19 @@ struct AcceptingView: View {
     
     private var startButton: some View {
         Button(action: {
-                    if viewModel.acceptingViewModel.canProceed {
-                        viewModel.acceptingViewModel.setMarketingConsent(to: viewModel) { success in
-                            if success {
-                                // 홈으로 이동 또는 다음 단계 처리
-                            } else {
-                                // 에러 처리
-                            }
-                        }
+            if acceptingViewModel.canProceed {
+                acceptingViewModel.setMarketingConsent(to: viewModel) { success in
+                    if success {
+                        // 홈으로 이동
+                    } else {
+                        // 에러 처리
                     }
-                }) {
-                    Text("시작하기")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(viewModel.acceptingViewModel.canProceed ? Color.lime : Color.gray600)
-                        .foregroundColor(viewModel.acceptingViewModel.canProceed ? .black : .gray400)
-                        .cornerRadius(8)
                 }
-                .disabled(!viewModel.acceptingViewModel.canProceed)
+            }
+        }) {
+            DesignWideButton(label: "시작하기", labelColor: acceptingViewModel.canProceed ? .blackAssets : .gray400, btnBGColor: acceptingViewModel.canProceed ? Color.lime : Color.gray600)
+        }
+        .disabled(!acceptingViewModel.canProceed)
     }
 }
 

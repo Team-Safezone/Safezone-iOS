@@ -12,9 +12,6 @@ import Alamofire
 enum HeartRateService {
     // 심박수 통계 조회 API
     case getHeartRateStatistics(HeartRateStatisticsRequest)
-    
-    // 사용자의 심박수 데이터 업로드 API
-    case postUserHeartRate(teamName: String, min: Double, avg: Double, max: Double)
 }
 
 extension HeartRateService: TargetType {
@@ -24,9 +21,7 @@ extension HeartRateService: TargetType {
         // 심박수 통계 조회 API
         case .getHeartRateStatistics:
             return .get
-        
-        case .postUserHeartRate:
-            return .post
+
         }
     }
     
@@ -36,9 +31,6 @@ extension HeartRateService: TargetType {
         // 심박수 통계 조회 API
         case .getHeartRateStatistics:
             return APIConstants.heartRateStatisticsURL
-        
-        case .postUserHeartRate:
-            return "/userHeartRate"
         }
     }
     
@@ -47,9 +39,6 @@ extension HeartRateService: TargetType {
         switch self {
         // 심박수 통계 조회 API
         case .getHeartRateStatistics:
-            return .basic
-        
-        case .postUserHeartRate:
             return .basic
         }
     }
@@ -60,15 +49,6 @@ extension HeartRateService: TargetType {
         // 심박수 통계 조회 API
         case .getHeartRateStatistics(let request):
             return .query(["matchId" : request.matchId])
-        
-        case .postUserHeartRate(let teamName, let min, let avg, let max):
-            let body: [String: Any] = [
-                "teamName": teamName,
-                "min": min,
-                "avg": avg,
-                "max": max
-            ]
-            return .requestPlain
         }
     }
 }
