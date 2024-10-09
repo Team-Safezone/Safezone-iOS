@@ -24,7 +24,7 @@ struct ViewerHRStatsView: View {
     var body: some View {
         VStack(alignment: .leading){
             Text("심박수 비교")
-                .font(.pretendard(.semibold, size: 14))
+                .pretendardTextStyle(.Title2Style)
         VStack{
             HStack {
                 HStack{
@@ -41,7 +41,7 @@ struct ViewerHRStatsView: View {
             .padding(.horizontal, 40)
             .background {
                 SpecificRoundedRectangle(radius: 8, corners: [.topRight, .topLeft])
-                    .foregroundStyle(Color.gray900)
+                    .foregroundStyle(Color.gray950Assets)
                     .frame(width: 355, height: 55)
             }
             
@@ -53,12 +53,12 @@ struct ViewerHRStatsView: View {
                             .foregroundStyle(.white0)
                         Text(" BPM")
                             .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(.gray500)
+                            .foregroundStyle(.gray800Assets)
                     }
                     .frame(width: 80)
                     
                     Text(i == 0 ? "최저" : i == 1 ? "평균" : "최고")
-                        .font(.pretendard(.medium, size: 14))
+                        .pretendardTextStyle(.Body2Style)
                         .frame(width: 100)
                         .foregroundStyle(.white0)
                     
@@ -68,7 +68,7 @@ struct ViewerHRStatsView: View {
                             .foregroundStyle(.white0)
                         Text(" BPM")
                             .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(.gray500)
+                            .foregroundStyle(.gray800Assets)
                     }
                     .frame(width: 80)
                 }
@@ -78,17 +78,17 @@ struct ViewerHRStatsView: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray900, lineWidth: 1)
+                .stroke(.gray900Assets, lineWidth: 1)
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 115))
                 path.addLine(to: CGPoint(x: 355, y: 115))
             }
-            .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
+            .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 115 + 115 / 2))
                 path.addLine(to: CGPoint(x: 355, y: 115 + 115 / 2))
             }
-            .stroke(.gray900, style: StrokeStyle(lineWidth: 1))
+            .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
         }
     }
     }

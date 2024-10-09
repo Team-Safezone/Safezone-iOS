@@ -22,41 +22,32 @@ struct TimelineEventView: View {
             // 배경화면 색 지정
             Color(.background)
                 .ignoresSafeArea()
-            
-            NavigationStack {
-                VStack {
-                    // 경기 상태 화면
-                    MatchResultView(viewModel: viewModel)
-                    // UI
-                    TableLable()
-                    // 타임라인
-                    ScrollView(.vertical, showsIndicators: false) {
-                        // 경기 이벤트가 없음
-                        if viewModel.matchEvents.isEmpty {
-                            EmptyStateView()
-                        } else {
-                            LazyVStack {
-                                ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.offset) { index, event in
-                                    if event.eventCode == 1 || event.eventCode == 3 || event.eventCode == 5 {
-                                        // 타임라인 출력
-                                        TimelineEventRowView(
-                                            event: event,
-                                            viewModel: viewModel
-                                        )
-                                    } else if event.eventCode == 2 || event.eventCode == 4 {
-                                        HalfTimeView(event: event, eventCode: event.eventCode)
-                                    }
-                                } //:FOREACH
-                            } //:LAZYVSTACK
-                        } //:IF
-                    } //:SCROLLVIEW
-                    .overlay {
-                        if viewModel.match.matchCode == 3 {
-                            LinkToSoccerView(action: {
-                                isShowingSoccerDiary = true
-                            })
-                        }
-                    }
+            VStack {
+                // 경기 상태 화면
+                MatchResultView(viewModel: viewModel)
+                // UI
+                TableLable()
+                // 타임라인
+                ScrollView(.vertical, showsIndicators: false) {
+                    // 경기 이벤트가 없음
+                    if viewModel.matchEvents.isEmpty {
+                        EmptyStateView()
+                    } else {
+                        LazyVStack {
+                            ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.offset) { index, event in
+                                if event.eventCode == 1 || event.eventCode == 3 || event.eventCode == 5 {
+                                    // 타임라인 출력
+                                    TimelineEventRowView(
+                                        event: event,
+                                        viewModel: viewModel
+                                    )
+                                } else if event.eventCode == 2 || event.eventCode == 4 {
+                                    HalfTimeView(event: event, eventCode: event.eventCode)
+                                }
+                            } //:FOREACH
+                        } //:LAZYVSTACK
+                    } //:IF
+                } //:SCROLLVIEW
                     .onAppear {
                         // 타임라인 API 호출
                         viewModel.fetchMatchEvents()
@@ -77,13 +68,24 @@ struct TimelineEventView: View {
                             stopTimer()
                         } //:IF
                     } //:ONCHANGE
-                } //:VSTACK
-                .navigationTitle("경기 타임라인")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationDestination(isPresented: $isShowingSoccerDiary) {
-                    SoccerDiary()
+            } //:VSTACK
+            .navigationTitle("경기 타임라인")
+            .navigationBarTitleDisplayMode(.inline)
+            
+        if viewModel.match.matchCode == 3{
+            NavigationLink {
+                SoccerDiary()
+                    .toolbarRole(.editor) // back 텍스트 숨기기
+            } label: {
+                VStack{
+                    Spacer()
+                    LinkToSoccerView()
+                        .zIndex(10)
                 }
-            } //:NAVIGATIONSTACK
+            }
+        }//:IF
+        
+            
         } //:ZSTACK
     }
     
@@ -189,31 +191,29 @@ struct HalfTimeView: View {
 
 // 일기쓰기 버튼
 struct LinkToSoccerView: View {
-    var action: () -> Void
-    
     var body: some View {
-        Button(action: action) {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("축구 일기쓰기")
+                    .font(.pretendard(.bold, size: 16))
+                Text("내 심장이 뛴 순간을 기록해보세요!")
+                    .pretendardTextStyle(.Body2Style)
+            }
+            Spacer()
+            Image(systemName: "arrow.up.right").resizable()
+                .scaledToFit()
+                .frame(width: 18, height: 18, alignment: .center)
+        }
+        .foregroundStyle(.whiteAssets)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .frame(width: 342, height: 72)
+        .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(LinearGradient.pinkGradient)
-                .frame(maxWidth: .infinity, maxHeight: 72, alignment: .center)
-                .overlay{
-                    HStack(alignment: .center){
-                        VStack(alignment: .leading, spacing: 4){
-                            Text("축구 일기쓰기")
-                                .font(.pretendard(.bold, size: 16))
-                            Text("내 심장이 뛴 순간을 기록해보세요!")
-                                .pretendardTextStyle(.Body2Style)
-                        }
-                        Spacer()
-                        Image(systemName: "arrow.up.right").resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18, alignment: .center)
-                    }
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 20)
-                }.padding(.horizontal, 16)
-                .offset(y: 310)
-        }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        
     }
 }
 

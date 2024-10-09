@@ -9,6 +9,8 @@ import Foundation
 
 /// [Entity] 심박수 통계 화면에서 사용하는 심박수 통계 조회 모델
 struct HeartRateStatistics {
+    var startDate: String  // 경기 시작 시각
+    var endDate: String    // 경기 종료 시각
     var lowHeartRate: Int // 사용자의 최저 심박수 값
     var highHeartRate: Int // 사용자의 최고 심박수 값
     var minBPM: Int // 최저 BPM

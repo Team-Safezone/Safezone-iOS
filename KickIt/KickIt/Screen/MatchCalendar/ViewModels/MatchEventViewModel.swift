@@ -27,11 +27,12 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
     var heartRateDates: [HeartRateDate] = []
     
     // DateFormatter 인스턴스
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm"
-        return formatter
-    }()
+    private let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd HH:mm"
+            formatter.timeZone = TimeZone.current
+            return formatter
+        }()
     
     init(match: SoccerMatch) {
         self.match = match
@@ -132,44 +133,105 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
     
     // 사용자 심박수 POST
     func uploadHeartRateData() {
-        guard let startTime = matchStartTime else { return }
-
-        let endTime = Date()
-
-        // 시작 시간부터 종료 시간까지의 심박수 데이터 가져오기
-        let heartRateData = heartRateDates.filter { record in
-            guard let recordDate = dateFormatter.date(from: record.date) else { return false }
-            return recordDate >= startTime && recordDate <= endTime
-        }
-
-        // 5분 지연 적용 및 데이터 변환
-        let delayedHeartRateData = heartRateData.map { record -> MatchHeartRateRecord in
-            guard let recordDate = dateFormatter.date(from: record.date) else {
-                return MatchHeartRateRecord(heartRate: 0, date: "")
+            guard let startTime = matchStartTime else {
+                print("Match start time is not set")
+                return
             }
-            let delayedDate = recordDate.addingTimeInterval(-5 * 60)
-            let formattedDate = dateFormatter.string(from: delayedDate)
-
-            return MatchHeartRateRecord(heartRate: Int(record.heartRate), date: formattedDate)
-        }
-
-        let request = MatchHeartRateRequest(matchId: match.id, MatchHeartRateRecords: delayedHeartRateData)
-
-        // API 호출
-        MatchEventAPI.shared.postMatchHeartRate(request: request)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    print("Heart rate data uploaded successfully")
-                    self?.isHeartRateDataUploaded = true
-                case .failure(let error):
-                    print("Failed to upload heart rate data: \(error)")
+            
+            let endTime = Date()
+            let adjustedStartTime = startTime.addingTimeInterval(5 * 60) // 경기 시작 시각 + 5분
+            let adjustedEndTime = endTime.addingTimeInterval(5 * 60) // 경기 종료 시각 + 5분
+            
+            var heartRateRecords: [matchHeartRateRecord] = []
+            
+            // 5분마다의 심박수 기록 추가
+            var currentTime = adjustedStartTime
+            var elapsedMinutes = 5
+            while currentTime <= adjustedEndTime {
+                if let heartRate = getClosestHeartRate(for: currentTime) {
+                    heartRateRecords.append(matchHeartRateRecord(heartRate: heartRate, date: elapsedMinutes))
                 }
-            } receiveValue: { _ in }
-            .store(in: &cancellables)
+                currentTime = currentTime.addingTimeInterval(5 * 60) // 5분 간격
+                elapsedMinutes += 5
+            }
+            
+            // 경기 이벤트에 대한 심박수 기록 추가
+            for event in matchEvents {
+                guard let eventDate = dateFormatter.date(from: event.eventTime)?.addingTimeInterval(5 * 60) else { continue }
+                let eventElapsedMinutes = Int(eventDate.timeIntervalSince(startTime) / 60)
+                if let heartRate = getClosestHeartRate(for: eventDate) {
+                    let record = matchHeartRateRecord(heartRate: heartRate, date: eventElapsedMinutes)
+                    if !heartRateRecords.contains(where: { $0.date == record.date }) {
+                        heartRateRecords.append(record)
+                    }
+                }
+            }
+            
+            // 중복 제거 및 정렬
+            heartRateRecords = Array(Set(heartRateRecords)).sorted { $0.date < $1.date }
+            
+            let request = MatchHeartRateRequest(matchId: match.id, matchHeartRateRecords: heartRateRecords)
+            
+            // API 호출
+            MatchEventAPI.shared.postMatchHeartRate(request: request)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
+                    switch completion {
+                    case .finished:
+                        print("Heart rate data uploaded successfully")
+                        self?.isHeartRateDataUploaded = true
+                    case .failure(let error):
+                        print("Failed to upload heart rate data: \(error)")
+                    }
+                } receiveValue: { _ in }
+                .store(in: &cancellables)
+        }
+        
+        // 가장 가까운 심박수 기록
+        private func getClosestHeartRate(for date: Date) -> Int? {
+            let dateString = dateFormatter.string(from: date)
+            return heartRateModel.getHeartRate(for: dateString)
+        }
+    
+    //MARK: - 심박수 관련 프로퍼티 및 함수
+        private let heartRateModel = HeartRateRecordModel()
+        @Published var heartRateRecords: [HeartRateDate] = []
+    
+    // 심박수 권한 요청
+    private func authorizeHealthKit() {
+        heartRateModel.authorizeHealthKit { [weak self] success in
+            if success {
+                self?.loadHeartRateData()
+            } else {
+                print("Failed to authorize HealthKit")
+            }
+        }
     }
-
+    
+    // 심박수 데이터 로딩
+    func loadHeartRateData() {
+        guard let startTime = matchStartTime else {
+            print("Match start time is not set")
+            return
+        }
+        let endTime = Date()
+        
+        heartRateModel.loadHeartRate(startDate: startTime, endDate: endTime) { [weak self] records in
+            DispatchQueue.main.async {
+                self?.heartRateRecords = records
+                self?.objectWillChange.send()
+                print("Loaded \(records.count) heart rate records")
+            }
+        }
+    }
+    
+    // 특정 이벤트 시간에 대한 심박수 가져오기
+    func getHeartRate(for eventTime: String) -> Int? {
+        let heartRate = heartRateModel.getHeartRate(for: eventTime)
+        print("Heart rate for event at \(eventTime): \(heartRate ?? -1)")
+        return heartRate
+    }
+    
     // MARK: - iOS 데이터 저장
     /// 앱 재시작 시 저장된 matchId 불러오기
     private func loadCurrentMatchId() {
@@ -247,45 +309,6 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    //MARK: - 심박수 관련 프로퍼티 및 함수
-        private let heartRateModel = HeartRateRecordModel()
-        @Published var heartRateRecords: [HeartRateDate] = []
-    
-    // 심박수 권한 요청
-    private func authorizeHealthKit() {
-        heartRateModel.authorizeHealthKit { [weak self] success in
-            if success {
-                self?.loadHeartRateData()
-            } else {
-                print("Failed to authorize HealthKit")
-            }
-        }
-    }
-    
-    // 심박수 데이터 로딩
-    func loadHeartRateData() {
-        guard let startTime = matchStartTime else {
-            print("Match start time is not set")
-            return
-        }
-        let endTime = Date()
-        
-        heartRateModel.loadHeartRate(startDate: startTime, endDate: endTime) { [weak self] records in
-            DispatchQueue.main.async {
-                self?.heartRateRecords = records
-                self?.objectWillChange.send()
-                print("Loaded \(records.count) heart rate records")
-            }
-        }
-    }
-    
-    // 특정 이벤트 시간에 대한 심박수 가져오기
-    func getHeartRate(for eventTime: String) -> Int? {
-        let heartRate = heartRateModel.getHeartRate(for: eventTime)
-        print("Heart rate for event at \(eventTime): \(heartRate ?? -1)")
-        return heartRate
-    }
-    
     //MARK: - UI 관련 함수
     // 경기 코드 반영
     private func updateMatchCode() {
@@ -300,13 +323,12 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone.current
 
+        // eventCode = 0인 이벤트 기준 경기 시작 시각 설정
         if let startEvent = matchEvents.first(where: { $0.eventCode == 0 }) {
             matchStartTime = dateFormatter.date(from: startEvent.eventTime)
-            print("Match start time set from event with code 0: \(matchStartTime?.description ?? "nil")")
         } else {
             // eventCode = 0인 이벤트가 없는 경우, 가장 이른 이벤트 시간을 사용
             matchStartTime = matchEvents.compactMap { dateFormatter.date(from: $0.eventTime) }.min()
-            print("Match start time set to earliest event: \(matchStartTime?.description ?? "nil")")
         }
 
         if matchStartTime == nil {

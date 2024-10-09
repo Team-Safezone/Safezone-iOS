@@ -14,7 +14,4 @@ protocol HeartRateViewModelProtocol: ObservableObject {
     
     /// 심박수 통계 조회
     func getHeartRateStatistics(request: HeartRateStatisticsRequest)
-    
-    /// 사용자의 심박수 데이터 업로드
-    func uploadUserHeartRate(teamName: String, min: Double, avg: Double, max: Double)
 }

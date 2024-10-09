@@ -22,7 +22,7 @@ struct ViewerStatsView: View {
         VStack {
             HStack {
                 Text("전체 시청자 분석")
-                    .font(.pretendard(.bold, size: 18))
+                    .pretendardTextStyle(.Title1Style)
                     .padding(.top, 50)
                 Spacer()
             }
@@ -37,11 +37,13 @@ struct ViewerStatsView: View {
                         .clipShape(Circle())
                     Text(homeTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
+                        .foregroundStyle(.gray200)
                 }
                 Spacer()
                 HStack(spacing: 8) {
                     Text(awayTeam.teamName)
                         .pretendardTextStyle(.Body3Style)
+                        .foregroundStyle(.gray200)
                     LoadableImage(image: awayTeam.teamEmblemURL)
                         .frame(width: 40, height: 40)
                         .background(.white)
@@ -62,11 +64,11 @@ struct ViewerStatsView: View {
             
             HStack {
                 Text("\(Int(homeTeamPercentage))%")
-                    .font(.pretendard(.medium, size: 16))
+                    .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.green0)
                 Spacer()
                 Text("\(Int(100 - homeTeamPercentage))%")
-                    .font(.pretendard(.medium, size: 16))
+                    .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.violet)
             }
             .padding(.horizontal, 20)
