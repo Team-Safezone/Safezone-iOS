@@ -20,6 +20,9 @@ enum MatchCalendarService {
     
     // 경기 예측 버튼 클릭 조회 API
     case getPredictionButton(PredictionButtonRequest)
+    
+    // 선발라인업 조회 API
+    case getStartingLineup(StartingLineupRequest)
 }
 
 extension MatchCalendarService: TargetType {
@@ -37,6 +40,10 @@ extension MatchCalendarService: TargetType {
         // 경기 예측 버튼 클릭 조회 API
         case .getPredictionButton:
             return APIConstants.predictionButtonClickURL
+            
+        // 선발라인업 조회 API
+        case .getStartingLineup:
+            return APIConstants.startingLineupURL
         }
     }
     
@@ -54,6 +61,10 @@ extension MatchCalendarService: TargetType {
         // 경기 예측 버튼 클릭 조회
         case .getPredictionButton:
             return .get
+        
+        // 선발라인업 조회
+        case .getStartingLineup:
+            return .get
         }
     }
     
@@ -70,6 +81,10 @@ extension MatchCalendarService: TargetType {
             
         // 경기 예측 버튼 클릭 조회
         case .getPredictionButton:
+            return .basic
+        
+        // 선발라인업 조회
+        case .getStartingLineup:
             return .basic
         }
     }
@@ -93,6 +108,12 @@ extension MatchCalendarService: TargetType {
             
         // 경기 예측 버튼 클릭 조회
         case .getPredictionButton(let request):
+            return .query([
+                "matchId" : request.matchId
+            ])
+        
+        // 선발라인업 조회
+        case .getStartingLineup(let request):
             return .query([
                 "matchId" : request.matchId
             ])
