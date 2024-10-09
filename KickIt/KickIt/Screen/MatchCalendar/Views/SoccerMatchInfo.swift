@@ -308,20 +308,26 @@ struct SoccerMatchInfo: View {
                         )
                         .overlay {
                             if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.black)
-                                    .opacity(0.55)
+                                // 선발라인업 공개 전이라면
+                                if nowDate < viewModel.startingLineupShowDate(nowDate) {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(.black)
+                                        .opacity(0.55)
+                                }
                             }
                         }
                         
                         // 선발라인업 공개 타이머
                         if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                            Text(timeInterval(nowDate: nowDate, matchDate: viewModel.selectedSoccerMatch!.matchDate, matchTime: viewModel.selectedSoccerMatch!.matchTime))
-                                .pretendardTextStyle(.SubTitleStyle)
-                                .foregroundStyle(.whiteAssets)
-                                .onAppear {
-                                    startTimer()
-                                }
+                            // 선발라인업 공개 전이라면
+                            if nowDate < viewModel.startingLineupShowDate(nowDate) {
+                                Text(viewModel.startingLineupTimeInterval(nowDate))
+                                    .pretendardTextStyle(.SubTitleStyle)
+                                    .foregroundStyle(.whiteAssets)
+                                    .onAppear {
+                                        startTimer()
+                                    }
+                            }
                         }
                     }
                 }
@@ -430,6 +436,11 @@ struct SoccerMatchInfo: View {
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.nowDate = Date()
+            
+            // 선발라인업 공개 시간이 됐다면
+            if nowDate >= viewModel.startingLineupShowDate(nowDate) {
+                timer.invalidate()
+            }
         }
     }
     
