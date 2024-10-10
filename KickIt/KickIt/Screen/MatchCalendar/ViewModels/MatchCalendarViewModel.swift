@@ -125,14 +125,34 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
         return isShowMatchInfo ? Color.white0 : Color.gray500
     }
     
-    /// 우승팀 예측 종료 타이머
-    func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
-        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+    /// 선발라인업 공개 타이머(텍스트)
+    func startingLineupTimeInterval(_ nowDate: Date) -> String {
+        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
     }
     
-    /// 선발라인업 예측 종료 타이머
+    /// 선발라인업 공개 타이머(날짜)
+    func startingLineupShowDate(_ nowDate: Date) -> Date {
+        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
+    }
+    
+    /// 우승팀 예측 종료 타이머(텍스트)
+    func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
+    }
+    
+    /// 우승팀 예측 종료 타이머(날짜)
+    func matchEndTimePredictionShowDate(_ nowDate: Date) -> Date {
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
+    }
+    
+    /// 선발라인업 예측 종료 타이머(텍스트)
     func lineupEndTimePredictionInterval(_ nowDate: Date) -> String {
-        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime)
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
+    }
+    
+    /// 선발라인업 예측 종료 타이머(날짜)
+    func lineupEndTimePredictionShowDate(_ nowDate: Date) -> Date {
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
     }
     
     /// 팀 정보에 따른 값(이름, 이미지) 반환

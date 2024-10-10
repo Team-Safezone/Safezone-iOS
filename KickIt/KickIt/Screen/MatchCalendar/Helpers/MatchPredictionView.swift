@@ -19,6 +19,9 @@ struct MatchPredictionView: View {
     /// 현재 날짜 및 시간
     @State private var nowDate = Date()
     
+    /// 예측 타이머 종료 여부
+    @State private var isPredictionFinished: Bool = false
+    
     // MARK: - BODY
     var body: some View {
         ZStack {
@@ -27,6 +30,10 @@ struct MatchPredictionView: View {
                 .stroke(.limeTransparent, lineWidth: 1)
             
             VStack(alignment: .leading, spacing: 0) {
+                // 레이아웃을 좌우하는 상수 값
+                let isParticipated = pViewModel.matchPrediction.isParticipated
+                let isEnd = isParticipated || isPredictionFinished ? true : false
+                
                 HStack(spacing: 0) {
                     // 질문
                     VStack(alignment: .leading) {
@@ -36,24 +43,23 @@ struct MatchPredictionView: View {
                         HStack(spacing: 4) {
                             switch viewModel.selectedSoccerMatch?.matchCode {
                             // 예정
-                            case 0:
-                                Text("진행중")
-                                    .pretendardTextStyle(.Body3Style)
-                                    .foregroundStyle(.limeText)
-                                
-                                Text(viewModel.matchEndTimePredictionInterval(nowDate))
-                                    .pretendardTextStyle(.Body3Style)
-                                    .foregroundStyle(.white0)
+                            case 0, 4:
+                                if !isEnd {
+                                    Text("진행중")
+                                        .pretendardTextStyle(.Body3Style)
+                                        .foregroundStyle(.limeText)
+                                    
+                                    Text(viewModel.matchEndTimePredictionInterval(nowDate))
+                                        .pretendardTextStyle(.Body3Style)
+                                        .foregroundStyle(.white0)
+                                }
+                                else {
+                                    endPredictionText()
+                                }
                             
                             // 경기중, 휴식, 종료
                             case 1, 2, 3:
-                                Text("예측 종료")
-                                    .pretendardTextStyle(.Body3Style)
-                                    .foregroundStyle(.gray300)
-                                
-                                Text("\(pViewModel.matchPrediction.participant ?? 0)명 참여")
-                                    .pretendardTextStyle(.Body3Style)
-                                    .foregroundStyle(.white0)
+                                endPredictionText()
                             
                             default:
                                 EmptyView()
@@ -150,18 +156,37 @@ struct MatchPredictionView: View {
                 }
                 .padding(.horizontal, 8)
                 
-                // 버튼
-                let isParticipated = pViewModel.matchPrediction.isParticipated
-                Text(isParticipated ? "결과보기" : "참여하기")
-                    .pretendardTextStyle(.SubTitleStyle)
-                    .foregroundStyle(isParticipated ? .whiteAssets : .blackAssets)
-                    .padding(.vertical, 11)
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6)
-                            .foregroundStyle(isParticipated ? .violet : .lime)
-                    )
-                    .padding(.top, 16)
+                // 참여하기 or 결과보기 버튼
+                switch viewModel.selectedSoccerMatch?.matchCode {
+                    // 예정
+                case 0, 4:
+                    Text(isEnd ? "결과보기" : "참여하기")
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(isEnd ? .whiteAssets : .blackAssets)
+                        .padding(.vertical, 11)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .foregroundStyle(isEnd ? .violet : .lime)
+                        )
+                        .padding(.top, 16)
+                    
+                    // 경기중, 휴식, 종료
+                case 1, 2, 3:
+                    Text("결과보기")
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(.whiteAssets)
+                        .padding(.vertical, 11)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .foregroundStyle(.violet)
+                        )
+                        .padding(.top, 16)
+                    
+                default:
+                    EmptyView()
+                }
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 12)
@@ -176,7 +201,25 @@ struct MatchPredictionView: View {
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.nowDate = Date()
+            
+            // 예측 종료 시간이 됐다면
+            if nowDate >= viewModel.matchEndTimePredictionShowDate(nowDate) {
+                timer.invalidate()
+                isPredictionFinished = true
+            }
         }
+    }
+    
+    /// 예측 종료 텍스트
+    @ViewBuilder
+    private func endPredictionText() -> some View {
+        Text("예측 종료")
+            .pretendardTextStyle(.Body3Style)
+            .foregroundStyle(.gray300)
+        
+        Text("\(pViewModel.matchPrediction.participant ?? 0)명 참여")
+            .pretendardTextStyle(.Body3Style)
+            .foregroundStyle(.white0)
     }
     
     /// 팀 이미지&이름 스타일 반환

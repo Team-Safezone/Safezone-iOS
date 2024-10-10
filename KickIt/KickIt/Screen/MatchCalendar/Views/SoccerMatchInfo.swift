@@ -241,6 +241,61 @@ struct SoccerMatchInfo: View {
         .padding(.top, 16)
     }
     
+    /// 선발 라인업 버튼
+    @ViewBuilder
+    private func startingLineupButton() -> some View {
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
+                    Text("선발 라인업")
+                        .pretendardTextStyle(.Title2Style)
+                        .foregroundStyle(.blackAssets)
+                    
+                    Image(uiImage: .caretRight)
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundStyle(.blackAssets)
+                    
+                    Spacer()
+                }
+                
+                HStack {
+                    Spacer()
+                    Image(uiImage: .soccer)
+                        .padding(.top, 8)
+                }
+            }
+            .padding(12)
+            .background(
+                Image(uiImage: .matchInfoCard)
+                    .resizable()
+            )
+            .overlay {
+                if viewModel.selectedSoccerMatch!.matchCode == 0 {
+                    // 선발라인업 공개 전이라면
+                    if nowDate < viewModel.startingLineupShowDate(nowDate) {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.black)
+                            .opacity(0.55)
+                    }
+                }
+            }
+            
+            // 선발라인업 공개 타이머
+            if viewModel.selectedSoccerMatch!.matchCode == 0 {
+                // 선발라인업 공개 전이라면
+                if nowDate < viewModel.startingLineupShowDate(nowDate) {
+                    Text(viewModel.startingLineupTimeInterval(nowDate))
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(.whiteAssets)
+                        .onAppear {
+                            startTimer()
+                        }
+                }
+            }
+        }
+    }
+    
     /// 경기 정보
     @ViewBuilder
     private func MatchInfo() -> some View {
@@ -277,53 +332,19 @@ struct SoccerMatchInfo: View {
             
             VStack(spacing: 16) {
                 // MARK: 선발 라인업 버튼
-                NavigationLink {
-                    // TODO: 선발라인업 화면 연결
-                } label: {
-                    ZStack {
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack(alignment: .center, spacing: 0) {
-                                Text("선발 라인업")
-                                    .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.blackAssets)
-                                
-                                Image(uiImage: .caretRight)
-                                    .resizable()
-                                    .frame(width: 16, height: 16)
-                                    .foregroundStyle(.blackAssets)
-                                
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Spacer()
-                                Image(uiImage: .soccer)
-                                    .padding(.top, 8)
-                            }
-                        }
-                        .padding(12)
-                        .background(
-                            Image(uiImage: .matchInfoCard)
-                                .resizable()
-                        )
-                        .overlay {
-                            if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.black)
-                                    .opacity(0.55)
-                            }
-                        }
-                        
-                        // 선발라인업 공개 타이머
-                        if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                            Text(timeInterval(nowDate: nowDate, matchDate: viewModel.selectedSoccerMatch!.matchDate, matchTime: viewModel.selectedSoccerMatch!.matchTime))
-                                .pretendardTextStyle(.SubTitleStyle)
-                                .foregroundStyle(.whiteAssets)
-                                .onAppear {
-                                    startTimer()
-                                }
-                        }
+                // 선발라인업 공개 시간이 됐다면
+                if nowDate >= viewModel.startingLineupShowDate(nowDate) {
+                    NavigationLink {
+                        StartingLineup(viewModel: viewModel)
+                            .toolbarRole(.editor) // back 텍스트 숨기기
+                    } label: {
+                        startingLineupButton()
                     }
+                }
+                // 선발라인업 공개 전이라면
+                else {
+                    startingLineupButton()
+                        .disabled(true) // 클릭 비활성화
                 }
                 
                 // MARK: 심박수 통계 버튼
@@ -430,6 +451,11 @@ struct SoccerMatchInfo: View {
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.nowDate = Date()
+            
+            // 선발라인업 공개 시간이 됐다면
+            if nowDate >= viewModel.startingLineupShowDate(nowDate) {
+                timer.invalidate()
+            }
         }
     }
     

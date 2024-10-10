@@ -165,6 +165,12 @@
 		E7EE1D7F2CB2A1B900ADDAEF /* PredictionMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D7E2CB2A1B900ADDAEF /* PredictionMatchInfo.swift */; };
 		E7EE1D812CB2A1D600ADDAEF /* PredictionLineupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D802CB2A1D600ADDAEF /* PredictionLineupInfo.swift */; };
 		E7EE1D832CB2A38600ADDAEF /* PredictionButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D822CB2A38600ADDAEF /* PredictionButtonViewModel.swift */; };
+		E7EE1D852CB3DD1300ADDAEF /* StartingLineup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D842CB3DD1300ADDAEF /* StartingLineup.swift */; };
+		E7EE1D8B2CB6ACC700ADDAEF /* StartingLineupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D8A2CB6ACC700ADDAEF /* StartingLineupRequest.swift */; };
+		E7EE1D8D2CB6ADCE00ADDAEF /* StartingLineupResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D8C2CB6ADCE00ADDAEF /* StartingLineupResponse.swift */; };
+		E7EE1D8F2CB6B49900ADDAEF /* StartingLineupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D8E2CB6B49900ADDAEF /* StartingLineupViewModel.swift */; };
+		E7EE1D962CB6C06C00ADDAEF /* StartingLineupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D952CB6C06C00ADDAEF /* StartingLineupModel.swift */; };
+		E7EE1D982CB6CF8700ADDAEF /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EE1D972CB6CF8200ADDAEF /* Array+.swift */; };
 		E7FFA05F2C9EB7CC001FE588 /* SoccerTeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA05E2C9EB7CC001FE588 /* SoccerTeamRequest.swift */; };
 		E7FFA0612C9EBBE1001FE588 /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */; };
 /* End PBXBuildFile section */
@@ -355,6 +361,12 @@
 		E7EE1D7E2CB2A1B900ADDAEF /* PredictionMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionMatchInfo.swift; sourceTree = "<group>"; };
 		E7EE1D802CB2A1D600ADDAEF /* PredictionLineupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionLineupInfo.swift; sourceTree = "<group>"; };
 		E7EE1D822CB2A38600ADDAEF /* PredictionButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionButtonViewModel.swift; sourceTree = "<group>"; };
+		E7EE1D842CB3DD1300ADDAEF /* StartingLineup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineup.swift; sourceTree = "<group>"; };
+		E7EE1D8A2CB6ACC700ADDAEF /* StartingLineupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupRequest.swift; sourceTree = "<group>"; };
+		E7EE1D8C2CB6ADCE00ADDAEF /* StartingLineupResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupResponse.swift; sourceTree = "<group>"; };
+		E7EE1D8E2CB6B49900ADDAEF /* StartingLineupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupViewModel.swift; sourceTree = "<group>"; };
+		E7EE1D952CB6C06C00ADDAEF /* StartingLineupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupModel.swift; sourceTree = "<group>"; };
+		E7EE1D972CB6CF8200ADDAEF /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		E7FFA05E2C9EB7CC001FE588 /* SoccerTeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerTeamRequest.swift; sourceTree = "<group>"; };
 		E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -451,6 +463,7 @@
 		E79553B82C0C749B00261DAF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E7EE1D972CB6CF8200ADDAEF /* Array+.swift */,
 				E79AFF9A2BEF7982004CAF75 /* Date+.swift */,
 				E79553BB2C0C760600261DAF /* Font+.swift */,
 				E79553C72C0CA04C00261DAF /* TextStyle.swift */,
@@ -606,6 +619,7 @@
 				E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */,
 				E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */,
 				E778A07F2C97B78700B6117D /* StartingLineupPrediction.swift */,
+				E7EE1D842CB3DD1300ADDAEF /* StartingLineup.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -761,6 +775,7 @@
 				E778A08F2C9A6F6B00B6117D /* Formation.swift */,
 				E7EE1D7E2CB2A1B900ADDAEF /* PredictionMatchInfo.swift */,
 				E7EE1D802CB2A1D600ADDAEF /* PredictionLineupInfo.swift */,
+				E7EE1D952CB6C06C00ADDAEF /* StartingLineupModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -787,6 +802,7 @@
 				E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */,
 				E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */,
 				E7EE1D7A2CB2A16300ADDAEF /* PredictionButtonRequest.swift */,
+				E7EE1D8A2CB6ACC700ADDAEF /* StartingLineupRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -868,6 +884,7 @@
 				E7ADBF6F2C57281600E877C5 /* BoxEventViewModel.swift */,
 				E7DBC0DB2C0CDBBE008D4300 /* MatchCalendarViewModelProtocol.swift */,
 				E7DBC0DD2C0CDBFB008D4300 /* MatchCalendarViewModel.swift */,
+				E7EE1D8E2CB6B49900ADDAEF /* StartingLineupViewModel.swift */,
 				E778A0732C94529D00B6117D /* StartingLineupPredictionViewModelProtocol.swift */,
 				E778A07B2C945C8000B6117D /* StartingLineupPredictionViewModel.swift */,
 				E7EE1D822CB2A38600ADDAEF /* PredictionButtonViewModel.swift */,
@@ -912,6 +929,7 @@
 				E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */,
 				E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */,
 				E7EE1D7C2CB2A18300ADDAEF /* PredictionButtonResponse.swift */,
+				E7EE1D8C2CB6ADCE00ADDAEF /* StartingLineupResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1090,11 +1108,13 @@
 				E778A0782C945B0E00B6117D /* UserStartingLineupPrediction.swift in Sources */,
 				E778A0882C98194B00B6117D /* PredictionPlayerCardView.swift in Sources */,
 				E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */,
+				E7EE1D982CB6CF8700ADDAEF /* Array+.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
 				E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */,
 				E77970692CA6775D00DA5C00 /* HomeService.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
 				E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */,
+				E7EE1D8B2CB6ACC700ADDAEF /* StartingLineupRequest.swift in Sources */,
 				E7ADBF992C57BAF300E877C5 /* TimelineEventView.swift in Sources */,
 				E79553D22C0CB29500261DAF /* LinearGradient+.swift in Sources */,
 				E7ADBF972C57B5F600E877C5 /* MatchEventViewModel.swift in Sources */,
@@ -1103,6 +1123,7 @@
 				E7D7E7462C0CDA6800554EA7 /* SoccerMatchDailyResponse.swift in Sources */,
 				E778A0922C9AAEC400B6117D /* PredictionPlayerBottomSheetView.swift in Sources */,
 				E7ADBF702C57281600E877C5 /* BoxEventViewModel.swift in Sources */,
+				E7EE1D8D2CB6ADCE00ADDAEF /* StartingLineupResponse.swift in Sources */,
 				E7FFA0612C9EBBE1001FE588 /* SignUpData.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
@@ -1133,6 +1154,7 @@
 				E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */,
 				E7A6A0722C95B8290008447D /* SplashView.swift in Sources */,
 				E7DBC0F92C0DE7AE008D4300 /* APIEventLogger.swift in Sources */,
+				E7EE1D962CB6C06C00ADDAEF /* StartingLineupModel.swift in Sources */,
 				E72CC32E2CAFC80300EE38B8 /* AvgHeartRateAPI.swift in Sources */,
 				E758BA8C2C19CA0B006BFCF6 /* SoccerMatchMonthlyResponse.swift in Sources */,
 				E778A06E2C9143C000B6117D /* StartingLineupPredictionResponse.swift in Sources */,
@@ -1163,6 +1185,7 @@
 				E778A0722C914E0C00B6117D /* StartingLineupPredictionAPI.swift in Sources */,
 				E7B140032C85F48400CB351E /* SoccerMatchMonthlyRequest.swift in Sources */,
 				E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */,
+				E7EE1D8F2CB6B49900ADDAEF /* StartingLineupViewModel.swift in Sources */,
 				E7592AA82CA93FDA008E9E6E /* Shadow+.swift in Sources */,
 				E7A6A06C2C95B7A60008447D /* SettingNameView.swift in Sources */,
 				E79AFF942BEE0934004CAF75 /* CustomDatePicker.swift in Sources */,
@@ -1177,6 +1200,7 @@
 				E7ABF3D72C58AFC7001BAE0F /* MatchResultView.swift in Sources */,
 				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
 				E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */,
+				E7EE1D852CB3DD1300ADDAEF /* StartingLineup.swift in Sources */,
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
 				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
 				E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */,
