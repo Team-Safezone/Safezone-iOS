@@ -86,10 +86,10 @@ class SettingNameViewModel: ObservableObject {
          */
     }
     
-    // 규칙에 맞지 않은 닉네임 설정
+    // 닉네임 설정
     func setNickname(to mainViewModel: MainViewModel, completion: @escaping () -> Void) {
         guard isNicknameValid else {
-            errorMessage = "유효하지 않은 닉네임입니다."
+            errorMessage = "사용 불가능한 닉네임입니다"
             return
         }
         
