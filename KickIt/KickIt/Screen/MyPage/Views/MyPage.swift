@@ -125,12 +125,12 @@ struct MyPage: View {
             .padding(.bottom, 16)
             HStack(alignment: .bottom, spacing: 8){
                 ForEach(Array(viewModel.favoriteTeamsUrl
-                    .enumerated()), id: \.element.name) { index, team in
+                    .enumerated()), id: \.element.teamName) { index, team in
                         VStack(spacing: 0) {
-                            LoadableImage(image: team.imageUrl)
+                            LoadableImage(image: team.teamUrl)
                                 .frame(width: 48, height: 48)
                                 .padding(.bottom, 8)
-                            Text(team.name)
+                            Text(team.teamName)
                                 .font(.pretendard(.medium, size: 13))
                                 .padding(.bottom, 4)
                             SpecificRoundedRectangle(radius: 6, corners: [.topLeft, .topRight])
@@ -140,7 +140,7 @@ struct MyPage: View {
                                     if index == 0 {
                                         Text("\(index + 1)")
                                             .pretendardTextStyle(.Body3Style)
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(.white0)
                                     } else if index == 1 {
                                         Text("\(index + 1)")
                                             .pretendardTextStyle(.Body3Style)

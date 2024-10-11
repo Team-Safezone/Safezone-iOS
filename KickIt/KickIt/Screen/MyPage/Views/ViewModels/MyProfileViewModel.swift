@@ -94,7 +94,17 @@ class MyProfileViewModel : ObservableObject {
             return
         }
         
-        // MARK: 닉네임 수정 POST API
-        print("닉네임 변경")
+        let request = NicknameUpdateRequest(nickname: nickname)
+        MyPageAPI.shared.updateNickname(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Error updating nickname: \(error)")
+                    self.errorMessage = "닉네임 변경에 실패했습니다"
+                }
+            } receiveValue: { _ in
+                print("닉네임 변경 성공")
+            }
+            .store(in: &cancellables)
     }
 }

@@ -11,6 +11,7 @@ import SwiftUI
 struct MyProfile: View {
     @ObservedObject var viewModel: MyProfileViewModel
     @StateObject private var imgviewModel = MyPageViewModel()
+    @Environment(\.presentationMode) var presentationMode // 이전 화면 이동
     
     var body: some View {
         NavigationStack {
@@ -88,6 +89,7 @@ struct MyProfile: View {
                             // 3초 후에 ChangeSuccessView 숨김
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 viewModel.showChangeSuccess = false
+                                presentationMode.wrappedValue.dismiss() // 이전 화면
                             }
                         }
                     }, label: {

@@ -14,7 +14,7 @@ class MyPageViewModel: ObservableObject {
     @Published var nickname: String = ""
     @Published var email: String = ""
     @Published var goalCount: Int = 0
-    @Published var favoriteTeamsUrl: [(name: String, imageUrl: String)] = []
+    @Published var favoriteTeamsUrl: [(teamName: String, teamUrl: String)] = []
     @Published var showingLogoutAlert: Bool = false
     @AppStorage("isDarkMode") var isDarkMode: Bool = false
     
@@ -35,16 +35,20 @@ class MyPageViewModel: ObservableObject {
     
     // 사용자 데이터 GET API 호출
     func fetchUserData() {
-        // APIService.shared.getUserData()
-        //     .sink(receiveCompletion: { _ in },
-        //           receiveValue: { userData in
-        //               self.nickname = userData.nickname
-        //               self.email = userData.email
-        //               self.goalCount = userData.goalCount
-        //               self.favoriteTeamsUrl = userData.favoriteTeamsUrl
-        //           })
-        //     .store(in: &cancellables)
-        
+            MyPageAPI.shared.getUserInfo()
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    if case .failure(let error) = completion {
+                        print("Error fetching user data: \(error)")
+                    }
+                } receiveValue: { [weak self] userData in
+                    self?.nickname = userData.nickname
+                    self?.email = userData.email
+                    self?.goalCount = userData.goalCount
+                    self?.favoriteTeamsUrl = userData.favoriteTeamsUrl.map { ($0.teamName, $0.teamUrl) }
+                }
+                .store(in: &cancellables)
+
         // 임시 데이터
         self.nickname = "닉네임"
         self.email = "email@naver.com"

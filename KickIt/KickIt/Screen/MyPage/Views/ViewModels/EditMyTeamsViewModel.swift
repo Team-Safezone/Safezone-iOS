@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SwiftUI
 
 // 팀 변경 뷰모델
 class EditMyTeamsViewModel: ObservableObject {
@@ -17,8 +18,8 @@ class EditMyTeamsViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(settingFavViewModel: SettingFavViewModel = SettingFavViewModel()) {
-            self.settingFavViewModel = settingFavViewModel
-            fetchTeams()
+        self.settingFavViewModel = settingFavViewModel
+        fetchTeams()
     }
     
     /// 팀 선택 함수
@@ -32,8 +33,19 @@ class EditMyTeamsViewModel: ObservableObject {
     
     /// 선호 팀 설정 POST API 호출
     func setFavoriteTeams() {
-        // MARK: POST API 호출
-        print("\(selectedTeams) 수정")
+        let request = FavoriteTeamsUpdateRequest(favoriteTeams: selectedTeams)
+        MyPageAPI.shared.updateFavoriteTeams(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Error updating favorite teams: \(error)")
+                    // 에러 처리 로직 추가
+                }
+            } receiveValue: { _ in
+                print("\(self.selectedTeams) 수정 성공")
+                // 성공 처리 로직 추가
+            }
+            .store(in: &cancellables)
     }
     
     /// 프리미어 리그 팀 GET  API 호출
