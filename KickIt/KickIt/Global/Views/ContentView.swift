@@ -28,6 +28,9 @@ struct ContentView: View {
     /// 경기 캘린더 뷰모델
     @StateObject var matchCalendarViewModel = MatchCalendarViewModel()
     
+    /// 시스템 모드 반영
+    @EnvironmentObject var myPageViewModel: MyPageViewModel
+    
     // 탭바 색상 초기화
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black0
