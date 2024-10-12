@@ -59,6 +59,13 @@ struct APIConstants {
     
     /// 팀 로고, 이름 조회 URL
     static let getTeamsURL = "/eplTeams"
+    
+    /// 사용자 데이터 조회 URL
+    static let getUserInfoURL = ""
+    /// 닉네임 수정 URL
+    static let updateNicknameURL = ""
+    /// 선호 팀 수정 URL
+    static let updateFavoriteTeamsURL = ""
 }
 
 /// 한글 인코딩
