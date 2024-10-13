@@ -19,7 +19,7 @@ struct DeleteAccount: View {
             VStack(alignment: .center) {
                 Spacer()
                 
-                Image("SoccerField")
+                Image("delete")
                     .resizable()
                     .scaledToFit()
                     .clipShape(Circle())
