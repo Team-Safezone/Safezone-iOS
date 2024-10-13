@@ -206,11 +206,12 @@ struct MyPage: View {
     // 테마 설정
     private var themeItem: some View {
         HStack {
-            Text("테마")
+            Text("라이트 모드")
             Spacer()
-            Text(viewModel.isDarkMode ? "다크 모드" : "라이트 모드")
-                .foregroundStyle(.gray500Text)
-                .pretendardTextStyle(.Body2Style)
+            Toggle("", isOn: Binding(
+                get: { !self.viewModel.isDarkMode },
+                set: { self.viewModel.isDarkMode = !$0 }
+            )).toggleStyle(SwitchToggleStyle(tint: .lime))
         }
         .padding(.vertical, 15)
         .onTapGesture {
