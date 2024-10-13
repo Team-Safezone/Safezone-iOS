@@ -47,7 +47,7 @@ struct EditMyTeams: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .navigationTitle("My 팀 수정")
+        .navigationTitle("내가 응원하는 팀")
         .navigationBarItems(trailing:
             Button("수정") {
             viewModel.setFavoriteTeams()    // API 호출
