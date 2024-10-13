@@ -43,7 +43,8 @@ class MyPageViewModel: ObservableObject {
                     }
                 } receiveValue: { [weak self] userData in
                     self?.nickname = userData.nickname
-                    self?.email = userData.email
+                    // 앱 내에서 이메일 가져오기
+                    self?.email = "email@naver.com"
                     self?.goalCount = userData.goalCount
                     self?.favoriteTeamsUrl = userData.favoriteTeamsUrl.map { ($0.teamName, $0.teamUrl) }
                 }
