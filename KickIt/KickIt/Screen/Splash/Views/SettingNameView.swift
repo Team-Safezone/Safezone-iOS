@@ -50,7 +50,7 @@ struct SettingNameView: View {
     private var nicknameInputSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                TextField("이름", text: $settingNameViewModel.nickname)
+                TextField("닉네임", text: $settingNameViewModel.nickname)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .padding(.vertical, 12)
                     .padding(.horizontal, 12)

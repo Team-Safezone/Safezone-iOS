@@ -23,6 +23,9 @@
 		E764F98D2C14B79A00A2822A /* SpecificRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */; };
 		E764F9B12C15F8D500A2822A /* FinishWinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */; };
 		E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764F9B42C15FD0900A2822A /* WinningPrediction.swift */; };
+		E769C2602CB78E20008CBAEE /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C25F2CB78E1F008CBAEE /* MyProfile.swift */; };
+		E769C2632CB792EB008CBAEE /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C2622CB792EB008CBAEE /* MyProfileViewModel.swift */; };
+		E769C2652CB79569008CBAEE /* GradeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C2642CB79569008CBAEE /* GradeInfo.swift */; };
 		E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */; };
 		E778A06A2C91431900B6117D /* StartingLineupPredictionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0692C91431900B6117D /* StartingLineupPredictionService.swift */; };
 		E778A06C2C91435100B6117D /* StartingLineupPredictionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A06B2C91435100B6117D /* StartingLineupPredictionRequest.swift */; };
@@ -74,6 +77,21 @@
 		E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */; };
 		E79BF2B92C9AB0A900302BB8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF2B82C9AB0A900302BB8 /* MainView.swift */; };
 		E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */; };
+		E79C71BC2CB7EDC100EB4CFF /* EditMyTeams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71BB2CB7EDC100EB4CFF /* EditMyTeams.swift */; };
+		E79C71C02CB7EF2500EB4CFF /* EditMyTeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71BF2CB7EF2500EB4CFF /* EditMyTeamsViewModel.swift */; };
+		E79C71C22CB7FACD00EB4CFF /* LikesDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71C12CB7FACD00EB4CFF /* LikesDiary.swift */; };
+		E79C71C42CB7FBEF00EB4CFF /* SetupAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71C32CB7FBEF00EB4CFF /* SetupAlerts.swift */; };
+		E79C71C62CB7FEE500EB4CFF /* SetupAlertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71C52CB7FEE500EB4CFF /* SetupAlertsViewModel.swift */; };
+		E79C71C82CB800CC00EB4CFF /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71C72CB800CC00EB4CFF /* PrivacyPolicy.swift */; };
+		E79C71CA2CB800F400EB4CFF /* TermsOfService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71C92CB800F400EB4CFF /* TermsOfService.swift */; };
+		E79C71CC2CB801D000EB4CFF /* DeleteAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71CB2CB801D000EB4CFF /* DeleteAccount.swift */; };
+		E79C71CE2CB803F300EB4CFF /* ManageAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71CD2CB803F300EB4CFF /* ManageAccountViewModel.swift */; };
+		E79C71D02CB9063A00EB4CFF /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71CF2CB9063A00EB4CFF /* MyPageViewModel.swift */; };
+		E79C71D22CB9233300EB4CFF /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71D12CB9233300EB4CFF /* MyPageAPI.swift */; };
+		E79C71D42CB9238800EB4CFF /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71D32CB9238800EB4CFF /* MyPageService.swift */; };
+		E79C71D62CB9257600EB4CFF /* NicnameUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71D52CB9257600EB4CFF /* NicnameUpdateRequest.swift */; };
+		E79C71D82CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71D72CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift */; };
+		E79C71DA2CB925B300EB4CFF /* UserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79C71D92CB925B300EB4CFF /* UserInfoResponse.swift */; };
 		E79EE75E2BF8A073005CEF80 /* SoccerMatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */; };
 		E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */; };
 		E79F05C02CA01EA90059E828 /* Watch_KickitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */; };
@@ -220,6 +238,9 @@
 		E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificRoundedRectangle.swift; sourceTree = "<group>"; };
 		E764F9B02C15F8D500A2822A /* FinishWinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishWinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E764F9B42C15FD0900A2822A /* WinningPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningPrediction.swift; sourceTree = "<group>"; };
+		E769C25F2CB78E1F008CBAEE /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
+		E769C2622CB792EB008CBAEE /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
+		E769C2642CB79569008CBAEE /* GradeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeInfo.swift; sourceTree = "<group>"; };
 		E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatistics.swift; sourceTree = "<group>"; };
 		E778A0692C91431900B6117D /* StartingLineupPredictionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupPredictionService.swift; sourceTree = "<group>"; };
 		E778A06B2C91435100B6117D /* StartingLineupPredictionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupPredictionRequest.swift; sourceTree = "<group>"; };
@@ -274,6 +295,21 @@
 		E79AFFA02BEF8F1B004CAF75 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
 		E79BF2B82C9AB0A900302BB8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E79BF2BA2C9AB0D300302BB8 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		E79C71BB2CB7EDC100EB4CFF /* EditMyTeams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyTeams.swift; sourceTree = "<group>"; };
+		E79C71BF2CB7EF2500EB4CFF /* EditMyTeamsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyTeamsViewModel.swift; sourceTree = "<group>"; };
+		E79C71C12CB7FACD00EB4CFF /* LikesDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesDiary.swift; sourceTree = "<group>"; };
+		E79C71C32CB7FBEF00EB4CFF /* SetupAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAlerts.swift; sourceTree = "<group>"; };
+		E79C71C52CB7FEE500EB4CFF /* SetupAlertsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAlertsViewModel.swift; sourceTree = "<group>"; };
+		E79C71C72CB800CC00EB4CFF /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
+		E79C71C92CB800F400EB4CFF /* TermsOfService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfService.swift; sourceTree = "<group>"; };
+		E79C71CB2CB801D000EB4CFF /* DeleteAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccount.swift; sourceTree = "<group>"; };
+		E79C71CD2CB803F300EB4CFF /* ManageAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAccountViewModel.swift; sourceTree = "<group>"; };
+		E79C71CF2CB9063A00EB4CFF /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		E79C71D12CB9233300EB4CFF /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
+		E79C71D32CB9238800EB4CFF /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
+		E79C71D52CB9257600EB4CFF /* NicnameUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicnameUpdateRequest.swift; sourceTree = "<group>"; };
+		E79C71D72CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTeamsUpdateRequest.swift; sourceTree = "<group>"; };
+		E79C71D92CB925B300EB4CFF /* UserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoResponse.swift; sourceTree = "<group>"; };
 		E79EE75D2BF8A073005CEF80 /* SoccerMatchInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchInfo.swift; sourceTree = "<group>"; };
 		E79EE75F2BF8E5A5005CEF80 /* PredictionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionPanel.swift; sourceTree = "<group>"; };
 		E79F05BD2CA01EA90059E828 /* Watch-Kickit Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch-Kickit Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -413,6 +449,18 @@
 				E7523F002CB162E5007AE457 /* LineupPredictionView.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E769C2612CB792D3008CBAEE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E79C71CF2CB9063A00EB4CFF /* MyPageViewModel.swift */,
+				E769C2622CB792EB008CBAEE /* MyProfileViewModel.swift */,
+				E79C71BF2CB7EF2500EB4CFF /* EditMyTeamsViewModel.swift */,
+				E79C71C52CB7FEE500EB4CFF /* SetupAlertsViewModel.swift */,
+				E79C71CD2CB803F300EB4CFF /* ManageAccountViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		E779705C2CA59C3F00DA5C00 /* Helpers */ = {
@@ -803,6 +851,8 @@
 				E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */,
 				E7EE1D7A2CB2A16300ADDAEF /* PredictionButtonRequest.swift */,
 				E7EE1D8A2CB6ACC700ADDAEF /* StartingLineupRequest.swift */,
+				E79C71D52CB9257600EB4CFF /* NicnameUpdateRequest.swift */,
+				E79C71D72CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -848,6 +898,7 @@
 				E7D21AEF2C9801F100FF8907 /* UserService.swift */,
 				E72CC3332CAFC94B00EE38B8 /* AvgHeartRateService.swift */,
 				E77970682CA6775D00DA5C00 /* HomeService.swift */,
+				E79C71D32CB9238800EB4CFF /* MyPageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -862,6 +913,7 @@
 				E7D21AF12C98062100FF8907 /* UserAPI.swift */,
 				E72CC32D2CAFC80300EE38B8 /* AvgHeartRateAPI.swift */,
 				E77970662CA6774200DA5C00 /* HomeAPI.swift */,
+				E79C71D12CB9233300EB4CFF /* MyPageAPI.swift */,
 			);
 			path = APIManagers;
 			sourceTree = "<group>";
@@ -930,6 +982,7 @@
 				E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */,
 				E7EE1D7C2CB2A18300ADDAEF /* PredictionButtonResponse.swift */,
 				E7EE1D8C2CB6ADCE00ADDAEF /* StartingLineupResponse.swift */,
+				E79C71D92CB925B300EB4CFF /* UserInfoResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -946,6 +999,15 @@
 			isa = PBXGroup;
 			children = (
 				E7DBC1042C0EE77A008D4300 /* MyPage.swift */,
+				E769C25F2CB78E1F008CBAEE /* MyProfile.swift */,
+				E769C2642CB79569008CBAEE /* GradeInfo.swift */,
+				E79C71BB2CB7EDC100EB4CFF /* EditMyTeams.swift */,
+				E79C71C12CB7FACD00EB4CFF /* LikesDiary.swift */,
+				E79C71C32CB7FBEF00EB4CFF /* SetupAlerts.swift */,
+				E79C71C92CB800F400EB4CFF /* TermsOfService.swift */,
+				E79C71C72CB800CC00EB4CFF /* PrivacyPolicy.swift */,
+				E79C71CB2CB801D000EB4CFF /* DeleteAccount.swift */,
+				E769C2612CB792D3008CBAEE /* ViewModels */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1067,6 +1129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E79C71CE2CB803F300EB4CFF /* ManageAccountViewModel.swift in Sources */,
 				E7DBC1082C0EE9AA008D4300 /* VerticalBarChart.swift in Sources */,
 				E79BF2B92C9AB0A900302BB8 /* MainView.swift in Sources */,
 				E7DBC1062C0EE9A4008D4300 /* SoccerDiary.swift in Sources */,
@@ -1081,6 +1144,7 @@
 				E7C4AD032CAD8BAB00D7E590 /* MatchEventsRequest.swift in Sources */,
 				E7A6A0762C95BA030008447D /* SettingFavViewModel.swift in Sources */,
 				E7A6A06B2C95B7A60008447D /* LoginView.swift in Sources */,
+				E79C71D02CB9063A00EB4CFF /* MyPageViewModel.swift in Sources */,
 				E79553C82C0CA04C00261DAF /* TextStyle.swift in Sources */,
 				E764F98D2C14B79A00A2822A /* SpecificRoundedRectangle.swift in Sources */,
 				E778A06A2C91431900B6117D /* StartingLineupPredictionService.swift in Sources */,
@@ -1096,24 +1160,31 @@
 				E7C4AD052CAD8BD000D7E590 /* MatchEventsResponse.swift in Sources */,
 				E7DBC10C2C0F0F85008D4300 /* RadioButtonGroup.swift in Sources */,
 				E7DBC0E22C0DC17A008D4300 /* NetworkConstants.swift in Sources */,
+				E79C71C42CB7FBEF00EB4CFF /* SetupAlerts.swift in Sources */,
 				E7DBC0F52C0DE4CB008D4300 /* NetworkError.swift in Sources */,
 				E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */,
 				E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */,
 				E7EE1D7F2CB2A1B900ADDAEF /* PredictionMatchInfo.swift in Sources */,
+				E79C71D22CB9233300EB4CFF /* MyPageAPI.swift in Sources */,
 				E7ADBF8F2C57ACC500E877C5 /* MatchEventModel.swift in Sources */,
 				E779706D2CA6A5ED00DA5C00 /* HomeViewModel.swift in Sources */,
 				E7ADBF9B2C57BB3400E877C5 /* TimelineEventRowView.swift in Sources */,
+				E79C71CA2CB800F400EB4CFF /* TermsOfService.swift in Sources */,
+				E79C71D62CB9257600EB4CFF /* NicnameUpdateRequest.swift in Sources */,
 				E72CC3342CAFC94B00EE38B8 /* AvgHeartRateService.swift in Sources */,
 				E7A448D22C18239500F611A6 /* DragIndicator.swift in Sources */,
 				E778A0782C945B0E00B6117D /* UserStartingLineupPrediction.swift in Sources */,
+				E79C71D42CB9238800EB4CFF /* MyPageService.swift in Sources */,
 				E778A0882C98194B00B6117D /* PredictionPlayerCardView.swift in Sources */,
 				E779705E2CA59C5800DA5C00 /* MatchEventCardView.swift in Sources */,
 				E7EE1D982CB6CF8700ADDAEF /* Array+.swift in Sources */,
+				E79C71C22CB7FACD00EB4CFF /* LikesDiary.swift in Sources */,
 				E7DBC0FB2C0E0F87008D4300 /* MatchCalendarAPI.swift in Sources */,
 				E79BF2BB2C9AB0D300302BB8 /* MainViewModel.swift in Sources */,
 				E77970692CA6775D00DA5C00 /* HomeService.swift in Sources */,
 				E79AFF9B2BEF7982004CAF75 /* Date+.swift in Sources */,
 				E7DBC0DE2C0CDBFB008D4300 /* MatchCalendarViewModel.swift in Sources */,
+				E79C71BC2CB7EDC100EB4CFF /* EditMyTeams.swift in Sources */,
 				E7EE1D8B2CB6ACC700ADDAEF /* StartingLineupRequest.swift in Sources */,
 				E7ADBF992C57BAF300E877C5 /* TimelineEventView.swift in Sources */,
 				E79553D22C0CB29500261DAF /* LinearGradient+.swift in Sources */,
@@ -1148,6 +1219,7 @@
 				E778A08A2C981F3600B6117D /* PredictionPlayerSelectedCardView.swift in Sources */,
 				E79AFF972BEE6B7B004CAF75 /* CustomDate.swift in Sources */,
 				E778A0862C97FCC200B6117D /* FormationRowView.swift in Sources */,
+				E769C2602CB78E20008CBAEE /* MyProfile.swift in Sources */,
 				E79AFF892BEDDE24004CAF75 /* Home.swift in Sources */,
 				E77970602CA5B3BF00DA5C00 /* DiaryEventCardView.swift in Sources */,
 				E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */,
@@ -1168,9 +1240,11 @@
 				E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */,
 				E778A07A2C945B9800B6117D /* SoccerPlayer.swift in Sources */,
 				E7ADBF742C5729A600E877C5 /* ViewerHRStatsView.swift in Sources */,
+				E79C71C02CB7EF2500EB4CFF /* EditMyTeamsViewModel.swift in Sources */,
 				E778A08C2C99633D00B6117D /* PredictionPlayerView.swift in Sources */,
 				E7ADBF952C57B5B700E877C5 /* MatchEventService.swift in Sources */,
 				E7DBC1052C0EE77A008D4300 /* MyPage.swift in Sources */,
+				E79C71CC2CB801D000EB4CFF /* DeleteAccount.swift in Sources */,
 				E7DBC10A2C0F036B008D4300 /* DesignChip.swift in Sources */,
 				E76391772C0377D600B565BE /* DesignHalfButton.swift in Sources */,
 				E7A6A07A2C95BA630008447D /* AcceptingViewModel.swift in Sources */,
@@ -1183,7 +1257,10 @@
 				E7A6A0782C95BA240008447D /* SettingNameViewModel.swift in Sources */,
 				E79AFF9D2BEF8A86004CAF75 /* SoccerMatchRow.swift in Sources */,
 				E778A0722C914E0C00B6117D /* StartingLineupPredictionAPI.swift in Sources */,
+				E769C2652CB79569008CBAEE /* GradeInfo.swift in Sources */,
+				E79C71C62CB7FEE500EB4CFF /* SetupAlertsViewModel.swift in Sources */,
 				E7B140032C85F48400CB351E /* SoccerMatchMonthlyRequest.swift in Sources */,
+				E769C2632CB792EB008CBAEE /* MyProfileViewModel.swift in Sources */,
 				E79AFFA12BEF8F1B004CAF75 /* LoadableImage.swift in Sources */,
 				E7EE1D8F2CB6B49900ADDAEF /* StartingLineupViewModel.swift in Sources */,
 				E7592AA82CA93FDA008E9E6E /* Shadow+.swift in Sources */,
@@ -1195,7 +1272,9 @@
 				E779706B2CA69F5D00DA5C00 /* HomeResponse.swift in Sources */,
 				E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */,
 				E79AFF812BEDDCBD004CAF75 /* ContentView.swift in Sources */,
+				E79C71C82CB800CC00EB4CFF /* PrivacyPolicy.swift in Sources */,
 				E764F9B52C15FD0900A2822A /* WinningPrediction.swift in Sources */,
+				E79C71DA2CB925B300EB4CFF /* UserInfoResponse.swift in Sources */,
 				E778A0902C9A6F6B00B6117D /* Formation.swift in Sources */,
 				E7ABF3D72C58AFC7001BAE0F /* MatchResultView.swift in Sources */,
 				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
@@ -1205,6 +1284,7 @@
 				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
 				E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
+				E79C71D82CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift in Sources */,
 				E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

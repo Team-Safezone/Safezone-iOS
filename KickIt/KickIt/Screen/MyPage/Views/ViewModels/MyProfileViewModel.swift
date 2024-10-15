@@ -1,18 +1,19 @@
 //
-//  SettingNameViewModel.swift
+//  MyProfileViewModel.swift
 //  KickIt
 //
-//  Created by DaeunLee on 9/14/24.
+//  Created by DaeunLee on 10/10/24.
 //
 
 import Combine
 import SwiftUI
 
-// 닉네임 설정 뷰모델
-class SettingNameViewModel: ObservableObject {
-    @Published var nickname = ""
-    @Published var isNicknameValid = false
-    @Published var errorMessage = ""
+// 나의 프로필 뷰모델
+class MyProfileViewModel : ObservableObject {
+    @Published var nickname = ""                // 사용자가 작성한 닉네임
+    @Published var isNicknameValid = false      // 닉네임 유효성 판단
+    @Published var errorMessage = ""            // 에러메시지
+    @Published var showChangeSuccess = false    // 닉네임 변경 성공 여부
     @Published private(set) var isCheckingDuplicate = false
     
     private var cancellables = Set<AnyCancellable>()
@@ -59,7 +60,7 @@ class SettingNameViewModel: ObservableObject {
             errorMessage = "사용 불가능한 닉네임입니다"
         }
         
-        // MARK: API 개발 전까지 호출 부분 잠시 주석 처리
+        // 닉네임 중복 GET API 호출
         /*
          guard nicknamePredicate.evaluate(with: nickname) else {
          isNicknameValid = false
@@ -86,14 +87,24 @@ class SettingNameViewModel: ObservableObject {
          */
     }
     
-    // 닉네임 설정
-    func setNickname(to mainViewModel: MainViewModel, completion: @escaping () -> Void) {
+    // 닉네임 수정 POST API 호출
+    func setNickname() {
         guard isNicknameValid else {
             errorMessage = "사용 불가능한 닉네임입니다"
             return
         }
         
-        mainViewModel.userSignUpInfo.nickname = nickname
-        completion()
+        let request = NicknameUpdateRequest(nickname: nickname)
+        MyPageAPI.shared.updateNickname(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Error updating nickname: \(error)")
+                    self.errorMessage = "닉네임 변경에 실패했습니다"
+                }
+            } receiveValue: { _ in
+                print("닉네임 변경 성공")
+            }
+            .store(in: &cancellables)
     }
 }

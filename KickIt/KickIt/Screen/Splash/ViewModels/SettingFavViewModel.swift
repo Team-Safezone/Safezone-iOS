@@ -27,7 +27,6 @@ class SettingFavViewModel: ObservableObject {
         } else if selectedTeams.count < 3 {
             selectedTeams.append(team.teamName)
         }
-         print("selectedTeams: \(selectedTeams)")
     }
     
     /// 선호 팀 설정
@@ -37,7 +36,7 @@ class SettingFavViewModel: ObservableObject {
     }
     
     /// 프리미어리그 팀 get API
-    private func fetchTeams() {
+    func fetchTeams() {
         UserAPI.shared.getTeams()
             .receive(on: DispatchQueue.main)
             .sink { completion in

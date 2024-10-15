@@ -104,10 +104,8 @@ struct AcceptingView: View {
                     Button(action: {
                         acceptingViewModel.showModal = true
                     }) {
-                        Image(systemName: "chevron.right")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 12, height: 12)
+                        Image("CaretRight")
+                            .frame(width: 24, height: 24)
                             .foregroundStyle(.gray300)
                     }
                     .sheet(isPresented: $acceptingViewModel.showModal) {
