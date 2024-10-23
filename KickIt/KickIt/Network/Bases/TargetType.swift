@@ -88,7 +88,7 @@ extension TargetType {
             let params = query.toDictionary()
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
-                if let value = value as? String, !value.isEmpty, value != "<null>" {
+                if let value = value as? String, !value.isEmpty {
                     let encoding = value
                     return URLQueryItem(name: key, value: encoding)
                 }
@@ -116,11 +116,15 @@ extension TargetType {
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .requestBody(let body):
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
+            
             let bodyParams = body.toDictionary()
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
         
         case .requestPlain:
-            break
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
         }
         
         return request
