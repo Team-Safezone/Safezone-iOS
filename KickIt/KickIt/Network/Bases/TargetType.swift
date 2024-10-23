@@ -54,15 +54,14 @@ extension TargetType {
     
     /// URL 요청 생성
     func asURLRequest() throws -> URLRequest {
-        // ?를 인코딩할 수 있는 형태로 변경
-        let url = try baseURL.encodeURL()?.asURL()
-        var urlRequest = try URLRequest(url: url!, method: method)
+        let url = try baseURL.asURL()
+        var urlRequest = try URLRequest(url: url, method: method)
         
         // header 설정
         urlRequest = self.makeHeaderForRequest(to: urlRequest)
         
         // parameter 설정
-        return try self.makeParameterForRequest(to: urlRequest, with: url!)
+        return try self.makeParameterForRequest(to: urlRequest, with: url)
     }
     
     /// API 요청 시 header 설정
@@ -89,13 +88,13 @@ extension TargetType {
             let params = query.toDictionary()
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
-                if let value = value as? String, !value.isEmpty {
-                    let encoding = value.encodeURL() // 한글 인코딩
+                if let value = value as? String, !value.isEmpty, value != "<null>" {
+                    let encoding = value
                     return URLQueryItem(name: key, value: encoding)
                 }
                 return nil
             }
-            var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
@@ -104,12 +103,12 @@ extension TargetType {
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
                 if let value = value as? String, !value.isEmpty {
-                    let encoding = value.encodeURL() // 한글 인코딩
+                    let encoding = value
                     return URLQueryItem(name: key, value: encoding)
                 }
                 return nil
             }
-            var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
