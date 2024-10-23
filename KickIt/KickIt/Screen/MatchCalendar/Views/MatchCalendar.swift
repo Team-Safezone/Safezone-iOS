@@ -43,7 +43,9 @@ struct MatchCalendar: View {
                         
                         // MARK: 랭킹 화면 이동 버튼
                         NavigationLink {
-                            
+                            Ranking(calendarViewModel: viewModel)
+                                .toolbarRole(.editor)
+                                .toolbar(.hidden, for: .tabBar)
                         } label: {
                             Image(.trophy)
                                 .frame(width: 44, height: 44)

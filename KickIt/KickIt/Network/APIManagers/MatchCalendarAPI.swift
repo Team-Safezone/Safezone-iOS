@@ -92,6 +92,45 @@ class MatchCalendarAPI: BaseAPI {
         .eraseToAnyPublisher()
     }
     
+    /// 랭킹 조회 API
+    func getRanking() -> AnyPublisher<[RankingResponse], NetworkError> {
+        return Future<[RankingResponse], NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(MatchCalendarService.getRanking, interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<[RankingResponse]>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.isSuccess {
+                            promise(.success(result.data ?? []))
+                        }
+                        // 응답 실패
+                        else {
+                            switch result.status {
+                            case 401:
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
     /// 경기 예측 버튼 클릭 조회 API
     func getPredictoinButtonClick(request: PredictionButtonRequest) -> AnyPublisher<PredictionButtonResponse, NetworkError> {
         return Future<PredictionButtonResponse, NetworkError> { [weak self] promise in
