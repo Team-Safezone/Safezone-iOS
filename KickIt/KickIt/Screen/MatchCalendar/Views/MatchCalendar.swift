@@ -105,19 +105,15 @@ struct MatchCalendar: View {
             }
             .ignoresSafeArea(edges: .top)
         }
-        .onAppear(perform: {
-            // 초기 진입 시, 한달 경기 날짜 조회 API 호출
-            getDayYearMonthSoccerMatches()
-            
-            // 하루 경기 일정 조회 API 연결
-            getDailySoccerMatches()
-        })
         .tint(.gray200)
         .navigationBarBackButtonHidden()
     }
     
     /// 하루 축구 경기 일정 불러오기
     private func getDailySoccerMatches() {
+        // 팀 이름 변환
+        viewModel.setSelectedTeamName(teamName: viewModel.selectedTeamName)
+        
         viewModel.getDailySoccerMatches(
             request: SoccerMatchDailyRequest(
                 date: dateToString4(date: currentDate),
@@ -128,6 +124,9 @@ struct MatchCalendar: View {
     
     /// 한달 축구 경기 일정 불러오기
     private func getDayYearMonthSoccerMatches() {
+        // 팀 이름 변환
+        viewModel.setSelectedTeamName(teamName: viewModel.selectedTeamName)
+        
         viewModel.getYearMonthSoccerMatches(
             request: SoccerMatchMonthlyRequest(
                 yearMonth: dateToString5(date: currentDate),
@@ -185,25 +184,6 @@ struct MatchCalendar: View {
                     .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.gray500Text)
                     .padding(.top, 48)
-                
-                    // FIXME: api 연결 시, 아래 코드 삭제하기
-                    ForEach(dummySoccerMatches) { match in
-                        NavigationLink {
-                            SoccerMatchInfo(viewModel: viewModel)
-                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                        } label: {
-                            SoccerMatchRow(soccerMatch: match)
-                                .padding(.horizontal, 16)
-                                .padding(.bottom, 12)
-                        }
-                        .simultaneousGesture(
-                            TapGesture().onEnded {
-                                // 화면 전환 전에 선택한 경기 업데이트
-                                viewModel.selectedMatch(match: match)
-                            }
-                        )
-                    }
             }
         }
     }
