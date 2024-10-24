@@ -97,8 +97,8 @@ struct CustomDatePicker: View {
         VStack(spacing: 0) {
             if (date.day != -1) {
                 // 해당 날짜에 경기 일정이 있는지에 대한 여부 반환
-                let isSoccerMatch = dummySoccerMatches.contains { match in
-                    return isSameDay(date1: match.matchDate, date2: date.date)
+                let isSoccerMatch = matchDates.contains { match in
+                    return isSameDay(date1: match, date2: date.date)
                 }
                 
                 // 오늘 날짜

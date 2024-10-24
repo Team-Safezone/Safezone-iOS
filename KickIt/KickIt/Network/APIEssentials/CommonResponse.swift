@@ -26,6 +26,6 @@ struct CommonResponse<T: Codable>: Codable {
         status = (try? values.decode(Int.self, forKey: .status)) ?? -1
         isSuccess = (try? values.decode(Bool.self, forKey: .isSuccess)) ?? false
         message = (try? values.decode(String.self, forKey: .message)) ?? ""
-        data = (try? values.decode(T.self, forKey: .data)) ?? nil
+        data = (try? values.decodeIfPresent(T.self, forKey: .data)) ?? nil
     }
 }
