@@ -132,11 +132,8 @@ struct RecordingView: View {
         VStack(alignment: .center, spacing: 2) {
             Text("\(match.homeTeam) VS \(match.awayTeam)")
                 .font(.pretendard(.medium, size: 14))
-            Image("heart")
-                .resizable()
-                .scaledToFit()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
+            GIFImageView(gifName: "heart")
+                .frame(width: 80, height: 80)
             HStack(alignment: .bottom, spacing: 4){
                 Text("\(heartrate)")
                     .font(.pretendard(.bold, size: 40))

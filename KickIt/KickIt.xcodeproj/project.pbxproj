@@ -61,6 +61,8 @@
 		E779706D2CA6A5ED00DA5C00 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */; };
 		E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */; };
 		E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970712CA8403100DA5C00 /* HomeDiary.swift */; };
+		E77BA64B2CD0F9810055730B /* heart.gif in Resources */ = {isa = PBXBuildFile; fileRef = E77BA64A2CD0F9810055730B /* heart.gif */; };
+		E77BA64D2CD0F9B90055730B /* GIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77BA64C2CD0F9B90055730B /* GIFImage.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -280,6 +282,8 @@
 		E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatch.swift; sourceTree = "<group>"; };
 		E77970712CA8403100DA5C00 /* HomeDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiary.swift; sourceTree = "<group>"; };
+		E77BA64A2CD0F9810055730B /* heart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = heart.gif; sourceTree = "<group>"; };
+		E77BA64C2CD0F9B90055730B /* GIFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImage.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -498,6 +502,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E77BA64E2CD0FA7D0055730B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E79553B62C0C6AFC00261DAF /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -545,6 +556,7 @@
 				E79AFF6F2BEDC8DC004CAF75 /* KickIt */,
 				E79F05BE2CA01EA90059E828 /* Watch-Kickit Watch App */,
 				E79AFF6E2BEDC8DC004CAF75 /* Products */,
+				E77BA64E2CD0FA7D0055730B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -761,6 +773,7 @@
 		E79F05D02CA01F0F0059E828 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E77BA64C2CD0F9B90055730B /* GIFImage.swift */,
 				E79F05D32CA01F310059E828 /* ContentView.swift */,
 				E79F05D22CA01F310059E828 /* MatchDetailView.swift */,
 			);
@@ -870,6 +883,7 @@
 		E7CD31F62CA2EF2B00CBC086 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E77BA64A2CD0F9810055730B /* heart.gif */,
 				E743A04C2CB01525007E4343 /* Font */,
 				E744887E2CA2D0490080EA1C /* Date+.swift */,
 				E744887F2CA2D0490080EA1C /* Font+.swift */,
@@ -1128,6 +1142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */,
+				E77BA64B2CD0F9810055730B /* heart.gif in Resources */,
 				E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */,
 				E79F05F72CA04D300059E828 /* Secrets.xcconfig in Resources */,
 				E743A04D2CB01525007E4343 /* Font in Resources */,
@@ -1309,6 +1324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E77BA64D2CD0F9B90055730B /* GIFImage.swift in Sources */,
 				E7CD31F02CA2D23B00CBC086 /* Font+.swift in Sources */,
 				E7CD31F32CA2D3D500CBC086 /* LoadableImage.swift in Sources */,
 				E7CD31EF2CA2D23B00CBC086 /* Date+.swift in Sources */,
