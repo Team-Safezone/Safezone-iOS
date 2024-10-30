@@ -14,8 +14,12 @@ struct TimelineEventView: View {
     @State private var timer: Timer? // API 호출 타이머
     
     init(match: SoccerMatch) {
-        _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
-    }
+            #if DEBUG
+            _viewModel = StateObject(wrappedValue: MatchEventViewModel.withDummyData())
+            #else
+            _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
+            #endif
+        }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -157,7 +161,7 @@ struct HalfTimeView: View {
                 path.addLine(to: CGPoint(x: 126, y: 8))
                 path.closeSubpath()
             }
-            .stroke(Color.gray950, lineWidth: 1)
+            .stroke(Color.gray900, lineWidth: 1)
             
             HStack(spacing: 4) {
                 switch eventCode {

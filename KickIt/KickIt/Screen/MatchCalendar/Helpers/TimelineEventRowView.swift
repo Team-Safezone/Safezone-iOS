@@ -12,15 +12,22 @@ struct TimelineEventRowView: View {
     var event: MatchEventsData
     @ObservedObject var viewModel: MatchEventViewModel
     
-    let eventIcons: [String: String] = [
-        "골!": "SoccerBall",
-        "교체": "ArrowsLeftRight",
-        "자책골": "SoccerBall",
-        "경고": "card",
-        "두 번째 경고": "doublecard",
-        "퇴장": "card",
-        "VAR 판독": "VideoCamera"
-    ]
+    // 다크모드 감지
+    @Environment(\.colorScheme) var colorScheme
+    
+    // 아이콘 다르게
+    var eventIcons: [String: String] {
+        let prefix = colorScheme == .dark ? "" : "b_"
+        return [
+            "골!": "\(prefix)Goal",
+            "교체": "\(prefix)LeftRight",
+            "자책골": "\(prefix)SelfGoal",
+            "경고": "\(prefix)Card1",
+            "두 번째 경고": "\(prefix)Card2",
+            "퇴장": "\(prefix)RedCard",
+            "VAR 판독": "\(prefix)VideoCamera"
+        ]
+    }
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
@@ -69,7 +76,7 @@ struct TimelineEventRowView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.limeTransparent)
             } else if event.eventName == "자책골" {
-                    RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(Color.redTransparent)
             }
         }
