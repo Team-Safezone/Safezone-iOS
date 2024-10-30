@@ -46,7 +46,7 @@ struct APIConstants {
     static let matchEventURL = "/realTime"
     
     /// 사용자 평균 심박수 URL
-    static let avgHeartRateURL = "/avgHeartRate"
+    static let avgHeartRateURL = "/users/avgHeartRate"
     
     /// 사용자 심박수 데이터 존재 여부 URL
     static let checkDataExistsURL = "/check-dataExists"
