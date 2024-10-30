@@ -1,8 +1,8 @@
 //
 //  TargetType.swift
-//  Watch-Kickit Watch App
+//  KickIt
 //
-//  Created by DaeunLee on 9/22/24.
+//  Created by 이윤지 on 6/3/24.
 //
 
 import Foundation
@@ -49,20 +49,19 @@ extension TargetType {
     }
     
     var multipart: MultipartFormData {
-        return MultipartFormData()
+         return MultipartFormData()
     }
     
     /// URL 요청 생성
     func asURLRequest() throws -> URLRequest {
-        // 인코딩할 수 있는 형태로 변경
-        let url = try baseURL.encodeURL()?.asURL()
-        var urlRequest = try URLRequest(url: url!, method: method)
+        let url = try baseURL.asURL()
+        var urlRequest = try URLRequest(url: url, method: method)
         
         // header 설정
         urlRequest = self.makeHeaderForRequest(to: urlRequest)
         
         // parameter 설정
-        return try self.makeParameterForRequest(to: urlRequest, with: url!)
+        return try self.makeParameterForRequest(to: urlRequest, with: url)
     }
     
     /// API 요청 시 header 설정
@@ -90,12 +89,12 @@ extension TargetType {
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
                 if let value = value as? String, !value.isEmpty {
-                    let encoding = value.encodeURL() // 한글 인코딩
+                    let encoding = value
                     return URLQueryItem(name: key, value: encoding)
                 }
                 return nil
             }
-            var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
@@ -104,12 +103,12 @@ extension TargetType {
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
                 if let value = value as? String, !value.isEmpty {
-                    let encoding = value.encodeURL() // 한글 인코딩
+                    let encoding = value
                     return URLQueryItem(name: key, value: encoding)
                 }
                 return nil
             }
-            var components = URLComponents(string: url.appendingPathComponent(endPoint).absoluteString)
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             components?.queryItems = queryParams
             request.url = components?.url
             
@@ -117,11 +116,15 @@ extension TargetType {
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .requestBody(let body):
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
+            
             let bodyParams = body.toDictionary()
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
-            
+        
         case .requestPlain:
-            break
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
         }
         
         return request
