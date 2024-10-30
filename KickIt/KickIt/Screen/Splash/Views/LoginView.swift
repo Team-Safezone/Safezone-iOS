@@ -42,7 +42,7 @@ struct LoginView: View {
                                 HStack(alignment: .center, spacing: 88) {
                                     Image("kakao_logo")
                                         .resizable()
-                                        .scaledToFit()
+                                        .scaledToFill()
                                         .frame(width: 16, height: 16)
                                         .padding(.leading, 16)
                                     Text("카카오로 로그인")
@@ -62,17 +62,17 @@ struct LoginView: View {
                 }) {
                     RoundedRectangle(cornerRadius: 8)
                         .frame(maxWidth: .infinity, maxHeight: 48)
-                        .foregroundStyle(.gray900)
+                        .foregroundStyle(.white0)
                         .overlay {
                             HStack(alignment: .center, spacing: 88) {
                                 Image("apple_logo")
                                     .resizable()
-                                    .scaledToFit()
+                                    .scaledToFill()
                                     .frame(width: 16, height: 16)
                                     .padding(.leading, 16)
                                 Text("Apple로 로그인")
                                     .pretendardTextStyle(.Body1Style)
-                                    .foregroundStyle(.white0)
+                                    .foregroundStyle(.black0)
                                     .padding(.leading, 12)
                                 Spacer()
                             }
