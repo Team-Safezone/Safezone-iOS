@@ -21,7 +21,7 @@ struct ViewerStatsView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("전체 시청자 분석")
+                Text("양 팀 시청자 분석")
                     .pretendardTextStyle(.Title1Style)
                     .padding(.top, 50)
                 Spacer()
