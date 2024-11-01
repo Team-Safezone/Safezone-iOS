@@ -12,6 +12,7 @@
 		E72545202CC9035300348F50 /* RankingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E725451F2CC9035300348F50 /* RankingResponse.swift */; };
 		E72545222CC9082900348F50 /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72545212CC9082900348F50 /* RankingViewModel.swift */; };
 		E72545242CC917B300348F50 /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72545232CC917B300348F50 /* RankingModel.swift */; };
+		E725452E2CC958A500348F50 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E725452D2CC958A500348F50 /* Pretendard-Regular.otf */; };
 		E72CC32E2CAFC80300EE38B8 /* AvgHeartRateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC32D2CAFC80300EE38B8 /* AvgHeartRateAPI.swift */; };
 		E72CC3322CAFC8E100EE38B8 /* AvgHeartRateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */; };
 		E72CC3342CAFC94B00EE38B8 /* AvgHeartRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3332CAFC94B00EE38B8 /* AvgHeartRateService.swift */; };
@@ -228,6 +229,7 @@
 		E725451F2CC9035300348F50 /* RankingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingResponse.swift; sourceTree = "<group>"; };
 		E72545212CC9082900348F50 /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
 		E72545232CC917B300348F50 /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
+		E725452D2CC958A500348F50 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		E72CC32D2CAFC80300EE38B8 /* AvgHeartRateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvgHeartRateAPI.swift; sourceTree = "<group>"; };
 		E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvgHeartRateResponse.swift; sourceTree = "<group>"; };
 		E72CC3332CAFC94B00EE38B8 /* AvgHeartRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvgHeartRateService.swift; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 				E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */,
 				E79553C02C0C78B700261DAF /* Pretendard-SemiBold.otf */,
 				E79553BF2C0C78B700261DAF /* Pretendard-Medium.otf */,
+				E725452D2CC958A500348F50 /* Pretendard-Regular.otf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -1118,6 +1121,7 @@
 				E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */,
 				E7B13FFE2C85EAC600CB351E /* Secrets.xcconfig in Resources */,
 				E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */,
+				E725452E2CC958A500348F50 /* Pretendard-Regular.otf in Resources */,
 				E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */,
 				E79553C22C0C78B700261DAF /* Pretendard-Medium.otf in Resources */,
 			);
