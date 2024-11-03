@@ -132,6 +132,7 @@ struct RecordingView: View {
         VStack(alignment: .center, spacing: 2) {
             Text("\(match.homeTeam) VS \(match.awayTeam)")
                 .font(.pretendard(.medium, size: 14))
+            Spacer()
             GIFImageView(gifName: "heart")
                 .frame(width: 80, height: 80)
             HStack(alignment: .bottom, spacing: 4){
@@ -153,7 +154,7 @@ struct EndView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            Text("심박수 기록을\n종료하시겠습니까?")
+            Text("경기 시청을\n중단하시겠습니까?")
                 .multilineTextAlignment(.center)
                 .font(.pretendard(.medium, size: 14))
                 .lineSpacing(2)
