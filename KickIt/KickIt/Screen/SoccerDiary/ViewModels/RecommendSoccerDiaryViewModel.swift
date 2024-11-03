@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-/// 개별 축구 일기 뷰모델
-final class SoccerDiaryDetailViewModel: ObservableObject {
+/// 추천 축구 일기 뷰모델
+final class RecommendSoccerDiaryViewModel: ObservableObject {
     /// 추천 일기 객체
     @Published var soccerDiary: RecommendDiaryModel
     

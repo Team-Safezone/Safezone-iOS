@@ -37,7 +37,7 @@ struct SoccerDiary: View {
                         // 추천 일기
                         if (selectedTab == .recommend) {
                             ForEach(Array(viewModel.recommendDiarys.enumerated()), id: \.offset) { index, diaryVM in
-                                SoccerDiaryView(viewModel: diaryVM)
+                                RecommendSoccerDiaryView(viewModel: diaryVM)
                                     .padding(.vertical, 16)
                                 
                                 Rectangle()

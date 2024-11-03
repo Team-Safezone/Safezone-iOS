@@ -10,7 +10,7 @@ import SwiftUI
 /// 신고하기 바텀시트
 struct SoccerDiaryNotifyBottomSheetView: View {
     /// 축구 일기 객체
-    @ObservedObject var viewModel: SoccerDiaryDetailViewModel
+    @ObservedObject var viewModel: RecommendSoccerDiaryViewModel
     
     var body: some View {
         VStack(alignment: .leading) {

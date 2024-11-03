@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E702D9FA2CC4E26E00B930E2 /* DiaryTabInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702D9F92CC4E26E00B930E2 /* DiaryTabInfo.swift */; };
-		E702D9FC2CC5184800B930E2 /* SoccerDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702D9FB2CC5184800B930E2 /* SoccerDiaryView.swift */; };
+		E702D9FC2CC5184800B930E2 /* RecommendSoccerDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702D9FB2CC5184800B930E2 /* RecommendSoccerDiaryView.swift */; };
 		E702DA002CC51B9700B930E2 /* RecommendDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702D9FF2CC51B9700B930E2 /* RecommendDiaryModel.swift */; };
 		E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E708EB532BF5D5F800AE526C /* DesignWideButton.swift */; };
 		E725451E2CC9000100348F50 /* Ranking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E725451D2CC9000100348F50 /* Ranking.swift */; };
@@ -38,7 +38,7 @@
 		E769C2602CB78E20008CBAEE /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C25F2CB78E1F008CBAEE /* MyProfile.swift */; };
 		E769C2632CB792EB008CBAEE /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C2622CB792EB008CBAEE /* MyProfileViewModel.swift */; };
 		E769C2652CB79569008CBAEE /* GradeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E769C2642CB79569008CBAEE /* GradeInfo.swift */; };
-		E76C2F192CD778BC00B38B58 /* SoccerDiaryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F182CD778BC00B38B58 /* SoccerDiaryDetailViewModel.swift */; };
+		E76C2F192CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F182CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift */; };
 		E76C2F1B2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */; };
 		E76C2F1D2CD7961700B38B58 /* CircleRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1C2CD7961700B38B58 /* CircleRadioButton.swift */; };
 		E76C2F1F2CD7965700B38B58 /* CircleRadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1E2CD7965700B38B58 /* CircleRadioGroup.swift */; };
@@ -235,7 +235,7 @@
 
 /* Begin PBXFileReference section */
 		E702D9F92CC4E26E00B930E2 /* DiaryTabInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTabInfo.swift; sourceTree = "<group>"; };
-		E702D9FB2CC5184800B930E2 /* SoccerDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerDiaryView.swift; sourceTree = "<group>"; };
+		E702D9FB2CC5184800B930E2 /* RecommendSoccerDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendSoccerDiaryView.swift; sourceTree = "<group>"; };
 		E702D9FF2CC51B9700B930E2 /* RecommendDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendDiaryModel.swift; sourceTree = "<group>"; };
 		E708EB532BF5D5F800AE526C /* DesignWideButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignWideButton.swift; sourceTree = "<group>"; };
 		E722770F2BF8917900DE9A7C /* KickIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickIt.entitlements; sourceTree = "<group>"; };
@@ -269,7 +269,7 @@
 		E769C25F2CB78E1F008CBAEE /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
 		E769C2622CB792EB008CBAEE /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
 		E769C2642CB79569008CBAEE /* GradeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeInfo.swift; sourceTree = "<group>"; };
-		E76C2F182CD778BC00B38B58 /* SoccerDiaryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerDiaryDetailViewModel.swift; sourceTree = "<group>"; };
+		E76C2F182CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendSoccerDiaryViewModel.swift; sourceTree = "<group>"; };
 		E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerDiaryNotifyBottomSheetView.swift; sourceTree = "<group>"; };
 		E76C2F1C2CD7961700B38B58 /* CircleRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRadioButton.swift; sourceTree = "<group>"; };
 		E76C2F1E2CD7965700B38B58 /* CircleRadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRadioGroup.swift; sourceTree = "<group>"; };
@@ -463,7 +463,7 @@
 			isa = PBXGroup;
 			children = (
 				E725452B2CC94A3200348F50 /* SoccerDiaryViewModel.swift */,
-				E76C2F182CD778BC00B38B58 /* SoccerDiaryDetailViewModel.swift */,
+				E76C2F182CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -480,7 +480,7 @@
 		E702D9F82CC4DEA900B930E2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E702D9FB2CC5184800B930E2 /* SoccerDiaryView.swift */,
+				E702D9FB2CC5184800B930E2 /* RecommendSoccerDiaryView.swift */,
 				E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */,
 			);
 			path = Helpers;
@@ -1277,7 +1277,7 @@
 				E7FFA0612C9EBBE1001FE588 /* SignUpData.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
-				E76C2F192CD778BC00B38B58 /* SoccerDiaryDetailViewModel.swift in Sources */,
+				E76C2F192CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift in Sources */,
 				E778A0842C97F3FD00B6117D /* StartingLineupPredictionView.swift in Sources */,
 				E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
@@ -1318,7 +1318,7 @@
 				E7EE1D832CB2A38600ADDAEF /* PredictionButtonViewModel.swift in Sources */,
 				E72CC3362CAFEB4100EE38B8 /* MatchHeartRateRequest.swift in Sources */,
 				E72545282CC9460300348F50 /* SoccerDiaryAPI.swift in Sources */,
-				E702D9FC2CC5184800B930E2 /* SoccerDiaryView.swift in Sources */,
+				E702D9FC2CC5184800B930E2 /* RecommendSoccerDiaryView.swift in Sources */,
 				E7B140052C85F66500CB351E /* SoccerMatchDailyRequest.swift in Sources */,
 				E708EB542BF5D5F800AE526C /* DesignWideButton.swift in Sources */,
 				E778A07A2C945B9800B6117D /* SoccerPlayer.swift in Sources */,
