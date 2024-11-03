@@ -47,7 +47,14 @@ struct SoccerDiary: View {
                         }
                         // 내 일기
                         else {
-                            
+                            ForEach(Array(viewModel.myDiarys.enumerated()), id: \.offset) { index, diaryVM in
+                                MySoccerDiaryView(viewModel: diaryVM)
+                                    .padding(.vertical, 16)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundStyle(.gray900)
+                            }
                         }
                     }
                 }
@@ -86,6 +93,13 @@ struct SoccerDiary: View {
                     .onTapGesture {
                         withAnimation(.easeInOut) {
                             self.selectedTab = item
+                        }
+                        
+                        if selectedTab == .my {
+                            viewModel.getMyDiarys()
+                        }
+                        else {
+                            viewModel.getRecommendDiarys()
                         }
                     }
                 }

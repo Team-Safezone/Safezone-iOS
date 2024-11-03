@@ -42,6 +42,10 @@
 		E76C2F1B2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */; };
 		E76C2F1D2CD7961700B38B58 /* CircleRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1C2CD7961700B38B58 /* CircleRadioButton.swift */; };
 		E76C2F1F2CD7965700B38B58 /* CircleRadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F1E2CD7965700B38B58 /* CircleRadioGroup.swift */; };
+		E76C2F212CD7A7E800B38B58 /* MySoccerDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F202CD7A7E800B38B58 /* MySoccerDiaryView.swift */; };
+		E76C2F232CD7A82700B38B58 /* MyDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F222CD7A82700B38B58 /* MyDiaryModel.swift */; };
+		E76C2F252CD7AABE00B38B58 /* MySoccerDiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F242CD7AABE00B38B58 /* MySoccerDiaryViewModel.swift */; };
+		E76C2F272CD7DB5700B38B58 /* MyDiaryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F262CD7DB5700B38B58 /* MyDiaryResponse.swift */; };
 		E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */; };
 		E778A06A2C91431900B6117D /* StartingLineupPredictionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0692C91431900B6117D /* StartingLineupPredictionService.swift */; };
 		E778A06C2C91435100B6117D /* StartingLineupPredictionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A06B2C91435100B6117D /* StartingLineupPredictionRequest.swift */; };
@@ -273,6 +277,10 @@
 		E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerDiaryNotifyBottomSheetView.swift; sourceTree = "<group>"; };
 		E76C2F1C2CD7961700B38B58 /* CircleRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRadioButton.swift; sourceTree = "<group>"; };
 		E76C2F1E2CD7965700B38B58 /* CircleRadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRadioGroup.swift; sourceTree = "<group>"; };
+		E76C2F202CD7A7E800B38B58 /* MySoccerDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySoccerDiaryView.swift; sourceTree = "<group>"; };
+		E76C2F222CD7A82700B38B58 /* MyDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDiaryModel.swift; sourceTree = "<group>"; };
+		E76C2F242CD7AABE00B38B58 /* MySoccerDiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySoccerDiaryViewModel.swift; sourceTree = "<group>"; };
+		E76C2F262CD7DB5700B38B58 /* MyDiaryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDiaryResponse.swift; sourceTree = "<group>"; };
 		E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatistics.swift; sourceTree = "<group>"; };
 		E778A0692C91431900B6117D /* StartingLineupPredictionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupPredictionService.swift; sourceTree = "<group>"; };
 		E778A06B2C91435100B6117D /* StartingLineupPredictionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingLineupPredictionRequest.swift; sourceTree = "<group>"; };
@@ -464,6 +472,7 @@
 			children = (
 				E725452B2CC94A3200348F50 /* SoccerDiaryViewModel.swift */,
 				E76C2F182CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift */,
+				E76C2F242CD7AABE00B38B58 /* MySoccerDiaryViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -473,6 +482,7 @@
 			children = (
 				E702D9F92CC4E26E00B930E2 /* DiaryTabInfo.swift */,
 				E702D9FF2CC51B9700B930E2 /* RecommendDiaryModel.swift */,
+				E76C2F222CD7A82700B38B58 /* MyDiaryModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -482,6 +492,7 @@
 			children = (
 				E702D9FB2CC5184800B930E2 /* RecommendSoccerDiaryView.swift */,
 				E76C2F1A2CD7943600B38B58 /* SoccerDiaryNotifyBottomSheetView.swift */,
+				E76C2F202CD7A7E800B38B58 /* MySoccerDiaryView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1055,6 +1066,7 @@
 				E7EE1D8C2CB6ADCE00ADDAEF /* StartingLineupResponse.swift */,
 				E79C71D92CB925B300EB4CFF /* UserInfoResponse.swift */,
 				E72545252CC943EB00348F50 /* RecommendDiaryResponse.swift */,
+				E76C2F262CD7DB5700B38B58 /* MyDiaryResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1237,6 +1249,7 @@
 				E72545202CC9035300348F50 /* RankingResponse.swift in Sources */,
 				E7DBC0F52C0DE4CB008D4300 /* NetworkError.swift in Sources */,
 				E7E869152C568C7200DFBA85 /* HeartRateRecordModel.swift in Sources */,
+				E76C2F212CD7A7E800B38B58 /* MySoccerDiaryView.swift in Sources */,
 				E778A08E2C9A6EB900B6117D /* SoccerPosition.swift in Sources */,
 				E7EE1D7F2CB2A1B900ADDAEF /* PredictionMatchInfo.swift in Sources */,
 				E79C71D22CB9233300EB4CFF /* MyPageAPI.swift in Sources */,
@@ -1279,6 +1292,7 @@
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
 				E76C2F192CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift in Sources */,
 				E778A0842C97F3FD00B6117D /* StartingLineupPredictionView.swift in Sources */,
+				E76C2F272CD7DB5700B38B58 /* MyDiaryResponse.swift in Sources */,
 				E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */,
 				E79AFF8D2BEDDEFD004CAF75 /* MatchCalendar.swift in Sources */,
 				E7FFA05F2C9EB7CC001FE588 /* SoccerTeamRequest.swift in Sources */,
@@ -1364,12 +1378,14 @@
 				E79C71DA2CB925B300EB4CFF /* UserInfoResponse.swift in Sources */,
 				E778A0902C9A6F6B00B6117D /* Formation.swift in Sources */,
 				E7ABF3D72C58AFC7001BAE0F /* MatchResultView.swift in Sources */,
+				E76C2F252CD7AABE00B38B58 /* MySoccerDiaryViewModel.swift in Sources */,
 				E725451E2CC9000100348F50 /* Ranking.swift in Sources */,
 				E7B13FFA2C85E98500CB351E /* KeyChain.swift in Sources */,
 				E7A6A06A2C95B7A60008447D /* SettingFavView.swift in Sources */,
 				E7EE1D852CB3DD1300ADDAEF /* StartingLineup.swift in Sources */,
 				E7B13FFC2C85E9EF00CB351E /* KeyChainKeys.swift in Sources */,
 				E7D21AF02C9801F100FF8907 /* UserService.swift in Sources */,
+				E76C2F232CD7A82700B38B58 /* MyDiaryModel.swift in Sources */,
 				E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */,
 				E7ABF3D52C58A987001BAE0F /* User.swift in Sources */,
 				E79C71D82CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift in Sources */,

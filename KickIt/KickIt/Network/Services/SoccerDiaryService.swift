@@ -12,12 +12,17 @@ import Alamofire
 enum SoccerDiaryService {
     // 추천 축구 일기 조회 API
     case getRecommendDiary
+    
+    // 내 축구 일기 조회 API
+    case getMyDiary
 }
 
 extension SoccerDiaryService: TargetType {
     var method: HTTPMethod {
         switch self {
         case .getRecommendDiary:
+            return .get
+        case .getMyDiary:
             return .get
         }
     }
@@ -26,6 +31,8 @@ extension SoccerDiaryService: TargetType {
         switch self {
         case .getRecommendDiary:
             return APIConstants.recommendDiaryURL
+        case .getMyDiary:
+            return APIConstants.myDiaryURL
         }
     }
     
@@ -33,12 +40,16 @@ extension SoccerDiaryService: TargetType {
         switch self {
         case .getRecommendDiary:
             return .requestPlain
+        case .getMyDiary:
+            return .requestPlain
         }
     }
     
     var header: HeaderType {
         switch self {
         case .getRecommendDiary:
+            return .basic
+        case .getMyDiary:
             return .basic
         }
     }

@@ -57,6 +57,9 @@ struct APIConstants {
     /// 추천 일기 조회 URL
     static let recommendDiaryURL = "/"
     
+    /// 내 일기 조회 URL
+    static let myDiaryURL = "/"
+    
     /// 회원 가입 정보 전송 URL
     static let signupURL = "/users/signup"
     
