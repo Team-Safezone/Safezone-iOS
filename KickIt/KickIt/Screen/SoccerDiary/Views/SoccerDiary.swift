@@ -37,8 +37,10 @@ struct SoccerDiary: View {
                         // 추천 일기
                         if (selectedTab == .recommend) {
                             ForEach(Array(viewModel.recommendDiarys.enumerated()), id: \.offset) { index, diaryVM in
-                                RecommendSoccerDiaryView(viewModel: diaryVM)
-                                    .padding(.vertical, 16)
+                                RecommendSoccerDiaryView(viewModel: diaryVM, hideNotifyDiaryAction: {
+                                    viewModel.hideNotifyDiary(diaryVM)
+                                })
+                                .padding(.vertical, 16)
                                 
                                 Rectangle()
                                     .frame(height: 1)

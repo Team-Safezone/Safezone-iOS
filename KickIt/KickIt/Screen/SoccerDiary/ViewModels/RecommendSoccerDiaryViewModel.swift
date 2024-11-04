@@ -28,6 +28,8 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     /// 일기 신고 이유
     @Published var selectedReason: String
     
+    private var cancellables = Set<AnyCancellable>()
+    
     init(diary: RecommendDiaryModel) {
         self.soccerDiary = diary
         self.selectedReason = reasons[0]
@@ -37,6 +39,8 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     func toggleLike() {
         soccerDiary.isLiked.toggle()
         soccerDiary.likes += soccerDiary.isLiked ? 1 : -1
+        patchLikeDiary(request: DiaryLikeRequest(diaryId: soccerDiary.diaryId, isLiked: soccerDiary.isLiked))
+        print("아이디: \(soccerDiary.diaryId) | 좋아요 여부: \(soccerDiary.isLiked)")
     }
     
     /// 메뉴 버튼 클릭 이벤트
@@ -52,5 +56,48 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     /// 신고 이유 선택
     func selectedReason(_ id: Int) {
         reasonCode = id
+    }
+    
+    /// 축구 일기 신고하기
+    func notifyDiary() {
+        postNotifyDiary(request: DiaryNotifyRequest(diaryId: soccerDiary.diaryId, reasonCode: reasonCode))
+        showNotifyDialog = false
+        print("아이디: \(soccerDiary.diaryId) | 이유: \(reasonCode) 신고하기")
+    }
+    
+    /// 축구 일기 신고하기
+    private func postNotifyDiary(request: DiaryNotifyRequest) {
+        SoccerDiaryAPI.shared.postNotifyDiary(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { dto in
+                print("축구 일기 신고하기 응답: \(dto)")
+            })
+            .store(in: &cancellables)
+    }
+    
+    /// 축구 일기 좋아요 버튼 클릭 이벤트
+    func patchLikeDiary(request: DiaryLikeRequest) {
+        SoccerDiaryAPI.shared.patchLikeDiary(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { dto in
+                print("축구 일기 좋아요 클릭 이벤트 응답: \(dto)")
+            })
+            .store(in: &cancellables)
     }
 }

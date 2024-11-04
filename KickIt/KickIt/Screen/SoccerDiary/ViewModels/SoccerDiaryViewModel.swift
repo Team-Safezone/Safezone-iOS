@@ -119,6 +119,14 @@ final class SoccerDiaryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    /// 신고한 축구 일기 숨기기
+    func hideNotifyDiary(_ diary: RecommendSoccerDiaryViewModel) {
+        if let index = recommendDiarys.firstIndex(where: { model in
+            model.soccerDiary.diaryId == diary.soccerDiary.diaryId}) {
+            recommendDiarys.remove(at: index)
+        }
+    }
+    
     /// 등급 이미지 변환
     private func matchGradeImage(_ grade: Int) -> UIImage {
         switch grade {

@@ -13,6 +13,9 @@ struct RecommendSoccerDiaryView: View {
     /// 축구 일기 객체
     @ObservedObject var viewModel: RecommendSoccerDiaryViewModel
     
+    /// 축구 일기 숨기기 이벤트
+    var hideNotifyDiaryAction: () -> Void
+    
     // MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -68,6 +71,7 @@ struct RecommendSoccerDiaryView: View {
             HStack(spacing: 4) {
                 // 좋아요 버튼
                 Button {
+                    // 좋아요 버튼 클릭 이벤트 API 호출
                     viewModel.toggleLike()
                 } label: {
                     Image(uiImage: viewModel.soccerDiary.isLiked ? .like : .notLike)
@@ -85,8 +89,37 @@ struct RecommendSoccerDiaryView: View {
         .padding(.horizontal, 12)
         // MARK: 신고하기 바텀 시트
         .sheet(isPresented: $viewModel.showNotifyDialog) {
-            SoccerDiaryNotifyBottomSheetView(viewModel: viewModel)
-        }
+            VStack(alignment: .leading) {
+                Text("이 글을 신고하는 이유를 알려주세요")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.white0)
+                
+                CircleRadioGroup(
+                    items: viewModel.reasons,
+                    selectedId: $viewModel.reasonCode,
+                    selectedOption: $viewModel.selectedReason,
+                    callback: { prev, cur, option in
+                        // 신고 이유 선택
+                        viewModel.selectedReason(cur)
+                    }
+                )
+                
+                Button {
+                    // 축구 일기 신고하기 API 호출
+                    viewModel.notifyDiary()
+                    
+                    // 신고한 축구 일기 숨기기
+                    hideNotifyDiaryAction()
+                } label: {
+                    DesignWideButton(label: "신고하기", labelColor: .blackAssets, btnBGColor: .lime)
+                }
+            }
+            .padding(.horizontal, 16)
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.hidden)
+            .presentationCornerRadius(16)
+            .presentationBackground(.gray950)
+        } //: SHEET
     }
     
     // MARK: - FUNCTION
@@ -197,5 +230,5 @@ struct RecommendSoccerDiaryView: View {
 
 // MARK: - PREVIEW
 #Preview("추천 일기 & 내 일기") {
-    RecommendSoccerDiaryView(viewModel: RecommendSoccerDiaryViewModel(diary: RecommendDiaryModel(diaryId: 3, grade: .ball0, teamUrl: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티", nickname: "닉네임", diaryDate: "3시간", matchDate: "2024.11.02", homeTeamName: "본머스", homeTeamScore: 2, awayTeamName: "맨시티", awayTeamScore: 1, emotion: .miniAngry, highHeartRate: 100, diaryContent: "오늘 울버햄튼과 뉴캐슬의 경기는 정말 손에 땀을 쥐게 하는 경기였다. 울버햄튼의 수비가 초반부터 뉴캐슬의 공격을 꽤 잘 막아냈지만, 결국 뉴캐슬의 빠른 역습에 무너지고 말았다. \n\n특히 뉴캐슬의 윌슨이 보여준 마무리 능력은 인상적이었다. 하지만 울버햄튼도 쉽게 물러나지 않았다. 후반전에 공격적인 전술로 전환하면서 트라오레의 돌파가 활기를 불어넣었고, 마침내 동점골을 만들어냈다. \n\n경기가 끝나기 직전, 양 팀 모두 결승골을 노리며 치열한 공방을 펼쳤지만, 결국 1-1로 마무리되었다.", diaryPhotos: ["https://dimg.donga.com/wps/NEWS/IMAGE/2024/10/21/130256053.1.jpg", "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202304/09/990e5d5f-8fe7-4662-82f3-ea7a157f51f9.jpg", "https://flexible.img.hani.co.kr/flexible/normal/970/646/imgdb/original/2024/0211/20240211500449.jpg"], mom: "손흥민", isLiked: false, likes: 100)))
+    RecommendSoccerDiaryView(viewModel: RecommendSoccerDiaryViewModel(diary: RecommendDiaryModel(diaryId: 3, grade: .ball0, teamUrl: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티", nickname: "닉네임", diaryDate: "3시간", matchDate: "2024.11.02", homeTeamName: "본머스", homeTeamScore: 2, awayTeamName: "맨시티", awayTeamScore: 1, emotion: .miniAngry, highHeartRate: 100, diaryContent: "오늘 울버햄튼과 뉴캐슬의 경기는 정말 손에 땀을 쥐게 하는 경기였다. 울버햄튼의 수비가 초반부터 뉴캐슬의 공격을 꽤 잘 막아냈지만, 결국 뉴캐슬의 빠른 역습에 무너지고 말았다. \n\n특히 뉴캐슬의 윌슨이 보여준 마무리 능력은 인상적이었다. 하지만 울버햄튼도 쉽게 물러나지 않았다. 후반전에 공격적인 전술로 전환하면서 트라오레의 돌파가 활기를 불어넣었고, 마침내 동점골을 만들어냈다. \n\n경기가 끝나기 직전, 양 팀 모두 결승골을 노리며 치열한 공방을 펼쳤지만, 결국 1-1로 마무리되었다.", diaryPhotos: ["https://dimg.donga.com/wps/NEWS/IMAGE/2024/10/21/130256053.1.jpg", "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202304/09/990e5d5f-8fe7-4662-82f3-ea7a157f51f9.jpg", "https://flexible.img.hani.co.kr/flexible/normal/970/646/imgdb/original/2024/0211/20240211500449.jpg"], mom: "손흥민", isLiked: false, likes: 100)), hideNotifyDiaryAction: { print("") })
 }

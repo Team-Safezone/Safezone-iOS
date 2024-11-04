@@ -94,4 +94,84 @@ class SoccerDiaryAPI: BaseAPI {
         }
         .eraseToAnyPublisher()
     }
+    
+    /// 축구 일기 신고하기
+    func postNotifyDiary(request: DiaryNotifyRequest) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(SoccerDiaryService.postNotifyDiary(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<Bool>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.isSuccess {
+                            promise(.success(result.isSuccess))
+                        }
+                        // 응답 실패
+                        else {
+                            switch result.status {
+                            case 401:
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    /// 축구 일기 좋아요 클릭 이벤트
+    func patchLikeDiary(request: DiaryLikeRequest) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(SoccerDiaryService.patchLikeDiary(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<Bool>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.isSuccess {
+                            promise(.success(result.isSuccess))
+                        }
+                        // 응답 실패
+                        else {
+                            switch result.status {
+                            case 401:
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }

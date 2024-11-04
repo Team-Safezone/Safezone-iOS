@@ -65,6 +65,7 @@ struct MySoccerDiaryView: View {
             HStack(spacing: 4) {
                 // 좋아요 버튼
                 Button {
+                    // 좋아요 버튼 클릭 이벤트 API 호출
                     viewModel.toggleLike()
                 } label: {
                     Image(uiImage: viewModel.soccerDiary.isLiked ? .like : .notLike)
