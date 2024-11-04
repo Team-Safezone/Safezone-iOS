@@ -12,6 +12,9 @@ struct MySoccerDiaryView: View {
     /// 축구 일기 객체
     @ObservedObject var viewModel: MySoccerDiaryViewModel
     
+    /// 축구 일기 숨기기 이벤트
+    var deleteDiaryAction: () -> Void
+    
     // MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -50,7 +53,7 @@ struct MySoccerDiaryView: View {
                         .foregroundStyle(.gray300)
                 }
                 .confirmationDialog("", isPresented: $viewModel.showDialog) {
-                    Button("삭제하기", role: .destructive) { }
+                    Button("삭제하기", role: .destructive) { viewModel.toggleDeleteDialog() }
                     Button("수정하기") { }
                     Button("공유하기") { }
                     Button("취소", role: .cancel) { }
@@ -81,6 +84,21 @@ struct MySoccerDiaryView: View {
             .padding(.top, 8)
         }
         .padding(.horizontal, 12)
+        .alert(
+            "축구 일기 삭제",
+            isPresented: $viewModel.showDeleteDialog
+        ) {
+            Button("삭제", role: .destructive) {
+                // 축구 일기 삭제 API 호출
+                viewModel.deleteDiaryEvent()
+                
+                // 삭제한 축구 일기 숨기기
+                deleteDiaryAction()
+            }
+            Button("취소", role: .cancel) { }
+        } message: {
+            Text("삭제하시면 다시 되돌릴 수 없어요\n정말 삭제하시겠습니까?")
+        }
     }
     
     // MARK: - FUNCTION
@@ -190,5 +208,5 @@ struct MySoccerDiaryView: View {
 }
 
 #Preview {
-    MySoccerDiaryView(viewModel: MySoccerDiaryViewModel(diary: MyDiaryModel(diaryId: 1, teamUrl: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F33_300300.png", teamName: "토트넘", isPublic: true, diaryDate: "1시간", matchDate: stringToDateString("2024.11.03"), homeTeamName: "토트넘", homeTeamScore: 1, awayTeamName: "아스톤빌라", awayTeamScore: 2, emotion: .miniAngry, diaryContent: "항상 그렇지 뭐... 토트넘은 항상 똑같다. 대체 전술이 언제 바뀔까? 풀백이 공격수하는 이 이상한 전술은 언제까지 갖고 갈 것인지 의문이다. 아니 상대팀에 맞게 전술도 바꾸고 윙어랑 스트라이커 활용도 잘 해야지.. 무슨 풀백 의존도가 이런게 높은 축구를 대체 언제까지 봐야하나 싶다.", isLiked: false, likes: 1000)))
+    MySoccerDiaryView(viewModel: MySoccerDiaryViewModel(diary: MyDiaryModel(diaryId: 1, teamUrl: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F33_300300.png", teamName: "토트넘", isPublic: true, diaryDate: "1시간", matchDate: stringToDateString("2024.11.03"), homeTeamName: "토트넘", homeTeamScore: 1, awayTeamName: "아스톤빌라", awayTeamScore: 2, emotion: .miniAngry, diaryContent: "항상 그렇지 뭐... 토트넘은 항상 똑같다. 대체 전술이 언제 바뀔까? 풀백이 공격수하는 이 이상한 전술은 언제까지 갖고 갈 것인지 의문이다. 아니 상대팀에 맞게 전술도 바꾸고 윙어랑 스트라이커 활용도 잘 해야지.. 무슨 풀백 의존도가 이런게 높은 축구를 대체 언제까지 봐야하나 싶다.", isLiked: false, likes: 1000)), deleteDiaryAction: { print("") })
 }

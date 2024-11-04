@@ -16,6 +16,9 @@ final class MySoccerDiaryViewModel: ObservableObject {
     /// 추천 일기의 menu 버튼 클릭 이벤트
     @Published var showDialog: Bool = false
     
+    /// 삭제하기 버튼 클릭 이벤트
+    @Published var showDeleteDialog: Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     
     init(diary: MyDiaryModel) {
@@ -35,6 +38,16 @@ final class MySoccerDiaryViewModel: ObservableObject {
         showDialog.toggle()
     }
     
+    /// 삭제하기 메뉴 클릭 이벤트
+    func toggleDeleteDialog() {
+        showDeleteDialog.toggle()
+    }
+    
+    /// 삭제 버튼 클릭 이벤트
+    func deleteDiaryEvent() {
+        deleteDiary(request: DiaryDeleteRequest(diaryId: soccerDiary.diaryId))
+    }
+    
     /// 축구 일기 좋아요 버튼 클릭 이벤트
     func patchLikeDiary(request: DiaryLikeRequest) {
         SoccerDiaryAPI.shared.patchLikeDiary(request: request)
@@ -49,6 +62,24 @@ final class MySoccerDiaryViewModel: ObservableObject {
             },
             receiveValue: { dto in
                 print("축구 일기 좋아요 클릭 이벤트 응답: \(dto)")
+            })
+            .store(in: &cancellables)
+    }
+    
+    /// 축구 일기 삭제 이벤트
+    func deleteDiary(request: DiaryDeleteRequest) {
+        SoccerDiaryAPI.shared.deleteDiary(request: request)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { dto in
+                print("축구 일기 삭제 이벤트 응답: \(dto)")
             })
             .store(in: &cancellables)
     }

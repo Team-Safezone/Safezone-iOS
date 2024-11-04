@@ -66,6 +66,9 @@ struct APIConstants {
     /// 일기 좋아요 이벤트 URL
     static let likeDiaryURL = "/"
     
+    /// 일기 삭제 이벤트 URL
+    static let deleteDiaryURL = "/"
+    
     /// 회원 가입 정보 전송 URL
     static let signupURL = "/users/signup"
     

@@ -21,6 +21,9 @@ enum SoccerDiaryService {
     
     // 축구 일기 좋아요 이벤트 API
     case patchLikeDiary(DiaryLikeRequest)
+    
+    // 축구 일기 삭제 이벤트 API
+    case deleteDiary(DiaryDeleteRequest)
 }
 
 extension SoccerDiaryService: TargetType {
@@ -34,6 +37,8 @@ extension SoccerDiaryService: TargetType {
             return .post
         case .patchLikeDiary:
             return .patch
+        case .deleteDiary(_):
+            return .delete
         }
     }
     
@@ -47,6 +52,8 @@ extension SoccerDiaryService: TargetType {
             return APIConstants.notifyDiaryURL
         case .patchLikeDiary:
             return APIConstants.likeDiaryURL
+        case .deleteDiary(_):
+            return APIConstants.deleteDiaryURL
         }
     }
     
@@ -60,6 +67,8 @@ extension SoccerDiaryService: TargetType {
             return .queryBody(data.diaryId, data.reasonCode)
         case .patchLikeDiary(let data):
             return .queryBody(data.diaryId, data.isLiked)
+        case .deleteDiary(let data):
+            return .requestBody(data.diaryId)
         }
     }
     
@@ -72,6 +81,8 @@ extension SoccerDiaryService: TargetType {
         case .postNotifyDiary:
             return .basic
         case .patchLikeDiary:
+            return .basic
+        case .deleteDiary:
             return .basic
         }
     }

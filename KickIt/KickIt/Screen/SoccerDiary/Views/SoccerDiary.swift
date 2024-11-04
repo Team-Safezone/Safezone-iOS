@@ -50,8 +50,10 @@ struct SoccerDiary: View {
                         // 내 일기
                         else {
                             ForEach(Array(viewModel.myDiarys.enumerated()), id: \.offset) { index, diaryVM in
-                                MySoccerDiaryView(viewModel: diaryVM)
-                                    .padding(.vertical, 16)
+                                MySoccerDiaryView(viewModel: diaryVM, deleteDiaryAction: {
+                                    viewModel.hideDeleteDiary(diaryVM)
+                                })
+                                .padding(.vertical, 16)
                                 
                                 Rectangle()
                                     .frame(height: 1)
