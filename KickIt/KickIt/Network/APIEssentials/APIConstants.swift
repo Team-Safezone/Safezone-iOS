@@ -54,6 +54,21 @@ struct APIConstants {
     /// 사용자 심박수 전송 URL
     static let matchHeartRateURL = "/match-heart-rate"
     
+    /// 추천 일기 조회 URL
+    static let recommendDiaryURL = "/"
+    
+    /// 내 일기 조회 URL
+    static let myDiaryURL = "/"
+    
+    /// 일기 신고하기 URL
+    static let notifyDiaryURL = "/"
+    
+    /// 일기 좋아요 이벤트 URL
+    static let likeDiaryURL = "/"
+    
+    /// 일기 삭제 이벤트 URL
+    static let deleteDiaryURL = "/"
+    
     /// 회원 가입 정보 전송 URL
     static let signupURL = "/users/signup"
     
