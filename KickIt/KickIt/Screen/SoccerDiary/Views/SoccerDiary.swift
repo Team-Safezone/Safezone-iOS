@@ -117,6 +117,18 @@ struct SoccerDiary: View {
     }
 }
 
+/// 이미지 캡쳐
+func captureSnapshot<Content: View>(of content: Content, with size: CGSize) -> UIImage? {
+    let controller = UIHostingController(rootView: content)
+    controller.view.bounds = CGRect(origin: .zero, size: size)
+    controller.view.backgroundColor = .clear
+    
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { _ in
+        controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+    }
+}
+
 // MARK: - PREVIEW
 #Preview("일기") {
     SoccerDiary()

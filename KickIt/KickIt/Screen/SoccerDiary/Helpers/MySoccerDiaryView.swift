@@ -15,6 +15,15 @@ struct MySoccerDiaryView: View {
     /// 축구 일기 숨기기 이벤트
     var deleteDiaryAction: () -> Void
     
+    /// 축구 일기 공유 바텀 시트
+    @State private var isShowingShareSheet = false
+    
+    /// 공유할 축구 일기 이미지
+    @State private var capturedDiaryImage: UIImage? = nil
+    
+    /// 공유할 축구 일기 이미지 사이즈
+    @State private var captureSize: CGSize = .zero
+    
     // MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -55,7 +64,7 @@ struct MySoccerDiaryView: View {
                 .confirmationDialog("", isPresented: $viewModel.showDialog) {
                     Button("삭제하기", role: .destructive) { viewModel.toggleDeleteDialog() }
                     Button("수정하기") { }
-                    Button("공유하기") { }
+                    Button("공유하기") { captureImage() }
                     Button("취소", role: .cancel) { }
                 }
             }
@@ -82,8 +91,18 @@ struct MySoccerDiaryView: View {
                     .foregroundStyle(.white0)
             }
             .padding(.top, 8)
-        }
+        } //: VSTACK
         .padding(.horizontal, 12)
+        .background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        self.captureSize = geo.size // 일기의 실제 크기 저장
+                    }
+                    .frame(width: geo.size.width, height: geo.size.height) // 크기를 제한하여 부모 뷰와의 충돌 방지
+            }
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .alert(
             "축구 일기 삭제",
             isPresented: $viewModel.showDeleteDialog
@@ -98,6 +117,24 @@ struct MySoccerDiaryView: View {
             Button("취소", role: .cancel) { }
         } message: {
             Text("삭제하시면 다시 되돌릴 수 없어요\n정말 삭제하시겠습니까?")
+        }
+        .sheet(isPresented: $isShowingShareSheet) {
+            // 캡쳐된 이미지가 있을 경우 ShareLink 띄우기
+            if let image = capturedDiaryImage {
+                ShareLink(
+                    item: Image(uiImage: image),
+                    preview: SharePreview("Kick it 축구 일기", image: Image(uiImage: .miniGood))
+                ) {
+                    Label("축구 일기 공유하기", systemImage: "square.and.arrow.up")
+                }
+            }
+            // 캡쳐된 이미지가 없을 경우
+//                else {
+//                    SnapshotView(content: self, captureSize: captureSize) { image in
+//                        capturedDiaryImage = image // 캡처된 이미지 저장
+//                    }
+//                    .opacity(0) // 캡쳐된 이미지가 보이지 않도록 처리
+//                }
         }
     }
     
@@ -204,6 +241,13 @@ struct MySoccerDiaryView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.limeTransparent, lineWidth: 1)
         )
+    }
+    
+    /// 공유할 축구 일기 이미지화
+    func captureImage() {
+        let content = self // 현재 뷰를 캡처 대상으로 설정
+        capturedDiaryImage = captureSnapshot(of: content, with: captureSize)
+        isShowingShareSheet = true
     }
 }
 

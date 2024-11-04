@@ -16,6 +16,15 @@ struct RecommendSoccerDiaryView: View {
     /// 축구 일기 숨기기 이벤트
     var hideNotifyDiaryAction: () -> Void
     
+    /// 축구 일기 공유 바텀 시트
+    @State private var isShowingShareSheet = false
+    
+    /// 공유할 축구 일기 이미지
+    @State private var capturedDiaryImage: UIImage? = nil
+    
+    /// 공유할 축구 일기 이미지 사이즈
+    @State private var captureSize: CGSize = .zero
+    
     // MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -58,7 +67,7 @@ struct RecommendSoccerDiaryView: View {
                 }
                 .confirmationDialog("", isPresented: $viewModel.showDialog) {
                     Button("신고하기", role: .destructive) { viewModel.toggleNotifyDialog() }
-                    Button("공유하기") { }
+                    Button("공유하기") { captureImage() }
                     Button("취소", role: .cancel) { }
                 }
             }
@@ -87,6 +96,16 @@ struct RecommendSoccerDiaryView: View {
             .padding(.top, 8)
         }
         .padding(.horizontal, 12)
+        .background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        self.captureSize = geo.size // 일기의 실제 크기 저장
+                    }
+                    .frame(width: geo.size.width, height: geo.size.height) // 크기를 제한하여 부모 뷰와의 충돌 방지
+            }
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         // MARK: 신고하기 바텀 시트
         .sheet(isPresented: $viewModel.showNotifyDialog) {
             VStack(alignment: .leading) {
@@ -120,6 +139,19 @@ struct RecommendSoccerDiaryView: View {
             .presentationCornerRadius(16)
             .presentationBackground(.gray950)
         } //: SHEET
+        // MARK: 공유하기 시트
+        .sheet(isPresented: $isShowingShareSheet) {
+            // 캡쳐된 이미지가 있을 경우 ShareLink 띄우기
+            if let image = capturedDiaryImage {
+                Image(uiImage: image)
+                ShareLink(
+                    item: Image(uiImage: image),
+                    preview: SharePreview("Kick it 축구 일기", image: Image(uiImage: .miniGood))
+                ) {
+                    Label("축구 일기 공유하기", systemImage: "square.and.arrow.up")
+                }
+            }
+        }
     }
     
     // MARK: - FUNCTION
@@ -225,6 +257,13 @@ struct RecommendSoccerDiaryView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.limeTransparent, lineWidth: 1)
         )
+    }
+    
+    /// 공유할 축구 일기 이미지화
+    func captureImage() {
+        let content = self // 현재 뷰를 캡처 대상으로 설정
+        capturedDiaryImage = captureSnapshot(of: content, with: captureSize)
+        isShowingShareSheet = true
     }
 }
 
