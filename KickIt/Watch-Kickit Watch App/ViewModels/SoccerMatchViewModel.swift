@@ -28,13 +28,46 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
         super.init()
         setupWCSession() // WCSession 초기화 및 활성화
         setupHealthKit() // Health 초기화 및 활성화
+        fetchTodayMatches() // 오늘의 경기 일정
     }
-    
-    // MARK: - dummydata
-    let dummySoccerMatches: [SoccerMatchWatch] = [
-        SoccerMatchWatch(id: 53, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
-        SoccerMatchWatch(id: 54, timeStr: "21:30", homeTeam: "아스널", homeTeamScore: 2, awayTeam: "풀럼", awayTeamScore: 4, status: 1),
-        SoccerMatchWatch(id: 2, timeStr: "22:30", homeTeam: "토트넘", homeTeamScore: 2, awayTeam: "크리스탈 팰리스", awayTeamScore: 1, status: 3)]
+
+    // MARK: - get API
+    /// 하루 경기 일정 조회
+    func fetchTodayMatches() {
+            isLoading = true
+            errorMessage = nil
+            
+            let today = Date()
+            let request = SoccerMatchDailyRequest(date: today)
+            
+            DailySoccerMatchAPI.shared.getDailySoccerMatches(request: request)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] (completion: Subscribers.Completion<NetworkError>) in
+                    self?.isLoading = false
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self?.errorMessage = error.localizedDescription
+                    }
+                } receiveValue: { [weak self] (response: [SoccerMatchDailyResponse]) in
+                    self?.matches = response.map { data in
+                        SoccerMatchWatch(
+                            id: data.id,
+                            matchDate: stringToDate(date: data.matchDate),
+                            matchTime: stringToTime(time: data.matchTime),
+                            stadium: data.stadium,
+                            matchRound: data.matchRound,
+                            homeTeam: SoccerTeam(teamEmblemURL: data.homeTeamEmblemURL, teamName: data.homeTeamName),
+                            awayTeam: SoccerTeam(teamEmblemURL: data.awayTeamEmblemURL, teamName: data.awayTeamName),
+                            matchCode: data.matchCode,
+                            homeTeamScore: data.homeTeamScore,
+                            awayTeamScore: data.awayTeamScore
+                        )
+                    }
+                }
+                .store(in: &cancellables)
+        }
     
     // MARK: - HealthKit 관련 함수
     private func setupHealthKit() {
@@ -79,27 +112,6 @@ class SoccerMatchViewModel: NSObject, ObservableObject, WCSessionDelegate {
         if let query = self.heartRateQuery {
             healthStore?.stop(query)
         }
-    }
-    
-    
-    // MARK: - get API
-    
-    /// 하루 경기 일정 데이터 가져오기
-    func loadMatches() {
-        isLoading = true
-        errorMessage = nil
-        
-        SoccerMatchService.shared.fetchMatches(for: Date()) //Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()) //
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] matches in
-                self?.matches = matches
-            }
-            .store(in: &cancellables)
     }
     
     // MARK: - iOS 전송 관련 함수들

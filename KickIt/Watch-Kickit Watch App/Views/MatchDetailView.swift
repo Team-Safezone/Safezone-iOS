@@ -38,7 +38,7 @@ struct MatchDetailView: View {
             }
         } else {
             VStack(spacing: 5) {
-                if match.status != 3 {
+                if match.matchCode != 3 {
                     PlayingView(match: match)
                         .safeAreaInset(edge: .bottom){
                             Button(action: {
@@ -78,24 +78,23 @@ struct PlayingView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 5) {
-            teamView(teamName: match.homeTeam, image: "리버풀")
+            teamView(teamName: match.homeTeam.teamName, image: match.homeTeam.teamEmblemURL)
                 .frame(maxWidth: .infinity)
             VStack(spacing: 2) {
-                Text(match.timeStr)
+                Text(dateToString3(date: match.matchTime))
                     .font(.pretendard(.medium, size: 14))
                 Text("VS")
                     .font(.pretendard(.bold, size: 24))
             }.frame(minWidth: 36, minHeight: 46)
             
-            teamView(teamName: match.awayTeam, image: "뉴캐슬")
+            teamView(teamName: match.awayTeam.teamName, image: match.awayTeam.teamEmblemURL)
                 .frame(maxWidth: .infinity)
         }.padding(.bottom, 40)
     }
     
     private func teamView(teamName: String, image: String) -> some View {
         VStack(spacing: 4) {
-            Image(image)
-                .resizable()
+            LoadableImage(image: image)
                 .scaledToFit()
                 .frame(width: 44, height: 44)
             Text(teamName)
@@ -130,11 +129,12 @@ struct RecordingView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 2) {
-            Text("\(match.homeTeam) VS \(match.awayTeam)")
+            Text("\(match.homeTeam.teamName) VS \(match.awayTeam.teamName)")
                 .font(.pretendard(.medium, size: 14))
-            Spacer()
+            Spacer().frame(height: 10)
             GIFImageView(gifName: "heart")
                 .frame(width: 80, height: 80)
+            Spacer().frame(height: 16)
             HStack(alignment: .bottom, spacing: 4){
                 Text("\(heartrate)")
                     .font(.pretendard(.bold, size: 40))
@@ -183,8 +183,20 @@ struct EndView: View {
 
 #Preview("경기 상세"){
     @State var isRecordingHeartRate = false
+    let soccermatch = SoccerMatchWatch(
+        id: 53,
+        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
+        matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
+        stadium: "장소",
+        matchRound: 37,
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
+        matchCode: 1,
+        homeTeamScore: 1,
+        awayTeamScore: 0
+    )
     return MatchDetailView(
-        match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0),
+        match: soccermatch,
         viewModel: SoccerMatchViewModel()
     )
 }
@@ -192,13 +204,35 @@ struct EndView: View {
 #Preview("경기종료") {
     @State var isRecordingHeartRate = false
     return MatchDetailView(
-        match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 3),
+        match: SoccerMatchWatch(
+            id: 53,
+            matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
+            matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
+            stadium: "장소",
+            matchRound: 37,
+            homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+            awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
+            matchCode: 3,
+            homeTeamScore: 1,
+            awayTeamScore: 0
+        ),
         viewModel: SoccerMatchViewModel()
     )
 }
 
 #Preview("기록 중"){
-    RecordingView(match: SoccerMatchWatch(id: 0, timeStr: "20:30", homeTeam: "울버햄튼", homeTeamScore: 0, awayTeam: "맨시티", awayTeamScore: 0, status: 0), heartrate: 84)
+    RecordingView(match: SoccerMatchWatch(
+        id: 53,
+        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
+        matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
+        stadium: "장소",
+        matchRound: 37,
+        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
+        matchCode: 1,
+        homeTeamScore: 1,
+        awayTeamScore: 0
+    ), heartrate: 84)
 }
 
 #Preview("기록 취소"){
