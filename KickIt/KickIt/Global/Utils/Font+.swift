@@ -10,12 +10,15 @@ import SwiftUI
 /// 커스텀 폰트를 관리하는 커스텀 폰트 파일
 extension Font {
     enum Pretendard {
+        case regular
         case medium
         case semibold
         case bold
         
         var value: String {
             switch self {
+            case .regular:
+                return "Pretendard-Regular"
             case .medium:
                 return "Pretendard-Medium"
             case .semibold:

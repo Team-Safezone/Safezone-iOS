@@ -93,6 +93,43 @@ func stringToDate2(date: String) -> Date {
     return convertDate
 }
 
+/// String -> String(M월 dd일) 형식으로 변경하는 함수
+func stringToDateString(_ date: String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd"
+    
+    let dateFormatter2 = DateFormatter()
+    dateFormatter2.dateFormat = "M월 d일"
+    dateFormatter2.locale = Locale(identifier: "ko_KR") // 대한민국 로케일
+    
+    let convertDate = dateFormatter.date(from: date) ?? Date()
+    let dateToString = dateFormatter2.string(from: convertDate)
+    
+    // 오늘이라면
+    if isToday(date: convertDate) {
+        print(convertDate.description)
+        return "오늘"
+    }
+    // 어제라면
+    else if isYesterday(date: convertDate) {
+        return "어제"
+    }
+    // 다른 날짜라면
+    else {
+        return dateToString
+    }
+}
+
+/// 주어진 Date가 어제 날짜 인지 판단하는 함수
+func isYesterday(date: Date) -> Bool {
+    return Calendar.current.isDateInYesterday(date)
+}
+
+/// 주어진 Date가 오늘 날짜 인지 판단하는 함수
+func isToday(date: Date) -> Bool {
+    return Calendar.current.isDateInToday(date)
+}
+
 /// String -> Time h:mm 형식으로 변경하는 함수
 func stringToTime(time: String) -> Date {
     //04:00

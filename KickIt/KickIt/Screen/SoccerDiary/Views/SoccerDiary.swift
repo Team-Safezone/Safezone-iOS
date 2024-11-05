@@ -9,11 +9,127 @@ import SwiftUI
 
 /// 축구 경기 일기 화면
 struct SoccerDiary: View {
+    // MARK: - PROPERTY
+    @State private var selectedTab: DiaryTabInfo = .recommend
+    @Namespace private var animation
+    
+    /// 경기 일기 뷰모델
+    @StateObject private var viewModel = SoccerDiaryViewModel()
+    
+    // MARK: - BODY
     var body: some View {
-        Text("Soccer Diary Screen!")
+        ZStack {
+            Color(.background)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("축구 일기")
+                    .pretendardTextStyle(.Title1Style)
+                    .foregroundStyle(.white0)
+                    .padding(.top, 10)
+                    .padding(.horizontal, 16)
+                
+                // MARK: 상단 탭 바
+                tabAnimate()
+                
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // 추천 일기
+                        if (selectedTab == .recommend) {
+                            ForEach(Array(viewModel.recommendDiarys.enumerated()), id: \.offset) { index, diaryVM in
+                                RecommendSoccerDiaryView(viewModel: diaryVM, hideNotifyDiaryAction: {
+                                    viewModel.hideNotifyDiary(diaryVM)
+                                })
+                                .padding(.vertical, 16)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundStyle(.gray900)
+                            }
+                        }
+                        // 내 일기
+                        else {
+                            ForEach(Array(viewModel.myDiarys.enumerated()), id: \.offset) { index, diaryVM in
+                                MySoccerDiaryView(viewModel: diaryVM, deleteDiaryAction: {
+                                    viewModel.hideDeleteDiary(diaryVM)
+                                })
+                                .padding(.vertical, 16)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundStyle(.gray900)
+                            }
+                        }
+                    }
+                }
+                .scrollIndicators(.never)
+            }
+        }
+    }
+    
+    // MARK: - FUNCTION
+    // 탭바 애니메이션
+    @ViewBuilder
+    private func tabAnimate() -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                ForEach(DiaryTabInfo.allCases, id: \.self) { item in
+                    VStack(spacing: 0) {
+                        Text(item.rawValue)
+                            .pretendardTextStyle(selectedTab == item ? .SubTitleStyle : .Body2Style)
+                            .frame(maxWidth: .infinity/2, minHeight: 32, alignment: .center)
+                            .foregroundStyle(selectedTab == item ? .white0 : .gray500Text)
+                            .background(Color.background)
+                        
+                        if selectedTab == item {
+                            Rectangle()
+                                .foregroundStyle(.lime)
+                                .frame(width: selectedTab == DiaryTabInfo.recommend ? 25 : 40, height: 2)
+                                .matchedGeometryEffect(id: "info", in: animation)
+                        }
+                        else {
+                            Rectangle()
+                                .foregroundStyle(Color.background)
+                                .frame(height: 2)
+                                .opacity(0)
+                        }
+                    }
+                    .onTapGesture {
+                        withAnimation(.easeInOut) {
+                            self.selectedTab = item
+                        }
+                        
+                        if selectedTab == .my {
+                            viewModel.getMyDiarys()
+                        }
+                        else {
+                            viewModel.getRecommendDiarys()
+                        }
+                    }
+                }
+            } //: HStack
+            
+            Rectangle()
+                .foregroundStyle(Color.background)
+                .frame(height: 2, alignment: .bottom)
+                .matchedGeometryEffect(id: "tab", in: animation)
+        } //: VStack
     }
 }
 
-#Preview {
+/// 이미지 캡쳐
+func captureSnapshot<Content: View>(of content: Content, with size: CGSize) -> UIImage? {
+    let controller = UIHostingController(rootView: content)
+    controller.view.bounds = CGRect(origin: .zero, size: size)
+    controller.view.backgroundColor = .clear
+    
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { _ in
+        controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+    }
+}
+
+// MARK: - PREVIEW
+#Preview("일기") {
     SoccerDiary()
 }
