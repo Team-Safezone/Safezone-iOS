@@ -23,7 +23,7 @@ struct SetupAlerts: View {
                     TextView(text1: "경기 시작", text2: "설정된 My 팀의 경기 시작 전 알림")
                     Toggle("", isOn: $viewModel.isGameStartAlertOn)
                         .toggleStyle(SwitchToggleStyle(tint: .lime))
-                        .onChange(of: viewModel.isGameStartAlertOn) {
+                        .onChange(of: viewModel.isGameStartAlertOn) { _, newValue in
                             viewModel.toggleGameStartAlert()
                         }
                 }.padding(.horizontal, 16)
@@ -31,7 +31,7 @@ struct SetupAlerts: View {
                     TextView(text1: "선발 라인업", text2: "설정된 My 팀의 선발 라인업 공개 알림")
                     Toggle("", isOn: $viewModel.isLineupAlertOn)
                         .toggleStyle(SwitchToggleStyle(tint: .lime))
-                        .onChange(of: viewModel.isLineupAlertOn) {
+                        .onChange(of: viewModel.isLineupAlertOn) { _, newValue in
                             viewModel.toggleLineupAlert()
                         }
                 }.padding(.horizontal, 16).padding(.top, 24)

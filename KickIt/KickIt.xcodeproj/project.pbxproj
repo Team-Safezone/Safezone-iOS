@@ -61,7 +61,6 @@
 		E779706D2CA6A5ED00DA5C00 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */; };
 		E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */; };
 		E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970712CA8403100DA5C00 /* HomeDiary.swift */; };
-		E77BA64B2CD0F9810055730B /* heart.gif in Resources */ = {isa = PBXBuildFile; fileRef = E77BA64A2CD0F9810055730B /* heart.gif */; };
 		E77BA64D2CD0F9B90055730B /* GIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77BA64C2CD0F9B90055730B /* GIFImage.swift */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
@@ -151,8 +150,20 @@
 		E7B1400B2C87F05600CB351E /* HeartRateMatchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */; };
 		E7B1400D2C87F15400CB351E /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400C2C87F15400CB351E /* HeartRate.swift */; };
 		E7B1400F2C87F2B900CB351E /* HeartRateRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */; };
+		E7B2E37E2CD8DDD700CEE18F /* heart.gif in Resources */ = {isa = PBXBuildFile; fileRef = E7B2E37D2CD8DDD700CEE18F /* heart.gif */; };
+		E7C22C3B2CDA09FE00E7EDE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C3A2CDA09FE00E7EDE4 /* AppDelegate.swift */; };
+		E7C22C3D2CDA0CDE00E7EDE4 /* SoccerMatchDailyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C3C2CDA0CDE00E7EDE4 /* SoccerMatchDailyResponse.swift */; };
+		E7C22C3F2CDA0E9400E7EDE4 /* DailySoccerMatchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C3E2CDA0E9400E7EDE4 /* DailySoccerMatchAPI.swift */; };
+		E7C22C412CDA0ED600E7EDE4 /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C402CDA0ED600E7EDE4 /* BaseAPI.swift */; };
+		E7C22C432CDA101100E7EDE4 /* SoccerMatchDailyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C422CDA101100E7EDE4 /* SoccerMatchDailyRequest.swift */; };
+		E7C22C452CDA123700E7EDE4 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C442CDA123700E7EDE4 /* NetworkError.swift */; };
+		E7C22C492CDA131900E7EDE4 /* CommonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C482CDA131900E7EDE4 /* CommonResponse.swift */; };
+		E7C22C4B2CDA134300E7EDE4 /* MyRequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C4A2CDA134300E7EDE4 /* MyRequestInterceptor.swift */; };
+		E7C22C4D2CDA137E00E7EDE4 /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C4C2CDA137E00E7EDE4 /* KeyChain.swift */; };
+		E7C22C4F2CDA144800E7EDE4 /* KeyChainKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C22C4E2CDA144800E7EDE4 /* KeyChainKeys.swift */; };
 		E7C4AD032CAD8BAB00D7E590 /* MatchEventsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C4AD022CAD8BAB00D7E590 /* MatchEventsRequest.swift */; };
 		E7C4AD052CAD8BD000D7E590 /* MatchEventsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C4AD042CAD8BD000D7E590 /* MatchEventsResponse.swift */; };
+		E7C9A6D52CD9F1A2003C1CEC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C9A6D42CD9F1A2003C1CEC /* NotificationManager.swift */; };
 		E7CD31EF2CA2D23B00CBC086 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E744887E2CA2D0490080EA1C /* Date+.swift */; };
 		E7CD31F02CA2D23B00CBC086 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E744887F2CA2D0490080EA1C /* Font+.swift */; };
 		E7CD31F12CA2D23B00CBC086 /* TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74488802CA2D0490080EA1C /* TextStyle.swift */; };
@@ -282,7 +293,6 @@
 		E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatch.swift; sourceTree = "<group>"; };
 		E77970712CA8403100DA5C00 /* HomeDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiary.swift; sourceTree = "<group>"; };
-		E77BA64A2CD0F9810055730B /* heart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = heart.gif; sourceTree = "<group>"; };
 		E77BA64C2CD0F9B90055730B /* GIFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImage.swift; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
@@ -374,9 +384,21 @@
 		E7B1400A2C87F05600CB351E /* HeartRateMatchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMatchEvent.swift; sourceTree = "<group>"; };
 		E7B1400C2C87F15400CB351E /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		E7B1400E2C87F2B900CB351E /* HeartRateRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateRecord.swift; sourceTree = "<group>"; };
+		E7B2E37D2CD8DDD700CEE18F /* heart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = heart.gif; sourceTree = "<group>"; };
+		E7C22C3A2CDA09FE00E7EDE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E7C22C3C2CDA0CDE00E7EDE4 /* SoccerMatchDailyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchDailyResponse.swift; sourceTree = "<group>"; };
+		E7C22C3E2CDA0E9400E7EDE4 /* DailySoccerMatchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySoccerMatchAPI.swift; sourceTree = "<group>"; };
+		E7C22C402CDA0ED600E7EDE4 /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
+		E7C22C422CDA101100E7EDE4 /* SoccerMatchDailyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerMatchDailyRequest.swift; sourceTree = "<group>"; };
+		E7C22C442CDA123700E7EDE4 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		E7C22C482CDA131900E7EDE4 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
+		E7C22C4A2CDA134300E7EDE4 /* MyRequestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRequestInterceptor.swift; sourceTree = "<group>"; };
+		E7C22C4C2CDA137E00E7EDE4 /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
+		E7C22C4E2CDA144800E7EDE4 /* KeyChainKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainKeys.swift; sourceTree = "<group>"; };
 		E7C4AD012CAD864D00D7E590 /* Watch-Kickit Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Watch-Kickit Watch App.entitlements"; sourceTree = "<group>"; };
 		E7C4AD022CAD8BAB00D7E590 /* MatchEventsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventsRequest.swift; sourceTree = "<group>"; };
 		E7C4AD042CAD8BD000D7E590 /* MatchEventsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchEventsResponse.swift; sourceTree = "<group>"; };
+		E7C9A6D42CD9F1A2003C1CEC /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		E7CD31F22CA2D3D500CBC086 /* LoadableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableImage.swift; sourceTree = "<group>"; };
 		E7D151052CB009E400E9867D /* HeartRateDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateDate.swift; sourceTree = "<group>"; };
 		E7D21AEF2C9801F100FF8907 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -720,6 +742,7 @@
 				E7DBC10D2C0F10C7008D4300 /* RadioButton.swift */,
 				E764F98C2C14B79A00A2822A /* SpecificRoundedRectangle.swift */,
 				E7A448D12C18239500F611A6 /* DragIndicator.swift */,
+				E7C22C3A2CDA09FE00E7EDE4 /* AppDelegate.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -743,6 +766,7 @@
 				E79F05BF2CA01EA90059E828 /* Watch_KickitApp.swift */,
 				E79F05F32CA047CC0059E828 /* Watch-Kickit-Watch-App-Info.plist */,
 				E79F05C32CA01EAA0059E828 /* Assets.xcassets */,
+				E7C22C542CDA14F900E7EDE4 /* Config */,
 				E7CD31F72CA2EF9300CBC086 /* Helpers */,
 				E7CD31F62CA2EF2B00CBC086 /* Utils */,
 				E79F05DA2CA01F4C0059E828 /* Network */,
@@ -791,6 +815,8 @@
 		E79F05DA2CA01F4C0059E828 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E7C22C532CDA14D300E7EDE4 /* APIManagers */,
+				E7C22C502CDA148E00E7EDE4 /* APIEssentials */,
 				E79F05E02CA039690059E828 /* Base */,
 				E79F05DB2CA01F530059E828 /* Services */,
 			);
@@ -801,6 +827,8 @@
 			isa = PBXGroup;
 			children = (
 				E79F05DC2CA01F5E0059E828 /* SoccerMatchService.swift */,
+				E7C22C422CDA101100E7EDE4 /* SoccerMatchDailyRequest.swift */,
+				E7C22C3C2CDA0CDE00E7EDE4 /* SoccerMatchDailyResponse.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -808,10 +836,11 @@
 		E79F05E02CA039690059E828 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				E79F05E72CA03AF20059E828 /* APIConstantsWatch.swift */,
-				E79F05E92CA03DE50059E828 /* NetworkConstaintsWatch.swift */,
-				E79F05E32CA039BB0059E828 /* TargetType.swift */,
 				E79F05F42CA0490B0059E828 /* APIEventLoggetWatch.swift */,
+				E79F05E32CA039BB0059E828 /* TargetType.swift */,
+				E7C22C402CDA0ED600E7EDE4 /* BaseAPI.swift */,
+				E7C22C442CDA123700E7EDE4 /* NetworkError.swift */,
+				E7C22C4A2CDA134300E7EDE4 /* MyRequestInterceptor.swift */,
 				E79F05F62CA04D300059E828 /* Secrets.xcconfig */,
 			);
 			path = Base;
@@ -880,10 +909,45 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
+		E7C22C502CDA148E00E7EDE4 /* APIEssentials */ = {
+			isa = PBXGroup;
+			children = (
+				E7C22C482CDA131900E7EDE4 /* CommonResponse.swift */,
+				E79F05E72CA03AF20059E828 /* APIConstantsWatch.swift */,
+				E79F05E92CA03DE50059E828 /* NetworkConstaintsWatch.swift */,
+			);
+			path = APIEssentials;
+			sourceTree = "<group>";
+		};
+		E7C22C532CDA14D300E7EDE4 /* APIManagers */ = {
+			isa = PBXGroup;
+			children = (
+				E7C22C3E2CDA0E9400E7EDE4 /* DailySoccerMatchAPI.swift */,
+			);
+			path = APIManagers;
+			sourceTree = "<group>";
+		};
+		E7C22C542CDA14F900E7EDE4 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E7C22C4C2CDA137E00E7EDE4 /* KeyChain.swift */,
+				E7C22C4E2CDA144800E7EDE4 /* KeyChainKeys.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		E7C9A6D32CD9F195003C1CEC /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				E7C9A6D42CD9F1A2003C1CEC /* NotificationManager.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		E7CD31F62CA2EF2B00CBC086 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E77BA64A2CD0F9810055730B /* heart.gif */,
+				E7B2E37D2CD8DDD700CEE18F /* heart.gif */,
 				E743A04C2CB01525007E4343 /* Font */,
 				E744887E2CA2D0490080EA1C /* Date+.swift */,
 				E744887F2CA2D0490080EA1C /* Font+.swift */,
@@ -1016,6 +1080,7 @@
 		E7DBC1022C0EE75C008D4300 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				E7C9A6D32CD9F195003C1CEC /* Helper */,
 				E7DBC1032C0EE76F008D4300 /* Views */,
 			);
 			path = MyPage;
@@ -1142,7 +1207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */,
-				E77BA64B2CD0F9810055730B /* heart.gif in Resources */,
+				E7B2E37E2CD8DDD700CEE18F /* heart.gif in Resources */,
 				E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */,
 				E79F05F72CA04D300059E828 /* Secrets.xcconfig in Resources */,
 				E743A04D2CB01525007E4343 /* Font in Resources */,
@@ -1276,9 +1341,11 @@
 				E79C71CC2CB801D000EB4CFF /* DeleteAccount.swift in Sources */,
 				E7DBC10A2C0F036B008D4300 /* DesignChip.swift in Sources */,
 				E76391772C0377D600B565BE /* DesignHalfButton.swift in Sources */,
+				E7C9A6D52CD9F1A2003C1CEC /* NotificationManager.swift in Sources */,
 				E7A6A07A2C95BA630008447D /* AcceptingViewModel.swift in Sources */,
 				E7ADBF932C57B45600E877C5 /* MatchEventAPI.swift in Sources */,
 				E7ADBF782C5756DD00E877C5 /* HeartRateService.swift in Sources */,
+				E7C22C3B2CDA09FE00E7EDE4 /* AppDelegate.swift in Sources */,
 				E7DBC0E02C0DC0E3008D4300 /* CommonResponse.swift in Sources */,
 				E77970672CA6774200DA5C00 /* HomeAPI.swift in Sources */,
 				E7D21AF22C98062100FF8907 /* UserAPI.swift in Sources */,
@@ -1327,16 +1394,25 @@
 				E77BA64D2CD0F9B90055730B /* GIFImage.swift in Sources */,
 				E7CD31F02CA2D23B00CBC086 /* Font+.swift in Sources */,
 				E7CD31F32CA2D3D500CBC086 /* LoadableImage.swift in Sources */,
+				E7C22C492CDA131900E7EDE4 /* CommonResponse.swift in Sources */,
+				E7C22C412CDA0ED600E7EDE4 /* BaseAPI.swift in Sources */,
 				E7CD31EF2CA2D23B00CBC086 /* Date+.swift in Sources */,
 				E79F05EA2CA03DE50059E828 /* NetworkConstaintsWatch.swift in Sources */,
 				E79F05E82CA03AF20059E828 /* APIConstantsWatch.swift in Sources */,
 				E79F05D42CA01F310059E828 /* MatchDetailView.swift in Sources */,
+				E7C22C432CDA101100E7EDE4 /* SoccerMatchDailyRequest.swift in Sources */,
+				E7C22C452CDA123700E7EDE4 /* NetworkError.swift in Sources */,
+				E7C22C3D2CDA0CDE00E7EDE4 /* SoccerMatchDailyResponse.swift in Sources */,
 				E7CD31F12CA2D23B00CBC086 /* TextStyle.swift in Sources */,
+				E7C22C4B2CDA134300E7EDE4 /* MyRequestInterceptor.swift in Sources */,
+				E7C22C4D2CDA137E00E7EDE4 /* KeyChain.swift in Sources */,
 				E79F05D92CA01F3D0059E828 /* SoccerMatchWatch.swift in Sources */,
 				E79F05D52CA01F310059E828 /* ContentView.swift in Sources */,
 				E79F05DD2CA01F5E0059E828 /* SoccerMatchService.swift in Sources */,
+				E7C22C3F2CDA0E9400E7EDE4 /* DailySoccerMatchAPI.swift in Sources */,
 				E79F05D72CA01F370059E828 /* SoccerMatchViewModel.swift in Sources */,
 				E79F05F52CA0490B0059E828 /* APIEventLoggetWatch.swift in Sources */,
+				E7C22C4F2CDA144800E7EDE4 /* KeyChainKeys.swift in Sources */,
 				E79F05C02CA01EA90059E828 /* Watch_KickitApp.swift in Sources */,
 				E79F05E42CA039BB0059E828 /* TargetType.swift in Sources */,
 			);

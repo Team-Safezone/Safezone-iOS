@@ -14,11 +14,11 @@ struct TimelineEventView: View {
     @State private var timer: Timer? // API 호출 타이머
     
     init(match: SoccerMatch) {
-            #if DEBUG
-            _viewModel = StateObject(wrappedValue: MatchEventViewModel.withDummyData())
-            #else
+//            #if DEBUG
+//            _viewModel = StateObject(wrappedValue: MatchEventViewModel.withDummyData())
+//            #else
             _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
-            #endif
+//            #endif
         }
     
     var body: some View {
