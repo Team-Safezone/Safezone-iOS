@@ -27,7 +27,7 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     /// 사용자가 선택한 경기
     @Published var selectedSoccerMatch: SoccerMatch?
     
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
     init() {
         // 한달 경기 날짜 조회 API 호출

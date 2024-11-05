@@ -8,7 +8,7 @@
 import UserNotifications
 
 // 알림 매니저
-class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
+class NotificationManager: NSObject, UNUserNotificationCenterDelegate, ObservableObject {
     // 싱글톤 인스턴스
     static let shared = NotificationManager()
     
@@ -39,9 +39,17 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         content.sound = .default
         content.userInfo = ["matchId": match.id, "notificationType": "gameStart"]
         
-        let gameStartTime = Calendar.current.date(byAdding: .minute, value: -5, to: match.matchTime)!
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: gameStartTime)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        // 오늘 날짜의 경기 시작 시간 설정
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: match.matchTime)
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        
+        // 경기 시작 5분 전으로 설정
+        dateComponents.minute! -= 5
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         let request = UNNotificationRequest(identifier: "gameStart-\(match.id)", content: content, trigger: trigger)
         
@@ -49,7 +57,9 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             if let error = error {
                 print("경기 시작 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
-                print("경기 시작 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(gameStartTime)")
+                if let notificationTime = calendar.date(from: dateComponents) {
+                    print("경기 시작 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                }
             }
         }
     }
@@ -63,9 +73,17 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         content.sound = .default
         content.userInfo = ["matchId": match.id, "notificationType": "lineup"]
         
-        let lineupTime = Calendar.current.date(byAdding: .hour, value: -1, to: match.matchTime)!
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: lineupTime)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        // 오늘 날짜의 라인업 공개 시간 설정 (경기 1시간 전)
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: match.matchTime)
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        
+        // 경기 시작 1시간 전으로 설정
+        dateComponents.hour! -= 1
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         let request = UNNotificationRequest(identifier: "lineup-\(match.id)", content: content, trigger: trigger)
         
@@ -73,7 +91,9 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             if let error = error {
                 print("선발 라인업 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
-                print("선발 라인업 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(lineupTime)")
+                if let notificationTime = calendar.date(from: dateComponents) {
+                    print("선발 라인업 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                }
             }
         }
     }

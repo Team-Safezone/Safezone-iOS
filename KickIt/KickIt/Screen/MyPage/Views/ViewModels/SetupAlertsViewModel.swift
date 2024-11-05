@@ -4,10 +4,6 @@
 //
 //  Created by DaeunLee on 10/10/24.
 //
-
-import SwiftUI
-import UserNotifications
-
 import SwiftUI
 import UserNotifications
 
@@ -94,8 +90,8 @@ class SetupAlertsViewModel: ObservableObject {
     private func setupMatches() {
         let calendar = Calendar.current
         var dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
-        dateComponents.hour = 19
-        dateComponents.minute = 45
+        dateComponents.hour = 20
+        dateComponents.minute = 10
         
         guard let matchTime = calendar.date(from: dateComponents) else {
             print("Failed to create match time")
@@ -103,7 +99,7 @@ class SetupAlertsViewModel: ObservableObject {
         }
         
         let dummyMatch = SoccerMatch(
-            id: 1,
+            id: 175,
             matchDate: matchTime,
             matchTime: matchTime,
             stadium: "Stadium",
