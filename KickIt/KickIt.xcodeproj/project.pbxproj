@@ -26,6 +26,9 @@
 		E72CC3362CAFEB4100EE38B8 /* MatchHeartRateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */; };
 		E72CC3382CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */; };
 		E72CC33A2CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */; };
+		E739BA142CDA4FA0001A874A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA132CDA4FA0001A874A /* KakaoSDKAuth */; };
+		E739BA162CDA4FA0001A874A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA152CDA4FA0001A874A /* KakaoSDKCommon */; };
+		E739BA182CDA4FA0001A874A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA172CDA4FA0001A874A /* KakaoSDKUser */; };
 		E743A04D2CB01525007E4343 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = E743A04C2CB01525007E4343 /* Font */; };
 		E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523EFE2CB12170007AE457 /* MatchPredictionView.swift */; };
 		E7523F012CB162E5007AE457 /* LineupPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523F002CB162E5007AE457 /* LineupPredictionView.swift */; };
@@ -484,7 +487,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E739BA182CDA4FA0001A874A /* KakaoSDKUser in Frameworks */,
 				E79F05F02CA0455F0059E828 /* Alamofire in Frameworks */,
+				E739BA162CDA4FA0001A874A /* KakaoSDKCommon in Frameworks */,
+				E739BA142CDA4FA0001A874A /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,6 +1210,9 @@
 			name = KickIt;
 			packageProductDependencies = (
 				E79F05EF2CA0455F0059E828 /* Alamofire */,
+				E739BA132CDA4FA0001A874A /* KakaoSDKAuth */,
+				E739BA152CDA4FA0001A874A /* KakaoSDKCommon */,
+				E739BA172CDA4FA0001A874A /* KakaoSDKUser */,
 			);
 			productName = KickIt;
 			productReference = E79AFF6D2BEDC8DC004CAF75 /* KickIt.app */;
@@ -1258,6 +1267,7 @@
 			mainGroup = E79AFF642BEDC8DC004CAF75;
 			packageReferences = (
 				E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E739BA122CDA4FA0001A874A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = E79AFF6E2BEDC8DC004CAF75 /* Products */;
 			projectDirPath = "";
@@ -1835,6 +1845,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E739BA122CDA4FA0001A874A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.23.0;
+			};
+		};
 		E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -1846,6 +1864,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E739BA132CDA4FA0001A874A /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E739BA122CDA4FA0001A874A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		E739BA152CDA4FA0001A874A /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E739BA122CDA4FA0001A874A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		E739BA172CDA4FA0001A874A /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E739BA122CDA4FA0001A874A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
 		E79F05EF2CA0455F0059E828 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E76F765D2C1487A900BCD566 /* XCRemoteSwiftPackageReference "Alamofire" */;
