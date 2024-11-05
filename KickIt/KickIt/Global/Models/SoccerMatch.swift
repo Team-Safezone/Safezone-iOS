@@ -25,8 +25,8 @@ struct SoccerMatch: Identifiable {
 let dummySoccerMatches: [SoccerMatch] = [
     SoccerMatch(
         id: 53,
-        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11))!,
-        matchTime: Calendar.current.date(from: DateComponents(hour: 20, minute: 30))!,
+        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
+        matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
         stadium: "장소",
         matchRound: 37,
         homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),

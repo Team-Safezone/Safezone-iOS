@@ -17,7 +17,7 @@ struct ContentView: View {
                 content
                     .navigationTitle("오늘의 경기")
                     .onAppear {
-//                        viewModel.loadMatches()
+                        viewModel.fetchTodayMatches()
                     }
             }
         }
@@ -29,7 +29,7 @@ struct ContentView: View {
             loadingView
         } else if let errorMessage = viewModel.errorMessage {
             errorView(errorMessage: errorMessage)
-        } else if viewModel.dummySoccerMatches.isEmpty {
+        } else if viewModel.matches.isEmpty {
             emptyView
         } else {
             matchListView
@@ -80,7 +80,7 @@ struct ContentView: View {
     var matchListView: some View {
         VStack(alignment: .leading, spacing: 12){
             dateText
-            List(viewModel.dummySoccerMatches) { match in
+            List(viewModel.matches) { match in
                 NavigationLink(destination: MatchDetailView(match: match, viewModel: viewModel)) {
                     MatchRow(match: match)
                 }
@@ -102,14 +102,14 @@ struct MatchRow: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 2) {
-            teamView(teamName: match.homeTeam, image: "리버풀")
+            teamView(teamName: match.homeTeam.teamName, image: match.homeTeam.teamEmblemURL)
                 .frame(maxWidth: .infinity)
             
-            Text(match.timeStr)
+            Text(dateToString3(date: match.matchTime))
                 .font(.pretendard(.bold, size: 14))
                 .frame(maxWidth: .infinity)
             
-            teamView(teamName: match.awayTeam, image: "뉴캐슬")
+            teamView(teamName: match.awayTeam.teamName, image: match.awayTeam.teamEmblemURL)
                 .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
@@ -118,8 +118,7 @@ struct MatchRow: View {
     
     private func teamView(teamName: String, image: String) -> some View {
         VStack(spacing: 2) {
-            Image(image)
-                .resizable()
+            LoadableImage(image: image)
                 .scaledToFit()
                 .frame(width: 20, height: 20)
             Spacer().frame(height: 2)

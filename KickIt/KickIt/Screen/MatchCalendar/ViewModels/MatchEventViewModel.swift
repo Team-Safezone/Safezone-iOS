@@ -369,3 +369,42 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
 }
+
+
+// MARK: - dummydata
+extension MatchEventViewModel {
+    static func withDummyData() -> MatchEventViewModel {
+        let dummyMatch = dummySoccerMatches[0]
+        let viewModel = MatchEventViewModel(match: dummyMatch)
+        let manurl = "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png"
+        let pulurl = "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png"
+        viewModel.matchEvents = [
+            MatchEventsData(matchId: 53, eventCode: 0, eventTime: "2024/09/21 19:22:00", eventName: "경기 시작", player1: nil, player2: nil, teamName: nil, teamUrl: nil),
+            MatchEventsData(matchId: 53, eventCode: 1, eventTime: "2024/09/21 19:27:00", eventName: "골!", player1: "미트로비치", player2: "윌리안", teamName: "풀럼", teamUrl: pulurl),
+                MatchEventsData(matchId: 53, eventCode: 1, eventTime: "2024/09/21 19:30:00", eventName: "교체", player1: "포든", player2: "그릴리쉬", teamName: "맨시티", teamUrl: manurl),
+                MatchEventsData(matchId: 53, eventCode: 1, eventTime: "2024/09/21 19:36:00", eventName: "경고", player1: "홀란드", player2: nil, teamName: "맨시티", teamUrl: manurl),
+                MatchEventsData(matchId: 53, eventCode: 2, eventTime: "2024/09/21 19:36:00", eventName: "하프타임", player1: "3", player2: "2", teamName: nil, teamUrl: nil),
+                MatchEventsData(matchId: 53, eventCode: 3, eventTime: "2024/09/21 19:38:00", eventName: "자책골", player1: "아케", player2: nil, teamName: "맨시티", teamUrl: manurl),
+                MatchEventsData(matchId: 53, eventCode: 3, eventTime: "2024/09/21 19:47:00", eventName: "VAR 판독", player1: "홀란드", player2: nil, teamName: nil, teamUrl: nil),
+                MatchEventsData(matchId: 53, eventCode: 4, eventTime: "2024/09/21 19:57:00", eventName: "추가 선언", player1: "5", player2: nil, teamName: nil, teamUrl: nil),
+                MatchEventsData(matchId: 53, eventCode: 5, eventTime: "2024/09/21 20:00:00", eventName: "골!", player1: "데브라위너", player2: "알바레즈", teamName: "맨시티", teamUrl: manurl)
+        ]
+        
+        viewModel.matchStartTime = DateFormatter().date(from: "2024/09/21 19:22")
+        viewModel.userAverageHeartRate = 75
+        viewModel.currentMatchId = 53
+        
+        // Dummy heart rate data
+        viewModel.heartRateRecords = [
+            HeartRateDate(heartRate: 80, date: "2024/09/21 19:32"),
+            HeartRateDate(heartRate: 85, date: "2024/09/21 19:37"),
+            HeartRateDate(heartRate: 90, date: "2024/09/21 19:46"),
+            HeartRateDate(heartRate: 75, date: "2024/09/21 19:48"),
+            HeartRateDate(heartRate: 95, date: "2024/09/21 19:57"),
+            HeartRateDate(heartRate: 88, date: "2024/09/21 20:07"),
+            HeartRateDate(heartRate: 92, date: "2024/09/21 20:10")
+        ]
+        
+        return viewModel
+    }
+}
