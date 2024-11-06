@@ -13,16 +13,18 @@ struct SplashView: View {
     @State private var isLogin: Bool = false
     @State private var isHome: Bool = false
     
+    @Binding var isLoggedIn: Bool
+    
     /// 마이페이지 뷰모델
     @StateObject private var myPageViewModel = MyPageViewModel()
     
     
     var body: some View {
         if isLogin {
-            MainView(viewModel: viewModel)
+            MainView(viewModel: viewModel, isLoggedIn: $isLoggedIn)
         }
         else if isHome {
-            ContentView()
+            ContentView(isLoggedIn: $isLoggedIn)
                 .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
         }
         else {
@@ -62,5 +64,5 @@ struct SplashView: View {
 }
 
 #Preview {
-    SplashView(viewModel: MainViewModel())
+    SplashView(viewModel: MainViewModel(), isLoggedIn: .constant(true))
 }

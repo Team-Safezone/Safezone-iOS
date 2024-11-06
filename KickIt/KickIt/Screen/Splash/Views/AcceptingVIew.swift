@@ -23,13 +23,6 @@ struct AcceptingView: View {
     }
     
     var body: some View {
-        if isHome {
-            withAnimation {
-                ContentView()
-                    .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
-            }
-        }
-        else {
             ZStack(alignment: .top){
                 // 배경화면 색 지정
                 Color.background
@@ -50,7 +43,6 @@ struct AcceptingView: View {
                 
             }//:ZSTACK
             .environment(\.colorScheme, .dark) // 무조건 다크모드
-        }
     }
     
     // MARK: - View Components
