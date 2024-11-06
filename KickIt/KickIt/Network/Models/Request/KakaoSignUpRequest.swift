@@ -12,5 +12,5 @@ struct KakaoSignUpRequest: Encodable {
     let email: String
     let nickname: String
     let favoriteTeams: [String]
-    let marketingContent: Bool
+    let marketingConsent: Bool
 }

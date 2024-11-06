@@ -149,7 +149,7 @@ extension KeyChain {
     }
     
     /// 카카오 회원탈퇴
-    func deleteNaverAccount() -> Bool {
+    func deleteKakaoAccount() -> Bool {
         if delete(key: KeyChainKeys.kakaoNickname.rawValue) == false { return false }
         if delete(key: KeyChainKeys.kakaoEmail.rawValue) == false { return false }
         if deleteJwtToken() == false { return false }

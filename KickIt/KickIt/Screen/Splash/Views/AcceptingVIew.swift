@@ -12,32 +12,45 @@ struct AcceptingView: View {
     @ObservedObject var viewModel: MainViewModel
     @ObservedObject var acceptingViewModel: AcceptingViewModel
     
+    /// 마이페이지 뷰모델
+    @StateObject private var myPageViewModel = MyPageViewModel()
+    
+    @State var isHome: Bool = false
+    
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         self.acceptingViewModel = viewModel.acceptingViewModel
     }
     
     var body: some View {
-        ZStack(alignment: .top){
-            // 배경화면 색 지정
-            Color.background
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading, spacing: 16) {
-                // 상단 텍스트
-                headerSection
+        if isHome {
+            withAnimation {
+                ContentView()
+                    .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
+            }
+        }
+        else {
+            ZStack(alignment: .top){
+                // 배경화면 색 지정
+                Color.background
+                    .ignoresSafeArea()
                 
-                // 동의 항목 섹션
-                agreementSection
+                VStack(alignment: .leading, spacing: 16) {
+                    // 상단 텍스트
+                    headerSection
+                    
+                    // 동의 항목 섹션
+                    agreementSection
+                    
+                    Spacer()
+                    
+                    // 시작하기 버튼
+                    startButton.padding()
+                }//:VSTACK
                 
-                Spacer()
-                
-                // 시작하기 버튼
-                startButton.padding()
-            }//:VSTACK
-            
-        }//:ZSTACK
-        .environment(\.colorScheme, .dark) // 무조건 다크모드
+            }//:ZSTACK
+            .environment(\.colorScheme, .dark) // 무조건 다크모드
+        }
     }
     
     // MARK: - View Components
@@ -133,20 +146,19 @@ struct AcceptingView: View {
                         email: KeyChain.shared.getKeyChainItem(key: .kakaoEmail)!,
                         nickname: userInfo.nickname,
                         favoriteTeams: userInfo.favoriteTeams,
-                        marketingContent: userInfo.agreeToMarketing)) { isSuccess in
+                        marketingConsent: userInfo.agreeToMarketing)) { isSuccess in
                             // 회원가입 성공
                             if isSuccess {
+                                print("카카오 회원가입 성공!")
                                 // 키체인에 닉네임 저장
                                 KeyChain.shared.addKeyChainItem(key: .kakaoNickname, value: userInfo.nickname)
                                 
                                 // 홈 화면으로 이동
-                                withAnimation {
-                                    ContentView()
-                                }
+                                isHome = true
                             }
                             // 회원가입 실패
                             else {
-                                
+                                print("카카오 회원가입 실패..")
                             }
                     }
                 }

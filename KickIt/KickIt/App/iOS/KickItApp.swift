@@ -15,7 +15,6 @@ struct KickItApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @StateObject private var viewModel = MainViewModel()
-
     
     init() {
         KakaoSDK.initSDK(appKey: Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as! String)

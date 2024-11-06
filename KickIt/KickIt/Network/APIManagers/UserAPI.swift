@@ -101,13 +101,13 @@ class UserAPI: BaseAPI {
                 return
             }
             
-            self.AFManager.request(UserService.checkNicknameDuplicate(nickname), interceptor: MyRequestInterceptor())
+            self.AFManager.request(UserService.checkNicknameDuplicate(nickname))
                 .validate()
                 .responseDecodable(of: CommonResponse<Bool>.self) { response in
                     switch response.result {
                     case .success(let result):
                         if result.isSuccess {
-                            promise(.success(result.data ?? false))
+                            promise(.success(result.isSuccess))
                         } else {
                             let error: NetworkError
                             switch result.status {
@@ -138,7 +138,7 @@ class UserAPI: BaseAPI {
                 return
             }
             
-            self.AFManager.request(UserService.getTeams, interceptor: MyRequestInterceptor())
+            self.AFManager.request(UserService.getTeams)
                 .validate()
                 .responseDecodable(of: CommonResponse<[SoccerTeamRequest]>.self) { response in
                     switch response.result {

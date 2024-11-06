@@ -12,11 +12,10 @@ class ManageAccountViewModel: ObservableObject {
     @Published var showingDeleteAlert = false
     @Published var showingLogoutAlert = false
     
-    
     // 로그아웃
     func logoutAccount() {
-        // 예: APIService.shared.logout()
         print("Log out")
+        KeyChain.shared.deleteJwtToken()
     }
     
     // 회원 탈퇴

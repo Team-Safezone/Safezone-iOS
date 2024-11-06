@@ -55,19 +55,16 @@ class SettingNameViewModel: ObservableObject {
             return
         }
         
-        isCheckingDuplicate = true
-        
         UserAPI.shared.checkNicknameDuplicate(nickname: nickname)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isCheckingDuplicate = false
                 if case .failure = completion {
                     self?.isNicknameValid = false
                     self?.errorMessage = "중복 검사 중 오류가 발생했습니다"
                 }
-            } receiveValue: { [weak self] isDuplicate in
-                self?.isNicknameValid = !isDuplicate
-                self?.errorMessage = isDuplicate ? "중복된 닉네임입니다" : ""
+            } receiveValue: { [weak self] isSuccess in
+                self?.isNicknameValid = isSuccess
+                self?.errorMessage = !isSuccess ? "중복된 닉네임입니다" : ""
             }
             .store(in: &cancellables)
     }
