@@ -88,9 +88,11 @@ extension TargetType {
             let params = query.toDictionary()
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
-                if let value = value as? String, !value.isEmpty {
-                    let encoding = value
-                    return URLQueryItem(name: key, value: encoding)
+                if let stringValue = value as? String, !stringValue.isEmpty {
+                    return URLQueryItem(name: key, value: stringValue)
+                }
+                else if let longValue = value as? Int64 {
+                    return URLQueryItem(name: key, value: String(longValue))
                 }
                 return nil
             }
@@ -102,9 +104,11 @@ extension TargetType {
             let params = query.toDictionary()
             // parameter 중 nil값 처리
             let queryParams = params.compactMap { (key, value) -> URLQueryItem? in
-                if let value = value as? String, !value.isEmpty {
-                    let encoding = value
-                    return URLQueryItem(name: key, value: encoding)
+                if let stringValue = value as? String, !stringValue.isEmpty {
+                    return URLQueryItem(name: key, value: stringValue)
+                }
+                else if let longValue = value as? Int64 {
+                    return URLQueryItem(name: key, value: String(longValue))
                 }
                 return nil
             }
