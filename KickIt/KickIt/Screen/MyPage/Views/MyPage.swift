@@ -11,36 +11,45 @@ import SwiftUI
 struct MyPage: View {
     @StateObject private var viewModel = MyPageViewModel()
     @StateObject private var mnviewModel = ManageAccountViewModel()
+    @ObservedObject private var mainViewModel = MainViewModel()
+    
+    
+    // 로그아웃 상태
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
-        NavigationStack {
+            NavigationStack {
                 ZStack {
                     Color.background.ignoresSafeArea()
-                    ScrollView(showsIndicators: false){
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text("마이페이지")
-                            .pretendardTextStyle(.Title1Style)
-                            .foregroundStyle(.white0)
-                        
-                        profileSection
-                        gradeSection
-                        myTeamSection
-                        menuList
-                        accountActions
-                        Spacer()
-                    }.padding(.horizontal, 16)
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("마이페이지")
+                                .pretendardTextStyle(.Title1Style)
+                                .foregroundStyle(.white0)
+                            
+                            profileSection
+                            gradeSection
+                            myTeamSection
+                            menuList
+                            accountActions
+                            Spacer()
+                        }.padding(.horizontal, 16)
+                    }
                 }
             }
+            .tint(.white0)
+            .alert(isPresented: $viewModel.showingLogoutAlert) {
+                Alert(
+                    title: Text("로그아웃하시겠습니까?"),
+                    primaryButton: .destructive(Text("확인"), action: {
+                        mnviewModel.logoutAccount()  // 로그아웃 진행
+                        KeyChain.shared.deleteJwtToken() // jwt 토큰 삭제
+                        isLoggedIn = false // 로그아웃 시 상태 업데이트
+                    }),
+                    secondaryButton: .cancel(Text("취소"))
+                )
+            }
         }
-        .tint(.white0)
-        .alert(isPresented: $viewModel.showingLogoutAlert) {
-            Alert(
-                title: Text("로그아웃하시겠습니까?"),
-                primaryButton: .destructive(Text("확인"), action: mnviewModel.logoutAccount),
-                secondaryButton: .cancel(Text("취소"))
-            )
-        }
-    }
     
     // 프로필
     private var profileSection: some View {
@@ -240,5 +249,5 @@ struct MyPage: View {
 }
 
 #Preview {
-    MyPage()
+    MyPage(isLoggedIn: .constant(false))
 }

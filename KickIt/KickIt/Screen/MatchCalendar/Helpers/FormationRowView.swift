@@ -45,5 +45,5 @@ struct FormationRowView: View {
 }
 
 #Preview("축구 팀 포메이션 Row") {
-    FormationRowView(formation: "4-3-3 포메이션", formationType: "공격형", formationIcons: [.soccerBall])
+    FormationRowView(formation: "4-3-3 포메이션", formationType: "공격형", formationIcons: [.soccerball])
 }

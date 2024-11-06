@@ -8,18 +8,6 @@
 import Foundation
 import Combine
 
-/// 사용자 회원가입 정보를 저장하는 구조체
-struct UserSignUpInfo {
-    var nickname: String = ""
-    var favoriteTeams: [String] = []
-    var agreeToMarketing: Bool = false
-    
-    /// SignUpRequest로 변환하는 메서드
-    func toSignUpData() -> SignUpRequest {
-        return SignUpRequest(nickname: nickname, favoriteTeam: favoriteTeams, marketingConsent: agreeToMarketing)
-    }
-}
-
 /// 메인 뷰 모델
 class MainViewModel: ObservableObject {
     /// 현재 회원가입 단계
@@ -40,23 +28,47 @@ class MainViewModel: ObservableObject {
         currentStep += 1
     }
     
-    /// 회원가입 API 호출 메서드
-    /// - Parameter completion: 회원가입 성공 여부를 전달하는 클로저
-    func signUp(completion: @escaping (Bool) -> Void) {
-        // UserSignUpInfo를 SignUpRequest로 변환
-        let signUpData = userSignUpInfo.toSignUpData()
-        
-        // 회원가입 API 호출
-        UserAPI.shared.signUp(signUpData: signUpData)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                 print("Error Sign up: \(error)")
-                                }
-            } receiveValue: { success in
-                print("Sign up result: \(success)")
-                completion(success)
-            }
+    /// 카카오 회원가입 API 호출 함수
+    func postKakaoSignUp(request: KakaoSignUpRequest, completion: @escaping (Bool) -> (Void)) {
+        UserAPI.shared.kakaoSignUp(request: request)
+            .sink(receiveCompletion: { complete in
+                switch complete {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                    completion(false)
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { token in
+                print("카카오 회원가입 응답: \(token)")
+                
+                // 키체인에 jwt 토큰 저장
+                KeyChain.shared.addJwtToken(token: token) // KeyChain에 토큰 저장
+                completion(true)
+            })
+            .store(in: &cancellables)
+    }
+    
+    /// 카카오 로그인 API 호출 함수
+    func postKakaoLogin(request: KakaoLoginRequest, completion: @escaping (Bool) -> (Void)) {
+        UserAPI.shared.kakaoLogin(request: request)
+            .sink(receiveCompletion: { complete in
+                switch complete {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                    completion(false)
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { token in
+                print("카카오 로그인 응답: \(token)")
+                
+                // 키체인에 jwt 토큰 저장
+                KeyChain.shared.addJwtToken(token: token) // KeyChain에 토큰 저장
+                completion(true)
+            })
             .store(in: &cancellables)
     }
 }

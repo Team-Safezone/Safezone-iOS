@@ -12,32 +12,37 @@ struct AcceptingView: View {
     @ObservedObject var viewModel: MainViewModel
     @ObservedObject var acceptingViewModel: AcceptingViewModel
     
+    /// 마이페이지 뷰모델
+    @StateObject private var myPageViewModel = MyPageViewModel()
+    
+    @State var isHome: Bool = false
+    
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         self.acceptingViewModel = viewModel.acceptingViewModel
     }
     
     var body: some View {
-        ZStack(alignment: .top){
-            // 배경화면 색 지정
-            Color.background
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading, spacing: 16) {
-                // 상단 텍스트
-                headerSection
+            ZStack(alignment: .top){
+                // 배경화면 색 지정
+                Color.background
+                    .ignoresSafeArea()
                 
-                // 동의 항목 섹션
-                agreementSection
+                VStack(alignment: .leading, spacing: 16) {
+                    // 상단 텍스트
+                    headerSection
+                    
+                    // 동의 항목 섹션
+                    agreementSection
+                    
+                    Spacer()
+                    
+                    // 시작하기 버튼
+                    startButton.padding()
+                }//:VSTACK
                 
-                Spacer()
-                
-                // 시작하기 버튼
-                startButton.padding()
-            }//:VSTACK
-            
-        }//:ZSTACK
-        .environment(\.colorScheme, .dark) // 무조건 다크모드
+            }//:ZSTACK
+            .environment(\.colorScheme, .dark) // 무조건 다크모드
     }
     
     // MARK: - View Components
@@ -122,12 +127,36 @@ struct AcceptingView: View {
     private var startButton: some View {
         Button(action: {
             if acceptingViewModel.canProceed {
-                acceptingViewModel.setMarketingConsent(to: viewModel) { success in
-                    if success {
-                        // 홈으로 이동
-                    } else {
-                        // 에러 처리
+                var userInfo = viewModel.userSignUpInfo
+                
+                userInfo.agreeToMarketing = acceptingViewModel.agreeToMarketing
+                
+                // 카카오 회원가입이라면
+                if userInfo.loginType == .kakao {
+                    // 카카오 회원가입 API호출
+                    viewModel.postKakaoSignUp(request: KakaoSignUpRequest(
+                        email: KeyChain.shared.getKeyChainItem(key: .kakaoEmail)!,
+                        nickname: userInfo.nickname,
+                        favoriteTeams: userInfo.favoriteTeams,
+                        marketingConsent: userInfo.agreeToMarketing)) { isSuccess in
+                            // 회원가입 성공
+                            if isSuccess {
+                                print("카카오 회원가입 성공!")
+                                // 키체인에 닉네임 저장
+                                KeyChain.shared.addKeyChainItem(key: .kakaoNickname, value: userInfo.nickname)
+                                
+                                // 홈 화면으로 이동
+                                isHome = true
+                            }
+                            // 회원가입 실패
+                            else {
+                                print("카카오 회원가입 실패..")
+                            }
                     }
+                }
+                // 애플 회원가입이라면
+                else {
+                    
                 }
             }
         }) {

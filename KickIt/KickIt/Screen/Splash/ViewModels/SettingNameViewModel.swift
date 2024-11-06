@@ -48,42 +48,25 @@ class SettingNameViewModel: ObservableObject {
     func validateNickname() {
         let nicknameRegex = "^[a-zA-Z0-9가-힣]{2,10}$"
         let nicknamePredicate = NSPredicate(format: "SELF MATCHES %@", nicknameRegex)
-        
-        
-        // MARK: 현재는 유효한 닉네임인지만 판단
-        if nicknamePredicate.evaluate(with: nickname) {
-            isNicknameValid = true
-            errorMessage = "사용 가능한 닉네임입니다"
-        } else {
+    
+        guard nicknamePredicate.evaluate(with: nickname) else {
             isNicknameValid = false
             errorMessage = "사용 불가능한 닉네임입니다"
+            return
         }
         
-        // MARK: API 개발 전까지 호출 부분 잠시 주석 처리
-        /*
-         guard nicknamePredicate.evaluate(with: nickname) else {
-         isNicknameValid = false
-         errorMessage = "사용 불가능한 닉네임입니다"
-         return
-         }
-         
-         isCheckingDuplicate = true
-         
-         UserAPI.shared.checkNicknameDuplicate(nickname: nickname)
-         .receive(on: DispatchQueue.main)
-         .sink { [weak self] completion in
-         self?.isCheckingDuplicate = false
-         if case .failure = completion {
-         self?.isNicknameValid = false
-         self?.errorMessage = "중복 검사 중 오류가 발생했습니다"
-         }
-         } receiveValue: { [weak self] isDuplicate in
-         self?.isNicknameValid = !isDuplicate
-         self?.errorMessage = isDuplicate ? "중복된 닉네임입니다" : ""
-         }
-         .store(in: &cancellables)
-         }
-         */
+        UserAPI.shared.checkNicknameDuplicate(nickname: nickname)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure = completion {
+                    self?.isNicknameValid = false
+                    self?.errorMessage = "중복 검사 중 오류가 발생했습니다"
+                }
+            } receiveValue: { [weak self] isSuccess in
+                self?.isNicknameValid = isSuccess
+                self?.errorMessage = !isSuccess ? "중복된 닉네임입니다" : ""
+            }
+            .store(in: &cancellables)
     }
     
     // 닉네임 설정

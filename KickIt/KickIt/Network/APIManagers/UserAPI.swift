@@ -17,22 +17,61 @@ class UserAPI: BaseAPI {
         super.init()
     }
     
-    //// 회원가입 API 호출
-    func signUp(signUpData: SignUpRequest) -> AnyPublisher<Bool, NetworkError> {
-        return Future<Bool, NetworkError> { [weak self] promise in
+    /// 카카오 회원가입 API 호출
+    func kakaoSignUp(request: KakaoSignUpRequest) -> AnyPublisher<String, NetworkError> {
+        return Future<String, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(UserService.signUp(signUpData), interceptor: MyRequestInterceptor())
+            self.AFManager.request(UserService.kakaoSignUp(request))
                 .validate()
-                .responseDecodable(of: CommonResponse<Bool>.self) { response in
+                .responseDecodable(of: CommonResponse<String>.self) { response in
                     switch response.result {
                     case .success(let result):
                         if result.isSuccess {
-                            promise(.success(result.data ?? false))
-                        } else {
+                            promise(.success(result.data ?? ""))
+                        }
+                        else {
+                            let error: NetworkError
+                            switch result.status {
+                            case 401:
+                                error = .authFailed
+                            case 400..<500:
+                                error = .requestErr(result.message)
+                            case 500:
+                                error = .serverErr(result.message)
+                            default:
+                                error = .unknown(result.message)
+                            }
+                            promise(.failure(error))
+                        }
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    /// 카카오 로그인 API 호출
+    func kakaoLogin(request: KakaoLoginRequest) -> AnyPublisher<String, NetworkError> {
+        return Future<String, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(UserService.kakaoLogin(request))
+                .validate()
+                .responseDecodable(of: CommonResponse<String>.self) { response in
+                    switch response.result {
+                    case .success(let result):
+                        if result.isSuccess {
+                            promise(.success(result.data ?? ""))
+                        }
+                        else {
                             let error: NetworkError
                             switch result.status {
                             case 401:
@@ -62,13 +101,13 @@ class UserAPI: BaseAPI {
                 return
             }
             
-            self.AFManager.request(UserService.checkNicknameDuplicate(nickname), interceptor: MyRequestInterceptor())
+            self.AFManager.request(UserService.checkNicknameDuplicate(nickname))
                 .validate()
                 .responseDecodable(of: CommonResponse<Bool>.self) { response in
                     switch response.result {
                     case .success(let result):
                         if result.isSuccess {
-                            promise(.success(result.data ?? false))
+                            promise(.success(result.isSuccess))
                         } else {
                             let error: NetworkError
                             switch result.status {
@@ -99,7 +138,7 @@ class UserAPI: BaseAPI {
                 return
             }
             
-            self.AFManager.request(UserService.getTeams, interceptor: MyRequestInterceptor())
+            self.AFManager.request(UserService.getTeams)
                 .validate()
                 .responseDecodable(of: CommonResponse<[SoccerTeamRequest]>.self) { response in
                     switch response.result {
