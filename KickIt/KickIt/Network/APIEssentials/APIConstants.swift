@@ -18,6 +18,18 @@ struct APIConstants {
     /// 테스트 서버 URL
     static let devURL = Bundle.main.object(forInfoDictionaryKey: "TEST_URL") as! String
     
+    /// 카카오 회원가입 URL
+    static let kakaoSignUpURL = "/users/signup/kakao"
+    
+    /// 카카오 로그인 URL
+    static let kakaoLoginURL = "/users/login/kakao"
+    
+    /// 닉네임 중복 검사 조회 URL
+    static let checkNicknameDuplicateURL = "/users/check-nickname"
+    
+    /// 팀 로고, 이름 조회 URL
+    static let getTeamsURL = "/eplTeams"
+    
     /// 홈 조회 URL
     static let homeURL = "/url~"
     
@@ -68,15 +80,6 @@ struct APIConstants {
     
     /// 일기 삭제 이벤트 URL
     static let deleteDiaryURL = "/"
-    
-    /// 회원 가입 정보 전송 URL
-    static let signupURL = "/users/signup"
-    
-    /// 닉네임 중복 검사 조회 URL
-    static let checkNicknameDuplicateURL = "/users/check-nickname"
-    
-    /// 팀 로고, 이름 조회 URL
-    static let getTeamsURL = "/eplTeams"
     
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = ""

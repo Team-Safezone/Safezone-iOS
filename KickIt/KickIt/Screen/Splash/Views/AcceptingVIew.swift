@@ -122,12 +122,37 @@ struct AcceptingView: View {
     private var startButton: some View {
         Button(action: {
             if acceptingViewModel.canProceed {
-                acceptingViewModel.setMarketingConsent(to: viewModel) { success in
-                    if success {
-                        // 홈으로 이동
-                    } else {
-                        // 에러 처리
+                var userInfo = viewModel.userSignUpInfo
+                
+                userInfo.agreeToMarketing = acceptingViewModel.agreeToMarketing
+                
+                // 카카오 회원가입이라면
+                if userInfo.loginType == .kakao {
+                    // 카카오 회원가입 API호출
+                    viewModel.postKakaoSignUp(request: KakaoSignUpRequest(
+                        email: KeyChain.shared.getKeyChainItem(key: .kakaoEmail)!,
+                        nickname: userInfo.nickname,
+                        favoriteTeams: userInfo.favoriteTeams,
+                        marketingContent: userInfo.agreeToMarketing)) { isSuccess in
+                            // 회원가입 성공
+                            if isSuccess {
+                                // 키체인에 닉네임 저장
+                                KeyChain.shared.addKeyChainItem(key: .kakaoNickname, value: userInfo.nickname)
+                                
+                                // 홈 화면으로 이동
+                                withAnimation {
+                                    ContentView()
+                                }
+                            }
+                            // 회원가입 실패
+                            else {
+                                
+                            }
                     }
+                }
+                // 애플 회원가입이라면
+                else {
+                    
                 }
             }
         }) {

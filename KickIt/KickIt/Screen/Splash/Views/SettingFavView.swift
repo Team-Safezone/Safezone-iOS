@@ -13,9 +13,9 @@ struct SettingFavView: View {
     @ObservedObject var settingFavViewModel: SettingFavViewModel
     
     init(viewModel: MainViewModel) {
-            self.viewModel = viewModel
-            self.settingFavViewModel = viewModel.settingFavViewModel
-        }
+        self.viewModel = viewModel
+        self.settingFavViewModel = viewModel.settingFavViewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top){
@@ -50,8 +50,6 @@ struct SettingFavView: View {
                     Text("경기 일정과 이벤트를 추천받을 수 있어요")
                         .pretendardTextStyle(.Body2Style)
                         .foregroundStyle(.gray500)
-                    
-                    
                 }
                 .padding(.leading, 16)
                 .padding(.top, 50)

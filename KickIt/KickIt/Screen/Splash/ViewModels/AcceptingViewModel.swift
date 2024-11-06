@@ -41,10 +41,4 @@ class AcceptingViewModel: ObservableObject {
     var canProceed: Bool {
         agreeToTerms && agreeToPrivacy
     }
-    
-    /// 마케팅 동의 여부 API 호출
-    func setMarketingConsent(to mainViewModel: MainViewModel, completion: @escaping (Bool) -> Void) {
-        mainViewModel.userSignUpInfo.agreeToMarketing = agreeToMarketing
-        mainViewModel.signUp(completion: completion)
-    }
 }

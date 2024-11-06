@@ -21,16 +21,24 @@ class KeyChain {
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: key,
             kSecAttrService: service as Any,
-            kSecValueData: value.data(using: .utf8) as Any
-        ] as [String: Any]
+            kSecValueData: (value as AnyObject).data(using: String.Encoding.utf8.rawValue) as Any
+        ] as [CFString: Any]
         
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else {
+        let result: Bool = {
+            let status = SecItemAdd(query as CFDictionary, nil)
+            if status == errSecSuccess {
+                print("Success create KeyChain")
+                return true
+            } else if status == errSecDuplicateItem {
+                print("Success update KeyChain")
+                return update(key: key, value: value)
+            }
+            
             print("KeyChain create Error")
             return false
-        }
-        print("Success create KeyChain")
-        return true
+        }()
+            
+        return result
     }
     
     // 값 가져오기
@@ -39,14 +47,18 @@ class KeyChain {
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: key,
             kSecAttrService: service as Any,
-
-            kSecValueData: true
-        ] as [String: Any]
+            kSecReturnAttributes: true,
+            kSecReturnData: true
+        ] as [CFString: Any]
         
-        var item: AnyObject?
+        var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         if status == errSecSuccess {
-            return String(data: item as! Data, encoding: .utf8)
+            if let existingItem = item as? [String: Any],
+               let data = existingItem[kSecValueData as String] as? Data,
+               let password = String(data: data, encoding: .utf8) {
+                return password
+            }
         }
         else if status == errSecItemNotFound {
             print("Not Found \(key) in KeyChain")
@@ -56,19 +68,19 @@ class KeyChain {
             print("Error KeyChain: \(status.description)")
             return nil
         }
+        return nil
     }
     
     // 값 업데이트
     func update(key: String, value: String) -> Bool {
         let query = [
-            kSecClass: kSecClassGenericPassword
-        ] as [String: Any]
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key
+        ] as [CFString: Any]
         
         let attributes = [
-            kSecAttrService: service as Any,
-            kSecAttrAccount: key,
-            kSecValueData: value.data(using: .utf8) as Any
-        ]
+            kSecValueData: (value as AnyObject).data(using: String.Encoding.utf8.rawValue) as Any
+        ] as [CFString: Any]
         
         let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         guard status != errSecItemNotFound else {
@@ -87,9 +99,8 @@ class KeyChain {
     func delete(key: String) -> Bool {
         let query = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: service as Any,
             kSecAttrAccount: key
-        ] as [String: Any]
+        ] as [CFString: Any]
         
         let status = SecItemDelete(query as CFDictionary)
         guard status != errSecItemNotFound else {
@@ -107,18 +118,42 @@ class KeyChain {
 
 /// 키체인 확장 함수
 extension KeyChain {
-    // jwt 토큰 추가
+    /// jwt 토큰 추가
     func addJwtToken(token: String) -> Bool {
         KeyChain.shared.create(key: KeyChainKeys.jwtToken.rawValue, value: token)
     }
     
-    // jwt 토큰 가져오기
+    /// jwt 토큰 가져오기
     func getJwtToken() -> String? {
         KeyChain.shared.read(key: KeyChainKeys.jwtToken.rawValue)
     }
     
-    // jwt 토큰 삭제
+    /// jwt 토큰 삭제
     func deleteJwtToken() -> Bool {
         KeyChain.shared.delete(key: KeyChainKeys.jwtToken.rawValue)
+    }
+    
+    /// KeyChainKeys의 열거형을 사용한 아이템 추가
+    func addKeyChainItem(key: KeyChainKeys, value: String) -> Bool {
+        KeyChain.shared.create(key: key.rawValue, value: value)
+    }
+    
+    /// KeyChainKeys의 열거형을 사용한 아이템 가져오기
+    func getKeyChainItem(key: KeyChainKeys) -> String? {
+        KeyChain.shared.read(key: key.rawValue)
+    }
+    
+    /// KeyChainKeys의 열거형을 사용한 아이템 삭제
+    func deleteKeyChainItem(key: KeyChainKeys) -> Bool {
+        KeyChain.shared.delete(key: key.rawValue)
+    }
+    
+    /// 카카오 회원탈퇴
+    func deleteNaverAccount() -> Bool {
+        if delete(key: KeyChainKeys.kakaoNickname.rawValue) == false { return false }
+        if delete(key: KeyChainKeys.kakaoEmail.rawValue) == false { return false }
+        if deleteJwtToken() == false { return false }
+        
+        return true
     }
 }

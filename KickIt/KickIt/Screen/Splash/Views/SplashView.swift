@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 스플래시 화면
 struct SplashView: View {
     @ObservedObject var viewModel: MainViewModel
     @State private var isActive: Bool = false
@@ -25,7 +26,21 @@ struct SplashView: View {
                     .onAppear{
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
-                                isActive = true
+                                // 토큰이 있다면
+                                if let token = KeyChain.shared.getJwtToken() {
+                                    print("토큰 존재 O: \(token)")
+                                    
+                                    // 홈 화면으로 이동
+                                    ContentView()
+                                    
+                                }
+                                // 토큰이 없다면
+                                else {
+                                    print("토큰 존재X")
+                                    print("키체인 이메일 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "no data..")")
+                                    // 로그인 화면으로 이동
+                                    isActive = true
+                                }
                             }
                         }
                     }//:COLOR
