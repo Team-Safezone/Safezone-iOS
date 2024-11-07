@@ -131,16 +131,18 @@ struct TableLable: View {
             .foregroundStyle(Color.gray900Assets)
             .frame(maxWidth: .infinity, maxHeight: 40)
             .overlay {
-                HStack {
-                    HStack {
+                HStack (spacing: 29){
+                    HStack(spacing: 15){
                         Text("시간")
                             .pretendardTextStyle(.Body3Style)
-                        Text("타임라인")
+                        Text("팀")
                             .pretendardTextStyle(.Body3Style)
                     }
+                    Text("하이라이트")
+                        .pretendardTextStyle(.Body3Style)
                     Spacer()
                     Text("나의 심박수")
-                        .pretendardTextStyle(.Body3Style)
+                        .font(.pretendard(.bold, size: 13))
                 }
                 .padding(.horizontal, 10)
                 .foregroundStyle(Color.white0)

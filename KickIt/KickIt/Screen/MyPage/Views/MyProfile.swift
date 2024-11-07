@@ -73,6 +73,15 @@ struct MyProfile: View {
                                     .padding(.top, 2)
                                     .padding(.leading, 2)
                             }
+                            
+                            Button(action: viewModel.validateNickname) {
+                                Text("확인")
+                                    .pretendardTextStyle(.Title2Style)
+                                    .foregroundStyle(.black0)
+                                    .padding(.horizontal, 30)
+                                    .padding(.vertical, 12)
+                                    .background(RoundedRectangle(cornerRadius: 8))
+                            }.padding(.top, -20)
                         }
                     }
                     .padding(.horizontal, 24)

@@ -84,9 +84,9 @@ struct APIConstants {
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = ""
     /// 닉네임 수정 URL
-    static let updateNicknameURL = ""
+    static let updateNicknameURL = "/users/update-nickname"
     /// 선호 팀 수정 URL
-    static let updateFavoriteTeamsURL = ""
+    static let updateFavoriteTeamsURL = "/users/update-favoriteTeams"
 }
 
 /// 한글 인코딩
