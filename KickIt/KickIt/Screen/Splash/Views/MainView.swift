@@ -11,14 +11,11 @@ import SwiftUI
 struct MainView: View {
     @ObservedObject var viewModel: MainViewModel
     
-    // 로그아웃 상태
-    @Binding var isLoggedIn: Bool
-    
     var body: some View {
         VStack {
             switch viewModel.currentStep {
             case 0:
-                LoginView(viewModel: viewModel, isLoggedIn: $isLoggedIn)
+                LoginView(viewModel: viewModel)
             case 1:
                 SettingNameView(viewModel: viewModel)
             case 2:
@@ -33,5 +30,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewModel(), isLoggedIn: .constant(true))
+    MainView(viewModel: MainViewModel())
 }
