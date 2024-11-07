@@ -27,7 +27,7 @@ final class PredictionButtonViewModel: ObservableObject {
     func getPredictionButtonClick(request: PredictionButtonRequest) {
         MatchCalendarAPI.shared.getPredictoinButtonClick(request: request)
             .map { dto in
-                let matchPredictions = self.matchPredictionToEntity(dto.matchPredictions)
+                let matchPredictions = self.matchPredictionToEntity(dto.scorePredictions)
                 let lineupPredictions = self.lineupPredictionToEntity(dto.lineupPredictions)
                 
                 return (matchPredictions, lineupPredictions)

@@ -10,6 +10,9 @@ import SwiftUI
 /// 축구 경기 정보 화면
 struct SoccerMatchInfo: View {
     // MARK: - PROPERTY
+    /// 네비게이션 변수
+    @Binding var path: NavigationPath
+    
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel: MatchCalendarViewModel
     
@@ -27,6 +30,7 @@ struct SoccerMatchInfo: View {
         ZStack(alignment: .top) {
             // 배경화면 색상 지정
             Color(.background)
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // MARK: 상단 경기 정보
@@ -74,8 +78,6 @@ struct SoccerMatchInfo: View {
                 .scrollIndicators(.never)
             } //: VSTACK
         } //: ZSTACK
-        // 툴 바, 상태 바 색상 변경
-        .ignoresSafeArea(edges: .bottom)
         .navigationTitle("\(viewModel.selectedSoccerMatch!.homeTeam.teamName) VS \(viewModel.selectedSoccerMatch!.awayTeam.teamName)")
     }
     
@@ -229,6 +231,9 @@ struct SoccerMatchInfo: View {
                 Button {
                     withAnimation {
                         isShowMatchInfo = false
+                        
+                        // 경기 예측 조회 API 호출
+                        predictionViewModel.getPredictionButtonClick(request: PredictionButtonRequest(matchId: viewModel.selectedSoccerMatch!.id))
                     }
                 } label: {
                     Text("경기 예측")
@@ -406,11 +411,22 @@ struct SoccerMatchInfo: View {
             // 우승팀 예측
             NavigationLink {
                 if (predictionViewModel.matchPrediction.isParticipated) {
-                    // TODO: 우승팀 예측 결과 조회 화면으로 이동
+                    // 우승팀 예측 결과 조회 화면으로 이동
+                    let model = viewModel.selectedSoccerMatch!
+                    ResultWinningTeamPrediction(
+                        prediction: PredictionQuestionModel(
+                            matchId: model.id,
+                            matchCode: model.matchCode,
+                            matchDate: model.matchDate,
+                            matchTime: model.matchTime,
+                            homeTeamName: model.homeTeam.teamName,
+                            awayTeamName: model.awayTeam.teamName
+                        )
+                    )
                 }
                 else {
                     // 우승 팀 예측 화면으로 이동
-                    WinningTeamPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
+                    WinningTeamPrediction(path: $path, isRetry: false, soccerMatch: viewModel.selectedSoccerMatch!)
                         .toolbarRole(.editor) // back 텍스트 숨기기
                 }
             } label: {
@@ -484,5 +500,5 @@ struct SoccerMatchInfo: View {
 
 // MARK: - PREVIEW
 #Preview("경기 정보") {
-    SoccerMatchInfo(viewModel: MatchCalendarViewModel())
+    SoccerMatchInfo(path: .constant(NavigationPath()), viewModel: MatchCalendarViewModel())
 }

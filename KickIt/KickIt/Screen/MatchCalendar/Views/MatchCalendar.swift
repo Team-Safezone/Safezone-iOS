@@ -165,7 +165,7 @@ struct MatchCalendar: View {
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
                     NavigationLink {
-                        SoccerMatchInfo(viewModel: viewModel)
+                        SoccerMatchInfo(path: $path, viewModel: viewModel)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
                     } label: {

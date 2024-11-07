@@ -9,7 +9,7 @@ import Foundation
 
 /// 경기 예측 버튼 클릭 Response 모델
 struct PredictionButtonResponse: Codable {
-    var matchPredictions: ButtonMatchPredictionResponse // 우승팀 예측 결과
+    var scorePredictions: ButtonMatchPredictionResponse // 우승팀 예측 결과
     var lineupPredictions: ButtonLineupPredictionResponse // 선발라인업 예측 결과
 }
 

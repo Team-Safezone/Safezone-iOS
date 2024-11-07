@@ -46,11 +46,13 @@ struct StartingLineupPrediction: View {
                 VStack(alignment: .leading, spacing: 0) {
                     // MARK: 선발라인업 예측 질문 뷰
                     PredictionQuestionView(
+                        predictionType: 1,
+                        isRetry: false,
                         matchCode: soccerMatch.matchCode,
                         questionTitle: "선발 라인업 예측",
                         question: "이번 경기에서 어떤 선발 라인업을 구성할까?",
-                        endDate: soccerMatch.matchDate,
-                        endTime: soccerMatch.matchTime
+                        matchDate: soccerMatch.matchDate,
+                        matchTime: soccerMatch.matchTime
                     )
                     
                     // MARK: 홈팀의 선발라인업 선택

@@ -154,7 +154,7 @@ class MatchCalendarAPI: BaseAPI {
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data!))
+                            promise(.success(result.data ?? PredictionButtonResponse(scorePredictions: ButtonMatchPredictionResponse(homePercentage: 0, isParticipated: false), lineupPredictions: ButtonLineupPredictionResponse(isParticipated: false))))
                         }
                         // 응답 실패
                         else {
