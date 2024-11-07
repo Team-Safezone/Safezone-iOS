@@ -77,11 +77,11 @@ struct MyProfile: View {
                             Button(action: viewModel.validateNickname) {
                                 Text("확인")
                                     .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.black0)
+                                    .foregroundStyle(.white0)
                                     .padding(.horizontal, 30)
                                     .padding(.vertical, 12)
                                     .background(RoundedRectangle(cornerRadius: 8))
-                            }.padding(.top, -20)
+                            }.foregroundStyle(.accent).padding(.top, -20)
                         }
                     }
                     .padding(.horizontal, 24)
