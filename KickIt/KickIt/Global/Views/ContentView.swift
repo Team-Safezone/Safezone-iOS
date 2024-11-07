@@ -38,9 +38,6 @@ struct ContentView: View {
     /// 홈 뷰 표시 여부
     @State private var showHomeView: Bool = false
     
-    // 로그아웃 상태
-    @Binding var isLoggedIn: Bool
-    
     /// 초기화 메서드
 //    init() {
 //        // 탭바 색상 초기화
@@ -74,7 +71,7 @@ struct ContentView: View {
                 .tag(Tab.diary)
             
             /// 마이페이지 화면
-            MyPage(isLoggedIn: $isLoggedIn)
+            MyPage()
                 .tabItem {
                     Image(systemName: "person.circle.fill")
                     Text("마이페이지").pretendardTextStyle(.Caption2Style)
@@ -88,7 +85,7 @@ struct ContentView: View {
             StartingLineup(viewModel: matchCalendarViewModel)
         }
         .fullScreenCover(isPresented: $showHomeView) {
-            ContentView(isLoggedIn: $isLoggedIn)
+            ContentView()
         }
         .onAppear {
             setupNotifications()
@@ -159,5 +156,5 @@ struct Int64Identifier: Identifiable {
 }
 
 #Preview {
-    ContentView(isLoggedIn: .constant(true))
+    ContentView()
 }

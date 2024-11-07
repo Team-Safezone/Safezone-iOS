@@ -15,14 +15,17 @@ struct LoginView: View {
     
     @ObservedObject var viewModel: MainViewModel
     
-    @Binding var isLoggedIn: Bool
-    
     @State private var isHome = false
     
     /// 마이페이지 뷰모델
     @StateObject private var myPageViewModel = MyPageViewModel()
     
     var body: some View {
+        if isHome {
+           ContentView()
+               .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
+       }
+        else {
             ZStack(alignment: .leading) {
                 Color.background.ignoresSafeArea()
                 
@@ -127,7 +130,7 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 16)
             }.environment(\.colorScheme, .dark) // 무조건 다크모드
-            
+        }
     }
     
     /// 카카오 로그인 API 연결
@@ -136,12 +139,11 @@ struct LoginView: View {
         viewModel.postKakaoLogin(request: KakaoLoginRequest(email: KeyChain.shared.getKeyChainItem(key: .kakaoEmail)!)) { success in
             // 로그인 성공 시, 홈 화면으로 이동
             if success {
-                isLoggedIn = true // // 로그인 성공 시
-//                isHome = true
+                isHome = true
             }
             else {
                 print("카카오 로그인 실패")
-//                isHome = false
+                isHome = false
             }
         }
     }
@@ -170,5 +172,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(viewModel: MainViewModel(), isLoggedIn: .constant(false))
+    LoginView(viewModel: MainViewModel())
 }
