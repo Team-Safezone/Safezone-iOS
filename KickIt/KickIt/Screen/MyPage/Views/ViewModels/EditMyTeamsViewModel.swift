@@ -39,7 +39,7 @@ class EditMyTeamsViewModel: ObservableObject {
             .sink { completion in
                 if case .failure(let error) = completion {
                     print("Error updating favorite teams: \(error)")
-                    // 에러 처리 로직 추가
+                    self.errorMessage = "선호 팀 변경에 실패했습니다"
                 }
             } receiveValue: { _ in
                 print("\(self.selectedTeams) 수정 성공")

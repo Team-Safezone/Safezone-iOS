@@ -103,7 +103,7 @@ struct HeartView: View {
             
             HStack(spacing: 2) {
                 // 심박수가 있으면 해당 값 표시, 없으면 평균 심박수 표시
-                Text("\(heartRate ?? userAvgHeartRate)")
+                Text("\(heartRate ?? 0)")
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.white0)
                     .frame(width: 25, alignment: .trailing)

@@ -75,29 +75,35 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                if case .failure(let error) = completion {
+                switch completion {
+                case .finished:
+                    print("Successfully fetched match events")
+                case .failure(let error):
                     print("Error fetching match events: \(error)")
                 }
             } receiveValue: { [weak self] events in
                 self?.matchEvents = events
                 print("Received \(events.count) events")
-                self?.updateMatchCode() // eventCode 마지막 -> matchCode 업데이트
-                self?.setMatchStartTime()   // 경기 시작 시간 설정
-                self?.loadHeartRateData()   // 심박수 데이터 호출
+                self?.updateMatchCode()
+                self?.setMatchStartTime()
+                self?.loadHeartRateData()
             }
             .store(in: &cancellables)
     }
-    
+
     // 사용자 평균 심박수 GET
     func fetchUserAverageHeartRate() {
-        AvgHeartRateAPI.shared.getUserAverageHeartRate()
+        MatchEventAPI.shared.getUserAverageHeartRate()
             .receive(on: DispatchQueue.main)
             .sink { completion in
-                if case .failure(let error) = completion {
+                switch completion {
+                case .finished:
+                    print("Successfully fetched user average heart rate")
+                case .failure(let error):
                     print("Error fetching user average heart rate: \(error)")
                 }
-            } receiveValue: { [weak self] averageHeartRate in
-                self?.userAverageHeartRate = averageHeartRate
+            } receiveValue: { [weak self] avgHeartRate in
+                self?.userAverageHeartRate = avgHeartRate
             }
             .store(in: &cancellables)
     }
@@ -121,7 +127,7 @@ class MatchEventViewModel: NSObject, ObservableObject, WCSessionDelegate {
                 }
             } receiveValue: { [weak self] response in
                 guard let self = self else { return }
-                if !response.exists {
+                if !response.exists {   // 존재함 -> true, 미존재 -> false
                     self.uploadHeartRateData()
                 } else {
                     self.isHeartRateDataUploaded = true
