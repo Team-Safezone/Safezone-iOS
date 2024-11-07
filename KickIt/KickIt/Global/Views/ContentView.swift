@@ -99,6 +99,9 @@ struct ContentView: View {
             DispatchQueue.main.async {
                 if granted {
                     print("알림 권한 승인됨, 경기 데이터 요청 시작")
+                    // 지난 경기의 알림 삭제
+                    self.notificationManager.removePastNotifications()
+                    
                     // 알림 스케줄링을 위한 경기 데이터 요청
                     let request = SoccerMatchDailyRequest(date: dateToString4(date: Date()), teamName: nil)
                     print("알림 요청 데이터: \(request)")
