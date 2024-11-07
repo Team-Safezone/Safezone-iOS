@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// 우승팀 예측 Response 모델
-struct WinningTeamPredictionResponse: Codable {
+/// 우승팀 & 선발라인업 예측 Response 모델
+struct PredictionFinishResponse: Codable {
     let grade: Int
     let point: Int // 1~5
 }

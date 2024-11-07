@@ -18,8 +18,8 @@ class WinningTeamPredictionAPI: BaseAPI {
     }
     
     /// 우승팀 예측 API
-    func postWinningTeamPrediction(query: MatchIdRequest, request: WinningTeamPredictionRequest) -> AnyPublisher<WinningTeamPredictionResponse, NetworkError> {
-        return Future<WinningTeamPredictionResponse, NetworkError> { [weak self] promise in
+    func postWinningTeamPrediction(query: MatchIdRequest, request: WinningTeamPredictionRequest) -> AnyPublisher<PredictionFinishResponse, NetworkError> {
+        return Future<PredictionFinishResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 // 잘못된 요청
                 promise(.failure(.pathErr))
@@ -28,13 +28,13 @@ class WinningTeamPredictionAPI: BaseAPI {
             
             self.AFManager.request(WinningTeamPredictionService.postWinningTeamPrediction(query, request), interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<WinningTeamPredictionResponse>.self) { response in
+                .responseDecodable(of: CommonResponse<PredictionFinishResponse>.self) { response in
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data ?? WinningTeamPredictionResponse(grade: 0, point: 0)))
+                            promise(.success(result.data ?? PredictionFinishResponse(grade: 0, point: 0)))
                         }
                         // 응답 실패
                         else {
