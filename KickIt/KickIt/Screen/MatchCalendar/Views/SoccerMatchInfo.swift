@@ -233,7 +233,7 @@ struct SoccerMatchInfo: View {
                         isShowMatchInfo = false
                         
                         // 경기 예측 조회 API 호출
-                        predictionViewModel.getPredictionButtonClick(request: PredictionButtonRequest(matchId: viewModel.selectedSoccerMatch!.id))
+                        predictionViewModel.getPredictionButtonClick(request: MatchIdRequest(matchId: viewModel.selectedSoccerMatch!.id))
                     }
                 } label: {
                     Text("경기 예측")

@@ -22,10 +22,10 @@ enum MatchCalendarService {
     case getRanking
     
     // 경기 예측 버튼 클릭 조회 API
-    case getPredictionButton(PredictionButtonRequest)
+    case getPredictionButton(MatchIdRequest)
     
     // 선발라인업 조회 API
-    case getStartingLineup(StartingLineupRequest)
+    case getStartingLineup(MatchIdRequest)
 }
 
 extension MatchCalendarService: TargetType {

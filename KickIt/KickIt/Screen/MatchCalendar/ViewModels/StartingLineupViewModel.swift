@@ -49,7 +49,7 @@ final class StartingLineupViewModel: ObservableObject {
     init(matchId: Int64?) {
         self.matchId = matchId
         if let matchId = matchId {
-            getStartingLineup(request: StartingLineupRequest(matchId: matchId))
+            getStartingLineup(request: MatchIdRequest(matchId: matchId))
         }
         
         self.homeLineups = StartingLineupModel(goalkeeper: dummyGoalkeeper, defenders: dummyDF1, midfielders: dummyMF1, midfielders2: dummyMF2, strikers: dummyST1)
@@ -57,7 +57,7 @@ final class StartingLineupViewModel: ObservableObject {
     }
     
     /// 선발라인업 조회
-    private func getStartingLineup(request: StartingLineupRequest) {
+    private func getStartingLineup(request: MatchIdRequest) {
         MatchCalendarAPI.shared.getStartingLineup(request: request)
             .map { dto in
                 let homeFormation = dto.homeFormation

@@ -54,8 +54,11 @@ struct APIConstants {
     /// 우승팀 예측 결과 조회 URL
     static let winningTeamPredictionResultURL = "/score-predict/result"
     
+    /// 선발라인업 예측 URL
+    static let startingLineupPredictionURL = "/lineup-predict/save"
+    
     /// 선발라인업 예측 조회 URL
-    static let startingLineupPredictionURL = "/"
+    static let startingLineupPredictionResultURL = "/lineup-predict"
     
     /// 심박수 통계 조회 URL
     static let heartRateStatisticsURL = "/"

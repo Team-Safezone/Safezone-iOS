@@ -8,7 +8,7 @@
 import Foundation
 
 /// 선발 라인업 예측 조회 Response 모델
-struct StartingLineupPredictionResponse: Codable {
+struct StartingLineupPredictionDefaultResponse: Codable {
     var homeTeamPlayers: [StartingLineupPlayersResponse] // 홈팀 선수 리스트
     var awayTeamPlayers: [StartingLineupPlayersResponse] // 원정팀 선수 리스트
     var homeTeamPredictions: StartingLineupPredictionsResponse? // 사용자가 예측했던 홈팀 선발라인업 리스트

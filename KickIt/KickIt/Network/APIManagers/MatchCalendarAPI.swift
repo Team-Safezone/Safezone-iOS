@@ -139,7 +139,7 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 경기 예측 버튼 클릭 조회 API
-    func getPredictoinButtonClick(request: PredictionButtonRequest) -> AnyPublisher<PredictionButtonResponse, NetworkError> {
+    func getPredictoinButtonClick(request: MatchIdRequest) -> AnyPublisher<PredictionButtonResponse, NetworkError> {
         return Future<PredictionButtonResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
@@ -178,7 +178,7 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 선발라인업 조회 API
-    func getStartingLineup(request: StartingLineupRequest) -> AnyPublisher<StartingLineupResponse, NetworkError> {
+    func getStartingLineup(request: MatchIdRequest) -> AnyPublisher<StartingLineupResponse, NetworkError> {
         return Future<StartingLineupResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))

@@ -18,17 +18,20 @@ class StartingLineupPredictionAPI: BaseAPI {
         super.init()
     }
     
+    /// 선발라인업 예측 API
+    func postStartingLineupPrediction
+    
     /// 선발라인업 예측 조회 API
-    func getStartingLineupPrediction(request: StartingLineupPredictionRequest) -> AnyPublisher<StartingLineupPredictionResponse, NetworkError> {
-        return Future<StartingLineupPredictionResponse, NetworkError> { [weak self] promise in
+    func getStartingLineupPredictionResult(request: MatchIdRequest) -> AnyPublisher<StartingLineupPredictionDefaultResponse, NetworkError> {
+        return Future<StartingLineupPredictionDefaultResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(StartingLineupPredictionService.getStartingLineupPrediction(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(StartingLineupPredictionService.getStartingLineupPredictionResult(request), interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<StartingLineupPredictionResponse>.self) { response in
+                .responseDecodable(of: CommonResponse<StartingLineupPredictionDefaultResponse>.self) { response in
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
@@ -37,7 +40,7 @@ class StartingLineupPredictionAPI: BaseAPI {
                             promise(.success(result.data!))
                         } else {
                             switch result.status {
-                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                            case 401:
                                 return promise(.failure(.authFailed))
                             case 400..<500: // 요청 실패
                                 return promise(.failure(.requestErr(result.message)))
