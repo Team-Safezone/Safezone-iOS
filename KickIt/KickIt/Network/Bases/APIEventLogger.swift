@@ -24,7 +24,7 @@ class APIEventLogger: EventMonitor {
             + "Headers: " + "\(request.request?.allHTTPHeaderFields ?? [:])" + "\n"
         )
         print("2️⃣ Authorization\n")
-        print("Authorization: " + (request.request?.headers["Authorization"] ?? ""))
+        print("Authorization: " + (request.request?.headers["xAuthToken"] ?? ""))
         print("3️⃣ Body\n")
         print("Body: " + (request.request?.httpBody?.toPrettyPrintedString ?? "Body가 없습니다."))
     }
