@@ -26,9 +26,6 @@ struct ContentView: View {
     /// 경기 캘린더 뷰모델
     @StateObject var matchCalendarViewModel = MatchCalendarViewModel()
     
-    /// 시스템 모드 반영
-    @EnvironmentObject var myPageViewModel: MyPageViewModel
-    
     /// 알림 관리자
     @StateObject private var notificationManager = NotificationManager.shared
     

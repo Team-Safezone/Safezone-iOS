@@ -13,7 +13,7 @@ struct AcceptingView: View {
     @ObservedObject var acceptingViewModel: AcceptingViewModel
     
     /// 마이페이지 뷰모델
-    @StateObject private var myPageViewModel = MyPageViewModel()
+    @StateObject private var darkmodeViewModel = DarkmodeViewModel()
     
     @State var isHome: Bool = false
     
@@ -26,7 +26,7 @@ struct AcceptingView: View {
         if isHome {
                     withAnimation {
                         ContentView()
-                            .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
+                            .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
                     }
                 }
         else {

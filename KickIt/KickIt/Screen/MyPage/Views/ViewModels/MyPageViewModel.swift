@@ -7,17 +7,14 @@
 
 import Combine
 import Foundation
-import SwiftUI
 
 // 마이페이지 뷰모델
 class MyPageViewModel: ObservableObject {
     @Published var nickname: String = ""
     @Published var email: String = ""
-    
     @Published var goalCount: Int = 0
     @Published var favoriteTeamsUrl: [(teamName: String, teamUrl: String)] = []
     @Published var showingLogoutAlert: Bool = false
-    @AppStorage("isDarkMode") var isDarkMode: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -86,10 +83,5 @@ class MyPageViewModel: ObservableObject {
         let range = currentBallLevel.maxGoal - currentBallLevel.minGoal
         let progress = goalCount - currentBallLevel.minGoal
         return CGFloat(progress) / CGFloat(range)
-    }
-    
-    // 다크모드 설정
-    func toggleDarkMode() {
-        isDarkMode.toggle()
     }
 }

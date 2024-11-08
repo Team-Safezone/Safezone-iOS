@@ -13,8 +13,7 @@ struct SplashView: View {
     @State private var isLogin: Bool = false
     @State private var isHome: Bool = false
     
-    /// 마이페이지 뷰모델
-    @StateObject private var myPageViewModel = MyPageViewModel()
+    @ObservedObject private var darkmodeViewModel = DarkmodeViewModel()
     
     
     var body: some View {
@@ -23,11 +22,12 @@ struct SplashView: View {
         }
         else if isHome {
             ContentView()
-                .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
+                .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
         }
         else {
             ZStack{
                 Image("AppIcon")
+                    .frame(width: 80, height: 102)
                     .zIndex(1.0)
                 Color.background
                     .ignoresSafeArea()

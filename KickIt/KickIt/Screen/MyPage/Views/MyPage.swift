@@ -11,6 +11,7 @@ import SwiftUI
 struct MyPage: View {
     @StateObject private var viewModel = MyPageViewModel()
     @StateObject private var mnviewModel = ManageAccountViewModel()
+    @ObservedObject private var darkmodeViewModel = DarkmodeViewModel()
     @ObservedObject private var mainViewModel = MainViewModel()
     
     @State private var isLoggedOut = false
@@ -50,6 +51,9 @@ struct MyPage: View {
                     }),
                     secondaryButton: .cancel(Text("취소"))
                 )
+            }
+            .onAppear {
+                viewModel.fetchUserData()
             }
         }
     }
@@ -221,13 +225,13 @@ struct MyPage: View {
             Text("라이트 모드")
             Spacer()
             Toggle("", isOn: Binding(
-                get: { !self.viewModel.isDarkMode },
-                set: { self.viewModel.isDarkMode = !$0 }
+                get: { !self.darkmodeViewModel.isDarkMode },
+                set: { self.darkmodeViewModel.isDarkMode = !$0 }
             )).toggleStyle(SwitchToggleStyle(tint: .lime))
         }
         .padding(.vertical, 15)
         .onTapGesture {
-            viewModel.toggleDarkMode()
+            darkmodeViewModel.toggleDarkMode()
         }
     }
     

@@ -18,12 +18,12 @@ struct LoginView: View {
     @State private var isHome = false
     
     /// 마이페이지 뷰모델
-    @StateObject private var myPageViewModel = MyPageViewModel()
+    @StateObject private var darkmodeViewModel = DarkmodeViewModel()
     
     var body: some View {
         if isHome {
            ContentView()
-               .preferredColorScheme(myPageViewModel.isDarkMode ? .dark : .light)
+               .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
        }
         else {
             ZStack(alignment: .leading) {
