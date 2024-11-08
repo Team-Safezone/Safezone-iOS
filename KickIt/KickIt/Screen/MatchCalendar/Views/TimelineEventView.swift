@@ -14,12 +14,8 @@ struct TimelineEventView: View {
     @State private var timer: Timer? // API 호출 타이머
     
     init(match: SoccerMatch) {
-//            #if DEBUG
-//            _viewModel = StateObject(wrappedValue: MatchEventViewModel.withDummyData())
-//            #else
-            _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
-//            #endif
-        }
+        _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
+    }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -52,45 +48,38 @@ struct TimelineEventView: View {
                         } //:LAZYVSTACK
                     } //:IF
                 } //:SCROLLVIEW
-                    .onAppear {
-                        // 타임라인 API 호출
-                        viewModel.fetchMatchEvents()
-                        viewModel.fetchUserAverageHeartRate()
-                        
-                        // 타이머 설정
-                        startTimer()
-                    }
-                    .onDisappear {
-                        // 뷰가 사라질 때 타이머 정지
+                .onAppear {
+                    // 타임라인 API 호출
+                    viewModel.fetchMatchEvents()
+                    viewModel.fetchUserAverageHeartRate()
+                    
+                    // 타이머 설정
+                    startTimer()
+                }
+                .onDisappear {
+                    // 뷰가 사라질 때 타이머 정지
+                    stopTimer()
+                }
+                .onChange(of: viewModel.match.matchCode) { oldValue, newValue in
+                    if newValue == 3 { // 경기 종료 일때
+                        // 사용자 데이터 저장 관련
+                        viewModel.handleMatchEnd()
+                        // 타이머 종료
                         stopTimer()
                     }
-                    .onChange(of: viewModel.match.matchCode) { oldValue, newValue in
-                        if newValue == 3 { // 경기 종료 일때
-                            // 사용자 데이터 저장 관련
-                            viewModel.handleMatchEnd()
-                            // 타이머 종료
-                            stopTimer()
-                        } //:IF
-                    } //:ONCHANGE
-            } //:VSTACK
-            .navigationTitle("경기 타임라인")
-            .navigationBarTitleDisplayMode(.inline)
-            
-        if viewModel.match.matchCode == 3{
-            NavigationLink {
-                SoccerDiary()
-                    .toolbarRole(.editor) // back 텍스트 숨기기
-            } label: {
-                VStack{
-                    Spacer()
-                    LinkToSoccerView()
-                        .zIndex(10)
+                }
+                
+                // 축구 일기 링크 버튼을 VStack의 맨 아래에 추가
+                if viewModel.match.matchCode == 3 {
+                    NavigationLink(destination: SoccerDiary().toolbarRole(.editor)) {
+                        LinkToSoccerView()
+                    }
+                    .padding(.bottom, 16) // 하단 여백 추가
                 }
             }
-        }//:IF
-        
-            
-        } //:ZSTACK
+            .navigationTitle("경기 타임라인")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
     
     //MARK: - 타이머 함수
@@ -218,7 +207,6 @@ struct LinkToSoccerView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(LinearGradient.pinkGradient)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 8))
         
     }
 }
