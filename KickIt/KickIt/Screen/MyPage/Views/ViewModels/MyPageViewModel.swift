@@ -13,6 +13,7 @@ import SwiftUI
 class MyPageViewModel: ObservableObject {
     @Published var nickname: String = ""
     @Published var email: String = ""
+    
     @Published var goalCount: Int = 0
     @Published var favoriteTeamsUrl: [(teamName: String, teamUrl: String)] = []
     @Published var showingLogoutAlert: Bool = false
@@ -44,7 +45,7 @@ class MyPageViewModel: ObservableObject {
                 } receiveValue: { [weak self] userData in
                     self?.nickname = userData.nickname
                     // 앱 내에서 이메일 가져오기
-                    self?.email = "email@naver.com"
+                    self?.email = KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "email@nodata"
                     self?.goalCount = userData.goalCount
                     self?.favoriteTeamsUrl = userData.favoriteTeamsUrl.map { ($0.teamName, $0.teamUrl) }
                 }

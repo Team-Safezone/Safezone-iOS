@@ -43,7 +43,6 @@ class EditMyTeamsViewModel: ObservableObject {
                 }
             } receiveValue: { _ in
                 print("\(self.selectedTeams) 수정 성공")
-                // 성공 처리 로직 추가
             }
             .store(in: &cancellables)
     }

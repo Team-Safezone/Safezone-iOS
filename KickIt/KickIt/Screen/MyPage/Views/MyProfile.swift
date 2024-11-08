@@ -77,7 +77,7 @@ struct MyProfile: View {
                             Button(action: viewModel.validateNickname) {
                                 Text("확인")
                                     .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.white0)
+                                    .foregroundStyle(.blackAssets)
                                     .padding(.horizontal, 30)
                                     .padding(.vertical, 12)
                                     .background(RoundedRectangle(cornerRadius: 8))
