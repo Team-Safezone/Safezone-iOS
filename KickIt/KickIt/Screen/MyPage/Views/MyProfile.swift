@@ -75,7 +75,7 @@ struct MyProfile: View {
                             }
                             
                             Button(action: viewModel.validateNickname) {
-                                Text("확인")
+                                Text("수정")
                                     .pretendardTextStyle(.Title2Style)
                                     .foregroundStyle(.blackAssets)
                                     .padding(.horizontal, 30)
@@ -94,7 +94,7 @@ struct MyProfile: View {
                         if viewModel.isNicknameValid {
                             viewModel.setNickname()
                             viewModel.showChangeSuccess = true
-                            
+        
                             // 3초 후에 ChangeSuccessView 숨김
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 viewModel.showChangeSuccess = false
@@ -102,7 +102,7 @@ struct MyProfile: View {
                             }
                         }
                     }, label: {
-                        DesignWideButton(label: "수정", labelColor: .white0, btnBGColor: .gray900Assets)
+                        DesignWideButton(label: "닉네임 중복 확인이 필요합니다", labelColor: .white0, btnBGColor: .gray900Assets)
                             .padding()
                     })
                 }

@@ -40,11 +40,11 @@ struct GradeInfo: View {
                     VStack(alignment: .leading, spacing: 8){
                         Text("등급 기준")
                             .pretendardTextStyle(.Title2Style)
-                        BallView(name: "탱탱볼", num1: 0, num2: 20)
-                        BallView(name: "브론즈 축구공", num1: 21, num2: 50)
-                        BallView(name: "실버 축구공", num1: 51, num2: 90)
-                        BallView(name: "골드 축구공", num1: 91, num2: 140)
-                        BallView(name: "다이아 축구공", num1: 141, num2: 0)
+                        BallView(name: "루키", num1: 0, num2: 20, img: 0)
+                        BallView(name: "브론즈", num1: 21, num2: 50, img: 1)
+                        BallView(name: "실버", num1: 51, num2: 90, img: 2)
+                        BallView(name: "골드", num1: 91, num2: 140, img: 3)
+                        BallView(name: "다이아몬드", num1: 141, num2: 0, img: 4)
 
                     }//:VSTACK
                     .padding(.horizontal, 16)
@@ -149,10 +149,11 @@ struct BallView: View {
     var name: String
     var num1: Int
     var num2: Int
+    var img: Int
     
     var body: some View {
         HStack{
-            Image("Trophys")
+            Image("ball\(img)")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 60, height: 60)

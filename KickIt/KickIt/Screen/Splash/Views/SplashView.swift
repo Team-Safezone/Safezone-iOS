@@ -26,7 +26,7 @@ struct SplashView: View {
         }
         else {
             ZStack{
-                Image("AppIcon")
+                Image("splash")
                     .frame(width: 80, height: 102)
                     .zIndex(1.0)
                 Color.background
