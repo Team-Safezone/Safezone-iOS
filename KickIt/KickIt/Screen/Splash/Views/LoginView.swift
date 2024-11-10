@@ -29,20 +29,12 @@ struct LoginView: View {
             ZStack(alignment: .leading) {
                 Color.background.ignoresSafeArea()
                 
-                Image("login_bg")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                VStack(alignment: .leading)  {
-                    VStack(alignment: .leading)
+                VStack(alignment: .center)  {
+                    VStack(alignment: .center)
                     {
+                        OnBoarding()
                         Spacer()
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("지금 로그인하고, 축구를 보며")
-                                .font(.pretendard(.medium, size: 20))
-                            Text("두근거렸던 순간을 확인해보세요!")
-                                .font(.pretendard(.bold, size: 20))
-                        } //:VSTACK
+                        
                         .padding(.bottom, 63)
                         
                         // MARK: 카카오 로그인

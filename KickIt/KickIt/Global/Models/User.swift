@@ -15,13 +15,4 @@ struct User {
     let avgHeartRate: Int
     let maxHeartRate: Int
     var agreeToMarketing: Bool
-    
-    static var currentUser = User(
-        nickname: "이",
-        favoriteTeams: ["토트넘", "아스널", "맨시티"],
-        minHeartRate: 45,
-        avgHeartRate: 80,
-        maxHeartRate: 120,
-        agreeToMarketing: false
-    )
 }

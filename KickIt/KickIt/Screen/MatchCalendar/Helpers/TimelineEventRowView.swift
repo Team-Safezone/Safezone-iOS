@@ -12,10 +12,8 @@ struct TimelineEventRowView: View {
     var event: MatchEventsData
     @ObservedObject var viewModel: MatchEventViewModel
     
-    // 다크모드 감지
     @Environment(\.colorScheme) var colorScheme
     
-    // 아이콘 다르게
     var eventIcons: [String: String] {
         let prefix = colorScheme == .dark ? "" : "b_"
         return [
@@ -31,8 +29,7 @@ struct TimelineEventRowView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            // "yyyy/MM/dd HH:mm:ss" -> nn분
-            Text("\(calculateEventTime(from: viewModel.matchStartTime, eventTime: event.eventTime))분")
+            Text("\(event.time ?? 0)분")
                 .pretendardTextStyle(.Body3Style)
                 .frame(width: 40, alignment: .center)
                 .foregroundColor(.white0)
@@ -59,17 +56,15 @@ struct TimelineEventRowView: View {
                 
                 Spacer()
                 
-                let _ = print("selected matchId: \(viewModel.currentMatchId ?? 00), this matchId: \(viewModel.match.id)")
-                // 사용자가 워치에서 선택한 경기가 맞는지 확인
+                // 사용자가 보는 경기임
                 if viewModel.currentMatchId == viewModel.match.id {
-                    // 심박수 데이터와 사용자 평균 심박수를 가져와 전달
                     HeartView(
-                        heartRate: viewModel.getHeartRate(for: event.eventTime),
-                        userAvgHeartRate: viewModel.userAverageHeartRate ?? User.currentUser.avgHeartRate
+                        eventHeartRate: getHeartRate(),
+                        avgHeartRate: event.avgHeartRate
                     )
-                }//:IF
-            }//:HSTACK
-        }//:HSTACK
+                }
+            }
+        }
         .padding(.vertical, 8)
         .background{
             if event.eventName == "골!" {
@@ -82,28 +77,39 @@ struct TimelineEventRowView: View {
         }
         .padding(.horizontal, 18)
     }
+    
+    // 심박수 수치 가져오기
+    private func getHeartRate() -> Int? {
+        // 이미 심박수 데이터가 존재할 때(경기 종료 후 POST 완)
+        if let eventHeartRate = event.eventHeartRate {
+            return eventHeartRate
+            // 심박수 데이터 미존재(경기 중/종료, POST 전)
+        } else if viewModel.currentMatchId == viewModel.match.id {
+            return viewModel.getHeartRate(for: event.eventTime)
+        }
+        return nil
+    }
 }
 
 // MARK: - 사용자 심박수 출력 UI
 struct HeartView: View {
-    let heartRate: Int?
-    let userAvgHeartRate: Int
+    let eventHeartRate: Int?
+    let avgHeartRate: Int?
     
     var body: some View {
         HStack(spacing: 4) {
-            // 심박수가 있고 평균과 다를 경우 화살표 표시, 없거나 평균과 같으면 "-" 표시
-            if let rate = heartRate, rate != userAvgHeartRate {
-                Image(rate > userAvgHeartRate ? "ArrowUp" : "ArrowDown")
+            // avgHeartRate가 존재하면 비교하여 화살표 표시
+            if let avgRate = avgHeartRate, let rate = eventHeartRate {
+                Image(rate > avgRate ? "ArrowUp" : "ArrowDown")
                     .frame(width: 24, height: 24)
             } else {
-                Image("ArrowAvg")
+                Image("ArrowUp")
                     .frame(width: 24, height: 24)
-                    .pretendardTextStyle(.SubTitleStyle)
             }
             
             HStack(spacing: 2) {
-                // 심박수가 있으면 해당 값 표시, 없으면 평균 심박수 표시
-                Text("\(heartRate ?? 0)")
+                // 심박수가 있으면 해당 값 표시
+                Text("\(eventHeartRate ?? 0)")
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.white0)
                     .frame(width: 25, alignment: .trailing)
@@ -117,12 +123,12 @@ struct HeartView: View {
 
 #Preview("골"){
     TimelineEventRowView(event: MatchEventsData(
-        matchId: 175,
+        matchId: 0,
         eventCode: 1,
-        eventTime: "2023/09/11 20:40:00",
+        time: 4, eventTime: "2023/09/11 20:40:00",
         eventName: "골!",
         player1: "손흥민",
-        player2: "베인",
+        player2: "베인", eventHeartRate: 106, avgHeartRate: 78,
         teamName: "토트넘",
         teamUrl: "https://example.com/team-logo.png"
     ), viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))
@@ -130,12 +136,12 @@ struct HeartView: View {
 
 #Preview("자책골"){
     TimelineEventRowView(event: MatchEventsData(
-        matchId: 175,
+        matchId: 0,
         eventCode: 1,
-        eventTime: "2023/09/11 20:40:00",
+        time: 17, eventTime: "2023/09/11 20:40:00",
         eventName: "자책골",
         player1: "손흥민",
-        player2: "베인",
+        player2: "베인", eventHeartRate: 68, avgHeartRate: 78,
         teamName: "토트넘",
         teamUrl: "https://example.com/team-logo.png"
     ), viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))

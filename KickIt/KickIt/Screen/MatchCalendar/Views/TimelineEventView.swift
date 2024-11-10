@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-// 타임라인 화면
 struct TimelineEventView: View {
     @StateObject private var viewModel: MatchEventViewModel
-    @State private var isShowingSoccerDiary = false // 축구 경기 일기 버튼
-    @State private var timer: Timer? // API 호출 타이머
+    @State private var isShowingSoccerDiary = false
+    @State private var timer: Timer?
     
     init(match: SoccerMatch) {
         _viewModel = StateObject(wrappedValue: MatchEventViewModel(match: match))
@@ -19,24 +18,18 @@ struct TimelineEventView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // 배경화면 색 지정
             Color(.background)
                 .ignoresSafeArea()
             VStack {
-                // 경기 상태 화면
                 MatchResultView(viewModel: viewModel)
-                // UI
                 TableLable()
-                // 타임라인
                 ScrollView(.vertical, showsIndicators: false) {
-                    // 경기 이벤트가 없음
                     if viewModel.matchEvents.isEmpty {
                         EmptyStateView()
                     } else {
                         LazyVStack {
                             ForEach(Array(viewModel.matchEvents.enumerated().reversed()), id: \.offset) { index, event in
                                 if event.eventCode == 1 || event.eventCode == 3 || event.eventCode == 5 {
-                                    // 타임라인 출력
                                     TimelineEventRowView(
                                         event: event,
                                         viewModel: viewModel
@@ -44,37 +37,31 @@ struct TimelineEventView: View {
                                 } else if event.eventCode == 2 || event.eventCode == 4 {
                                     HalfTimeView(event: event, eventCode: event.eventCode)
                                 }
-                            } //:FOREACH
-                        } //:LAZYVSTACK
-                    } //:IF
-                } //:SCROLLVIEW
+                            }
+                        }
+                    }
+                }
                 .onAppear {
-                    // 타임라인 API 호출
                     viewModel.fetchMatchEvents()
-                    viewModel.fetchUserAverageHeartRate()
-                    
-                    // 타이머 설정
                     startTimer()
                 }
                 .onDisappear {
-                    // 뷰가 사라질 때 타이머 정지
                     stopTimer()
                 }
                 .onChange(of: viewModel.match.matchCode) { oldValue, newValue in
-                    if newValue == 3 { // 경기 종료 일때
-                        // 사용자 데이터 저장 관련
+                    // 경기 종료
+                    if newValue == 3 {
                         viewModel.handleMatchEnd()
-                        // 타이머 종료
                         stopTimer()
                     }
                 }
                 
-                // 축구 일기 링크 버튼을 VStack의 맨 아래에 추가
+                // 경기 종료
                 if viewModel.match.matchCode == 3 {
                     NavigationLink(destination: SoccerDiary().toolbarRole(.editor)) {
                         LinkToSoccerView()
                     }
-                    .padding(.bottom, 16) // 하단 여백 추가
+                    .padding(.bottom, 16)
                 }
             }
             .navigationTitle("경기 타임라인")
@@ -82,15 +69,9 @@ struct TimelineEventView: View {
         }
     }
     
-    //MARK: - 타이머 함수
     private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 180, repeats: true) { _ in
-            if viewModel.match.matchCode != 3 {
-                viewModel.fetchMatchEvents()
-                viewModel.fetchUserAverageHeartRate()
-            } else {
-                stopTimer()
-            }
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
+            viewModel.fetchMatchEvents()
         }
     }
     

@@ -41,7 +41,7 @@ class SettingFavViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure(let error) = completion {
-                    print("Error fetching soccerteams: \(error)")
+                    print("Error fetching teams: \(error)")
                 }
             } receiveValue: { [weak self] teams in
                 self?.teams = teams

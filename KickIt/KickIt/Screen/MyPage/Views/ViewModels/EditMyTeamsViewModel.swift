@@ -11,14 +11,12 @@ import SwiftUI
 // 팀 변경 뷰모델
 class EditMyTeamsViewModel: ObservableObject {
     @Published var selectedTeams: [String] = []
-    @Published var teams: [SoccerTeam] = dummyscteams //[]
+    @Published var teams: [SoccerTeam] = [] //dummyscteams
     @Published var errorMessage: String?
-    private var settingFavViewModel : SettingFavViewModel
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(settingFavViewModel: SettingFavViewModel = SettingFavViewModel()) {
-        self.settingFavViewModel = settingFavViewModel
+    init() {
         fetchTeams()
     }
     
@@ -49,7 +47,16 @@ class EditMyTeamsViewModel: ObservableObject {
     
     /// 프리미어 리그 팀 GET  API 호출
     func fetchTeams(){
-        settingFavViewModel.fetchTeams()
+        UserAPI.shared.getTeams()
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print("Error fetching teams: \(error)")
+                }
+            } receiveValue: { [weak self] teams in
+                self?.teams = teams
+            }
+            .store(in: &cancellables)
     }
 }
 

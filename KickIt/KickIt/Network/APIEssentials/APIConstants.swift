@@ -28,7 +28,7 @@ struct APIConstants {
     static let checkNicknameDuplicateURL = "/users/check-nickname"
     
     /// 팀 로고, 이름 조회 URL
-    static let getTeamsURL = "/eplTeams"
+    static let getTeamsURL = "/squad/name-url" //withAuth
     
     /// 홈 조회 URL
     static let homeURL = "/url~"

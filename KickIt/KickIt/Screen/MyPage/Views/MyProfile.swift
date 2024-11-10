@@ -102,8 +102,15 @@ struct MyProfile: View {
                             }
                         }
                     }, label: {
-                        DesignWideButton(label: "닉네임 중복 확인이 필요합니다", labelColor: .white0, btnBGColor: .gray900Assets)
-                            .padding()
+                        Text("닉네임 중복 확인이 필요합니다")
+                            .pretendardTextStyle(.Title2Style)
+                            .foregroundStyle(.white0)
+                            .padding([.top, .bottom], 15)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(.gray900Assets)
+                            ).padding()
                     })
                 }
                 

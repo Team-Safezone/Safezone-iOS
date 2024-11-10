@@ -44,6 +44,7 @@ struct EditMyTeams: View {
                     }
                 }
                 .padding(.horizontal, 26)
+                .padding(.bottom, 120)
             }
         }
         .ignoresSafeArea(edges: .bottom)
