@@ -41,7 +41,7 @@ struct MatchPredictionView: View {
                             .pretendardTextStyle(.Title2Style)
                             .foregroundStyle(.white0)
                         HStack(spacing: 4) {
-                            switch viewModel.selectedSoccerMatch?.matchCode {
+                            switch viewModel.selectedSoccerMatch.matchCode {
                             // 예정
                             case 0, 4:
                                 if !isEnd {
@@ -157,7 +157,7 @@ struct MatchPredictionView: View {
                 .padding(.horizontal, 8)
                 
                 // 참여하기 or 결과보기 버튼
-                switch viewModel.selectedSoccerMatch?.matchCode {
+                switch viewModel.selectedSoccerMatch.matchCode {
                     // 예정
                 case 0, 4:
                     Text(isEnd ? "결과보기" : "참여하기")

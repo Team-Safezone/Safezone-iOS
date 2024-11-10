@@ -97,6 +97,7 @@ struct ResultWinningTeamPrediction: View {
             } //: VSTACK
             .padding(.horizontal, 16)
         }
+        .navigationTitle("우승팀 예측")
     }
     
     /// 실제 예측 지표 뷰
@@ -108,7 +109,7 @@ struct ResultWinningTeamPrediction: View {
                     .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(.white0)
                 Text(viewModel.whoIsWinner(score1, score2).0)
-                    .pretendardTextStyle(.H2Style)
+                    .pretendardTextStyle(.SubTitleStyle)
                     .foregroundStyle(viewModel.whoIsWinner(score1, score2).2)
             }
             Text(viewModel.isParticipated(score1))

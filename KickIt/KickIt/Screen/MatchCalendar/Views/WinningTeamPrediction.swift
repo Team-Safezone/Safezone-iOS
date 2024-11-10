@@ -11,7 +11,7 @@ import SwiftUI
 /// 우승팀 예측 화면
 struct WinningTeamPrediction: View {
     /// 네비게이션 변수
-    @Binding var path: NavigationPath
+    @EnvironmentObject var path: NavigationPathManager
     
     /// 예측  처음 시도 or 예측 수정 여부
     var isRetry: Bool
@@ -21,9 +21,6 @@ struct WinningTeamPrediction: View {
     
     /// 우승팀 예측 화면 뷰모델
     @StateObject var viewModel = WinningTeamPredictionViewModel()
-    
-    /// 우승팀 예측 API 호출 성공 여부
-    @State private var isSuccess: Bool = false
     
     var body: some View {
         ZStack {
@@ -183,23 +180,43 @@ struct WinningTeamPrediction: View {
                 Spacer()
                 
                 // MARK: - 예측하기 버튼
-                Button {
-                    // 우승팀 예측하기 API 호출
-                    viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal)) { isSuccess in
-                        self.isSuccess = isSuccess
+                NavigationLink(value: NavigationDestination(destination: .finishWinningTeamPrediction)) {
+                    Button {
+                        // 우승팀 예측하기 API 호출
+                        viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal)) { isSuccess in
+                            if isSuccess {
+                                path.path.append(NavigationDestination(destination: .finishWinningTeamPrediction))
+                                print("Path 확인? 우승팀 예측 성공? \(path.path.count) \(path)")
+                            }
+                        }
+                    } label: {
+                        DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
+                            .padding(.bottom, 34)
                     }
-                } label: {
-                    DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
-                        .padding(.bottom, 34)
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
+                
+//                Button {
+//                    // 우승팀 예측하기 API 호출
+//                    viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal)) { isSuccess in
+//                        if isSuccess {
+//                            self.isSuccess = isSuccess
+//                            path.path.append(Tab.winningTeamPrediction)
+//                            print("추가3 우승팀 예측 성공? \(path.path.count)")
+//                        }
+//                    }
+//                } label: {
+//                    DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
+//                        .padding(.bottom, 34)
+//                }
+//                .padding(.horizontal, 16)
             }
         }
+        .tag(Tab.winningTeamPrediction)
         .navigationTitle("우승 팀 예측")
-        .navigationDestination(isPresented: $isSuccess) {
-            // API 호출에 성공했을 경우, 우승팀 예측 성공 화면으로 이동
+        .navigationDestination(for: NavigationDestination.self) { destination in
+            // 우승팀 예측 완료 화면으로 이동
             FinishWinningTeamPrediction(
-                path: $path,
                 winningPrediction:
                     WinningPrediction(
                         id: soccerMatch.id,
@@ -220,10 +237,14 @@ struct WinningTeamPrediction: View {
                     )
             )
             .toolbar(.hidden)
+            .onAppear() {
+                print("Path 확인? 우승팀 예측 완료 화면으로 이동")
+                print("Path 확인? \(path.path.count) \(path)")
+            }
         }
     }
 }
 
 #Preview {
-    WinningTeamPrediction(path: .constant(NavigationPath()), isRetry: false, soccerMatch: dummySoccerMatches[0])
+    WinningTeamPrediction(isRetry: false, soccerMatch: dummySoccerMatches[0])
 }

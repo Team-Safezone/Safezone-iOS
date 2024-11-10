@@ -10,7 +10,7 @@ import SwiftUI
 /// 경기 일정 & 캘린더 화면
 struct MatchCalendar: View {
     /// 네비게이션 경로
-    @Binding var path: NavigationPath
+    @EnvironmentObject var path: NavigationPathManager
     
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
@@ -19,96 +19,101 @@ struct MatchCalendar: View {
     @ObservedObject var viewModel: MatchCalendarViewModel
     
     var body: some View {
-        NavigationStack(path: $path) {
-            ZStack {
-                Color(.background)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    // MARK: - 상단 정보
-                    HStack(alignment: .top, spacing: 0) {
-                        // MARK: 타이틀
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("경기 캘린더")
-                                .font(.pretendard(.bold, size: 18))
-                                .foregroundStyle(.white0)
-                                .padding(.top, 60)
-                            
-                            // MARK: 프리미어리그 시즌
-                            Text("프리미어리그 \(viewModel.soccerSeason) 시즌")
-                                .pretendardTextStyle(.SubTitleStyle)
-                                .foregroundStyle(.gray500Text)
-                        }
+        ZStack {
+            Color(.background)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 0) {
+                // MARK: - 상단 정보
+                HStack(alignment: .top, spacing: 0) {
+                    // MARK: 타이틀
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("경기 캘린더")
+                            .font(.pretendard(.bold, size: 18))
+                            .foregroundStyle(.white0)
                         
-                        Spacer()
-                        
-                        // MARK: 랭킹 화면 이동 버튼
-                        NavigationLink {
-                            Ranking(calendarViewModel: viewModel)
-                                .toolbarRole(.editor)
-                                .toolbar(.hidden, for: .tabBar)
-                        } label: {
-                            Image(.trophy)
-                                .frame(width: 44, height: 44)
-                                .padding(.top, 57)
-                                .foregroundStyle(.lime)
-                        }
+                        // MARK: 프리미어리그 시즌
+                        Text("프리미어리그 \(viewModel.soccerSeason) 시즌")
+                            .pretendardTextStyle(.SubTitleStyle)
+                            .foregroundStyle(.gray500Text)
                     }
-                    .padding(.horizontal, 16)
                     
-                    // MARK: - 프리미어리그 팀 리스트
-                    ScrollView(.horizontal) {
-                        RadioButtonGroup(
-                            // 팀 리스트 띄우기
-                            items: viewModel.soccerTeamNames,
-                            padding: 8,
-                            selectedId: $viewModel.selectedRadioBtnID,
-                            selectedTeamName: $viewModel.selectedTeamName,
-                            callback: { previous, current, teamName in
-                                // 팀 선택
-                                viewModel.selectedTeam(teamName, id: current)
-                                
-                                // 한달 경기 일정 조회
-                                getDayYearMonthSoccerMatches()
-                                
-                                // 하루 경기 일정 조회
+                    Spacer()
+                    
+                    // MARK: 랭킹 화면 이동 버튼
+                    NavigationLink {
+                        Ranking(calendarViewModel: viewModel)
+                            .toolbarRole(.editor)
+                            .toolbar(.hidden, for: .tabBar)
+                    } label: {
+                        Image(.trophy)
+                            .frame(width: 44, height: 44)
+                            .foregroundStyle(.lime)
+                    }
+                }
+                .padding(.horizontal, 16)
+                
+                // MARK: - 프리미어리그 팀 리스트
+                ScrollView(.horizontal) {
+                    RadioButtonGroup(
+                        // 팀 리스트 띄우기
+                        items: viewModel.soccerTeamNames,
+                        padding: 8,
+                        selectedId: $viewModel.selectedRadioBtnID,
+                        selectedTeamName: $viewModel.selectedTeamName,
+                        callback: { previous, current, teamName in
+                            // 팀 선택
+                            viewModel.selectedTeam(teamName, id: current)
+                            
+                            // 한달 경기 일정 조회
+                            getDayYearMonthSoccerMatches()
+                            
+                            // 하루 경기 일정 조회
+                            getDailySoccerMatches()
+                        }
+                    )
+                    .frame(height: 32)
+                    .padding(.horizontal, 16)
+                }
+                .padding(.top, 20)
+                .scrollIndicators(.never)
+                
+                ScrollView(.vertical) {
+                    // MARK: - 달력
+                    CustomDatePicker(currentDate: $currentDate, matchDates: $viewModel.matchDates)
+                        .onChange(of: currentDate) { preDate, newDate in
+                            // 같은 달이라면
+                            if (isSameMonth(date1: preDate, date2: newDate)) {
+                                // 하루 경기 일정 조회 API 연결
                                 getDailySoccerMatches()
                             }
-                        )
-                        .frame(height: 32)
-                        .padding(.horizontal, 16)
-                    }
-                    .padding(.top, 20)
-                    .scrollIndicators(.never)
-                    
-                    ScrollView(.vertical) {
-                        // MARK: - 달력
-                        CustomDatePicker(currentDate: $currentDate, matchDates: $viewModel.matchDates)
-                            .onChange(of: currentDate) { preDate, newDate in
-                                // 같은 달이라면
-                                if (isSameMonth(date1: preDate, date2: newDate)) {
-                                    // 하루 경기 일정 조회 API 연결
-                                    getDailySoccerMatches()
-                                }
-                                // 다른 달이라면
-                                else {
-                                    // 한달 경기 날짜 조회 API 연결
-                                    getDayYearMonthSoccerMatches()
-                                }
+                            // 다른 달이라면
+                            else {
+                                // 한달 경기 날짜 조회 API 연결
+                                getDayYearMonthSoccerMatches()
                             }
-                            .padding(.top, 20)
-                        
-                        // MARK: - 경기 일정 리스트
-                        soccerMatchesView()
-                            .padding(.top, 12)
-                            .padding(.bottom, 32)
-                    }
-                    .scrollIndicators(.never)
+                        }
+                        .padding(.top, 20)
+                    
+                    // MARK: - 경기 일정 리스트
+                    soccerMatchesView()
+                        .padding(.top, 12)
+                        .padding(.bottom, 32)
                 }
+                .scrollIndicators(.never)
             }
-            .ignoresSafeArea(edges: .top)
         }
         .tint(.gray200)
         .navigationBarBackButtonHidden()
+        .navigationDestination(for: NavigationDestination.self) { destination in
+            SoccerMatchInfo(viewModel: viewModel)
+                .toolbarRole(.editor) // back 텍스트 숨기기
+                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                .onAppear() {
+                    print("Path 확인? 경기 정보로 이동")
+                    print("Path 확인? \(path.path.count) \(path)")
+                }
+        }
     }
     
     /// 하루 축구 경기 일정 불러오기
@@ -164,21 +169,35 @@ struct MatchCalendar: View {
             // MARK: - 경기 리스트
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
-                    NavigationLink {
-                        SoccerMatchInfo(path: $path, viewModel: viewModel)
-                            .toolbarRole(.editor) // back 텍스트 숨기기
-                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                    } label: {
-                        SoccerMatchRow(soccerMatch: match)
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 12)
-                    }
-                    .simultaneousGesture(
-                        TapGesture().onEnded {
+                    let destination = NavigationDestination(destination: .calendar)
+                    NavigationLink(value: destination) {
+                        Button {
                             // 화면 전환 전에 선택한 경기 업데이트
                             viewModel.selectedMatch(match: match)
+                            path.path.append(destination)
+                            print("Path 확인? 경기캘린더로 이동 \(path)")
+                        } label: {
+                            SoccerMatchRow(soccerMatch: match)
+                                .padding(.horizontal, 16)
+                                .padding(.bottom, 12)
                         }
-                    )
+                    }
+                    
+//                    NavigationLink {
+//                        SoccerMatchInfo(viewModel: viewModel)
+//                            .toolbarRole(.editor) // back 텍스트 숨기기
+//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+//                    } label: {
+//                        SoccerMatchRow(soccerMatch: match)
+//                            .padding(.horizontal, 16)
+//                            .padding(.bottom, 12)
+//                    }
+//                    .simultaneousGesture(
+//                        TapGesture().onEnded {
+//                            // 화면 전환 전에 선택한 경기 업데이트
+//                            viewModel.selectedMatch(match: match)
+//                        }
+//                    )
                 }
             }
             else {
@@ -192,5 +211,5 @@ struct MatchCalendar: View {
 }
 
 #Preview("경기 캘린더") {
-    MatchCalendar(path: .constant(NavigationPath()), viewModel: MatchCalendarViewModel())
+    MatchCalendar(viewModel: MatchCalendarViewModel())
 }

@@ -10,6 +10,9 @@ import SwiftUI
 /// 선발라인업 예측 화면
 struct StartingLineupPrediction: View {
     // MARK: - PROPERTY
+    /// 네비게이션 변수
+    @EnvironmentObject var path: NavigationPathManager
+    
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     
@@ -37,11 +40,16 @@ struct StartingLineupPrediction: View {
     /// 공격수 포지션 배열
     private let fwPositions: [SoccerPosition] = [.FW1, .FW2, .FW3]
     
+    /// 선발라인업 예측 성공 여부
+    @State private var isSuccess: Bool = false
+    
     // MARK: - BODY
     var body: some View {
         ZStack {
             // 배경 색상
             Color(.backgroundDown)
+                .ignoresSafeArea()
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     // MARK: 선발라인업 예측 질문 뷰
@@ -75,42 +83,36 @@ struct StartingLineupPrediction: View {
                     
                     // MARK: 예측하기 버튼
                     Button {
-                        print("홈팀 포메이션: \(homeFormationIndex)")
-                        print("홈팀 골기퍼: \(String(describing: homeSelectedPlayers[.GK]?.playerName))")
+                        // 선발라인업 예측 API 호출
+                        let homeGK = homeSelectedPlayers[.GK]
+                        let dfPlayerRequests = matchSoccerPlayerRequests(from: dfPositions, selectedPlayers: homeSelectedPlayers)
+                        let mfPlayerRequests = matchSoccerPlayerRequests(from: mfPositions, selectedPlayers: homeSelectedPlayers)
+                        let fwPlayerRequests = matchSoccerPlayerRequests(from: fwPositions, selectedPlayers: homeSelectedPlayers)
                         
-                        let dfPlayers = dfPositions.compactMap { position in
-                            homeSelectedPlayers[position]?.playerName
-                        }
-                        print("홈팀 수비수: \(String(describing: dfPlayers))")
+                        let awayGK = awaySelectedPlayers[.GK]
+                        let dfPlayerRequests2 = matchSoccerPlayerRequests(from: dfPositions, selectedPlayers: awaySelectedPlayers)
+                        let mfPlayerRequests2 = matchSoccerPlayerRequests(from: mfPositions, selectedPlayers: awaySelectedPlayers)
+                        let fwPlayerRequests2 = matchSoccerPlayerRequests(from: fwPositions, selectedPlayers: awaySelectedPlayers)
                         
-                        let mfPlayers = mfPositions.compactMap { position in
-                            homeSelectedPlayers[position]?.playerName
-                        }
-                        print("홈팀 미드필더: \(String(describing: mfPlayers))")
-                        
-                        let fwPlayers = fwPositions.compactMap { position in
-                            homeSelectedPlayers[position]?.playerName
-                        }
-                        print("홈팀 공격수: \(String(describing: fwPlayers))")
-                        
-                        print("----------------------------------")
-                        print("원정팀 포메이션: \(awayFormationIndex)")
-                        print("원정팀 골기퍼: \(String(describing: awaySelectedPlayers[.GK]?.playerName))")
-                        
-                        let dfPlayers2 = dfPositions.compactMap { position in
-                            awaySelectedPlayers[position]?.playerName
-                        }
-                        print("원정팀 수비수: \(String(describing: dfPlayers2))")
-                        
-                        let mfPlayers2 = mfPositions.compactMap { position in
-                            awaySelectedPlayers[position]?.playerName
-                        }
-                        print("원정팀 미드필더: \(String(describing: mfPlayers2))")
-                        
-                        let fwPlayers2 = fwPositions.compactMap { position in
-                            awaySelectedPlayers[position]?.playerName
-                        }
-                        print("원정팀 공격수: \(String(describing: fwPlayers2))")
+                        // 선발라인업 예측 API 호출
+                        viewModel.postStartingLineup(
+                            query: MatchIdRequest(matchId: soccerMatch.id),
+                            request: StartingLineupPredictionRequest(
+                                homeFormation: homeFormationIndex,
+                                awayFormation: awayFormationIndex,
+                                homeGoalkeeper: [SoccerPlayerRequest(playerName: homeGK!.playerName, playerNum: homeGK!.backNum)],
+                                homeDefenders: dfPlayerRequests,
+                                homeMidfielders: mfPlayerRequests,
+                                homeStrikers: fwPlayerRequests,
+                                awayGoalkeeper: [SoccerPlayerRequest(playerName: awayGK!.playerName, playerNum: awayGK!.backNum)],
+                                awayDefenders: dfPlayerRequests2,
+                                awayMidfielders: mfPlayerRequests2,
+                                awayStrikers: fwPlayerRequests2)) { success in
+                                    if success {
+                                        self.isSuccess = success
+                                        print("선발라인업 예측하기 API 호출 완료")
+                                    }
+                                }
                     } label: {
                         DesignWideButton(
                             label: "예측하기",
@@ -129,16 +131,25 @@ struct StartingLineupPrediction: View {
         }
         .onAppear {
             // 화면 진입 시, 선발라인업 예측 조회 API 호출
-            viewModel.getStartingLineupPrediction(request: StartingLineupPredictionRequest(matchId: soccerMatch.id))
+            viewModel.getDefaultStartingLineupPrediction(request: MatchIdRequest(matchId: soccerMatch.id))
         }
         // 툴 바, 상태 바 설정
         .navigationTitle("선발 라인업 예측")
-        .ignoresSafeArea(edges: .bottom)
-        .toolbarBackground(Color.background, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationDestination(isPresented: $isSuccess) {
+            // API 호출에 성공했을 경우, 선발라인업 예측 성공 화면으로 이동
+        }
     }
     
     // MARK: - FUNCTION
+    /// 사용자가 선택한 선수 리스트를 Request 모델로 바꾸는 함수
+    func matchSoccerPlayerRequests(from positions: [SoccerPosition], selectedPlayers: [SoccerPosition: StartingLineupPlayer]) -> [SoccerPlayerRequest] {
+        return positions.compactMap { position -> SoccerPlayerRequest? in
+            if let player = selectedPlayers[position] {
+                return SoccerPlayerRequest(playerName: player.playerName, playerNum: player.backNum)
+            }
+            return nil
+        }
+    }
 }
 
 // MARK: - PREVIEW

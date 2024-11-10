@@ -8,7 +8,8 @@
 import Foundation
 
 /// [Entity] 예측 화면, 예측 결과 화면의 상단 질문 박스에 필요한 데이터 모델
-struct PredictionQuestionModel {
+struct PredictionQuestionModel: Identifiable, Hashable {
+    let id = UUID()
     let matchId: Int64
     let matchCode: Int
     let matchDate: Date

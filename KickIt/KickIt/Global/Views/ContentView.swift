@@ -10,6 +10,18 @@ import SwiftUI
 /// 탭 메뉴 열거형
 enum Tab {
     case home, calendar, diary, mypage
+    case soccerInfo, winningTeamPrediction, finishWinningTeamPrediction, resultWinningTeamPrediction
+}
+
+/// 경기 캘린더 화면의 네비게이션 스택 관리용 모델
+struct NavigationDestination: Identifiable, Hashable {
+    let id: UUID = UUID()
+    var destination: Tab
+}
+
+/// 네비게이션 매니저
+class NavigationPathManager: ObservableObject {
+    @Published var path: [NavigationDestination] = []
 }
 
 /// 메인 네비게이션 설정 화면
@@ -18,7 +30,7 @@ struct ContentView: View {
     @State private var selectedMenu: Tab = .home
     
     /// 네비게이션 스택 관리 변수
-    @State private var path = NavigationPath()
+    @StateObject private var path = NavigationPathManager()
     
     /// 홈 뷰모델
     @StateObject var homeViewModel = HomeViewModel()
@@ -45,39 +57,42 @@ struct ContentView: View {
 //    }
     
     var body: some View {
-        TabView(selection: $selectedMenu) {
-            /// 홈 화면
-            Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, path: $path, viewModel: homeViewModel, calendarViewModel: matchCalendarViewModel)
-                .tabItem {
-                    Image(systemName: "house")
-                    Text("홈").pretendardTextStyle(.Caption2Style)
-                }
-                .tag(Tab.home)
-            
-            /// 경기 일정 & 캘린더 화면
-            MatchCalendar(path: $path, viewModel: matchCalendarViewModel)
-                .tabItem {
-                    Image(systemName: "soccerball")
-                    Text("경기 캘린더").pretendardTextStyle(.Caption2Style)
-                }
-                .tag(Tab.calendar)
-            
-            /// 축구 경기 일기 화면
-            SoccerDiary()
-                .tabItem {
-                    Image(systemName: "book")
-                    Text("축구 일기").pretendardTextStyle(.Caption2Style)
-                }
-                .tag(Tab.diary)
-            
-            /// 마이페이지 화면
-            MyPage()
-                .tabItem {
-                    Image(systemName: "person.circle.fill")
-                    Text("마이페이지").pretendardTextStyle(.Caption2Style)
-                }
-                .tag(Tab.mypage)
+        NavigationStack(path: $path.path) {
+            TabView(selection: $selectedMenu) {
+                /// 홈 화면
+                Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, viewModel: homeViewModel, calendarViewModel: matchCalendarViewModel)
+                    .tabItem {
+                        Image(systemName: "house")
+                        Text("홈").pretendardTextStyle(.Caption2Style)
+                    }
+                    .tag(Tab.home)
+                
+                /// 경기 일정 & 캘린더 화면
+                MatchCalendar(viewModel: matchCalendarViewModel)
+                    .tabItem {
+                        Image(systemName: "soccerball")
+                        Text("경기 캘린더").pretendardTextStyle(.Caption2Style)
+                    }
+                    .tag(Tab.calendar)
+                
+                /// 축구 경기 일기 화면
+                SoccerDiary()
+                    .tabItem {
+                        Image(systemName: "book")
+                        Text("축구 일기").pretendardTextStyle(.Caption2Style)
+                    }
+                    .tag(Tab.diary)
+                
+                /// 마이페이지 화면
+                MyPage()
+                    .tabItem {
+                        Image(systemName: "person.circle.fill")
+                        Text("마이페이지").pretendardTextStyle(.Caption2Style)
+                    }
+                    .tag(Tab.mypage)
+            }
         }
+        .environmentObject(path)
         .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
             handleNotificationTap(notification)
         }

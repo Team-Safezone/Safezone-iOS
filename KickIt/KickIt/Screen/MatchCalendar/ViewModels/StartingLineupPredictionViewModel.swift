@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 /// 선발라인업 예측 화면의 뷰모델
-final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModelProtocol {
-    /// 홈팀 선수 리스트
+final class StartingLineupPredictionViewModel: ObservableObject {
+    /// 홈팀 전체 선수 리스트
     @Published var homeTeamPlayers: [StartingLineupPlayer] = []
     
-    /// 원정팀 선수 리스트
+    /// 원정팀 전체 선수 리스트
     @Published var awayTeamPlayers: [StartingLineupPlayer] = []
     
     /// 사용자가 예측했던 홈팀 선수 리스트
@@ -21,6 +21,12 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     
     /// 사용자가 예측했던 원정팀 선수 리스트
     @Published var awayPredictions: UserStartingLineupPrediction?
+    
+    /// 등급
+    @Published var grade: Int = 0
+    
+    /// 포인트
+    @Published var point: Int = 0
     
     /// 현재 선택 중인 팀 포메이션
     @Published var selectedFormation: Formation?
@@ -45,55 +51,75 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
     
     private var cancellables = Set<AnyCancellable>()
     
+    /// 선발라인업 예측 API
+    func postStartingLineup(query: MatchIdRequest, request: StartingLineupPredictionRequest, completion: @escaping (Bool) -> (Void)) {
+        StartingLineupPredictionAPI.shared.postStartingLineupPrediction(query: query, request: request)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { complete in
+                switch complete {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                    completion(false)
+                case .finished:
+                    break
+                }
+            },
+            receiveValue: { [weak self] dto in
+                self?.grade = dto.grade
+                self?.point = dto.point
+                completion(true)
+            })
+            .store(in: &cancellables)
+    }
+    
     /// 선발라인업 예측 조회 API
-    func getStartingLineupPrediction(request: StartingLineupPredictionRequest) {
-        StartingLineupPredictionAPI.shared.getStartingLineupPrediction(request: request)
+    func getDefaultStartingLineupPrediction(request: MatchIdRequest) {
+        StartingLineupPredictionAPI.shared.getDefaultStartingLineupPrediction(request: request)
             .map { responseDTO in
-                let homePlayers = responseDTO.homeTeamPlayers.map { player in
+                let homePlayers = responseDTO.homePlayers.map { player in
                     StartingLineupPlayer(
                         playerImgURL: player.playerImgURL,
                         playerName: player.playerName,
                         backNum: player.playerNum,
-                        playerPosition: player.playerPosition
+                        playerPosition: player.playerPos
                     )
                 }
-                let awayPlayers = responseDTO.awayTeamPlayers.map { player in
+                let awayPlayers = responseDTO.awayPlayers.map { player in
                     StartingLineupPlayer(
                         playerImgURL: player.playerImgURL,
                         playerName: player.playerName,
                         backNum: player.playerNum,
-                        playerPosition: player.playerPosition
+                        playerPosition: player.playerPos
                     )
                 }
-                var homeTeamPredictions: UserStartingLineupPrediction? = nil
-                var awayTeamPredictions: UserStartingLineupPrediction? = nil
+                var homePrediction: UserStartingLineupPrediction? = nil
+                var awayPrediction: UserStartingLineupPrediction? = nil
                 
-                if let tempHomePredictions = responseDTO.homeTeamPredictions {
-                    homeTeamPredictions = self.startingLineupToEntity(tempHomePredictions)
+                if let tempHomePrediction = responseDTO.homePrediction {
+                    homePrediction = self.startingLineupToEntity(tempHomePrediction)
                 }
-                if let tempAwayPredictions = responseDTO.awayTeamPredictions {
-                    awayTeamPredictions = self.startingLineupToEntity(tempAwayPredictions)
+                if let tempAwayPrediction = responseDTO.awayPrediction {
+                    awayPrediction = self.startingLineupToEntity(tempAwayPrediction)
                 }
                 
-                return (homePlayers, awayPlayers, homeTeamPredictions, awayTeamPredictions)
+                return (homePlayers, awayPlayers, homePrediction, awayPrediction)
             }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
+            .sink(receiveCompletion: { complete in
+                switch complete {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 case .finished:
                     break
                 }
             },
-                  receiveValue: { [weak self] (homePlayers, awayPlayers, homeTeamPredictions, awayTeamPredictions) in
+            receiveValue: { [weak self] (homePlayers, awayPlayers, homeTeamPrediction, awayTeamPrediction) in
                 self?.homeTeamPlayers = homePlayers
                 self?.awayTeamPlayers = awayPlayers
-                self?.homePredictions = homeTeamPredictions
-                self?.awayPredictions = awayTeamPredictions
+                self?.homePredictions = homeTeamPrediction
+                self?.awayPredictions = awayTeamPrediction
             })
             .store(in: &cancellables)
-        
     }
     
     /// 선발라인업 예측 조회 중 사용자가 예측했던 선발라인업 선수 리스트를 변환하는 함수(DTO -> Entity)
@@ -168,10 +194,13 @@ final class StartingLineupPredictionViewModel: StartingLineupPredictionViewModel
 //    }
     
     /// 선수 리스트 필터링
-    func filteredPlayers() -> [StartingLineupPlayer] {
-        // FIXME: 추후, api 연결 완료 시 더미 데이터 로직 삭제하기
-        // teamPlayers.filter { $0.playerPosition == selectedPosition }
-        return dummyStartingLineupPlayer.filter { $0.playerPosition == selectedPositionToInt }
+    func filteredPlayers(_ isHomeTeam: Bool) -> [StartingLineupPlayer] {
+        if isHomeTeam {
+            return homeTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
+        }
+        else {
+            return awayTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
+        }
     }
     
     /// 라디오 그룹에서 포지션 클릭 시 반영

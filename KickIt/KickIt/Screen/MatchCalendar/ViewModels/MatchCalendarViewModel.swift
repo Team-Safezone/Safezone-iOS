@@ -25,7 +25,7 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     @Published var selectedTeamName: String?
     
     /// 사용자가 선택한 경기
-    @Published var selectedSoccerMatch: SoccerMatch?
+    @Published var selectedSoccerMatch: SoccerMatch = SoccerMatch(id: 0, matchDate: Date(), matchTime: Date(), stadium: "", matchRound: 1, homeTeam: SoccerTeam(teamEmblemURL: "", teamName: ""), awayTeam: SoccerTeam(teamEmblemURL: "", teamName: ""), matchCode: 0)
     
     var cancellables = Set<AnyCancellable>()
     
@@ -155,37 +155,37 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     
     /// 선발라인업 공개 타이머(텍스트)
     func startingLineupTimeInterval(_ nowDate: Date) -> String {
-        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
+        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).1
     }
     
     /// 선발라인업 공개 타이머(날짜)
     func startingLineupShowDate(_ nowDate: Date) -> Date {
-        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
+        timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).0
     }
     
     /// 우승팀 예측 종료 타이머(텍스트)
     func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
-        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).1
     }
     
     /// 우승팀 예측 종료 타이머(날짜)
     func matchEndTimePredictionShowDate(_ nowDate: Date) -> Date {
-        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
+        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).0
     }
     
     /// 선발라인업 예측 종료 타이머(텍스트)
     func lineupEndTimePredictionInterval(_ nowDate: Date) -> String {
-        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).1
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).1
     }
     
     /// 선발라인업 예측 종료 타이머(날짜)
     func lineupEndTimePredictionShowDate(_ nowDate: Date) -> Date {
-        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch!.matchDate, matchTime: selectedSoccerMatch!.matchTime).0
+        timePredictionInterval4(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).0
     }
     
     /// 팀 정보에 따른 값(이름, 이미지) 반환
     func teamInfoView(for isHomeTeam: Bool) -> (String, String) {
-        let team = isHomeTeam ? selectedSoccerMatch?.homeTeam : selectedSoccerMatch?.awayTeam
-        return (team?.teamEmblemURL ?? "", team?.teamName ?? "")
+        let team = isHomeTeam ? selectedSoccerMatch.homeTeam : selectedSoccerMatch.awayTeam
+        return (team.teamEmblemURL, team.teamName)
     }
 }

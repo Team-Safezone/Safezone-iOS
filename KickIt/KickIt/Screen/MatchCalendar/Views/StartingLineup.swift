@@ -19,7 +19,7 @@ struct StartingLineup: View {
     // 뷰모델 초기화
     init(viewModel: MatchCalendarViewModel) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
-        _lineupViewModel = StateObject(wrappedValue: StartingLineupViewModel(matchId: viewModel.selectedSoccerMatch?.id))
+        _lineupViewModel = StateObject(wrappedValue: StartingLineupViewModel(matchId: viewModel.selectedSoccerMatch.id))
     }
     
     // MARK: - BODY

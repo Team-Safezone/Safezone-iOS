@@ -50,7 +50,7 @@ struct PredictionPlayerBottomSheetView: View {
             // 선수 리스트
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(Array(viewModel.filteredPlayers().enumerated()), id: \.offset) { _, player in
+                    ForEach(Array(viewModel.filteredPlayers(isHomeTeam).enumerated()), id: \.offset) { _, player in
                         // 이미 선택되어 있는 선수라면 true
                         let isSelected = viewModel.isPlayerAlreadySelected(selectedPlayers: selectedPlayers, player: player)
                         if isSelected {

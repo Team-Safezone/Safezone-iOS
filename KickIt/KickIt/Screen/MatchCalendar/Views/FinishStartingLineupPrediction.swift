@@ -1,19 +1,19 @@
 //
-//  FinishWinningTeamPrediction.swift
+//  FinishStartingLineupPrediction.swift
 //  KickIt
 //
-//  Created by 이윤지 on 6/9/24.
+//  Created by 이윤지 on 11/9/24.
 //
 
 import SwiftUI
 
-/// 우승팀 예측 완료 화면
-struct FinishWinningTeamPrediction: View {
+/// 선발라인업 예측 완료 화면
+struct FinishStartingLineupPrediction: View {
     /// 네비게이션 변수
-    @EnvironmentObject var path: NavigationPathManager
+    @Binding var path: NavigationPath
     
     /// 우승팀 예측 모델 객체
-    var winningPrediction: WinningPrediction
+    var lineupPrediction: LineupPrediction
     
     /// 상단 카드뷰에 들어갈 데이터 모델
     var prediction: PredictionQuestionModel
@@ -21,12 +21,9 @@ struct FinishWinningTeamPrediction: View {
     /// 결과 화면으로 이동 여부
     @State private var isShowingResult: Bool = false
     
-    /// 경기 정보 화면으로 이동 여부
-    @State private var isShowingMatchInfo: Bool = false
-    
     var body: some View {
         ZStack {
-            Color(.background)
+            Color(.backgroundDown)
                 .ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 0) {
@@ -36,20 +33,7 @@ struct FinishWinningTeamPrediction: View {
                     .padding(.top, 131)
                 
                 // MARK: 예측 결과
-                HStack(spacing: 0) {
-                    // 홈팀의 우승을 예상했다면
-                    if (winningPrediction.homeTeamScore > winningPrediction.awayTeamScore) {
-                        Text("\(winningPrediction.homeTeamName)의 승리를 예측하셨네요!")
-                    }
-                    // 원정팀의 우승을 예상했다면
-                    else if (winningPrediction.homeTeamScore < winningPrediction.awayTeamScore) {
-                        Text("\(winningPrediction.awayTeamName)의 승리를 예측하셨네요!")
-                    }
-                    // 무승부를 예상했다면
-                    else {
-                        Text("\(winningPrediction.homeTeamName)와 \(winningPrediction.awayTeamName)의 무승부를 예측하셨네요!")
-                    }
-                }
+                Text("\(lineupPrediction.type) 라인업을 예측하셨네요!")
                 .pretendardTextStyle(.Title2Style)
                 .foregroundStyle(.gray500Text)
                 .padding(.top, 12)
@@ -85,18 +69,18 @@ struct FinishWinningTeamPrediction: View {
                         .foregroundStyle(.gray200)
                     
                     HStack(alignment: .center, spacing: 0) {
-                        Image(uiImage: matchToGrade(winningPrediction.grade).0)
+                        Image(uiImage: matchToGrade(lineupPrediction.grade).0)
                             .resizable()
                             .frame(width: 44, height: 44)
                         
-                        Text(matchToGrade(winningPrediction.grade).1)
+                        Text(matchToGrade(lineupPrediction.grade).1)
                             .padding(.leading, 4)
                             .pretendardTextStyle(.Title2Style)
                             .foregroundStyle(.white0)
                         
                         Spacer()
                         
-                        Text("\(winningPrediction.point)")
+                        Text("\(lineupPrediction.point)")
                             .pretendardTextStyle(.Title1Style)
                             .foregroundStyle(.white0)
                             .padding(.trailing, 4)
@@ -122,10 +106,8 @@ struct FinishWinningTeamPrediction: View {
                 HStack(spacing: 13) {
                     // MARK: 닫기 버튼
                     Button {
-                        //path.removeLast(path.count)
-                        path.path.removeLast(2)
-                        print("Path 확인? finish? \(path.path.count)")
-                        //path = NavigationPath() // 경로가 부족한 경우 초기화
+                        // 경기 정보 화면으로 이동
+                        path.removeLast(path.count - 1)
                     } label: {
                         DesignHalfButton(label: "닫기", labelColor: .white0, btnBGColor: .gray900Assets)
                     }
@@ -141,7 +123,6 @@ struct FinishWinningTeamPrediction: View {
                 .padding(.bottom, 34)
             }
         }
-        .tag(Tab.finishWinningTeamPrediction)
         .navigationDestination(isPresented: $isShowingResult) {
             ResultWinningTeamPrediction(prediction: prediction)
         }
@@ -161,5 +142,5 @@ struct FinishWinningTeamPrediction: View {
 }
 
 #Preview {
-    FinishWinningTeamPrediction(winningPrediction: dummyWinningPrediction, prediction: dummyPredictionQuestionModel)
+    FinishStartingLineupPrediction(path: .constant(NavigationPath()), lineupPrediction: dummyLineupPrediction, prediction: dummyPredictionQuestionModel)
 }

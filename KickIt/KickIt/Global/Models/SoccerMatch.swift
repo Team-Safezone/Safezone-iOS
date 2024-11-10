@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Entity] 축구 경기 모델
-struct SoccerMatch: Identifiable {
+struct SoccerMatch: Identifiable, Hashable {
     let id: Int64 // 고유 id
     let matchDate: Date // 축구 경기 날짜
     let matchTime: Date // 축구 경기 시간
@@ -19,6 +19,16 @@ struct SoccerMatch: Identifiable {
     var matchCode: Int // 경기 상태(0: 예정, 1: 경기중, 2: 휴식, 3: 종료, 4: 연기)
     var homeTeamScore: Int? // 홈 팀 스코어
     var awayTeamScore: Int? // 원정 팀 스코어
+    
+    // FIXME: 아래 코드는 사라질 수도 있음... 네비게이션 테스트를 위함
+    // 두 SoccerMatch가 동일한 id를 가질 때만 같은 것으로 간주
+    static func == (lhs: SoccerMatch, rhs: SoccerMatch) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 /// 축구 경기 리스트 더미 데이터
