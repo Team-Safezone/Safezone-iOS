@@ -27,16 +27,14 @@ struct LoginView: View {
        }
         else {
             ZStack(alignment: .leading) {
-                Color.background.ignoresSafeArea()
+                Color.black0.ignoresSafeArea()
                 
                 VStack(alignment: .center)  {
+                    OnBoarding()
+                        .padding(.bottom, 30)
+                    
                     VStack(alignment: .center)
                     {
-                        OnBoarding()
-                        Spacer()
-                        
-                        .padding(.bottom, 63)
-                        
                         // MARK: 카카오 로그인
                         Button(action: {
                             // 카카오톡 앱 설치 여부 확인
@@ -85,15 +83,15 @@ struct LoginView: View {
                                             .scaledToFill()
                                             .frame(width: 16, height: 16)
                                             .padding(.leading, 16)
-                                        Text("카카오로 로그인")
-                                            .pretendardTextStyle(.Body1Style)
+                                        Text("카카오로 3초만에 로그인")
+                                            .pretendardTextStyle(.Title2Style)
                                             .foregroundStyle(.black0)
-                                            .padding(.leading, 12)
                                         Spacer()
                                     }
                                 }
                         }
                     }
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 10)
                     
                     // 애플 로그인
@@ -110,17 +108,17 @@ struct LoginView: View {
                                         .scaledToFill()
                                         .frame(width: 16, height: 16)
                                         .padding(.leading, 16)
-                                    Text("Apple로 로그인")
-                                        .pretendardTextStyle(.Body1Style)
+                                    Text("       Apple로 로그인")
+                                        .pretendardTextStyle(.Title2Style)
                                         .foregroundStyle(.black0)
-                                        .padding(.leading, 12)
+
                                     Spacer()
                                 }
                             }
                     }
-                    .padding(.bottom, 96)
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
             }.environment(\.colorScheme, .dark) // 무조건 다크모드
         }
     }
