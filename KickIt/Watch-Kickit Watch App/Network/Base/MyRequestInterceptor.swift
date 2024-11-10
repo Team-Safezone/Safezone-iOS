@@ -11,14 +11,15 @@ import Alamofire
 final class MyRequestInterceptor: RequestInterceptor {
     // 네트워크 호출 시, api 전처리를 한 뒤 서버로 보냄
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        guard urlRequest.url?.absoluteString.hasPrefix(APIConstantsWatch.baseURL) == true,
-              let xAuthToken = KeyChain.shared.getJwtToken() else {
+        guard urlRequest.url?.absoluteString.hasPrefix(APIConstantsWatch.baseURL) == true else {
             completion(.success(urlRequest))
             return
         }
-        
+
         var urlRequest = urlRequest
-        urlRequest.setValue("Bearer " + xAuthToken, forHTTPHeaderField: "Authorization")
+        if let token = SoccerMatchViewModel.shared.xAuthToken ?? SoccerMatchViewModel.shared.loadXAuthToken() {
+            urlRequest.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        }
         completion(.success(urlRequest))
     }
     
@@ -28,5 +29,6 @@ final class MyRequestInterceptor: RequestInterceptor {
             completion(.doNotRetryWithError(error))
             return
         }
+        completion(.doNotRetryWithError(error))
     }
 }

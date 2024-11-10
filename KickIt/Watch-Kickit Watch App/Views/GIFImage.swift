@@ -15,7 +15,7 @@ struct GIFImageView: View {
 
     init(gifName: String) {
         self.images = GIFImageView.loadGIFFrames(gifName: gifName)
-        self.frameDuration = 0.05
+        self.frameDuration = 0.03
     }
     
     var body: some View {

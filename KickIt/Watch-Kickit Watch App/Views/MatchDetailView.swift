@@ -182,28 +182,25 @@ struct EndView: View {
 }
 
 #Preview("경기 상세"){
-    @State var isRecordingHeartRate = false
-    let soccermatch = SoccerMatchWatch(
-        id: 53,
-        matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
-        matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
-        stadium: "장소",
-        matchRound: 37,
-        homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
-        awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
-        matchCode: 1,
-        homeTeamScore: 1,
-        awayTeamScore: 0
-    )
-    return MatchDetailView(
-        match: soccermatch,
+    MatchDetailView(
+        match: SoccerMatchWatch(
+            id: 53,
+            matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
+            matchTime: Calendar.current.date(from: DateComponents(hour: 19, minute: 20))!,
+            stadium: "장소",
+            matchRound: 37,
+            homeTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F43_300300.png", teamName: "풀럼"),
+            awayTeam: SoccerTeam(ranking: 0, teamEmblemURL: "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png", teamName: "맨시티"),
+            matchCode: 1,
+            homeTeamScore: 1,
+            awayTeamScore: 0
+        ),
         viewModel: SoccerMatchViewModel()
     )
 }
 
 #Preview("경기종료") {
-    @State var isRecordingHeartRate = false
-    return MatchDetailView(
+    MatchDetailView(
         match: SoccerMatchWatch(
             id: 53,
             matchDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 21))!,
@@ -236,6 +233,5 @@ struct EndView: View {
 }
 
 #Preview("기록 취소"){
-    @State var isRecordingHeartRate = true
-    return EndView(isRecordingHeartRate: $isRecordingHeartRate, viewModel: SoccerMatchViewModel())
+    return EndView(isRecordingHeartRate: .constant(true), viewModel: SoccerMatchViewModel())
 }
