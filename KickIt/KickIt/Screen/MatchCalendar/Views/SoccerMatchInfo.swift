@@ -27,60 +27,58 @@ struct SoccerMatchInfo: View {
     
     // MARK: - BODY
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .top) {
-                // 배경화면 색상 지정
-                Color(.background)
-                    .ignoresSafeArea()
+        ZStack(alignment: .top) {
+            // 배경화면 색상 지정
+            Color(.background)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                // MARK: 상단 경기 정보
+                TopMatchInfo()
                 
-                VStack(spacing: 0) {
-                    // MARK: 상단 경기 정보
-                    TopMatchInfo()
-                    
-                    // 구분선
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundStyle(.gray900Assets)
-                    
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            // MARK: 팀 및 스코어 정보
-                            CenterMatchInfo()
+                // 구분선
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundStyle(.gray900Assets)
+                
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // MARK: 팀 및 스코어 정보
+                        CenterMatchInfo()
+                        
+                        ZStack {
+                            // 하단 시트 색상 지정
+                            SpecificRoundedRectangle(radius: 16, corners: [.topLeft, .topRight])
+                                .frame(maxWidth: .infinity)
+                                .foregroundStyle(.gray950Assets)
                             
-                            ZStack {
-                                // 하단 시트 색상 지정
-                                SpecificRoundedRectangle(radius: 16, corners: [.topLeft, .topRight])
-                                    .frame(maxWidth: .infinity)
-                                    .foregroundStyle(.gray950Assets)
+                            VStack(spacing: 0) {
+                                // MARK: 하단 버튼
+                                MatchButton()
                                 
-                                VStack(spacing: 0) {
-                                    // MARK: 하단 버튼
-                                    MatchButton()
+                                // 경기 정보 버튼을 눌렀다면
+                                if isShowMatchInfo {
+                                    // MARK: 경기 정보
+                                    MatchInfo()
                                     
-                                    // 경기 정보 버튼을 눌렀다면
-                                    if isShowMatchInfo {
-                                        // MARK: 경기 정보
-                                        MatchInfo()
-                                        
-                                        // 하단 공백
-                                        Spacer()
-                                            .frame(height: 200)
-                                    }
-                                    // 경기 예측 버튼을 눌렀다면
-                                    else {
-                                        // MARK: 경기 예측
-                                        MatchPrediction()
-                                    }
+                                    // 하단 공백
+                                    Spacer()
+                                        .frame(height: 200)
+                                }
+                                // 경기 예측 버튼을 눌렀다면
+                                else {
+                                    // MARK: 경기 예측
+                                    MatchPrediction()
                                 }
                             }
-                            .padding(.top, 55)
-                        } //: VSTACK
-                    } //: ScrollView
-                    .scrollIndicators(.never)
-                } //: VSTACK
-            } //: ZSTACK
-            .navigationTitle("\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
-        }
+                        }
+                        .padding(.top, 55)
+                    } //: VSTACK
+                } //: ScrollView
+                .scrollIndicators(.never)
+            } //: VSTACK
+        } //: ZSTACK
+        .navigationTitle("\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
     }
     
     // MARK: - FUNCTION

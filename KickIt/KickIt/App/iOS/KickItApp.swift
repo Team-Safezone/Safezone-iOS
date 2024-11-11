@@ -11,9 +11,6 @@ import KakaoSDKCommon
 
 @main
 struct KickItApp: App {
-    /// 앱 델리게이트 어댑터
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
     @StateObject private var viewModel = MainViewModel()
     
     init() {

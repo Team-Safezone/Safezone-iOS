@@ -79,120 +79,34 @@ struct ContentView: View {
                     .tag(Tab.mypage)
             }
             .navigationDestination(for: NavigationDestination.self) { destination in
-                switch destination.identifier {
-                case "SoccerInfo":
+                if destination.identifier == "SoccerInfo" {
                     if case let .soccerInfo(data) = destination {
                         SoccerMatchInfo(soccerMatch: data)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션
                     }
-                case "WinningTeamPrediction":
+                }
+                else if destination.identifier == "WinningTeamPrediction" {
                     if case let .winningTeamPrediction(data) = destination {
                         WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
                             .toolbarRole(.editor)
                     }
-                case "FinishWinningTeamPrediction":
+                }
+                else if destination.identifier == "FinishWinningTeamPrediction" {
                     if case let .finishWinningTeamPrediction(data) = destination {
                         FinishWinningTeamPrediction(
                             popToSoccerInfoAction: popToSoccerInfo,
                             winningPrediction: data.winningPrediction,
                             prediction: data.prediction)
+                        .navigationBarBackButtonHidden()
                     }
-                case "ResultWinningTeamPrediction":
+                }
+                else if destination.identifier == "ResultWinningTeamPrediction" {
                     if case let .resultWinningTeamPrediction(data) = destination {
-                        ResultWinningTeamPrediction(prediction: data)
+                        ResultWinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfo, prediction: data)
                             .toolbarRole(.editor)
                     }
-                default:
-                    EmptyView()
                 }
-                
-                
-//                switch destination {
-//                    case "SoccerInfo":
-//                        SoccerMatchInfo(viewModel: matchCalendarViewModel)
-//                            .toolbarRole(.editor) // back 텍스트 숨기기
-//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-//                    
-//                    case "WinningTeamPrediction":
-//                        WinningTeamPrediction(isRetry: false, soccerMatch: matchCalendarViewModel.selectedSoccerMatch)
-//                            .toolbarRole(.editor)
-//                    
-//                    case "FinishWinningTeamPrediction":
-//                        let  soccerMatch = matchCalendarViewModel.selectedSoccerMatch
-//                        FinishWinningTeamPrediction(
-//                            popToSoccerInfoAction: popToSoccerInfo,
-//                            winningPrediction: WinningPrediction(
-//                                id: soccerMatch.id,
-//                                homeTeamName: soccerMatch.homeTeam.teamName,
-//                                awayTeamName: soccerMatch.awayTeam.teamName,
-//                                homeTeamScore: 2,
-//                                awayTeamScore: 1,
-//                                grade: 0, point: 1
-//                            ),
-//                            prediction: PredictionQuestionModel(
-//                                matchId: soccerMatch.id,
-//                                matchCode: soccerMatch.matchCode,
-//                                matchDate: soccerMatch.matchDate,
-//                                matchTime: soccerMatch.matchTime,
-//                                homeTeamName: soccerMatch.homeTeam.teamName,
-//                                awayTeamName: soccerMatch.awayTeam.teamName)
-//                            )
-//                    case "ResultWinningTeamPrediction":
-//                    let  soccerMatch = matchCalendarViewModel.selectedSoccerMatch
-//                        ResultWinningTeamPrediction(prediction:
-//                            PredictionQuestionModel(
-//                                matchId: soccerMatch.id,
-//                                matchCode: soccerMatch.matchCode,
-//                                matchDate: soccerMatch.matchDate,
-//                                matchTime: soccerMatch.matchTime,
-//                                homeTeamName: soccerMatch.homeTeam.teamName,
-//                                awayTeamName: soccerMatch.awayTeam.teamName)
-//                        )
-//                    default:
-//                        EmptyView()
-//                    }
-//                // 경기 정보 화면
-//                if destination.identifier == "SoccerInfo" {
-//                    if case let .soccerInfo = destination {
-//                        SoccerMatchInfo()
-//                            .toolbarRole(.editor) // back 텍스트 숨기기
-//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-//                    }
-//                }
-//                // 우승팀 예측 화면
-//                else if destination.identifier == "WinningTeamPrediction" {
-//                    if case let .winningTeamPrediction(data) = destination {
-//                        WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
-//                            .toolbarRole(.editor)
-//                    }
-//                }
-//                // 우승팀 예측 완료 화면
-//                else if destination.identifier == "FinishWinningTeamPrediction" {
-//                    if case let .finishWinningTeamPrediction(data) = destination {
-//                        FinishWinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfo, winningPrediction: data.winningPrediction, prediction: data.prediction)
-//                            .toolbar(.hidden)
-//                    }
-//                }
-//                // 우승팀 예측 결과 화면
-//                else if destination.identifier == "ResultWinningTeamPrediction" {
-//                    if case let .resultWinningTeamPrediction(data) = destination {
-//                        ResultWinningTeamPrediction(prediction: data)
-//                            .toolbarRole(.editor)
-//                    }
-//                }
-                
-                // 선발라인업 예측 화면
-                //case .startingLineupPrediction:
-//                    StartingLineupPrediction(soccerMatch: viewModel.selectedSoccerMatch)
-//                        .toolbarRole(.editor)
-                    
-                // 선발라인업 에측 완료 화면
-//                case .finishStartingLineupPrediction:
-//                    EmptyView()
-//                // 선발라인업 예측 결과 화면
-//                case .resultStartingLineupPrediction:
-//                    EmptyView()
             }
             .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
                 handleNotificationTap(notification)

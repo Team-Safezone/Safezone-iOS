@@ -158,7 +158,7 @@ struct MatchCalendar: View {
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
                     NavigationLink(
-                        value: NavigationDestination.soccerInfo(data: viewModel.selectedSoccerMatch)
+                        value: NavigationDestination.soccerInfo(data: match)
                     ) {
                         SoccerMatchRow(soccerMatch: match)
                             .padding(.horizontal, 16)

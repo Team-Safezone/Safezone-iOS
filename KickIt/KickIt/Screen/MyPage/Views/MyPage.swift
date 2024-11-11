@@ -20,23 +20,21 @@ struct MyPage: View {
             LoginView(viewModel: mainViewModel)
         }
         else {
-            NavigationStack {
-                ZStack {
-                    Color.background.ignoresSafeArea()
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
-                            Text("마이페이지")
-                                .pretendardTextStyle(.Title1Style)
-                                .foregroundStyle(.white0)
-                            
-                            profileSection
-                            gradeSection
-                            myTeamSection
-                            menuList
-                            accountActions
-                            Spacer()
-                        }.padding(.horizontal, 16)
-                    }
+            ZStack {
+                Color.background.ignoresSafeArea()
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("마이페이지")
+                            .pretendardTextStyle(.Title1Style)
+                            .foregroundStyle(.white0)
+                        
+                        profileSection
+                        gradeSection
+                        myTeamSection
+                        menuList
+                        accountActions
+                        Spacer()
+                    }.padding(.horizontal, 16)
                 }
             }
             .tint(.white0)
