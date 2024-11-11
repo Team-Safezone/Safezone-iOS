@@ -52,14 +52,13 @@ final class StartingLineupPredictionViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     /// 선발라인업 예측 API
-    func postStartingLineup(query: MatchIdRequest, request: StartingLineupPredictionRequest, completion: @escaping (Bool) -> (Void)) {
+    func postStartingLineup(query: MatchIdRequest, request: StartingLineupPredictionRequest) {
         StartingLineupPredictionAPI.shared.postStartingLineupPrediction(query: query, request: request)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { complete in
                 switch complete {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
-                    completion(false)
                 case .finished:
                     break
                 }
@@ -67,7 +66,6 @@ final class StartingLineupPredictionViewModel: ObservableObject {
             receiveValue: { [weak self] dto in
                 self?.grade = dto.grade
                 self?.point = dto.point
-                completion(true)
             })
             .store(in: &cancellables)
     }

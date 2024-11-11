@@ -17,9 +17,14 @@ struct ContentView: View {
     /// 네비게이션 스택 관리 변수
     @State private var path: [NavigationDestination] = []
     
-    /// 축구 경기 정보 화면으로 이동
-    func popToSoccerInfo() {
+    /// 2번 뒤로가기
+    func popToTwoStep() {
         path.removeLast(2)
+    }
+    
+    /// 1번 뒤로가기
+    func popToOneStep() {
+        path.removeLast(1)
     }
     
     /// 사용자가 선택한 네비게이션 화면 tag 변수
@@ -84,18 +89,20 @@ struct ContentView: View {
                         SoccerMatchInfo(soccerMatch: data)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                             .toolbar(.hidden, for: .tabBar) // 네비게이션
+                            .tint(.white0)
                     }
                 }
                 else if destination.identifier == "WinningTeamPrediction" {
                     if case let .winningTeamPrediction(data) = destination {
                         WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
                             .toolbarRole(.editor)
+                            .tint(.white0)
                     }
                 }
                 else if destination.identifier == "FinishWinningTeamPrediction" {
                     if case let .finishWinningTeamPrediction(data) = destination {
                         FinishWinningTeamPrediction(
-                            popToSoccerInfoAction: popToSoccerInfo,
+                            popToSoccerInfoAction: popToTwoStep,
                             winningPrediction: data.winningPrediction,
                             prediction: data.prediction)
                         .navigationBarBackButtonHidden()
@@ -103,8 +110,30 @@ struct ContentView: View {
                 }
                 else if destination.identifier == "ResultWinningTeamPrediction" {
                     if case let .resultWinningTeamPrediction(data) = destination {
-                        ResultWinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfo, prediction: data)
+                        ResultWinningTeamPrediction(popToSoccerInfoAction: popToOneStep, prediction: data)
                             .toolbarRole(.editor)
+                            .tint(.white0)
+                    }
+                }
+                else if destination.identifier == "LineupPrediction" {
+                    if case let .lineupPrediction(data) = destination {
+                        StartingLineupPrediction(soccerMatch: data)
+                            .toolbarRole(.editor)
+                            .tint(.white0)
+                    }
+                }
+                else if destination.identifier == "FinishLineupPrediction" {
+                    if case let .finishLineupPrediction(data) = destination {
+                        FinishStartingLineupPrediction(
+                            popToSoccerInfoAction: popToTwoStep,
+                            lineupPrediction: data.lineupPrediction,
+                            prediction: data.prediction)
+                        .navigationBarBackButtonHidden()
+                    }
+                }
+                else if destination.identifier == "ResultLineupPrediction" {
+                    if case let .resultLineupPrediction(data) = destination {
+                        
                     }
                 }
             }

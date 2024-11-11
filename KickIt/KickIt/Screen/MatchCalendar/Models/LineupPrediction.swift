@@ -8,11 +8,10 @@
 import Foundation
 
 /// [Entity] 축구 경기 선발라인업 예측 모델
-struct LineupPrediction: Identifiable {
+struct LineupPrediction: Identifiable, Hashable {
     let id: Int64 // 고유 id
-    var type: String // 포메이션 타입
     var grade: Int // 등급
     var point: Int // 포인트
 }
 
-let dummyLineupPrediction: LineupPrediction = LineupPrediction(id: 0, type: "공격형", grade: 0, point: 1)
+let dummyLineupPrediction: LineupPrediction = LineupPrediction(id: 0, grade: 0, point: 1)

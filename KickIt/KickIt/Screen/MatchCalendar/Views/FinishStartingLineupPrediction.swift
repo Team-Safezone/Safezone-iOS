@@ -18,9 +18,6 @@ struct FinishStartingLineupPrediction: View {
     /// 상단 카드뷰에 들어갈 데이터 모델
     var prediction: PredictionQuestionModel
     
-    /// 결과 화면으로 이동 여부
-    @State private var isShowingResult: Bool = false
-    
     var body: some View {
         ZStack {
             Color(.backgroundDown)
@@ -33,10 +30,10 @@ struct FinishStartingLineupPrediction: View {
                     .padding(.top, 131)
                 
                 // MARK: 예측 결과
-                Text("\(lineupPrediction.type) 라인업을 예측하셨네요!")
-                .pretendardTextStyle(.Title2Style)
-                .foregroundStyle(.gray500Text)
-                .padding(.top, 12)
+                Text("과연 누구의 라인업이 더 강할까요?")
+                    .pretendardTextStyle(.Title2Style)
+                    .foregroundStyle(.gray500Text)
+                    .padding(.top, 12)
                 
                 // MARK: 획득 포인트
                 HStack(spacing: 4) {
@@ -48,7 +45,7 @@ struct FinishStartingLineupPrediction: View {
                         .pretendardTextStyle(.Title1Style)
                         .foregroundStyle(.lime)
                     
-                    Text("GOAL")
+                    Text("골")
                         .pretendardTextStyle(.Body1Style)
                         .foregroundStyle(.gray200)
                 }
@@ -129,12 +126,12 @@ struct FinishStartingLineupPrediction: View {
     /// grade code에 따른 이미지와 텍스트 값 반환 함수
     private func matchToGrade(_ code: Int) -> (UIImage, String) {
         switch code {
-        case 1: return (.soccer, "뉴비")
-        case 2: return (.soccer, "열성팬")
-        case 3: return (.soccer, "베테랑")
-        case 4: return (.soccer, "전문가")
-        case 5: return (.soccer, "레전드")
-        default: return (.soccer, "뉴비")
+        case 1: return (.soccer, "루키")
+        case 2: return (.soccer, "브론즈")
+        case 3: return (.soccer, "실버")
+        case 4: return (.soccer, "골드")
+        case 5: return (.soccer, "다이아몬드")
+        default: return (.soccer, "루키")
         }
     }
 }

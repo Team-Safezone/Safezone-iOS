@@ -447,15 +447,19 @@ struct SoccerMatchInfo: View {
             // TODO: 선발라인업 예측을 한 경우 또는 선발라인업 예측이 종료된 경우
             if (predictionViewModel.lineupPrediction.isParticipated) {
                 // 우승팀 예측 완료 화면으로 이동
-//                NavigationLink(value: ViewDestination.resultStartingLineupPrediction.rawValue) {
-//                    LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
-//                }
+                NavigationLink(value: NavigationDestination.resultLineupPrediction(
+                    prediction: PredictionQuestionModel(
+                        matchId: soccerMatch.id, matchCode: soccerMatch.matchCode, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
+                        homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName)
+                )) {
+                    LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
+                }
             }
             // 선발라인업 예측을 안 한 경우 또는 선발라인업 예측이 진행 중인 경우
             else {
-//                NavigationLink(value: ViewDestination.startingLineupPrediction.rawValue) {
-//                    LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
-//                }
+                NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
+                    LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
+                }
             }
         }
         .padding(16)

@@ -64,7 +64,7 @@ struct FinishWinningTeamPrediction: View {
                         .pretendardTextStyle(.Title1Style)
                         .foregroundStyle(.lime)
                     
-                    Text("GOAL")
+                    Text("골")
                         .pretendardTextStyle(.Body1Style)
                         .foregroundStyle(.gray200)
                 }

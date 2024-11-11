@@ -79,7 +79,16 @@ struct StartingLineupPrediction: View {
                     .padding(.top, 20)
                     
                     // MARK: 예측하기 버튼
-                    Button {
+                    NavigationLink(value: NavigationDestination.finishLineupPrediction(data: FinishLineupPredictionNVData(
+                        lineupPrediction: LineupPrediction(id: soccerMatch.id, grade: viewModel.grade, point: viewModel.point),
+                        prediction: PredictionQuestionModel(matchId: soccerMatch.id, matchCode: soccerMatch.matchCode, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName)))) {
+                            DesignWideButton(
+                                label: "예측하기",
+                                labelColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .blackAssets : .gray400,
+                                btnBGColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .lime : .gray600
+                            )
+                    }
+                    .onTapGesture {
                         // 선발라인업 예측 API 호출
                         let homeGK = homeSelectedPlayers[.GK]
                         let dfPlayerRequests = matchSoccerPlayerRequests(from: dfPositions, selectedPlayers: homeSelectedPlayers)
@@ -104,18 +113,7 @@ struct StartingLineupPrediction: View {
                                 awayGoalkeeper: [SoccerPlayerRequest(playerName: awayGK!.playerName, playerNum: awayGK!.backNum)],
                                 awayDefenders: dfPlayerRequests2,
                                 awayMidfielders: mfPlayerRequests2,
-                                awayStrikers: fwPlayerRequests2)) { success in
-                                    if success {
-                                        self.isSuccess = success
-                                        print("선발라인업 예측하기 API 호출 완료")
-                                    }
-                                }
-                    } label: {
-                        DesignWideButton(
-                            label: "예측하기",
-                            labelColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .blackAssets : .gray400,
-                            btnBGColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .lime : .gray600
-                        )
+                                awayStrikers: fwPlayerRequests2))
                     }
                     // 선발라인업 선택이 완료되지 않았다면 비활성화
                     .disabled(!viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers))
@@ -132,9 +130,6 @@ struct StartingLineupPrediction: View {
         }
         // 툴 바, 상태 바 설정
         .navigationTitle("선발 라인업 예측")
-        .navigationDestination(isPresented: $isSuccess) {
-            // API 호출에 성공했을 경우, 선발라인업 예측 성공 화면으로 이동
-        }
     }
     
     // MARK: - FUNCTION
