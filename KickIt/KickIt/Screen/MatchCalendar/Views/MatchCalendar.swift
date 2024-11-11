@@ -9,9 +9,6 @@ import SwiftUI
 
 /// 경기 일정 & 캘린더 화면
 struct MatchCalendar: View {
-    /// 네비게이션 경로
-    @EnvironmentObject var path: NavigationPathManager
-    
     /// 현재 선택한 날짜
     @State var currentDate: Date = Date()
     
@@ -105,15 +102,6 @@ struct MatchCalendar: View {
         }
         .tint(.gray200)
         .navigationBarBackButtonHidden()
-        .navigationDestination(for: NavigationDestination.self) { destination in
-            SoccerMatchInfo(viewModel: viewModel)
-                .toolbarRole(.editor) // back 텍스트 숨기기
-                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                .onAppear() {
-                    print("Path 확인? 경기 정보로 이동")
-                    print("Path 확인? \(path.path.count) \(path)")
-                }
-        }
     }
     
     /// 하루 축구 경기 일정 불러오기
@@ -169,35 +157,18 @@ struct MatchCalendar: View {
             // MARK: - 경기 리스트
             if !viewModel.soccerMatches.isEmpty {
                 ForEach(viewModel.soccerMatches) { match in
-                    let destination = NavigationDestination(destination: .calendar)
-                    NavigationLink(value: destination) {
-                        Button {
-                            // 화면 전환 전에 선택한 경기 업데이트
-                            viewModel.selectedMatch(match: match)
-                            path.path.append(destination)
-                            print("Path 확인? 경기캘린더로 이동 \(path)")
-                        } label: {
-                            SoccerMatchRow(soccerMatch: match)
-                                .padding(.horizontal, 16)
-                                .padding(.bottom, 12)
-                        }
+                    NavigationLink(
+                        value: NavigationDestination.soccerInfo(data: viewModel.selectedSoccerMatch)
+                    ) {
+                        SoccerMatchRow(soccerMatch: match)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 12)
                     }
-                    
-//                    NavigationLink {
-//                        SoccerMatchInfo(viewModel: viewModel)
-//                            .toolbarRole(.editor) // back 텍스트 숨기기
-//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-//                    } label: {
-//                        SoccerMatchRow(soccerMatch: match)
-//                            .padding(.horizontal, 16)
-//                            .padding(.bottom, 12)
-//                    }
-//                    .simultaneousGesture(
-//                        TapGesture().onEnded {
-//                            // 화면 전환 전에 선택한 경기 업데이트
-//                            viewModel.selectedMatch(match: match)
-//                        }
-//                    )
+                    .onTapGesture {
+                        // 화면 전환 전에 선택한 경기 업데이트
+                        viewModel.selectedMatch(match: match)
+                        print("버튼 클릭! 경기 정보로 이동!")
+                    }
                 }
             }
             else {

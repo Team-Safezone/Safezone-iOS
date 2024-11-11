@@ -10,9 +10,6 @@ import SwiftUI
 /// 선발라인업 예측 화면
 struct StartingLineupPrediction: View {
     // MARK: - PROPERTY
-    /// 네비게이션 변수
-    @EnvironmentObject var path: NavigationPathManager
-    
     /// 축구 경기 객체
     var soccerMatch: SoccerMatch
     

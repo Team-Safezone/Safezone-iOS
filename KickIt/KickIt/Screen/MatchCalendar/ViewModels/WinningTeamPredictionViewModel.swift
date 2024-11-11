@@ -55,14 +55,13 @@ final class WinningTeamPredictionViewModel: ObservableObject {
     }
     
     /// 우승팀 예측 API
-    func postWinningTeamPrediction(query: MatchIdRequest, request: WinningTeamPredictionRequest, completion: @escaping (Bool) -> (Void)) {
+    func postWinningTeamPrediction(query: MatchIdRequest, request: WinningTeamPredictionRequest) {
         WinningTeamPredictionAPI.shared.postWinningTeamPrediction(query: query, request: request)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { complete in
                 switch complete {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
-                    completion(false)
                 case .finished:
                     break
                 }
@@ -70,7 +69,6 @@ final class WinningTeamPredictionViewModel: ObservableObject {
             receiveValue: { [weak self] dto in
                 self?.grade = dto.grade
                 self?.point = dto.point
-                completion(true)
             })
             .store(in: &cancellables)
     }

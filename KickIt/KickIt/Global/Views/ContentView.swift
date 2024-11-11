@@ -10,27 +10,20 @@ import SwiftUI
 /// 탭 메뉴 열거형
 enum Tab {
     case home, calendar, diary, mypage
-    case soccerInfo, winningTeamPrediction, finishWinningTeamPrediction, resultWinningTeamPrediction
-}
-
-/// 경기 캘린더 화면의 네비게이션 스택 관리용 모델
-struct NavigationDestination: Identifiable, Hashable {
-    let id: UUID = UUID()
-    var destination: Tab
-}
-
-/// 네비게이션 매니저
-class NavigationPathManager: ObservableObject {
-    @Published var path: [NavigationDestination] = []
 }
 
 /// 메인 네비게이션 설정 화면
 struct ContentView: View {
+    /// 네비게이션 스택 관리 변수
+    @State private var path: [NavigationDestination] = []
+    
+    /// 축구 경기 정보 화면으로 이동
+    func popToSoccerInfo() {
+        path.removeLast(2)
+    }
+    
     /// 사용자가 선택한 네비게이션 화면 tag 변수
     @State private var selectedMenu: Tab = .home
-    
-    /// 네비게이션 스택 관리 변수
-    @StateObject private var path = NavigationPathManager()
     
     /// 홈 뷰모델
     @StateObject var homeViewModel = HomeViewModel()
@@ -50,14 +43,8 @@ struct ContentView: View {
     /// 홈 뷰 표시 여부
     @State private var showHomeView: Bool = false
     
-    /// 초기화 메서드
-//    init() {
-//        // 탭바 색상 초기화
-//        UITabBar.appearance().backgroundColor = UIColor.black0
-//    }
-    
     var body: some View {
-        NavigationStack(path: $path.path) {
+        NavigationStack(path: $path) {
             TabView(selection: $selectedMenu) {
                 /// 홈 화면
                 Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, viewModel: homeViewModel, calendarViewModel: matchCalendarViewModel)
@@ -91,19 +78,134 @@ struct ContentView: View {
                     }
                     .tag(Tab.mypage)
             }
-        }
-        .environmentObject(path)
-        .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
-            handleNotificationTap(notification)
-        }
-        .sheet(item: Binding(get: { selectedMatchId.map { Int64Identifier($0) } }, set: { selectedMatchId = $0?.id })) { _ in
-            StartingLineup(viewModel: matchCalendarViewModel)
-        }
-        .fullScreenCover(isPresented: $showHomeView) {
-            ContentView()
-        }
-        .onAppear {
-            setupNotifications()
+            .navigationDestination(for: NavigationDestination.self) { destination in
+                switch destination.identifier {
+                case "SoccerInfo":
+                    if case let .soccerInfo(data) = destination {
+                        SoccerMatchInfo(soccerMatch: data)
+                            .toolbarRole(.editor) // back 텍스트 숨기기
+                            .toolbar(.hidden, for: .tabBar) // 네비게이션
+                    }
+                case "WinningTeamPrediction":
+                    if case let .winningTeamPrediction(data) = destination {
+                        WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
+                            .toolbarRole(.editor)
+                    }
+                case "FinishWinningTeamPrediction":
+                    if case let .finishWinningTeamPrediction(data) = destination {
+                        FinishWinningTeamPrediction(
+                            popToSoccerInfoAction: popToSoccerInfo,
+                            winningPrediction: data.winningPrediction,
+                            prediction: data.prediction)
+                    }
+                case "ResultWinningTeamPrediction":
+                    if case let .resultWinningTeamPrediction(data) = destination {
+                        ResultWinningTeamPrediction(prediction: data)
+                            .toolbarRole(.editor)
+                    }
+                default:
+                    EmptyView()
+                }
+                
+                
+//                switch destination {
+//                    case "SoccerInfo":
+//                        SoccerMatchInfo(viewModel: matchCalendarViewModel)
+//                            .toolbarRole(.editor) // back 텍스트 숨기기
+//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+//                    
+//                    case "WinningTeamPrediction":
+//                        WinningTeamPrediction(isRetry: false, soccerMatch: matchCalendarViewModel.selectedSoccerMatch)
+//                            .toolbarRole(.editor)
+//                    
+//                    case "FinishWinningTeamPrediction":
+//                        let  soccerMatch = matchCalendarViewModel.selectedSoccerMatch
+//                        FinishWinningTeamPrediction(
+//                            popToSoccerInfoAction: popToSoccerInfo,
+//                            winningPrediction: WinningPrediction(
+//                                id: soccerMatch.id,
+//                                homeTeamName: soccerMatch.homeTeam.teamName,
+//                                awayTeamName: soccerMatch.awayTeam.teamName,
+//                                homeTeamScore: 2,
+//                                awayTeamScore: 1,
+//                                grade: 0, point: 1
+//                            ),
+//                            prediction: PredictionQuestionModel(
+//                                matchId: soccerMatch.id,
+//                                matchCode: soccerMatch.matchCode,
+//                                matchDate: soccerMatch.matchDate,
+//                                matchTime: soccerMatch.matchTime,
+//                                homeTeamName: soccerMatch.homeTeam.teamName,
+//                                awayTeamName: soccerMatch.awayTeam.teamName)
+//                            )
+//                    case "ResultWinningTeamPrediction":
+//                    let  soccerMatch = matchCalendarViewModel.selectedSoccerMatch
+//                        ResultWinningTeamPrediction(prediction:
+//                            PredictionQuestionModel(
+//                                matchId: soccerMatch.id,
+//                                matchCode: soccerMatch.matchCode,
+//                                matchDate: soccerMatch.matchDate,
+//                                matchTime: soccerMatch.matchTime,
+//                                homeTeamName: soccerMatch.homeTeam.teamName,
+//                                awayTeamName: soccerMatch.awayTeam.teamName)
+//                        )
+//                    default:
+//                        EmptyView()
+//                    }
+//                // 경기 정보 화면
+//                if destination.identifier == "SoccerInfo" {
+//                    if case let .soccerInfo = destination {
+//                        SoccerMatchInfo()
+//                            .toolbarRole(.editor) // back 텍스트 숨기기
+//                            .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+//                    }
+//                }
+//                // 우승팀 예측 화면
+//                else if destination.identifier == "WinningTeamPrediction" {
+//                    if case let .winningTeamPrediction(data) = destination {
+//                        WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
+//                            .toolbarRole(.editor)
+//                    }
+//                }
+//                // 우승팀 예측 완료 화면
+//                else if destination.identifier == "FinishWinningTeamPrediction" {
+//                    if case let .finishWinningTeamPrediction(data) = destination {
+//                        FinishWinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfo, winningPrediction: data.winningPrediction, prediction: data.prediction)
+//                            .toolbar(.hidden)
+//                    }
+//                }
+//                // 우승팀 예측 결과 화면
+//                else if destination.identifier == "ResultWinningTeamPrediction" {
+//                    if case let .resultWinningTeamPrediction(data) = destination {
+//                        ResultWinningTeamPrediction(prediction: data)
+//                            .toolbarRole(.editor)
+//                    }
+//                }
+                
+                // 선발라인업 예측 화면
+                //case .startingLineupPrediction:
+//                    StartingLineupPrediction(soccerMatch: viewModel.selectedSoccerMatch)
+//                        .toolbarRole(.editor)
+                    
+                // 선발라인업 에측 완료 화면
+//                case .finishStartingLineupPrediction:
+//                    EmptyView()
+//                // 선발라인업 예측 결과 화면
+//                case .resultStartingLineupPrediction:
+//                    EmptyView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
+                handleNotificationTap(notification)
+            }
+            .sheet(item: Binding(get: { selectedMatchId.map { Int64Identifier($0) } }, set: { selectedMatchId = $0?.id })) { _ in
+                StartingLineup(viewModel: matchCalendarViewModel)
+            }
+            .fullScreenCover(isPresented: $showHomeView) {
+                ContentView()
+            }
+            .onAppear {
+                setupNotifications()
+            }
         }
     }
     

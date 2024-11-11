@@ -21,9 +21,6 @@ struct Home: View {
     /// 네비게이션 선택 변수
     @Binding var selectedMenu: Tab
     
-    /// 네비게이션 경로 변수
-    @EnvironmentObject var path: NavigationPathManager
-    
     /// 홈 뷰모델
     @ObservedObject var viewModel: HomeViewModel
     
@@ -55,14 +52,14 @@ struct Home: View {
                         
                         // MARK: 경기 예측하기
                         if let predictions = viewModel.matchPredictions {
-                            NavigationLink {
-                                WinningTeamPrediction(isRetry: false, soccerMatch: soccerMatch)
-                                    .toolbarRole(.editor) // back 텍스트 숨기기
-                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                            } label: {
-                                MatchEventCardView(match: predictions)
-                                    .padding(.top, 16)
-                            }
+//                            NavigationLink {
+//                                WinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfoAction, isRetry: false, soccerMatch: soccerMatch)
+//                                    .toolbarRole(.editor) // back 텍스트 숨기기
+//                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+//                            } label: {
+//                                MatchEventCardView(match: predictions)
+//                                    .padding(.top, 16)
+//                            }
                         }
                         
                         // MARK: 일기 쓰기
@@ -103,17 +100,17 @@ struct Home: View {
                             if let matches = viewModel.matches {
                                 VStack(spacing: 12) {
                                     ForEach(0..<(matches.count), id: \.self) {i in
-                                        NavigationLink {
-                                            // 경기 정보 화면으로 이동
-                                            SoccerMatchInfo(viewModel: calendarViewModel)
-                                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                                        } label: {
-                                            MatchCardView(soccerMatch: matches[i])
-                                                .onTapGesture {
-                                                    calendarViewModel.selectedMatch(match: matches[i])
-                                                }
-                                        }
+//                                        NavigationLink {
+//                                            // 경기 정보 화면으로 이동
+//                                            SoccerMatchInfo(popToSoccerInfoAction: popToSoccerInfoAction, viewModel: calendarViewModel)
+//                                                .toolbarRole(.editor) // back 텍스트 숨기기
+//                                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+//                                        } label: {
+//                                            MatchCardView(soccerMatch: matches[i])
+//                                                .onTapGesture {
+//                                                    calendarViewModel.selectedMatch(match: matches[i])
+//                                                }
+//                                        }
                                     }
                                 }
                             }
@@ -141,8 +138,6 @@ struct Home: View {
                             Button {
                                 withAnimation {
                                     // 경로를 초기화하고 새로운 경로로 이동
-                                    print("path: \(path.path.count)")
-                                    path.path.removeLast(path.path.count)
                                     selectedMenu = .calendar
                                 }
                             } label: {

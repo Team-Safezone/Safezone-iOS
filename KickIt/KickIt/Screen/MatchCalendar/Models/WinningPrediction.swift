@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Entity] 축구 경기 우승 팀 및 득점 예측 모델
-struct WinningPrediction: Identifiable {
+struct WinningPrediction: Identifiable, Hashable {
     let id: Int64 // 고유 id
     let homeTeamName: String // 홈팀 이름
     let awayTeamName: String // 원정팀 이름

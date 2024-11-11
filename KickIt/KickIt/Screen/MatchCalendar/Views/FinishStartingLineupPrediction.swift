@@ -9,8 +9,8 @@ import SwiftUI
 
 /// 선발라인업 예측 완료 화면
 struct FinishStartingLineupPrediction: View {
-    /// 네비게이션 변수
-    @Binding var path: NavigationPath
+    /// 경기 정보 화면으로 이동 함수
+    let popToSoccerInfoAction: () -> Void
     
     /// 우승팀 예측 모델 객체
     var lineupPrediction: LineupPrediction
@@ -107,7 +107,7 @@ struct FinishStartingLineupPrediction: View {
                     // MARK: 닫기 버튼
                     Button {
                         // 경기 정보 화면으로 이동
-                        path.removeLast(path.count - 1)
+                        popToSoccerInfoAction()
                     } label: {
                         DesignHalfButton(label: "닫기", labelColor: .white0, btnBGColor: .gray900Assets)
                     }
@@ -142,5 +142,5 @@ struct FinishStartingLineupPrediction: View {
 }
 
 #Preview {
-    FinishStartingLineupPrediction(path: .constant(NavigationPath()), lineupPrediction: dummyLineupPrediction, prediction: dummyPredictionQuestionModel)
+    FinishStartingLineupPrediction(popToSoccerInfoAction: {}, lineupPrediction: dummyLineupPrediction, prediction: dummyPredictionQuestionModel)
 }
