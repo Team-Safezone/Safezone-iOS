@@ -145,6 +145,10 @@ struct LoginView: View {
                     return
                 }
                 
+                // 로그인 데이터 삭제용
+//                KeyChain.shared.deleteJwtToken()
+//                KeyChain.shared.deleteKakaoAccount()
+                
                 if let email = user?.kakaoAccount?.email {
                     KeyChain.shared.addKeyChainItem(key: .kakaoEmail, value: email)
                     print("키체인 이메일 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "no data..")")
