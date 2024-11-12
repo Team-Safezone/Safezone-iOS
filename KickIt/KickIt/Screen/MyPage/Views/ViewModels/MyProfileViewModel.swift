@@ -61,7 +61,7 @@ class MyProfileViewModel : ObservableObject {
             .sink { [weak self] completion in
                 if case .failure = completion {
                     self?.isNicknameValid = false
-                    self?.errorMessage = "중복 검사 중 오류가 발생했습니다"
+                    self?.errorMessage = "중복된 닉네임입니다"
                 }
             } receiveValue: { [weak self] isSuccess in
                 self?.isNicknameValid = isSuccess
