@@ -56,7 +56,7 @@ struct splash1: View{
             
             LottieView(name: "Splash1", loopMode: .loop)
                 .frame(width: 375, height: 375)
-                .padding(.bottom, 24)
+                .padding(.bottom, -24)
             
             // 텍스트
             Rectangle().foregroundStyle(.black0)
@@ -89,6 +89,7 @@ struct splash2: View{
             
             LottieView(name: "Splash2", loopMode: .loop)
                 .frame(width: 375, height: 375)
+                .padding(.bottom, -24)
             
             // 텍스트
             Rectangle().foregroundStyle(.black0)
@@ -121,6 +122,7 @@ struct splash3: View{
             
             LottieView(name: "Splash3", loopMode: .loop)
                 .frame(width: 375, height: 375)
+                .padding(.bottom, -24)
             
             // 텍스트
             Rectangle().foregroundStyle(.black0)
@@ -154,6 +156,7 @@ struct splash4: View{
             
             LottieView(name: "Splash4", loopMode: .loop)
                 .frame(width: 375, height: 375)
+                .padding(.bottom, -24)
             
             // 텍스트
             Rectangle().foregroundStyle(.black0)
