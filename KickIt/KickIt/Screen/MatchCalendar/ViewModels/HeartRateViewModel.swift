@@ -32,8 +32,8 @@ class HeartRateViewModel: ObservableObject {
     
     
     /// 심박수 통계 조회
-    func getHeartRateStatistics(request: HeartRateStatisticsRequest) {
-        HeartRateAPI.shared.getHeartRateStatistics(request: request)
+    func getHeartRateStatistics(matchId: Int64) {
+        HeartRateAPI.shared.getHeartRateStatistics(matchId: matchId)
         // DTO -> Entity로 변경
             .map {
                 self.heartRateToEntity($0)
@@ -70,41 +70,41 @@ class HeartRateViewModel: ObservableObject {
             minBPM: dto.minBPM ?? 0,
             avgBPM: dto.avgBPM ?? 0,
             maxBPM: dto.maxBPM ?? 0,
-            events: dto.events?.map { event in
+            events: dto.event.map { event in
                 HeartRateMatchEvent(
-                    teamURL: event.teamURL,
+                    teamUrl: event.teamUrl ?? "",
                     eventName: event.eventName,
-                    player1: event.player1,
-                    eventMTime: event.eventMTime
+                    player1: event.player1 ?? "",
+                    time: event.time
                 )
-            } ?? [],
-            homeTeamHeartRateRecords: dto.homeTeamHeartRateRecords?.map { record in
+            },
+            homeTeamHeartRateRecords: dto.homeTeamHeartRateRecords.map { record in
                 HeartRateRecord(
                     heartRate: record.heartRate,
-                    heartRateRecordTime: record.heartRateRecordTime
+                    date: record.date
                 )
-            } ?? [],
-            awayTeamHeartRateRecords: dto.awayTeamHeartRateRecords?.map { record in
+            },
+            awayTeamHeartRateRecords: dto.awayTeamHeartRateRecords.map { record in
                 HeartRateRecord(
                     heartRate: record.heartRate,
-                    heartRateRecordTime: record.heartRateRecordTime
+                    date: record.date
                 )
-            } ?? [],
-            homeTeamHeartRate: dto.homeTeamHeartRate.map { heartRate in
+            },
+            homeTeamHeartRate: dto.homeTeamHeartRate.first.map { heartRate in
                 HeartRate(
                     min: heartRate.min,
                     avg: heartRate.avg,
                     max: heartRate.max
                 )
             } ?? HeartRate(min: 0, avg: 0, max: 0),
-            awayTeamHeartRate: dto.awayTeamHeartRate.map { heartRate in
+            awayTeamHeartRate: dto.awayTeamHeartRate.first.map { heartRate in
                 HeartRate(
                     min: heartRate.min,
                     avg: heartRate.avg,
                     max: heartRate.max
                 )
             } ?? HeartRate(min: 0, avg: 0, max: 0),
-            homeTeamViewerPercentage: dto.homeTeamViewerPercantage ?? 0
+            homeTeamViewerPercentage: dto.homeTeamViewerPercentage
         )
     }
     
@@ -116,27 +116,27 @@ class HeartRateViewModel: ObservableObject {
         let calculatedTime = Int(round((position.x - 64) * 90 / (size.width - 64))) // 90분 기준으로 수정
         
         // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
-        if let userHR = userHeartRates.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+        if let userHR = userHeartRates.first(where: { $0.date == calculatedTime })?.heartRate {
             lastValidUserHR = Int(userHR)
         }
         
         // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
-        if let homeHR = stats.homeTeamHeartRateRecords.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+        if let homeHR = stats.homeTeamHeartRateRecords.first(where: { $0.date == calculatedTime })?.heartRate {
             lastValidHomeTeamHR = Int(homeHR)
         }
         
         // 드래그 시 심박수 데이터 체크, 마지막 유효한 데이터 반환
-        if let awayHR = stats.awayTeamHeartRateRecords.first(where: { $0.heartRateRecordTime == calculatedTime })?.heartRate {
+        if let awayHR = stats.awayTeamHeartRateRecords.first(where: { $0.date == calculatedTime })?.heartRate {
             lastValidAwayTeamHR = Int(awayHR)
         }
         
-        let event = stats.events.first(where: { $0.eventMTime == calculatedTime })
+        let event = stats.events.first(where: { $0.time == calculatedTime })
         
         boxEventViewModel = BoxEventViewModel(
             dataPoint: CGFloat(lastValidUserHR ?? 0),
             time: calculatedTime,
             event: event,
-            homeTeamEmblemURL: event?.teamURL,
+            homeTeamEmblemURL: event?.teamUrl,
             homeTeamHR: lastValidHomeTeamHR ?? 0,
             awayTeamHR: lastValidAwayTeamHR ?? 0
         )
@@ -183,7 +183,7 @@ class HeartRateViewModel: ObservableObject {
             self?.heartRateRecordModel.loadHeartRate(startDate: secondHalfStart.addingTimeInterval(5 * 60), endDate: matchEndTime.addingTimeInterval(5 * 60)) { secondHalfRecords in
                 let allRecords = firstHalfRecords + secondHalfRecords
                 // 심박수 데이터를 HeartRateRecord 형식으로 변환
-                self?.userHeartRates = allRecords.map { HeartRateRecord(heartRate: CGFloat($0.heartRate), heartRateRecordTime: self?.minutesSinceMatchStart(date: $0.date, matchStartTime: matchStartTime) ?? 0) }
+                self?.userHeartRates = allRecords.map { HeartRateRecord(heartRate: CGFloat($0.heartRate), date: self?.minutesSinceMatchStart(date: $0.date, matchStartTime: matchStartTime) ?? 0) }
                 self?.objectWillChange.send()
             }
         }

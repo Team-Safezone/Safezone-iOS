@@ -10,7 +10,7 @@ import SwiftUI
 /// 심박수 통계 화면
 struct HeartRateView: View {
     /// 심박수 통계 뷰모델
-    @ObservedObject private var viewModel = HeartRateViewModel.withDummyData()
+    @ObservedObject private var viewModel = HeartRateViewModel()
     /// 사용자가 선택한 축구 경기 객체
     var selectedMatch: SoccerMatch
     
@@ -75,7 +75,7 @@ struct HeartRateView: View {
                 }//:VSTACK
             }//:SCROLLVIEW
             .onAppear {
-                viewModel.getHeartRateStatistics(request: HeartRateStatisticsRequest(matchId: selectedMatch.id))
+                viewModel.getHeartRateStatistics(matchId: selectedMatch.id)
             }
             .navigationTitle("심박수 통계")
             .navigationBarTitleDisplayMode(.inline)

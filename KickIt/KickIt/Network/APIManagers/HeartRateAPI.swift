@@ -19,21 +19,20 @@ class HeartRateAPI: BaseAPI {
     }
     
     /// 심박수 통계 조회 API
-    func getHeartRateStatistics(request: HeartRateStatisticsRequest) -> AnyPublisher<HeartRateStatisticsResponse, NetworkError> {
+    func getHeartRateStatistics(matchId: Int64) -> AnyPublisher<HeartRateStatisticsResponse, NetworkError> {
         return Future<HeartRateStatisticsResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
-                // 잘못된 요청
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(HeartRateService.getHeartRateStatistics(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(HeartRateService.getHeartRateStatistics(matchId: matchId), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<HeartRateStatisticsResponse>.self) { response in
                     switch response.result {
                     case .success(let result):
-                        if result.isSuccess {
-                            promise(.success(result.data!))
+                        if result.isSuccess, let data = result.data {
+                            promise(.success(data))
                         } else {
                             print("Server Error Message: \(result.message)")
                             switch result.status {

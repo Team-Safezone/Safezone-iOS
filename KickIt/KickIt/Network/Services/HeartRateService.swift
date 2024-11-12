@@ -11,33 +11,29 @@ import Alamofire
 /// 심박수 통계 Router
 enum HeartRateService {
     // 심박수 통계 조회 API
-    case getHeartRateStatistics(HeartRateStatisticsRequest)
+    case getHeartRateStatistics(matchId: Int64)
 }
 
 extension HeartRateService: TargetType {
     // method
     var method: HTTPMethod {
         switch self {
-        // 심박수 통계 조회 API
         case .getHeartRateStatistics:
             return .get
-
         }
     }
     
     // endpoint
     var endPoint: String {
         switch self {
-        // 심박수 통계 조회 API
-        case .getHeartRateStatistics:
-            return APIConstants.heartRateStatisticsURL
+        case .getHeartRateStatistics(let matchId):
+            return "\(APIConstants.heartRateStatisticsURL)/matchId/\(matchId)"
         }
     }
     
     // 헤더
     var header: HeaderType {
         switch self {
-        // 심박수 통계 조회 API
         case .getHeartRateStatistics:
             return .basic
         }
@@ -46,9 +42,8 @@ extension HeartRateService: TargetType {
     // 파라미터
     var parameters: RequestParams {
         switch self {
-        // 심박수 통계 조회 API
-        case .getHeartRateStatistics(let request):
-            return .query(["matchId" : request.matchId])
+        case .getHeartRateStatistics:
+            return .requestPlain
         }
     }
 }

@@ -109,7 +109,7 @@ struct LineChartView: View {
         let spacing = 220 / yRange
         
         return heartRates.map { record in
-            let xPosition = CGFloat((record.heartRateRecordTime * 56) / 15)
+            let xPosition = CGFloat((record.date * 56) / 15)
             let yPosition = 220 - (record.heartRate - minDataPoint) * spacing
             return CGPoint(x: xPosition, y: yPosition)
         }
@@ -131,7 +131,7 @@ struct BoxEventView: View {
                                 .background(.white0)
                                 .clipShape(Circle())
                         }
-                        Text("\(event.player1)")
+                        Text("\(event.player1 ?? "")")
                             .pretendardTextStyle(.Title2Style)
                         Text("\(event.eventName)")
                             .pretendardTextStyle(.Body1Style)

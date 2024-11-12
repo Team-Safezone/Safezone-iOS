@@ -13,5 +13,5 @@ protocol HeartRateViewModelProtocol: ObservableObject {
     var statistics: HeartRateStatistics? { get }
     
     /// 심박수 통계 조회
-    func getHeartRateStatistics(request: HeartRateStatisticsRequest)
+    func getHeartRateStatistics(matchId: Int64)
 }
