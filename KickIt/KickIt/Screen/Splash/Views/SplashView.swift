@@ -7,60 +7,51 @@
 
 import SwiftUI
 
-/// 스플래시 화면
 struct SplashView: View {
-    @ObservedObject var viewModel: MainViewModel
-    @State private var isLogin: Bool = false
-    @State private var isHome: Bool = false
-    
     @ObservedObject private var darkmodeViewModel = DarkmodeViewModel()
-    
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var isAnimationComplete = false
+    @ObservedObject private var mainViewModel = MainViewModel()
     
     var body: some View {
-        if isLogin {
-            MainView(viewModel: viewModel)
-        }
-        else if isHome {
-            ContentView()
-                .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
-        }
-        else {
-            ZStack{
+        NavigationStack {
+            ZStack {
                 Image("splash")
                     .frame(width: 80, height: 102)
                     .zIndex(1.0)
+                
                 Color.background
                     .ignoresSafeArea()
-                    .environment(\.colorScheme, .dark) // 무조건 다크모드
-                    .onAppear{
+                    .environment(\.colorScheme, .dark)
+                    .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
-                                // 토큰이 있다면
-                                if let token = KeyChain.shared.getJwtToken() {
-                                    print("토큰 존재 O: \(token)")
-                                    print("키체인 이메일 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "no data..")")
-                                    print("키체인 닉네임 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoNickname) ?? "no data..")")
-                                    
-                                    // 홈 화면으로 이동
-                                    isHome = true
-                                }
-                                // 토큰이 없다면
-                                else {
-                                    print("토큰 존재X")
-                                    print("키체인 이메일 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "no data..")")
-                                    print("키체인 닉네임 저장 확인: \(KeyChain.shared.getKeyChainItem(key: .kakaoNickname) ?? "no data..")")
-                                    
-                                    // 로그인 화면으로 이동
-                                    isLogin = true
-                                }
+                                checkAuthenticationStatus()
+                                isAnimationComplete = true
                             }
                         }
-                    }//:COLOR
-            }//:ZSTACK
-        }//:IF
+                    }
+            }
+            .navigationDestination(isPresented: $isAnimationComplete) {
+                if authViewModel.isAuthenticated {
+                    ContentView()
+                        .environmentObject(authViewModel)
+                        .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
+                        .navigationBarBackButtonHidden(true)
+                } else {
+                    MainView(viewModel: mainViewModel)
+                        .environmentObject(authViewModel)
+                        .navigationBarBackButtonHidden(true)
+                }
+            }
+        }.navigationBarBackButtonHidden()
+    }
+    
+    private func checkAuthenticationStatus() {
+        authViewModel.updateAuthenticationStatus()
     }
 }
 
 #Preview {
-    SplashView(viewModel: MainViewModel())
+    SplashView()
 }

@@ -102,15 +102,28 @@ struct MyProfile: View {
                             }
                         }
                     }, label: {
-                        Text("닉네임 중복 확인이 필요합니다")
-                            .pretendardTextStyle(.Title2Style)
-                            .foregroundStyle(.white0)
-                            .padding([.top, .bottom], 15)
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.gray900Assets)
-                            ).padding()
+                        if !viewModel.isNicknameValid{
+                            Text("닉네임 중복 확인이 필요합니다")
+                                .pretendardTextStyle(.Title2Style)
+                                .foregroundStyle(.white0)
+                                .padding([.top, .bottom], 15)
+                                .frame(maxWidth: .infinity)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(.gray900Assets)
+                                ).padding()
+                        } else {
+                            Text("수정")
+                                .pretendardTextStyle(.Title2Style)
+                                .foregroundStyle(.blackAssets)
+                                .padding([.top, .bottom], 15)
+                                .frame(maxWidth: .infinity)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(.lime)
+                                ).padding()
+                        }
+                        
                     })
                 }
                 

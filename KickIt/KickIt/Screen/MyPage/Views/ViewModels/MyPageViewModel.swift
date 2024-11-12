@@ -14,7 +14,6 @@ class MyPageViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var goalCount: Int = 0
     @Published var favoriteTeamsUrl: [(teamName: String, teamUrl: String)] = []
-    @Published var showingLogoutAlert: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     

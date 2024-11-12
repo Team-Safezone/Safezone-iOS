@@ -14,49 +14,44 @@ struct MyPage: View {
     @ObservedObject private var darkmodeViewModel = DarkmodeViewModel()
     @ObservedObject private var mainViewModel = MainViewModel()
     
-    @State private var isLoggedOut = false
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        if isLoggedOut {
-            LoginView(viewModel: mainViewModel)
-        }
-        else {
-            NavigationStack {
-                ZStack {
-                    Color.background.ignoresSafeArea()
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
-                            Text("마이페이지")
-                                .pretendardTextStyle(.Title1Style)
-                                .foregroundStyle(.white0)
-                            
-                            profileSection
-                            gradeSection
-                            myTeamSection
-                            menuList
-                            accountActions
-                            Spacer()
-                        }.padding(.horizontal, 16)
+        NavigationStack {
+            ZStack {
+                Color.background.ignoresSafeArea()
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("마이페이지")
+                            .pretendardTextStyle(.Title1Style)
+                            .foregroundStyle(.white0)
+                        
+                        profileSection
+                        gradeSection
+                        myTeamSection
+                        menuList
+                        accountActions
+                        Spacer()
                     }
+                    .padding(.horizontal, 16)
                 }
             }
-            .tint(.white0)
-            .alert(isPresented: $viewModel.showingLogoutAlert) {
-                Alert(
-                    title: Text("로그아웃하시겠습니까?"),
-                    primaryButton: .destructive(Text("확인"), action: {
-                        mnviewModel.logoutAccount()  // 로그아웃 진행
-                        KeyChain.shared.deleteJwtToken() // jwt 토큰 삭제
-                        isLoggedOut = true // 로그아웃O
-                    }),
-                    secondaryButton: .cancel(Text("취소"))
-                )
-            }
-            .onAppear {
-                viewModel.fetchUserData()
-            }
+        }
+        .tint(.white0)
+        .alert(isPresented: $mnviewModel.showingLogoutAlert) {
+            Alert(
+                title: Text("로그아웃하시겠습니까?"),
+                primaryButton: .destructive(Text("확인"), action: {
+                    mnviewModel.logoutAccount() // 로그아웃 처리
+                    DispatchQueue.main.async {
+                        authViewModel.logout()  // 상태 변경으로 화면 전환 유도
+                    }
+                }),
+                secondaryButton: .cancel(Text("취소"))
+            )
         }
     }
+    
     
     // 프로필
     private var profileSection: some View {
@@ -240,7 +235,7 @@ struct MyPage: View {
         HStack(spacing: 20) {
             Spacer()
             Button("로그아웃") {
-                viewModel.showingLogoutAlert = true
+                mnviewModel.showingLogoutAlert = true
             }.foregroundStyle(.gray500).pretendardTextStyle(.Body2Style)
                 .frame(width: 57, height: 20)
             Divider().foregroundStyle(.gray800Btn)
