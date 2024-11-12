@@ -120,24 +120,23 @@ class SoccerMatchViewModel: NSObject, ObservableObject {
     }
     
     // MARK: - iOS 전송 관련 함수들
-    
     private func setupWatchSessionManager() {
-            WatchSessionManager.shared.onXAuthTokenReceived = { [weak self] token in
-                self?.xAuthToken = token
-                self?.saveXAuthToken(token)
-            }
+        WatchSessionManager.shared.onXAuthTokenReceived = { [weak self] token in
+            self?.xAuthToken = token
+            self?.saveXAuthToken(token)
         }
-        
-        func saveXAuthToken(_ token: String) {
-            UserDefaults.standard.set(token, forKey: "xAuthToken")
-            self.xAuthToken = token
-        }
-
-        func loadXAuthToken() -> String? {
-            return UserDefaults.standard.string(forKey: "xAuthToken")
-        }
-        
-        func sendMatchIdToiOS(matchId: Int64) {
-            WatchSessionManager.shared.sendMatchIdToiOS(matchId: matchId)
-        }
+    }
+    
+    func saveXAuthToken(_ token: String) {
+        UserDefaults.standard.set(token, forKey: "xAuthToken")
+        self.xAuthToken = token
+    }
+    
+    func loadXAuthToken() -> String? {
+        return UserDefaults.standard.string(forKey: "xAuthToken")
+    }
+    
+    func sendMatchIdToiOS(matchId: Int64) {
+        WatchSessionManager.shared.sendMatchIdToiOS(matchId: matchId)
+    }
 }
