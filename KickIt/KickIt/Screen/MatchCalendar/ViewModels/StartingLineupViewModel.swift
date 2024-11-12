@@ -111,36 +111,36 @@ final class StartingLineupViewModel: ObservableObject {
     private func lineupToEntity(_ dto: TeamStartingLineupResponse) -> StartingLineupModel {
         return StartingLineupModel(
             goalkeeper: SoccerPlayer(
-                playerImgURL: dto.goalkeeper.playerImgURL,
-                playerName: dto.goalkeeper.playerName,
-                backNum: dto.goalkeeper.playerNum
+                playerImgURL: dto.goalkeeper.playerImgURL ?? "",
+                playerName: dto.goalkeeper.playerName ?? "",
+                backNum: dto.goalkeeper.playerNum ?? 0
             ),
             defenders: dto.defenders.map { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
             },
             midfielders: dto.midfielders.map { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
             },
             midfielders2: dto.secondMidfielders?.map { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
             } ?? [],
             strikers: dto.strikers.map { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
             }
         )
@@ -156,9 +156,9 @@ final class StartingLineupViewModel: ObservableObject {
     /// 선발라인업 선수 엔티티 변환 함수(Entity -> Entity)
     func lineupPlayerToEntity(_ entity: SoccerPlayer) -> StartingLineupPlayer {
         return StartingLineupPlayer(
-            playerImgURL: entity.playerImgURL,
-            playerName: entity.playerName,
-            backNum: entity.backNum,
+            playerImgURL: entity.playerImgURL ?? "",
+            playerName: entity.playerName ?? "",
+            backNum: entity.backNum ?? 0,
             playerPosition: 0
         )
     }

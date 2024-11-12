@@ -199,10 +199,10 @@ struct WinningTeamPrediction: View {
                             .padding(.bottom, 34)
                             .padding(.horizontal, 16)
                 }
-                .onTapGesture {
+                .simultaneousGesture(TapGesture().onEnded {
                     // 우승팀 예측하기 API 호출
                     viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal))
-                }
+                })
             }
         }
         .navigationTitle("우승 팀 예측")

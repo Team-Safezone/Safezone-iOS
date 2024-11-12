@@ -33,6 +33,7 @@ struct PredictionPlayerView: View {
                 .pretendardTextStyle(.Body2Style)
                 .foregroundStyle(isSelected ? .gray500 : .white0)
         }
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 }
 

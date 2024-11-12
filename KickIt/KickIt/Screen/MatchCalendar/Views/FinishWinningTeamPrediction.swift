@@ -141,12 +141,12 @@ struct FinishWinningTeamPrediction: View {
     /// grade code에 따른 이미지와 텍스트 값 반환 함수
     private func matchToGrade(_ code: Int) -> (UIImage, String) {
         switch code {
-        case 1: return (.soccer, "뉴비")
-        case 2: return (.soccer, "열성팬")
-        case 3: return (.soccer, "베테랑")
-        case 4: return (.soccer, "전문가")
-        case 5: return (.soccer, "레전드")
-        default: return (.soccer, "뉴비")
+        case 1: return (.soccer, "루키")
+        case 2: return (.soccer, "브론즈")
+        case 3: return (.soccer, "실버")
+        case 4: return (.soccer, "골드")
+        case 5: return (.soccer, "다이아몬드")
+        default: return (.soccer, "루키")
         }
     }
 }

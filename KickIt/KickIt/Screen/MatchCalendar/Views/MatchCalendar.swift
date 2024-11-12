@@ -164,11 +164,11 @@ struct MatchCalendar: View {
                             .padding(.horizontal, 16)
                             .padding(.bottom, 12)
                     }
-                    .onTapGesture {
+                    .simultaneousGesture(TapGesture().onEnded {
                         // 화면 전환 전에 선택한 경기 업데이트
                         viewModel.selectedMatch(match: match)
                         print("버튼 클릭! 경기 정보로 이동!")
-                    }
+                    })
                 }
             }
             else {

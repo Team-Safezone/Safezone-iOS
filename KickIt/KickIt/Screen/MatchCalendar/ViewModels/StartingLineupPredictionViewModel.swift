@@ -74,29 +74,19 @@ final class StartingLineupPredictionViewModel: ObservableObject {
     func getDefaultStartingLineupPrediction(request: MatchIdRequest) {
         StartingLineupPredictionAPI.shared.getDefaultStartingLineupPrediction(request: request)
             .map { responseDTO in
-                let homePlayers = responseDTO.homePlayers.map { player in
-                    StartingLineupPlayer(
-                        playerImgURL: player.playerImgURL,
-                        playerName: player.playerName,
-                        backNum: player.playerNum,
-                        playerPosition: player.playerPos
-                    )
-                }
-                let awayPlayers = responseDTO.awayPlayers.map { player in
-                    StartingLineupPlayer(
-                        playerImgURL: player.playerImgURL,
-                        playerName: player.playerName,
-                        backNum: player.playerNum,
-                        playerPosition: player.playerPos
-                    )
-                }
-                var homePrediction: UserStartingLineupPrediction? = nil
-                var awayPrediction: UserStartingLineupPrediction? = nil
+                var homePlayers: [StartingLineupPlayer]? = []
+                var awayPlayers: [StartingLineupPlayer]? = []
                 
-                if let tempHomePrediction = responseDTO.homePrediction {
-                    homePrediction = self.startingLineupToEntity(tempHomePrediction)
+                if let tempHomePlayers = responseDTO.homePlayers, let tempAwayPlayers = responseDTO.awayPlayers {
+                    homePlayers = self.playersToEntity(tempHomePlayers)
+                    awayPlayers = self.playersToEntity(tempAwayPlayers)
                 }
-                if let tempAwayPrediction = responseDTO.awayPrediction {
+                
+                var homePrediction: UserStartingLineupPrediction? = UserStartingLineupPrediction()
+                var awayPrediction: UserStartingLineupPrediction? = UserStartingLineupPrediction()
+                
+                if let tempHomePrediction = responseDTO.homePrediction, let tempAwayPrediction = responseDTO.awayPrediction {
+                    homePrediction = self.startingLineupToEntity(tempHomePrediction)
                     awayPrediction = self.startingLineupToEntity(tempAwayPrediction)
                 }
                 
@@ -111,45 +101,56 @@ final class StartingLineupPredictionViewModel: ObservableObject {
                     break
                 }
             },
-            receiveValue: { [weak self] (homePlayers, awayPlayers, homeTeamPrediction, awayTeamPrediction) in
-                self?.homeTeamPlayers = homePlayers
-                self?.awayTeamPlayers = awayPlayers
+            receiveValue: { [weak self] (homePlayers: [StartingLineupPlayer]?, awayPlayers: [StartingLineupPlayer]?, homeTeamPrediction: UserStartingLineupPrediction?, awayTeamPrediction: UserStartingLineupPrediction?) in
+                self?.homeTeamPlayers = homePlayers ?? []
+                self?.awayTeamPlayers = awayPlayers ?? []
                 self?.homePredictions = homeTeamPrediction
                 self?.awayPredictions = awayTeamPrediction
             })
             .store(in: &cancellables)
     }
     
+    /// 각 팀의 선수 명단(dto -> entity)
+    private func playersToEntity(_ dto: [StartingLineupPlayersResponse]) -> [StartingLineupPlayer] {
+        return dto.compactMap { player in
+            StartingLineupPlayer(
+                playerImgURL: player.playerImgURL ?? "",
+                playerName: player.playerName ?? "",
+                backNum: player.playerNum ?? 0,
+                playerPosition: (player.playerPos ?? 0) + 1)
+        }
+    }
+    
     /// 선발라인업 예측 조회 중 사용자가 예측했던 선발라인업 선수 리스트를 변환하는 함수(DTO -> Entity)
     private func startingLineupToEntity(_ dto: StartingLineupPredictionsResponse) -> UserStartingLineupPrediction {
         return UserStartingLineupPrediction(
-            formation: dto.formation,
+            formation: dto.formation ?? -1,
             goalkeeper: SoccerPlayer(
-                playerImgURL: dto.goalkeeper.playerImgURL,
-                playerName: dto.goalkeeper.playerName,
-                backNum: dto.goalkeeper.playerNum
+                playerImgURL: dto.goalkeeper?.playerImgURL ?? "",
+                playerName: dto.goalkeeper?.playerName ?? "",
+                backNum: dto.goalkeeper?.playerNum ?? 0
             ),
-            defenders: dto.defenders.map { player in
+            defenders: dto.defenders?.compactMap { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
-            },
-            midfielders: dto.midfielders.map { player in
+            } ?? [],
+            midfielders: dto.midfielders?.compactMap { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
-            },
-            strikers: dto.strikers.map { player in
+            } ?? [],
+            strikers: dto.strikers?.compactMap { player in
                 SoccerPlayer(
-                    playerImgURL: player.playerImgURL,
-                    playerName: player.playerName,
-                    backNum: player.playerNum
+                    playerImgURL: player.playerImgURL ?? "",
+                    playerName: player.playerName ?? "",
+                    backNum: player.playerNum ?? 0
                 )
-            }
+            } ?? []
         )
     }
     
@@ -194,10 +195,10 @@ final class StartingLineupPredictionViewModel: ObservableObject {
     /// 선수 리스트 필터링
     func filteredPlayers(_ isHomeTeam: Bool) -> [StartingLineupPlayer] {
         if isHomeTeam {
-            return homeTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
+            return self.homeTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
         }
         else {
-            return awayTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
+            return self.awayTeamPlayers.filter { $0.playerPosition == selectedPositionToInt }
         }
     }
     

@@ -72,7 +72,7 @@ class StartingLineupPredictionAPI: BaseAPI {
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data!))
+                            promise(.success(result.data ?? StartingLineupPredictionDefaultResponse()))
                         } else {
                             switch result.status {
                             case 401:

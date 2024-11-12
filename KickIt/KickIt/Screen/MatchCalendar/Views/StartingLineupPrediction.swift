@@ -62,6 +62,7 @@ struct StartingLineupPrediction: View {
                     
                     // MARK: 홈팀의 선발라인업 선택
                     StartingLineupPredictionView(
+                        matchId: soccerMatch.id,
                         isHomeTeam: true,
                         team: soccerMatch.homeTeam,
                         selectedPlayers: $homeSelectedPlayers,
@@ -71,6 +72,7 @@ struct StartingLineupPrediction: View {
                     
                     // MARK: 원정팀의 선발라인업 선택
                     StartingLineupPredictionView(
+                        matchId: soccerMatch.id,
                         isHomeTeam: false,
                         team: soccerMatch.awayTeam,
                         selectedPlayers: $awaySelectedPlayers,
@@ -88,7 +90,7 @@ struct StartingLineupPrediction: View {
                                 btnBGColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .lime : .gray600
                             )
                     }
-                    .onTapGesture {
+                    .simultaneousGesture(TapGesture().onEnded {
                         // 선발라인업 예측 API 호출
                         let homeGK = homeSelectedPlayers[.GK]
                         let dfPlayerRequests = matchSoccerPlayerRequests(from: dfPositions, selectedPlayers: homeSelectedPlayers)
@@ -106,15 +108,15 @@ struct StartingLineupPrediction: View {
                             request: StartingLineupPredictionRequest(
                                 homeFormation: homeFormationIndex,
                                 awayFormation: awayFormationIndex,
-                                homeGoalkeeper: [SoccerPlayerRequest(playerName: homeGK!.playerName, playerNum: homeGK!.backNum)],
+                                homeGoalkeeper: SoccerPlayerRequest(playerName: homeGK!.playerName, playerNum: homeGK!.backNum),
                                 homeDefenders: dfPlayerRequests,
                                 homeMidfielders: mfPlayerRequests,
                                 homeStrikers: fwPlayerRequests,
-                                awayGoalkeeper: [SoccerPlayerRequest(playerName: awayGK!.playerName, playerNum: awayGK!.backNum)],
+                                awayGoalkeeper: SoccerPlayerRequest(playerName: awayGK!.playerName, playerNum: awayGK!.backNum),
                                 awayDefenders: dfPlayerRequests2,
                                 awayMidfielders: mfPlayerRequests2,
                                 awayStrikers: fwPlayerRequests2))
-                    }
+                    })
                     // 선발라인업 선택이 완료되지 않았다면 비활성화
                     .disabled(!viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers))
                     .padding(.top, 20)
@@ -123,10 +125,6 @@ struct StartingLineupPrediction: View {
                 .padding(.horizontal, 16)
             }
             .scrollIndicators(.hidden)
-        }
-        .onAppear {
-            // 화면 진입 시, 선발라인업 예측 조회 API 호출
-            viewModel.getDefaultStartingLineupPrediction(request: MatchIdRequest(matchId: soccerMatch.id))
         }
         // 툴 바, 상태 바 설정
         .navigationTitle("선발 라인업 예측")

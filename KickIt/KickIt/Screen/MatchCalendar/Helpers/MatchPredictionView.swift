@@ -10,6 +10,9 @@ import SwiftUI
 /// 경기 정보 화면에서 사용되는 우승팀 예측하기 레이아웃
 struct MatchPredictionView: View {
     // MARK: - PROPERTY
+    /// 경기 객체
+    var soccerMatch: SoccerMatch
+    
     /// 경기 캘린더 뷰모델
     @ObservedObject var viewModel: MatchCalendarViewModel
     
@@ -41,7 +44,7 @@ struct MatchPredictionView: View {
                             .pretendardTextStyle(.Title2Style)
                             .foregroundStyle(.white0)
                         HStack(spacing: 4) {
-                            switch viewModel.selectedSoccerMatch.matchCode {
+                            switch soccerMatch.matchCode {
                             // 예정
                             case 0, 4:
                                 if !isEnd {
@@ -114,7 +117,7 @@ struct MatchPredictionView: View {
                 
                 HStack {
                     // 홈팀
-                    teamInfo(viewModel.teamInfoView(for: true).0, viewModel.teamInfoView(for: true).1)
+                    teamInfo(teamInfoView(for: true).0, teamInfoView(for: true).1)
                     
                     Spacer()
                     
@@ -152,12 +155,12 @@ struct MatchPredictionView: View {
                     Spacer()
                     
                     // 원정팀
-                    teamInfo(viewModel.teamInfoView(for: false).0, viewModel.teamInfoView(for: false).1)
+                    teamInfo(teamInfoView(for: false).0, teamInfoView(for: false).1)
                 }
                 .padding(.horizontal, 8)
                 
                 // 참여하기 or 결과보기 버튼
-                switch viewModel.selectedSoccerMatch.matchCode {
+                switch soccerMatch.matchCode {
                     // 예정
                 case 0, 4:
                     Text(isEnd ? "결과보기" : "참여하기")
@@ -256,9 +259,15 @@ struct MatchPredictionView: View {
             .pretendardTextStyle(.Title2Style)
             .foregroundStyle(.white0)
     }
+    
+    /// 팀 정보에 따른 값(이름, 이미지) 반환
+    private func teamInfoView(for isHomeTeam: Bool) -> (String, String) {
+        let team = isHomeTeam ? soccerMatch.homeTeam : soccerMatch.awayTeam
+        return (team.teamEmblemURL, team.teamName)
+    }
 }
 
 // MARK: - PREVIEW
 #Preview("경기 결과 예측") {
-    MatchPredictionView(viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel())
+    MatchPredictionView(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel())
 }
