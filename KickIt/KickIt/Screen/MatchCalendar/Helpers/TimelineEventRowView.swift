@@ -41,25 +41,44 @@ struct TimelineEventRowView: View {
             
             HStack(alignment: .center, spacing: 8) {
                 Image(eventIcons[event.eventName] ?? "교체")
-                    .frame(width: 18, height: 18)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(event.player1 ?? "") \(event.eventName)")
-                        .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.white0)
-                    if let player2 = event.player2 {
-                        Text(player2)
-                            .pretendardTextStyle(.Caption1Style)
-                            .foregroundStyle(.gray800Assets)
+                    if event.eventName == "VAR 판독" {
+                        Text("\(event.player1 ?? "")")
+                            .pretendardTextStyle(.SubTitleStyle)
+                            .foregroundStyle(.white0)
+                        Text(event.eventName)
+                                .pretendardTextStyle(.Caption1Style)
+                                .foregroundStyle(.gray800Assets)
+                    } else {
+                        Text("\(event.player1 ?? "") \(event.eventName)")
+                            .pretendardTextStyle(.SubTitleStyle)
+                            .foregroundStyle(.white0)
+                        if let player2 = event.player2 {
+                            Text(player2)
+                                .pretendardTextStyle(.Caption1Style)
+                                .foregroundStyle(.gray800Assets)
+                        }
                     }
                 }
                 
                 Spacer()
                 
-                // 사용자가 보는 경기임
-                if viewModel.currentMatchId == viewModel.match.id {
+                // 경기 심박수 데이터가 존재함
+                if (event.eventHeartRate != nil) {
                     HeartView(
-                        eventHeartRate: getHeartRate(),
+                        eventHeartRate: geteventHeartRate(),
+                        avgHeartRate: event.avgHeartRate
+                    )
+                }
+                // 사용자가 보는 경기임
+                else if viewModel.currentMatchId == viewModel.match.id {
+                    let _ = print("[타임라인] 사용자가 보는 경기임")
+                    HeartView(
+                        eventHeartRate: geteventHeartRate(),
                         avgHeartRate: event.avgHeartRate
                     )
                 }
@@ -79,7 +98,7 @@ struct TimelineEventRowView: View {
     }
     
     // 심박수 수치 가져오기
-    private func getHeartRate() -> Int? {
+    private func geteventHeartRate() -> Int? {
         // 이미 심박수 데이터가 존재할 때(경기 종료 후 POST 완)
         if let eventHeartRate = event.eventHeartRate {
             return eventHeartRate
@@ -126,9 +145,9 @@ struct HeartView: View {
         matchId: 0,
         eventCode: 1,
         time: 4, eventTime: "2023/09/11 20:40:00",
-        eventName: "골!",
-        player1: "손흥민",
-        player2: "베인", eventHeartRate: 106, avgHeartRate: 78,
+        eventName: "VAR 판독",
+        player1: "페널티킥 취소",
+        player2: "null", eventHeartRate: 106, avgHeartRate: 78,
         teamName: "토트넘",
         teamUrl: "https://example.com/team-logo.png"
     ), viewModel: MatchEventViewModel(match: dummySoccerMatches[0]))

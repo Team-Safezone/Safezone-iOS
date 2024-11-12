@@ -88,9 +88,9 @@ class MatchEventViewModel: NSObject, ObservableObject {
                 self?.isLoading = false
                 switch completion {
                 case .finished:
-                    print("[타임라인] Successfully fetched match events")
+                    print("[타임라인] Successfully fetched 경기 이벤트")
                 case .failure(let error):
-                    print("[타임라인] Error fetching match events: \(error)")
+                    print("[타임라인] Error fetching 경기 이벤트: \(error)")
                 }
             } receiveValue: { [weak self] events in
                 self?.matchEvents = events
@@ -103,30 +103,31 @@ class MatchEventViewModel: NSObject, ObservableObject {
     }
     
     // 사용자 평균 심박수 GET
-    func fetchUserAverageHeartRate() {
-        MatchEventAPI.shared.getUserAverageHeartRate()
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("[타임라인] Successfully fetched user average heart rate")
-                case .failure(let error):
-                    print("[타임라인] Error fetching user average heart rate: \(error)")
-                }
-            } receiveValue: { [weak self] avgHeartRate in
-                self?.userAverageHeartRate = avgHeartRate
-            }
-            .store(in: &cancellables)
-    }
+//    func fetchUserAverageHeartRate() {
+//        MatchEventAPI.shared.getUserAverageHeartRate()
+//            .receive(on: DispatchQueue.main)
+//            .sink { completion in
+//                switch completion {
+//                case .finished:
+//                    print("[타임라인] Successfully fetched user average heart rate")
+//                case .failure(let error):
+//                    print("[타임라인] Error fetching user average heart rate: \(error)")
+//                }
+//            } receiveValue: { [weak self] avgHeartRate in
+//                self?.userAverageHeartRate = avgHeartRate
+//            }
+//            .store(in: &cancellables)
+//    }
     
     // MARK: - 경기 종료 처리
     
     /// 경기 종료 시 호출되는 함수
     func handleMatchEnd() {
+        print("[타임라인] 경기 종료(3) \(match.matchCode), watchid \(String(describing: currentMatchId)) match.id \(match.id)")
         guard match.matchCode == 3, // 경기가 종료되었는지 확인
               currentMatchId == match.id, // 현재 경기가 사용자가 선택한 경기인지 확인
               !isHeartRateDataUploaded else { return }
-        
+
         // 사용자 심박수 데이터 존재 여부 확인
         checkAndUploadHeartRateData()
     }
@@ -137,7 +138,7 @@ class MatchEventViewModel: NSObject, ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure(let error) = completion {
-                    print("[타임라인] Failed to check heart rate data: \(error)")
+                    print("[타임라인] 사용자 심박수 데이터 존재 여부 확인 실패: \(error)")
                 }
             } receiveValue: { [weak self] response in
                 guard let self = self else { return }
@@ -145,7 +146,7 @@ class MatchEventViewModel: NSObject, ObservableObject {
                     self.uploadHeartRateData()  // POST
                 } else {
                     self.isHeartRateDataUploaded = true
-                    print("[타임라인] Heart rate data already exists for this match")
+                    print("[타임라인] 사용자 심박수 데이터 이미 존재함")
                 }
             }
             .store(in: &cancellables)
@@ -261,6 +262,8 @@ class MatchEventViewModel: NSObject, ObservableObject {
     private func updateMatchCode() {
         if let lastEventCode = matchEvents.last?.eventCode {
             match.matchCode = lastEventCode == 6 ? 3 : (lastEventCode == 2 ? 2 : 1)
+            match.homeTeamScore = Int(matchEvents.last?.player1 ?? "") ?? 0
+            match.awayTeamScore = Int(matchEvents.last?.player2 ?? "") ?? 0
         }
     }
     

@@ -103,13 +103,15 @@ struct TableLable: View {
             .overlay {
                 HStack (spacing: 29){
                     HStack(spacing: 15){
-                        Text("시간")
+                        Text("시간     ")
                             .pretendardTextStyle(.Body3Style)
                         Text("팀")
                             .pretendardTextStyle(.Body3Style)
+                            .frame(width: 12)
                     }
                     Text("하이라이트")
                         .pretendardTextStyle(.Body3Style)
+                        .frame(width: 57)
                     Spacer()
                     Text("나의 심박수")
                         .font(.pretendard(.bold, size: 13))
