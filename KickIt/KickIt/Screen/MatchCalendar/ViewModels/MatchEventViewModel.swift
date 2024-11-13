@@ -134,23 +134,24 @@ class MatchEventViewModel: NSObject, ObservableObject {
     
     /// 사용자 심박수 데이터 존재 여부 확인 및 업로드
     private func checkAndUploadHeartRateData() {
-        MatchEventAPI.shared.checkHeartRateDataExists(request: HeartRateDataExistsRequest(matchId: match.id))
+        MatchEventAPI.shared.checkHeartRateDataExists(matchId: match.id)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure(let error) = completion {
                     print("[타임라인] 사용자 심박수 데이터 존재 여부 확인 실패: \(error)")
                 }
-            } receiveValue: { [weak self] response in
-                guard let self = self else { return }
-                if !response.exists {
-                    self.uploadHeartRateData()  // POST
-                } else {
-                    self.isHeartRateDataUploaded = true
-                    print("[타임라인] 사용자 심박수 데이터 이미 존재함")
-                }
-            }
-            .store(in: &cancellables)
-    }
+            } receiveValue: { [weak self] exists in
+                        guard let self = self else { return }
+                        if !exists {
+                            print("[타임라인] 사용자 심박수 데이터가 존재하지 않음. 업로드 시작.")
+                            self.uploadHeartRateData()  // POST
+                        } else {
+                            self.isHeartRateDataUploaded = true
+                            print("[타임라인] 사용자 심박수 데이터 이미 존재함")
+                        }
+                    }
+                    .store(in: &cancellables)
+      }
     
     // MARK: - 심박수 데이터 업로드
     

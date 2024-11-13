@@ -30,19 +30,19 @@ struct ViewerHRStatsView: View {
                 HStack{
                     Text(homeTeamName + " 팬")
                         .pretendardTextStyle(.SubTitleStyle)
-                        .frame(width: 80)
+                        .frame(width: 120)
                 }
                 Spacer().frame(width: 100)
                 Text(awayTeamName + " 팬")
                     .pretendardTextStyle(.SubTitleStyle)
-                    .frame(width: 80)
+                    .frame(width: 100)
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 40)
             .background {
                 SpecificRoundedRectangle(radius: 8, corners: [.topRight, .topLeft])
                     .foregroundStyle(Color.gray950Assets)
-                    .frame(width: 355, height: 55)
+                    .frame(width: 355, height: 52)
             }
             
             ForEach(0..<3, id: \.self) { i in
@@ -79,14 +79,15 @@ struct ViewerHRStatsView: View {
         .overlay {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray900Assets, lineWidth: 1)
+                .frame(width: 355)
             Path { path in
-                path.move(to: CGPoint(x: 0, y: 115))
-                path.addLine(to: CGPoint(x: 355, y: 115))
+                path.move(to: CGPoint(x: 22, y: 115))
+                path.addLine(to: CGPoint(x: 355+22, y: 115))
             }
             .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
             Path { path in
-                path.move(to: CGPoint(x: 0, y: 115 + 115 / 2))
-                path.addLine(to: CGPoint(x: 355, y: 115 + 115 / 2))
+                path.move(to: CGPoint(x: 22, y: 115 + 115 / 2))
+                path.addLine(to: CGPoint(x: 355+22, y: 115 + 115 / 2))
             }
             .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
         }

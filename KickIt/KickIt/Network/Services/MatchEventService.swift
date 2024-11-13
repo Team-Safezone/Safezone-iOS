@@ -17,7 +17,7 @@ enum MatchEventService {
     // 사용자의 심박수 데이터 업로드 API
     case postMatchHeartRate(MatchHeartRateRequest)
     // 데이터 존제 체크 API
-    case checkHeartRateDataExists(HeartRateDataExistsRequest)
+    case checkHeartRateDataExists(matchId: Int64)
 }
 
 extension MatchEventService: TargetType {
@@ -39,8 +39,8 @@ extension MatchEventService: TargetType {
             return APIConstants.matchHeartRateURL
         case .getUserAverageHeartRate:
             return APIConstants.avgHeartRateURL
-        case .checkHeartRateDataExists:
-            return APIConstants.checkDataExistsURL
+        case .checkHeartRateDataExists(let matchId):
+            return "\(APIConstants.checkDataExistsURL)/matchId/\(matchId)"
         }
     }
     
@@ -63,7 +63,7 @@ extension MatchEventService: TargetType {
             return .requestPlain
             
         case .checkHeartRateDataExists(let request):
-            return .query(["matchId" : request.matchId])
+            return .requestPlain
         }
     }
 }

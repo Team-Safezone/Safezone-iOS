@@ -82,7 +82,7 @@ struct LineChartView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 60)
                 .padding(.top, 5)
-            }
+            }.frame(width: 400)
         }
     }
     

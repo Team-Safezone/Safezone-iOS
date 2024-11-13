@@ -102,38 +102,49 @@ class MatchEventAPI: BaseAPI {
     }
     
     /// 사용자 심박수 데이터 존재 확인 API
-    func checkHeartRateDataExists(request: HeartRateDataExistsRequest) -> AnyPublisher<HeartRateDataExistsResponse, NetworkError> {
-        return Future<HeartRateDataExistsResponse, NetworkError> { [weak self] promise in
+    func checkHeartRateDataExists(matchId: Int64) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
-            // API 호출
-            self.AFManager.request(MatchEventService.checkHeartRateDataExists(request), interceptor: MyRequestInterceptor())
+            
+            let request = MatchEventService.checkHeartRateDataExists(matchId: matchId)
+            
+            self.AFManager.request(request, interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<HeartRateDataExistsResponse>.self) { response in
+                .responseData { response in
+                    print("Response Status Code: \(response.response?.statusCode ?? -1)")
+                    print("Response Headers: \(response.response?.allHeaderFields ?? [:])")
+                    
+                    if let data = response.data, let str = String(data: data, encoding: .utf8) {
+                        print("Response Body: \(str)")
+                    }
+                    
                     switch response.result {
-                    case .success(let result):
-                        if result.isSuccess {
-                            promise(.success(result.data!))
-                        } else {
-                            print("Server Error Message: \(result.message)")
-                            switch result.status {
-                            case 401:
-                                return promise(.failure(.authFailed))
-                            case 400..<500:
-                                return promise(.failure(.requestErr(result.message)))
-                            case 500:
-                                return promise(.failure(.serverErr(result.message)))
-                            default:
-                                return promise(.failure(.unknown(result.message)))
+                    case .success(let data):
+                        do {
+                            let result = try JSONDecoder().decode(CommonResponse<Bool>.self, from: data)
+                            if result.isSuccess {
+                                promise(.success(result.data ?? false))
+                            } else {
+                                print("Server Error Message: \(result.message)")
+                                switch result.status {
+                                case 401:
+                                    promise(.failure(.authFailed))
+                                case 400..<500:
+                                    promise(.failure(.requestErr(result.message)))
+                                case 500:
+                                    promise(.failure(.serverErr(result.message)))
+                                default:
+                                    promise(.failure(.unknown(result.message)))
+                                }
                             }
+                        } catch {
+                            print("Decoding Error: \(error)")
                         }
                     case .failure(let error):
-                        if let statusCode = response.response?.statusCode {
-                            print("Request failed with status code: \(statusCode)")
-                        }
-                        print("Error Description: \(error.localizedDescription)")
+                        print("Network Error: \(error.localizedDescription)")
                         promise(.failure(.networkFail(error.localizedDescription)))
                     }
                 }

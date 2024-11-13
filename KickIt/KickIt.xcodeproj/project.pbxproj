@@ -27,7 +27,6 @@
 		E72CC3322CAFC8E100EE38B8 /* AvgHeartRateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */; };
 		E72CC3362CAFEB4100EE38B8 /* MatchHeartRateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */; };
 		E72CC3382CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */; };
-		E72CC33A2CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */; };
 		E739BA142CDA4FA0001A874A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA132CDA4FA0001A874A /* KakaoSDKAuth */; };
 		E739BA162CDA4FA0001A874A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA152CDA4FA0001A874A /* KakaoSDKCommon */; };
 		E739BA182CDA4FA0001A874A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA172CDA4FA0001A874A /* KakaoSDKUser */; };
@@ -91,6 +90,8 @@
 		E77970702CA83F8F00DA5C00 /* HomeMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */; };
 		E77970722CA8403100DA5C00 /* HomeDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77970712CA8403100DA5C00 /* HomeDiary.swift */; };
 		E77BA64D2CD0F9B90055730B /* GIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77BA64C2CD0F9B90055730B /* GIFImage.swift */; };
+		E780BD1C2CE4E403006339EB /* Splash2.lottie in Resources */ = {isa = PBXBuildFile; fileRef = E780BD192CE4E403006339EB /* Splash2.lottie */; };
+		E780BD1E2CE4E412006339EB /* Splash3.lottie in Resources */ = {isa = PBXBuildFile; fileRef = E780BD1D2CE4E412006339EB /* Splash3.lottie */; };
 		E78C45852C03263800E5AE40 /* WinningTeamPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */; };
 		E79553BC2C0C760600261DAF /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79553BB2C0C760600261DAF /* Font+.swift */; };
 		E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */; };
@@ -289,7 +290,6 @@
 		E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvgHeartRateResponse.swift; sourceTree = "<group>"; };
 		E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeartRateRequest.swift; sourceTree = "<group>"; };
 		E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateDataExistsResponse.swift; sourceTree = "<group>"; };
-		E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateDataExistsRequest.swift; sourceTree = "<group>"; };
 		E739BA5C2CDA57A8001A874A /* KakaoSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSignUpRequest.swift; sourceTree = "<group>"; };
 		E739BA5E2CDA593A001A874A /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		E739BA612CDA5C24001A874A /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
@@ -353,6 +353,8 @@
 		E779706F2CA83F8F00DA5C00 /* HomeMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatch.swift; sourceTree = "<group>"; };
 		E77970712CA8403100DA5C00 /* HomeDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiary.swift; sourceTree = "<group>"; };
 		E77BA64C2CD0F9B90055730B /* GIFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImage.swift; sourceTree = "<group>"; };
+		E780BD192CE4E403006339EB /* Splash2.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = Splash2.lottie; sourceTree = "<group>"; };
+		E780BD1D2CE4E412006339EB /* Splash3.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = Splash3.lottie; sourceTree = "<group>"; };
 		E78C45842C03263800E5AE40 /* WinningTeamPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningTeamPrediction.swift; sourceTree = "<group>"; };
 		E79553BB2C0C760600261DAF /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E79553BE2C0C78B700261DAF /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -1018,7 +1020,6 @@
 				E7FFA0602C9EBBE1001FE588 /* SignUpData.swift */,
 				E7C4AD022CAD8BAB00D7E590 /* MatchEventsRequest.swift */,
 				E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */,
-				E72CC3392CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift */,
 				E7EE1D7A2CB2A16300ADDAEF /* PredictionButtonRequest.swift */,
 				E7EE1D8A2CB6ACC700ADDAEF /* StartingLineupRequest.swift */,
 				E79C71D52CB9257600EB4CFF /* NicnameUpdateRequest.swift */,
@@ -1037,6 +1038,8 @@
 			children = (
 				E7BB636C2CE0B5360071FB25 /* Splash1.lottie */,
 				E755B9492CE0C71300B718BE /* Splash4.lottie */,
+				E780BD192CE4E403006339EB /* Splash2.lottie */,
+				E780BD1D2CE4E412006339EB /* Splash3.lottie */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -1338,11 +1341,13 @@
 				E79AFF782BEDC8DD004CAF75 /* Preview Assets.xcassets in Resources */,
 				E79553C12C0C78B700261DAF /* Pretendard-Bold.otf in Resources */,
 				E7BB63702CE0B5360071FB25 /* Splash1.lottie in Resources */,
+				E780BD1E2CE4E412006339EB /* Splash3.lottie in Resources */,
 				E7B13FFE2C85EAC600CB351E /* Secrets.xcconfig in Resources */,
 				E79553C32C0C78B700261DAF /* Pretendard-SemiBold.otf in Resources */,
 				E725452E2CC958A500348F50 /* Pretendard-Regular.otf in Resources */,
 				E79AFF752BEDC8DD004CAF75 /* Assets.xcassets in Resources */,
 				E79553C22C0C78B700261DAF /* Pretendard-Medium.otf in Resources */,
+				E780BD1C2CE4E403006339EB /* Splash2.lottie in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,7 +1402,6 @@
 				E778A0702C9144AF00B6117D /* SoccerPlayersResponse.swift in Sources */,
 				E778A07E2C95454C00B6117D /* StartingLineupPredictionsResponse.swift in Sources */,
 				E7DBC1012C0E1531008D4300 /* MatchCalendarService.swift in Sources */,
-				E72CC33A2CAFF7BE00EE38B8 /* HeartRateDataExistsRequest.swift in Sources */,
 				E7EE1D7B2CB2A16300ADDAEF /* PredictionButtonRequest.swift in Sources */,
 				E7C4AD052CAD8BD000D7E590 /* MatchEventsResponse.swift in Sources */,
 				E7DBC10C2C0F0F85008D4300 /* RadioButtonGroup.swift in Sources */,
