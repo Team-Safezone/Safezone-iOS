@@ -47,7 +47,7 @@ struct LoginView: View {
                                     Text("카카오로 3초만에 로그인")
                                         .pretendardTextStyle(.Title2Style)
                                         .foregroundStyle(.black0)
-                                    Spacer()
+                                    Spacer().frame(width: 10)
                                 }
                             }
                     }

@@ -36,9 +36,9 @@ struct OnBoarding: View {
     }
     
     private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 7.0, repeats: true) { timer in
             withAnimation {
-                currentPage = (currentPage + 1) % 4
+                    currentPage = (currentPage + 1) % 4
             }
         }
     }
