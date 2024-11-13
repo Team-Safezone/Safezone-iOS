@@ -20,7 +20,7 @@ struct MyProfile: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    Spacer()
+                    Spacer().frame(height: 30)
                     HStack {
                         Spacer()
                         VStack(alignment: .center) {
@@ -29,6 +29,9 @@ struct MyProfile: View {
                                 .scaledToFill()
                                 .frame(width: 120, height: 120, alignment: .center)
                                 .padding(.bottom, 8)
+                            Text("\(imgviewModel.currentBallLevel.0)")
+                                .pretendardTextStyle(.Title2Style)
+                                .padding(.top, -12)
                             NavigationLink(destination: GradeInfo().toolbarRole(.editor)) {
                                 HStack(spacing: 2) {
                                     Text("등급 안내")
@@ -44,7 +47,7 @@ struct MyProfile: View {
                                         RoundedRectangle(cornerRadius: 30)
                                             .foregroundStyle(.gray900Assets)
                                     }
-                            }
+                            }.padding(.top, 10)
                         }
                         Spacer()
                     }
@@ -105,12 +108,12 @@ struct MyProfile: View {
                         if !viewModel.isNicknameValid{
                             Text("닉네임 중복 확인이 필요합니다")
                                 .pretendardTextStyle(.Title2Style)
-                                .foregroundStyle(.white0)
+                                .foregroundStyle(.gray400)
                                 .padding([.top, .bottom], 15)
                                 .frame(maxWidth: .infinity)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(.gray900Assets)
+                                        .fill(.gray600)
                                 ).padding()
                         } else {
                             Text("수정")
