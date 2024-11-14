@@ -42,9 +42,9 @@ struct EditMyTeams: View {
                             teamSelectionButton(team: viewModel.teams[index], teamIndex: index)
                         }
                     }
+                    .padding(.bottom, 120)
                 }
                 .padding(.horizontal, 26)
-                .padding(.bottom, 120)
             }
         }
         .ignoresSafeArea(edges: .bottom)
