@@ -12,10 +12,10 @@ enum NavigationDestination: Hashable {
     case soccerInfo(data: SoccerMatch)
     case winningTeamPrediction(data: WinningTeamPredictionNVData)
     case finishWinningTeamPrediction(data: FinishWinningTeamPredictionNVData)
-    case resultWinningTeamPrediction(prediction: PredictionQuestionModel)
+    case resultWinningTeamPrediction(data: ResultPredictionNVData)
     case lineupPrediction(data: SoccerMatch)
     case finishLineupPrediction(data: FinishLineupPredictionNVData)
-    case resultLineupPrediction(prediction: PredictionQuestionModel)
+    case resultLineupPrediction(data: ResultPredictionNVData)
     
     // 각 케이스의 이름을 반환하는 계산 속성 추가
     var identifier: String {
@@ -51,4 +51,9 @@ struct FinishWinningTeamPredictionNVData: Hashable {
 struct FinishLineupPredictionNVData: Hashable {
     var lineupPrediction: LineupPrediction
     var prediction: PredictionQuestionModel
+}
+
+struct ResultPredictionNVData: Hashable {
+    var prediction: PredictionQuestionModel
+    var isOneBack: Bool
 }

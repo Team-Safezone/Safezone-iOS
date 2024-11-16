@@ -412,19 +412,20 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func MatchPrediction() -> some View {
         VStack(spacing: 0) {
-            // 우승팀 예측이 종료되 경우
+            let prediction = PredictionQuestionModel(
+                matchId: soccerMatch.id,
+                matchCode: soccerMatch.matchCode,
+                matchDate: soccerMatch.matchDate,
+                matchTime: soccerMatch.matchTime,
+                homeTeam: soccerMatch.homeTeam,
+                awayTeam: soccerMatch.awayTeam
+            )
+            
+            // 우승팀 예측이 종료된 경우
             if timerViewModel.isWinningTeamPredictionFinished {
                 // 우승팀 예측 결과 화면으로 이동
-                let prediction = PredictionQuestionModel(
-                    matchId: soccerMatch.id,
-                    matchCode: soccerMatch.matchCode,
-                    matchDate: soccerMatch.matchDate,
-                    matchTime: soccerMatch.matchTime,
-                    homeTeam: soccerMatch.homeTeam,
-                    awayTeam: soccerMatch.awayTeam
-                )
-                
-                NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(prediction: prediction)) {
+                NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+                    data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
                     MatchPredictionView(
                         soccerMatch: soccerMatch,
                         viewModel: viewModel,
@@ -438,16 +439,8 @@ struct SoccerMatchInfo: View {
                 // 우승팀 예측을 한 경우
                 if (predictionViewModel.matchPrediction.isParticipated) {
                     // 우승팀 예측 결과 화면으로 이동
-                    let prediction = PredictionQuestionModel(
-                        matchId: soccerMatch.id,
-                        matchCode: soccerMatch.matchCode,
-                        matchDate: soccerMatch.matchDate,
-                        matchTime: soccerMatch.matchTime,
-                        homeTeam: soccerMatch.homeTeam,
-                        awayTeam: soccerMatch.awayTeam
-                    )
-                    
-                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(prediction: prediction)) {
+                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
                         MatchPredictionView(
                             soccerMatch: soccerMatch,
                             viewModel: viewModel,
@@ -486,11 +479,7 @@ struct SoccerMatchInfo: View {
             if timerViewModel.isLineupPredictionFinished {
                 // 선발라인업 예측 완료 화면으로 이동
                 NavigationLink(value: NavigationDestination.resultLineupPrediction(
-                    prediction: PredictionQuestionModel(
-                        matchId: soccerMatch.id, matchCode: soccerMatch.matchCode,
-                        matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
-                        homeTeam: soccerMatch.homeTeam, awayTeam: soccerMatch.awayTeam)
-                )) {
+                    data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
                     LineupPredictionView(
                         soccerMatch: soccerMatch,
                         viewModel: viewModel,
@@ -505,11 +494,7 @@ struct SoccerMatchInfo: View {
                 if (predictionViewModel.lineupPrediction.isParticipated) {
                     // 선발라인업 예측 결과 화면으로 이동
                     NavigationLink(value: NavigationDestination.resultLineupPrediction(
-                        prediction: PredictionQuestionModel(
-                            matchId: soccerMatch.id, matchCode: soccerMatch.matchCode,
-                            matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
-                            homeTeam: soccerMatch.homeTeam, awayTeam: soccerMatch.awayTeam)
-                    )) {
+                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
                         LineupPredictionView(
                             soccerMatch: soccerMatch,
                             viewModel: viewModel,

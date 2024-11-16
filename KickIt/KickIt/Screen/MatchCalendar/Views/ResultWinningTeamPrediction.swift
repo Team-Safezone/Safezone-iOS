@@ -9,11 +9,17 @@ import SwiftUI
 
 /// 우승팀 예측 결과 화면
 struct ResultWinningTeamPrediction: View {
-    /// 경기 정보 화면으로 이동
-    let popToSoccerInfoAction: () -> Void
+    /// 1번 뒤로가기
+    let popToOne: () -> Void
+    
+    /// 3번 뒤로가기
+    let popToThreeStep: () -> Void
     
     /// 상단 카드뷰에 들어갈 데이터 모델
     var prediction: PredictionQuestionModel
+    
+    /// 뒤로가기 여부
+    var isOneBack: Bool
     
     /// 뷰모델
     @StateObject var viewModel: ResultWinningTeamPredictionViewModel
@@ -21,9 +27,11 @@ struct ResultWinningTeamPrediction: View {
     /// 타이머 뷰모델
     @StateObject var timerViewModel = TimerViewModel()
     
-    init(popToSoccerInfoAction: @escaping () -> Void, prediction: PredictionQuestionModel) {
-        self.popToSoccerInfoAction = popToSoccerInfoAction
+    init(popToOne: @escaping () -> Void, popToThreeStep: @escaping () -> Void, prediction: PredictionQuestionModel, isOneBack: Bool) {
+        self.popToOne = popToOne
+        self.popToThreeStep = popToThreeStep
         self.prediction = prediction
+        self.isOneBack = isOneBack
         _viewModel = StateObject(wrappedValue: ResultWinningTeamPredictionViewModel(prediction: prediction))
     }
     
@@ -43,7 +51,14 @@ struct ResultWinningTeamPrediction: View {
                     // 좌측 상단에 위치한 뒤로가기 버튼
                     HStack {
                         Button {
-                            popToSoccerInfoAction()
+                            if isOneBack {
+                                popToOne()
+                                print("뒤로가기 one back")
+                            }
+                            else {
+                                popToThreeStep()
+                                print("뒤로가기 two back")
+                            }
                         } label: {
                             Image(uiImage: .back)
                                 .foregroundStyle(.white0)
@@ -169,5 +184,5 @@ struct ResultWinningTeamPrediction: View {
 }
 
 #Preview {
-    ResultWinningTeamPrediction(popToSoccerInfoAction: {}, prediction: dummyPredictionQuestionModel)
+    ResultWinningTeamPrediction(popToOne: {}, popToThreeStep: {}, prediction: dummyPredictionQuestionModel, isOneBack: false)
 }

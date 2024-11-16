@@ -128,7 +128,7 @@ struct FinishWinningTeamPrediction: View {
                     }
                     
                     // MARK: 예측 결과보기 버튼
-                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(prediction: prediction)) {
+                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(data: ResultPredictionNVData(prediction: prediction, isOneBack: false))) {
                         DesignHalfButton(label: "결과보기", labelColor: .blackAssets, btnBGColor: .green0)
                     }
                 }

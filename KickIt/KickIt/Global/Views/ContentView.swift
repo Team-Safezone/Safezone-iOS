@@ -17,6 +17,11 @@ struct ContentView: View {
     /// 네비게이션 스택 관리 변수
     @State private var path: [NavigationDestination] = []
     
+    /// 3번 뒤로가기
+    func popToThreeStep() {
+        path.removeLast(3)
+    }
+    
     /// 2번 뒤로가기
     func popToTwoStep() {
         path.removeLast(2)
@@ -109,7 +114,11 @@ struct ContentView: View {
                 }
                 else if destination.identifier == "ResultWinningTeamPrediction" {
                     if case let .resultWinningTeamPrediction(data) = destination {
-                        ResultWinningTeamPrediction(popToSoccerInfoAction: popToOneStep, prediction: data)
+                        ResultWinningTeamPrediction(
+                            popToOne: popToOneStep,
+                            popToThreeStep: popToThreeStep,
+                            prediction: data.prediction,
+                            isOneBack: data.isOneBack)
                             .toolbarRole(.editor)
                     }
                 }
@@ -130,7 +139,11 @@ struct ContentView: View {
                 }
                 else if destination.identifier == "ResultLineupPrediction" {
                     if case let .resultLineupPrediction(data) = destination {
-                        ResultStartingLineupPrediction(popToSoccerInfoAction: popToOneStep, prediction: data)
+                        ResultStartingLineupPrediction(
+                            popToOne: popToOneStep,
+                            popToThreeStep: popToThreeStep,
+                            prediction: data.prediction,
+                            isOneBack: data.isOneBack)
                             .toolbarRole(.editor)
                     }
                 }
@@ -148,6 +161,7 @@ struct ContentView: View {
                 setupNotifications()
             }
         }
+        .tint(.white0)
     }
     
     /// 알림 설정 및 스케줄링
