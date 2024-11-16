@@ -110,10 +110,11 @@ struct FinishStartingLineupPrediction: View {
                     }
                     
                     // MARK: 예측 결과보기 버튼
-                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+                    NavigationLink(value: NavigationDestination.resultLineupPrediction(
                         prediction: PredictionQuestionModel(
-                            matchId: prediction.matchId, matchCode: prediction.matchCode, matchDate: prediction.matchDate, matchTime: prediction.matchTime,
-                            homeTeamName: prediction.homeTeamName, awayTeamName: prediction.awayTeamName))) {
+                            matchId: prediction.matchId, matchCode: prediction.matchCode,
+                            matchDate: prediction.matchDate, matchTime: prediction.matchTime,
+                            homeTeam: prediction.homeTeam, awayTeam: prediction.awayTeam))) {
                         DesignHalfButton(label: "결과보기", labelColor: .blackAssets, btnBGColor: .green0)
                     }
                 }

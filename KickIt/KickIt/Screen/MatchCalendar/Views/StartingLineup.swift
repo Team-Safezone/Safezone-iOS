@@ -32,20 +32,32 @@ struct StartingLineup: View {
             ScrollView {
                 VStack(spacing: 0) {
                     // MARK: 홈팀
-                    teamInfo(true)
+                    teamInfo(
+                        true,
+                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.homeTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.homeTeam.teamName),
+                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.awayTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.awayTeam.teamName),
+                        lineupViewModel.homeFormation ?? "",
+                        lineupViewModel.awayFormation ?? ""
+                    )
                     ZStack {
                         soccerFiled(true)
                         if let lineup = lineupViewModel.homeLineups {
-                            lineups(isHomeTeam: true, for: lineupViewModel.homeFormations, lineup: lineup)
+                            lineups(isHomeTeam: true, for: lineupViewModel.homeFormation ?? "", lineup: lineup)
                         }
                     }
                     
                     // MARK: 원정팀
-                    teamInfo(false)
+                    teamInfo(
+                        false,
+                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.homeTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.homeTeam.teamName),
+                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.awayTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.awayTeam.teamName),
+                        lineupViewModel.homeFormation ?? "",
+                        lineupViewModel.awayFormation ?? ""
+                    )
                     ZStack {
                         soccerFiled(false)
                         if let lineup = lineupViewModel.awayLineups {
-                            lineups(isHomeTeam: false, for: lineupViewModel.awayFormations, lineup: lineup)
+                            lineups(isHomeTeam: false, for: lineupViewModel.awayFormation ?? "", lineup: lineup)
                         }
                     }
                     
@@ -101,112 +113,6 @@ struct StartingLineup: View {
     }
     
     // MARK: - FUNCTION
-    /// 팀 엠블럼&이미지
-    @ViewBuilder
-    private func teamInfo(_ isHomeTeam: Bool) -> some View {
-        HStack(spacing: 8) {
-            LoadableImage(image: viewModel.teamInfoView(for: isHomeTeam).0)
-                .frame(width: 32, height: 32)
-            
-            Text(viewModel.teamInfoView(for: isHomeTeam).1)
-                .pretendardTextStyle(.Title2Style)
-                .foregroundStyle(.white0)
-            
-            Spacer()
-            
-            Text("\(isHomeTeam ? lineupViewModel.homeFormation : lineupViewModel.awayFormation) 포메이션")
-                .pretendardTextStyle(.SubTitleStyle)
-                .foregroundStyle(.white0)
-        }
-        .padding(.top, 20)
-        .padding(.bottom, 16)
-    }
-    
-    /// 선발라인업 선수 리스트
-    @ViewBuilder
-    private func lineups(isHomeTeam: Bool, for formations: [Int], lineup: StartingLineupModel) -> some View {
-        VStack(spacing: 0) {
-            // 포메이션이 3줄이라면
-            if formations.count == 3 {
-                VStack(alignment: .center, spacing: 22) {
-                    ForEach(Array(playerViews(isHomeTeam: isHomeTeam, for: lineup).enumerated()), id: \.offset) { _, view in
-                        view
-                    }
-                }
-            }
-            // 포메이션이 4줄이라면
-            else {
-                VStack(alignment: .center, spacing: 4) {
-                    ForEach(Array(playerViews(isHomeTeam: isHomeTeam, for: lineup).enumerated()), id: \.offset) { _, view in
-                        view
-                    }
-                }
-            }
-        }
-    }
-    
-    /// 선수 리스트 반환 함수
-    private func playerViews(isHomeTeam: Bool, for lineup: StartingLineupModel) -> [AnyView] {
-        // 뷰들이 추가될 리스트
-        var views: [AnyView] = []
-        
-        // 골기퍼
-        views.append(AnyView(PredictionPlayerSelectedCardView(player: lineupViewModel.lineupPlayerToEntity(lineup.goalkeeper))))
-        
-        // 수비수 리스트
-        let defenders = HStack(spacing: 12) {
-            ForEach(0..<lineup.defenders.count, id: \.self) { i in
-                PredictionPlayerSelectedCardView(player: lineupViewModel.lineupPlayerToEntity(lineup.defenders[i]))
-            }
-        }
-        views.append(AnyView(defenders))
-        
-        // 미드필더 리스트
-        let midfielders = HStack(spacing: 12) {
-            ForEach(0..<lineup.midfielders.count, id: \.self) { i in
-                PredictionPlayerSelectedCardView(player: lineupViewModel.lineupPlayerToEntity(lineup.midfielders[i]))
-            }
-        }
-        views.append(AnyView(midfielders))
-        
-        // 추가 미드필더 리스트
-        if let extraMidfielders = lineup.midfielders2 {
-            let midfielders2 = HStack(spacing: 12) {
-                ForEach(0..<extraMidfielders.count, id: \.self) { i in
-                    PredictionPlayerSelectedCardView(player: lineupViewModel.lineupPlayerToEntity(extraMidfielders[i]))
-                }
-            }
-            views.append(AnyView(midfielders2))
-        }
-        
-        // 공격수 리스트
-        let strikers = HStack(spacing: 12) {
-            ForEach(0..<lineup.strikers.count, id: \.self) { i in
-                PredictionPlayerSelectedCardView(player: lineupViewModel.lineupPlayerToEntity(lineup.strikers[i]))
-            }
-        }
-        views.append(AnyView(strikers))
-        
-        return isHomeTeam ? views : views.reversed()
-    }
-    
-    /// 축구장 이미지
-    @ViewBuilder
-    private func soccerFiled(_ isHomeTeam: Bool) -> some View {
-        Image(.soccerField)
-            .resizable()
-            .frame(height: 330)
-            .rotationEffect(isHomeTeam ? Angle(degrees: 0) : Angle(degrees: 180))
-            .clipShape(
-                SpecificRoundedRectangle(radius: 8, corners: isHomeTeam ? [.topLeft, .topRight] : [.bottomLeft, .bottomRight])
-            )
-            .overlay {
-                SpecificRoundedRectangle(radius: 8, corners: isHomeTeam ? [.topLeft, .topRight] : [.bottomLeft, .bottomRight])
-                    .fill(.black)
-                    .opacity(0.2)
-            }
-    }
-    
     /// 표 제목 뷰
     @ViewBuilder
     private func chartTitle(_ title1: String, _ title2: String) -> some View {

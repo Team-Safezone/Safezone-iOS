@@ -96,7 +96,6 @@ struct ContentView: View {
                     if case let .winningTeamPrediction(data) = destination {
                         WinningTeamPrediction(isRetry: data.isRetry, soccerMatch: data.soccerMatch)
                             .toolbarRole(.editor)
-                            .tint(.white0)
                     }
                 }
                 else if destination.identifier == "FinishWinningTeamPrediction" {
@@ -112,14 +111,12 @@ struct ContentView: View {
                     if case let .resultWinningTeamPrediction(data) = destination {
                         ResultWinningTeamPrediction(popToSoccerInfoAction: popToOneStep, prediction: data)
                             .toolbarRole(.editor)
-                            .tint(.white0)
                     }
                 }
                 else if destination.identifier == "LineupPrediction" {
                     if case let .lineupPrediction(data) = destination {
                         StartingLineupPrediction(soccerMatch: data)
                             .toolbarRole(.editor)
-                            .tint(.white0)
                     }
                 }
                 else if destination.identifier == "FinishLineupPrediction" {
@@ -133,7 +130,8 @@ struct ContentView: View {
                 }
                 else if destination.identifier == "ResultLineupPrediction" {
                     if case let .resultLineupPrediction(data) = destination {
-                        
+                        ResultStartingLineupPrediction(popToSoccerInfoAction: popToOneStep, prediction: data)
+                            .toolbarRole(.editor)
                     }
                 }
             }

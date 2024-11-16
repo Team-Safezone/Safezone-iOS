@@ -14,8 +14,8 @@ struct PredictionQuestionModel: Identifiable, Hashable {
     let matchCode: Int
     let matchDate: Date
     let matchTime: Date
-    let homeTeamName: String
-    let awayTeamName: String
+    let homeTeam: SoccerTeam
+    let awayTeam: SoccerTeam
 }
 
-let dummyPredictionQuestionModel: PredictionQuestionModel = PredictionQuestionModel(matchId: 0, matchCode: 0, matchDate: Date(), matchTime: Date(), homeTeamName: "토트넘", awayTeamName: "아스널")
+let dummyPredictionQuestionModel: PredictionQuestionModel = PredictionQuestionModel(matchId: 0, matchCode: 0, matchDate: Date(), matchTime: Date(), homeTeam: SoccerTeam(teamEmblemURL: "", teamName: "토트넘"), awayTeam: SoccerTeam(teamEmblemURL: "", teamName: "아스널"))

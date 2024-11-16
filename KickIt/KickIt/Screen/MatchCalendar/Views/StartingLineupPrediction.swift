@@ -83,7 +83,7 @@ struct StartingLineupPrediction: View {
                     // MARK: 예측하기 버튼
                     NavigationLink(value: NavigationDestination.finishLineupPrediction(data: FinishLineupPredictionNVData(
                         lineupPrediction: LineupPrediction(id: soccerMatch.id, grade: viewModel.grade, point: viewModel.point),
-                        prediction: PredictionQuestionModel(matchId: soccerMatch.id, matchCode: soccerMatch.matchCode, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName)))) {
+                        prediction: PredictionQuestionModel(matchId: soccerMatch.id, matchCode: soccerMatch.matchCode, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, homeTeam: soccerMatch.homeTeam, awayTeam: soccerMatch.awayTeam)))) {
                             DesignWideButton(
                                 label: "예측하기",
                                 labelColor: viewModel.areBothLineupsComplete(home: homeSelectedPlayers, away: awaySelectedPlayers) ? .blackAssets : .gray400,

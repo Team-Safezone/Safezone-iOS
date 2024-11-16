@@ -25,9 +25,6 @@ struct SoccerMatchInfo: View {
     /// 오늘 날짜
     @State private var nowDate = Date()
     
-    /// 선발라인업 예측 종료 여부
-    @State private var isLineupPredictionFinished: Bool = false
-    
     // MARK: - BODY
     var body: some View {
         ZStack(alignment: .top) {
@@ -82,6 +79,7 @@ struct SoccerMatchInfo: View {
             } //: VSTACK
         } //: ZSTACK
         .navigationTitle("\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
+        .tint(.white0)
     }
     
     // MARK: - FUNCTION
@@ -411,7 +409,6 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func MatchPrediction() -> some View {
         VStack(spacing: 0) {
-            // TODO: 우승팀 예측을 한 경우 또는 우승팀 예측이 종료된 경우
             if (predictionViewModel.matchPrediction.isParticipated) {
                 // 우승팀 예측 결과 조회 화면으로 이동
                 let prediction = PredictionQuestionModel(
@@ -419,8 +416,8 @@ struct SoccerMatchInfo: View {
                     matchCode: soccerMatch.matchCode,
                     matchDate: soccerMatch.matchDate,
                     matchTime: soccerMatch.matchTime,
-                    homeTeamName: soccerMatch.homeTeam.teamName,
-                    awayTeamName: soccerMatch.awayTeam.teamName
+                    homeTeam: soccerMatch.homeTeam,
+                    awayTeam: soccerMatch.awayTeam
                 )
                 
                 // 우승팀 예측 완료 화면으로 이동
@@ -447,27 +444,61 @@ struct SoccerMatchInfo: View {
             }
             .padding(.horizontal, 24)
             
-            // 선발라인업 예측을 한 경우와 선발라인업 예측이 종료된 경우
-            if (predictionViewModel.lineupPrediction.isParticipated) {
+            // 선발라인업 예측이 종료된 경우
+            if viewModel.isLineupPredictionFinished {
                 // 선발라인업 예측 완료 화면으로 이동
                 NavigationLink(value: NavigationDestination.resultLineupPrediction(
                     prediction: PredictionQuestionModel(
-                        matchId: soccerMatch.id, matchCode: soccerMatch.matchCode, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
-                        homeTeamName: soccerMatch.homeTeam.teamName, awayTeamName: soccerMatch.awayTeam.teamName)
+                        matchId: soccerMatch.id, matchCode: soccerMatch.matchCode,
+                        matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
+                        homeTeam: soccerMatch.homeTeam, awayTeam: soccerMatch.awayTeam)
                 )) {
-                    LineupPredictionView(soccerMatch: soccerMatch, viewModel: viewModel, pViewModel: predictionViewModel)
+                    LineupPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                    )
                 }
             }
-            // 선발라인업 예측을 안 한 경우와 선발라인업 예측이 진행 중인 경우
+            // 선발라인업 예측이 종료되지 않은 경우
             else {
-                // 선발라인업 예측 화면으로 이동
-                NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
-                    LineupPredictionView(soccerMatch: soccerMatch, viewModel: viewModel, pViewModel: predictionViewModel)
+                // 선발라인업 예측을 한 경우
+                if (predictionViewModel.lineupPrediction.isParticipated) {
+                    // 선발라인업 예측 완료 화면으로 이동
+                    NavigationLink(value: NavigationDestination.resultLineupPrediction(
+                        prediction: PredictionQuestionModel(
+                            matchId: soccerMatch.id, matchCode: soccerMatch.matchCode,
+                            matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime,
+                            homeTeam: soccerMatch.homeTeam, awayTeam: soccerMatch.awayTeam)
+                    )) {
+                        LineupPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                        )
+                    }
+                }
+                // 선발라인업 예측을 안 한 경우
+                else {
+                    // 선발라인업 예측 화면으로 이동
+                    NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
+                        LineupPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                        )
+                    }
                 }
             }
         }
         .onAppear {
-            startLineupPredictionTimer()
+            viewModel.startLineupPredictionTimer(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+        }
+        .onDisappear {
+            viewModel.stopTimer()
         }
         .padding(16)
         .padding(.bottom, 30)
@@ -481,19 +512,6 @@ struct SoccerMatchInfo: View {
             // 선발라인업 공개 시간이 됐다면
             if nowDate >= viewModel.startingLineupShowDate(nowDate) {
                 timer.invalidate()
-            }
-        }
-    }
-    
-    /// 선발라인업 예측 종료 마감까지의 시간 계산
-    private func startLineupPredictionTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.nowDate = Date()
-            
-            // 예측 타이머 종료 시간이 됐다면
-            if nowDate >= viewModel.lineupEndTimePredictionShowDate(nowDate) {
-                timer.invalidate()
-                isLineupPredictionFinished = true
             }
         }
     }

@@ -26,7 +26,7 @@ struct ResultWinningTeamPrediction: View {
     
     var body: some View {
         ZStack {
-            Color(.background)
+            Color(.backgroundDown)
                 .ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 0) {
@@ -67,13 +67,13 @@ struct ResultWinningTeamPrediction: View {
                 HStack(spacing: 13) {
                     // 홈팀
                     predictionView(
-                        name: prediction.homeTeamName,
+                        name: prediction.homeTeam.teamName,
                         score1: viewModel.result.homeTeamScore,
                         score2: viewModel.result.awayTeamScore)
                     
                     // 원정팀
                     predictionView(
-                        name: prediction.awayTeamName,
+                        name: prediction.awayTeam.teamName,
                         score1: viewModel.result.awayTeamScore,
                         score2: viewModel.result.homeTeamScore)
                 }
@@ -102,13 +102,13 @@ struct ResultWinningTeamPrediction: View {
                 HStack(spacing: 13) {
                     // 홈팀
                     predictionView(
-                        name: prediction.homeTeamName,
+                        name: prediction.homeTeam.teamName,
                         score1: viewModel.result.avgHomeTeamScore,
                         score2: viewModel.result.avgAwayTeamScore)
                     
                     // 원정팀
                     predictionView(
-                        name: prediction.awayTeamName,
+                        name: prediction.awayTeam.teamName,
                         score1: viewModel.result.avgAwayTeamScore,
                         score2: viewModel.result.avgHomeTeamScore)
                 }
@@ -154,30 +154,6 @@ struct ResultWinningTeamPrediction: View {
             RoundedRectangle(cornerRadius: 6)
                 .fill(.gray950)
         )
-    }
-    
-    /// 예측 성공 여부 뷰
-    @ViewBuilder
-    private func resultView(_ isPredicted: Bool?) -> some View {
-        VStack(spacing: 4) {
-            if let predict = isPredicted {
-                if predict {
-                    Image(uiImage: .circle)
-                        .foregroundStyle(.lime)
-                    Text("성공")
-                        .pretendardTextStyle(.Body2Style)
-                        .foregroundStyle(.limeText)
-                }
-                else {
-                    Image(uiImage: .nope)
-                        .foregroundStyle(.gray500)
-                    Text("실패")
-                        .pretendardTextStyle(.Body2Style)
-                        .foregroundStyle(.gray500)
-                }
-            }
-        }
-        .frame(maxWidth: .infinity)
     }
 }
 

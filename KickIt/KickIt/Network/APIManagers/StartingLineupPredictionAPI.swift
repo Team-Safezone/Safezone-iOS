@@ -93,4 +93,42 @@ class StartingLineupPredictionAPI: BaseAPI {
         }
         .eraseToAnyPublisher()
     }
+    
+    /// 선발라인업 예측 결과 조회 API
+    func getResultStartingLineupPrediction(request: MatchIdRequest) -> AnyPublisher<StartingLineupPredictionResultResponse, NetworkError> {
+        return Future<StartingLineupPredictionResultResponse, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(StartingLineupPredictionService.getResultStartingLineupPrediction(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<StartingLineupPredictionResultResponse>.self) { response in
+                    switch response.result {
+                        // API 호출 성공
+                        case .success(let result):
+                            // 응답 성공
+                            if result.isSuccess {
+                                promise(.success(result.data ?? StartingLineupPredictionResultResponse(participant: 0)))
+                            } else {
+                                switch result.status {
+                                case 401:
+                                    return promise(.failure(.authFailed))
+                                case 400..<500: // 요청 실패
+                                    return promise(.failure(.requestErr(result.message)))
+                                case 500: // 서버 오류
+                                    return promise(.failure(.serverErr(result.message)))
+                                default: // 알 수 없는 오류
+                                    return promise(.failure(.unknown(result.message)))
+                                }
+                            }
+                        // API 호출 실패
+                        case .failure(let error):
+                            promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }

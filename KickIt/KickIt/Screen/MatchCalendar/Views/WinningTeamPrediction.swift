@@ -192,8 +192,8 @@ struct WinningTeamPrediction: View {
                             matchCode: soccerMatch.matchCode,
                             matchDate: soccerMatch.matchDate,
                             matchTime: soccerMatch.matchTime,
-                            homeTeamName: soccerMatch.homeTeam.teamName,
-                            awayTeamName: soccerMatch.awayTeam.teamName
+                            homeTeam: soccerMatch.homeTeam,
+                            awayTeam: soccerMatch.awayTeam
                     )))) {
                         DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
                             .padding(.bottom, 34)

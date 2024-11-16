@@ -315,44 +315,34 @@ func timePredictionInterval3(nowDate: Date, matchDate: Date, matchTime: Date) ->
 func timePredictionInterval4(nowDate: Date, matchDate: Date, matchTime: Date) -> (Date, String) {
     let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
     
-    // 1시간 전의 날짜와 시간 계산
-    let oneHourBefore = Calendar.current.date(byAdding: .hour, value: -1, to: matchDateTime)!
+    // 1시간 30분 전의 날짜와 시간 계산
+    let oneHourThirtyMinutesBefore = Calendar.current.date(byAdding: .minute, value: -90, to: matchDateTime)!
     
-    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: oneHourBefore)
+    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: oneHourThirtyMinutesBefore)
     let hour = components.hour ?? 0
     let minute = components.minute ?? 0
     let second = components.second ?? 0
     
-    return (oneHourBefore, String(format: "%02d:%02d:%02d", hour, minute, second))
+    return (oneHourThirtyMinutesBefore, String(format: "%02d:%02d:%02d", hour, minute, second))
 }
 
 /// 입력받은 날짜, 시간 정보를 바탕으로 하나의 date값을 반환하는 함수
 func extractDateTime(date: Date, time: Date) -> Date {
-    // 날짜 formatter
-    //let dateFormatter = DateFormatter()
-    //dateFormatter.dateFormat = "yyyy-MM-dd"
+    let calendar = Calendar.current
+    // 날짜의 연, 월, 일 추출
+    let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
     
-    // 시간 formatter
-    //let timeFormatter = DateFormatter()
-    //timeFormatter.dateFormat = "HH:mm"
+    // 시간의 시, 분 추출
+    let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
     
-    //guard let fullMatchDate = dateFormatter.date(from: matchDate),
-          //let fullMatchTime = timeFormatter.date(from: matchTime) else {
-        //return ""
-    //}
+    // 날짜와 시간을 결합
+    var combinedComponents = DateComponents()
+    combinedComponents.year = dateComponents.year
+    combinedComponents.month = dateComponents.month
+    combinedComponents.day = dateComponents.day
+    combinedComponents.hour = timeComponents.hour
+    combinedComponents.minute = timeComponents.minute
+    combinedComponents.second = timeComponents.second
     
-    // 구성요소 추출
-    let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
-    let timeComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: time)
-    
-    // 날짜 + 시간 결합
-    var fullDateComponents = DateComponents()
-    fullDateComponents.year = dateComponents.year
-    fullDateComponents.month = dateComponents.month
-    fullDateComponents.day = dateComponents.day
-    fullDateComponents.hour = timeComponents.hour
-    fullDateComponents.minute = timeComponents.minute
-    fullDateComponents.second = timeComponents.second
-    
-    return Calendar.current.date(from: fullDateComponents)!
+    return calendar.date(from: combinedComponents)!
 }

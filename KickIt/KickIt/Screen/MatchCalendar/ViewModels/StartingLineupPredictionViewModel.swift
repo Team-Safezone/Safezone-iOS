@@ -82,8 +82,8 @@ final class StartingLineupPredictionViewModel: ObservableObject {
                     awayPlayers = self.playersToEntity(tempAwayPlayers)
                 }
                 
-                var homePrediction: UserStartingLineupPrediction? = UserStartingLineupPrediction()
-                var awayPrediction: UserStartingLineupPrediction? = UserStartingLineupPrediction()
+                var homePrediction: UserStartingLineupPrediction?
+                var awayPrediction: UserStartingLineupPrediction?
                 
                 if let tempHomePrediction = responseDTO.homePrediction, let tempAwayPrediction = responseDTO.awayPrediction {
                     homePrediction = self.startingLineupToEntity(tempHomePrediction)

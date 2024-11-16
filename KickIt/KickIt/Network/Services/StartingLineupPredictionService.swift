@@ -17,7 +17,7 @@ enum StartingLineupPredictionService {
     case getDefaultStartingLineupPrediction(MatchIdRequest)
     
     // 선발라인업 예측 결과 조회 API
-    case getStartingLineupPredictionResult(MatchIdRequest)
+    case getResultStartingLineupPrediction(MatchIdRequest)
 }
 
 extension StartingLineupPredictionService: TargetType {
@@ -30,7 +30,7 @@ extension StartingLineupPredictionService: TargetType {
         case .getDefaultStartingLineupPrediction:
             return .get
             // 선발라인업 예측 결과 조회 API
-        case .getStartingLineupPredictionResult:
+        case .getResultStartingLineupPrediction:
             return .get
         }
     }
@@ -44,7 +44,7 @@ extension StartingLineupPredictionService: TargetType {
         case .getDefaultStartingLineupPrediction:
             return APIConstants.startingLineupPredictionDefaultURL
         // 선발라인업 예측 결과 조회 API
-        case .getStartingLineupPredictionResult:
+        case .getResultStartingLineupPrediction:
             return APIConstants.startingLineupPredictionResultURL
         }
     }
@@ -62,7 +62,7 @@ extension StartingLineupPredictionService: TargetType {
         case .getDefaultStartingLineupPrediction(let query):
             return .query(["matchId" : query.matchId])
         // 선발라인업 예측 결과 조회 API
-        case .getStartingLineupPredictionResult(let query):
+        case .getResultStartingLineupPrediction(let query):
             return .query(["matchId" : query.matchId])
         }
     }

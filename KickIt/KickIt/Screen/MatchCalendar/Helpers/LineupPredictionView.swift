@@ -18,11 +18,11 @@ struct LineupPredictionView: View {
     /// 경기 예측 조회 뷰모델
     @ObservedObject var pViewModel: PredictionButtonViewModel
     
+    /// 예측 타이머 종료 여부
+    @Binding var isLineupPredictionFinished: Bool
+    
     /// 현재 날짜 및 시간
     @State private var nowDate = Date()
-    
-    /// 예측 타이머 종료 여부
-    @State private var isPredictionFinished: Bool = false
     
     var body: some View {
         ZStack {
@@ -33,7 +33,6 @@ struct LineupPredictionView: View {
             VStack(alignment: .leading, spacing: 0) {
                 // 레이아웃을 좌우하는 상수 값
                 let isParticipated = pViewModel.lineupPrediction.isParticipated
-                let isEnd = isParticipated || isPredictionFinished ? true : false
                 
                 HStack(spacing: 0) {
                     // 질문
@@ -45,17 +44,17 @@ struct LineupPredictionView: View {
                             switch soccerMatch.matchCode {
                             // 예정
                             case 0, 4:
-                                if !isEnd {
+                                if isLineupPredictionFinished {
+                                    endPredictionText()
+                                }
+                                else {
                                     Text("진행중")
                                         .pretendardTextStyle(.Body3Style)
                                         .foregroundStyle(.limeText)
                                     
-                                    Text(viewModel.lineupEndTimePredictionInterval(nowDate))
+                                    Text(viewModel.lineupEndTimePredictionInterval(nowDate, soccerMatch.matchDate, soccerMatch.matchTime))
                                         .pretendardTextStyle(.Body3Style)
                                         .foregroundStyle(.white0)
-                                }
-                                else {
-                                    endPredictionText()
                                 }
                                     
                             // 경기중, 휴식, 종료
@@ -124,16 +123,17 @@ struct LineupPredictionView: View {
                 switch soccerMatch.matchCode {
                     // 예정
                 case 0, 4:
-                    Text(isEnd ? "결과보기" : "참여하기")
-                        .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(isEnd ? .whiteAssets : .blackAssets)
-                        .padding(.vertical, 11)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .foregroundStyle(isEnd ? .violet : .lime)
-                        )
-                        .padding(.top, 16)
+                    if isLineupPredictionFinished {
+                        resultText(isEnd: true)
+                    }
+                    else {
+                        if isParticipated {
+                            resultText(isEnd: true)
+                        }
+                        else {
+                            resultText(isEnd: false)
+                        }
+                    }
                     
                     // 경기중, 휴식, 종료
                 case 1, 2, 3:
@@ -156,24 +156,14 @@ struct LineupPredictionView: View {
             .padding(.horizontal, 12)
         }
         .onAppear {
-            startTimer()
+            viewModel.startLineupPredictionTimer(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+        }
+        .onDisappear {
+            viewModel.stopTimer()
         }
     }
     
     // MARK: - FUNCTION
-    /// 예측 종료 마감까지의 시간 계산
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.nowDate = Date()
-            
-            // 예측 타이머 종료 시간이 됐다면
-            if nowDate >= viewModel.lineupEndTimePredictionShowDate(nowDate) {
-                timer.invalidate()
-                isPredictionFinished = true
-            }
-        }
-    }
-    
     /// 예측 종료 텍스트
     @ViewBuilder
     private func endPredictionText() -> some View {
@@ -184,6 +174,21 @@ struct LineupPredictionView: View {
         Text("\(pViewModel.lineupPrediction.participant ?? 0)명 참여")
             .pretendardTextStyle(.Body3Style)
             .foregroundStyle(.white0)
+    }
+    
+    /// 결과보기 or 참여하기 버튼 텍스트
+    @ViewBuilder
+    private func resultText(isEnd: Bool) -> some View {
+        Text(isEnd ? "결과보기" : "참여하기")
+            .pretendardTextStyle(.SubTitleStyle)
+            .foregroundStyle(isEnd ? .whiteAssets : .blackAssets)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .foregroundStyle(isEnd ? .violet : .lime)
+            )
+            .padding(.top, 16)
     }
     
     /// 팀 포메이션 정보
@@ -244,5 +249,5 @@ struct LineupPredictionView: View {
 
 // MARK: - PREVIEW
 #Preview("선발라인업 예측 조회") {
-    LineupPredictionView(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel())
+    LineupPredictionView(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel(), isLineupPredictionFinished: .constant(false))
 }
