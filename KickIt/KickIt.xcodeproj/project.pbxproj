@@ -30,6 +30,9 @@
 		E72D79D62CE8820100D122AE /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D79D52CE8820100D122AE /* AlertView.swift */; };
 		E72D79D82CE88C9F00D122AE /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D79D72CE88C9F00D122AE /* AlertViewModel.swift */; };
 		E72D79E22CE8BA3900D122AE /* Splash003.lottie in Resources */ = {isa = PBXBuildFile; fileRef = E72D79E12CE8BA3900D122AE /* Splash003.lottie */; };
+		E72D79E92CE8C2A600D122AE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E72D79E62CE8C2A600D122AE /* Pretendard-SemiBold.otf */; };
+		E72D79EB2CE8C2B600D122AE /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E72D79EA2CE8C2B600D122AE /* Pretendard-Bold.otf */; };
+		E72D79ED2CE8C2C700D122AE /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E72D79EC2CE8C2C700D122AE /* Pretendard-Medium.otf */; };
 		E739BA142CDA4FA0001A874A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA132CDA4FA0001A874A /* KakaoSDKAuth */; };
 		E739BA162CDA4FA0001A874A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA152CDA4FA0001A874A /* KakaoSDKCommon */; };
 		E739BA182CDA4FA0001A874A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA172CDA4FA0001A874A /* KakaoSDKUser */; };
@@ -37,7 +40,6 @@
 		E739BA5F2CDA593A001A874A /* KakaoLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E739BA5E2CDA593A001A874A /* KakaoLoginRequest.swift */; };
 		E739BA622CDA5C24001A874A /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E739BA612CDA5C24001A874A /* LoginType.swift */; };
 		E739BA642CDA6D09001A874A /* UserSignUpInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E739BA632CDA6D09001A874A /* UserSignUpInfo.swift */; };
-		E743A04D2CB01525007E4343 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = E743A04C2CB01525007E4343 /* Font */; };
 		E7523EFF2CB12170007AE457 /* MatchPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523EFE2CB12170007AE457 /* MatchPredictionView.swift */; };
 		E7523F012CB162E5007AE457 /* LineupPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523F002CB162E5007AE457 /* LineupPredictionView.swift */; };
 		E755B94A2CE0C71300B718BE /* Splash4.lottie in Resources */ = {isa = PBXBuildFile; fileRef = E755B9492CE0C71300B718BE /* Splash4.lottie */; };
@@ -295,11 +297,13 @@
 		E72D79D52CE8820100D122AE /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		E72D79D72CE88C9F00D122AE /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		E72D79E12CE8BA3900D122AE /* Splash003.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = Splash003.lottie; sourceTree = "<group>"; };
+		E72D79E62CE8C2A600D122AE /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		E72D79EA2CE8C2B600D122AE /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		E72D79EC2CE8C2C700D122AE /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		E739BA5C2CDA57A8001A874A /* KakaoSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSignUpRequest.swift; sourceTree = "<group>"; };
 		E739BA5E2CDA593A001A874A /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		E739BA612CDA5C24001A874A /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		E739BA632CDA6D09001A874A /* UserSignUpInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUpInfo.swift; sourceTree = "<group>"; };
-		E743A04C2CB01525007E4343 /* Font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Font; sourceTree = "<group>"; };
 		E744887E2CA2D0490080EA1C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		E744887F2CA2D0490080EA1C /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		E74488802CA2D0490080EA1C /* TextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyle.swift; sourceTree = "<group>"; };
@@ -584,6 +588,16 @@
 				E7523F002CB162E5007AE457 /* LineupPredictionView.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E72D79E32CE8C29A00D122AE /* Font+ */ = {
+			isa = PBXGroup;
+			children = (
+				E72D79EC2CE8C2C700D122AE /* Pretendard-Medium.otf */,
+				E72D79E62CE8C2A600D122AE /* Pretendard-SemiBold.otf */,
+				E72D79EA2CE8C2B600D122AE /* Pretendard-Bold.otf */,
+			);
+			path = "Font+";
 			sourceTree = "<group>";
 		};
 		E739BA602CDA5C19001A874A /* Models */ = {
@@ -1088,8 +1102,8 @@
 		E7CD31F62CA2EF2B00CBC086 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E72D79E32CE8C29A00D122AE /* Font+ */,
 				E7B2E37D2CD8DDD700CEE18F /* heart.gif */,
-				E743A04C2CB01525007E4343 /* Font */,
 				E744887E2CA2D0490080EA1C /* Date+.swift */,
 				E744887F2CA2D0490080EA1C /* Font+.swift */,
 				E74488802CA2D0490080EA1C /* TextStyle.swift */,
@@ -1361,11 +1375,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E72D79ED2CE8C2C700D122AE /* Pretendard-Medium.otf in Resources */,
 				E79F05C72CA01EAA0059E828 /* Preview Assets.xcassets in Resources */,
+				E72D79EB2CE8C2B600D122AE /* Pretendard-Bold.otf in Resources */,
+				E72D79E92CE8C2A600D122AE /* Pretendard-SemiBold.otf in Resources */,
 				E7B2E37E2CD8DDD700CEE18F /* heart.gif in Resources */,
 				E79F05C42CA01EAA0059E828 /* Assets.xcassets in Resources */,
 				E79F05F72CA04D300059E828 /* Secrets.xcconfig in Resources */,
-				E743A04D2CB01525007E4343 /* Font in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

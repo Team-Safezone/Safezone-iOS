@@ -159,28 +159,27 @@ class MatchEventAPI: BaseAPI {
                 promise(.failure(NetworkError.unknown("Network Error")))
                 return
             }
-            AFManager.request(
-                MatchEventService.postMatchHeartRate(request) as! URLConvertible,
-                method: .post,
-                parameters: request,
-                encoder: JSONParameterEncoder.default
-            )
-            .responseData { response in
-                switch response.result {
-                case .success:
-                    guard let statusCode = response.response?.statusCode else {
-                        promise(.failure(NetworkError.unknown("Invalid Response")))
-                        return
+            
+            let request = MatchEventService.postMatchHeartRate(request)
+            
+            self.AFManager.request(request, interceptor: MyRequestInterceptor())
+                .validate()
+                .responseData { response in
+                    switch response.result {
+                    case .success:
+                        guard let statusCode = response.response?.statusCode else {
+                            promise(.failure(NetworkError.unknown("Invalid Response")))
+                            return
+                        }
+                        if 200...299 ~= statusCode {
+                            promise(.success(()))
+                        } else {
+                            promise(.failure(NetworkError.unknown("Server Error")))
+                        }
+                    case .failure(let error):
+                        promise(.failure(error))
                     }
-                    if 200...299 ~= statusCode {
-                        promise(.success(()))
-                    } else {
-                        promise(.failure(NetworkError.unknown("Server Error")))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
                 }
-            }
         }
         .eraseToAnyPublisher()
     }

@@ -93,6 +93,20 @@ func stringToDate2(date: String) -> Date {
     return convertDate
 }
 
+// String -> Date(yyyy/MM/dd HH:mm:ss) 형식으로 변경하는 함수
+func stringToDate3(date: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    
+    // Date 타입으로 변환
+    if let convertDate = dateFormatter.date(from: date) {
+        return convertDate
+    } else {
+        print("[타임라인] 날짜 변환 실패: \(date)")
+        return nil // 변환 실패 시 nil 반환
+    }
+}
+
 /// String -> String(M월 dd일) 형식으로 변경하는 함수
 func stringToDateString(_ date: String) -> String {
     let dateFormatter = DateFormatter()
@@ -173,6 +187,17 @@ func dateTimeToString(date3: Date) -> String {
     
     return datetimeToString
 }
+
+/// Date,Time -> String으로 변경하는 함수
+func dateToString4(date4: Date) -> String {
+    let datetimeFormatter = DateFormatter()
+    datetimeFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    
+    let datetimeToString = datetimeFormatter.string(from: date4)
+    
+    return datetimeToString
+}
+
 
 /// 타임라인 시간 계산
 func calculateEventTime(from matchStartTime: Date?, eventTime: String) -> Int {

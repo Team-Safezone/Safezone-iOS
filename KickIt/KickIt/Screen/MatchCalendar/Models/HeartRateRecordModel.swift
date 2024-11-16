@@ -84,12 +84,9 @@ class HeartRateRecordModel {
     /// - Parameter eventTime: 이벤트 발생 시간 (형식: "yyyy/MM/dd HH:mm")
     /// - Returns: 이벤트 발생 5분 후 또는 가장 가까운 시간의 심박수
     func getHeartRate(for eventTime: String) -> Int? {
-        print("Searching heart rate for event time: \(eventTime)")
-        print("Available heart rate records: \(HeartRateDates)")
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone.current
         
         // 이벤트 시간을 Date 객체로 변환
         guard let eventDate = dateFormatter.date(from: eventTime) else {
@@ -132,7 +129,6 @@ class HeartRateRecordModel {
         
         // 결과 출력 및 반환
         if let record = closestRecord {
-            print("Found heart rate \(record.heartRate) at \(record.date) for event time: \(eventTime)")
             return record.heartRate
         } else {
             print("No matching heart rate found for event time: \(eventTime)")
