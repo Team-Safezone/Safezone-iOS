@@ -31,6 +31,33 @@ struct LineChartView: View {
                     .pretendardTextStyle(.Caption1Style)
                     .foregroundColor(.gray200)
                     
+                    // 실선 및 점선 추가
+                    VStack(alignment: .leading, spacing: 80) {
+                        // 높음 - 점선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                        .frame(width: 420, height: 1)
+                        
+                        // 보통 - 점선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1, dash: [5, 5]))
+                        .frame(width: 420, height: 1)
+                        
+                        // 낮음 - 실선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1))
+                        .frame(width: 420, height: 1)
+                    }.padding(.leading, 64)
+                    
                     // 라인 그래프
                     Group {
                         drawLine(for: viewModel.userHeartRates, color: .lime)

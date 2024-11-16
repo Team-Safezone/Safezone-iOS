@@ -18,14 +18,11 @@ struct LoginView: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.black0.ignoresSafeArea()
+            OnBoarding()
             
-            VStack(alignment: .center)  {
-                OnBoarding()
-                    .padding(.bottom, 30)
-                
                 VStack(alignment: .center)
                 {
+                    Spacer()
                     // MARK: 카카오 로그인
                     Button(action: {
                         if UserApi.isKakaoTalkLoginAvailable() {
@@ -35,7 +32,7 @@ struct LoginView: View {
                         }
                     }) {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(maxWidth: .infinity, maxHeight: 48)
+                            .frame(maxWidth: .infinity, maxHeight: 50)
                             .foregroundStyle(.kakao)
                             .overlay {
                                 HStack(alignment: .center, spacing: 88) {
@@ -52,14 +49,14 @@ struct LoginView: View {
                             }
                     }
                     .padding(.horizontal, 16)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 5)
                     
                     // 애플 로그인
                     Button(action: {
                         viewModel.nextStep()
                     }) {
                         RoundedRectangle(cornerRadius: 8)
-                            .frame(maxWidth: .infinity, maxHeight: 48)
+                            .frame(maxWidth: .infinity, maxHeight: 50)
                             .foregroundStyle(.white0)
                             .overlay {
                                 HStack(alignment: .center, spacing: 88) {
@@ -77,8 +74,9 @@ struct LoginView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 10)
-                }
-            }
+                }.padding(.bottom, 70)
+            
+            
         }.environment(\.colorScheme, .dark) // 무조건 다크모드
     }
     
@@ -146,8 +144,8 @@ struct LoginView: View {
                 }
                 
                 // 로그인 데이터 삭제용
-//                KeyChain.shared.deleteJwtToken()
-//                KeyChain.shared.deleteKakaoAccount()
+                KeyChain.shared.deleteJwtToken()
+                KeyChain.shared.deleteKakaoAccount()
                 
                 if let email = user?.kakaoAccount?.email {
                     KeyChain.shared.addKeyChainItem(key: .kakaoEmail, value: email)

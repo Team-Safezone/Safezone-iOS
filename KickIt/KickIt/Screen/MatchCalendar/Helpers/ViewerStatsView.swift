@@ -19,15 +19,14 @@ struct ViewerStatsView: View {
     var homeTeamPercentage: Int
     
     var body: some View {
-        VStack {
+        VStack{
             HStack {
                 Text("양 팀 시청자 분석")
                     .pretendardTextStyle(.Title1Style)
-                    .padding(.top, 50)
                 Spacer()
             }
             .padding(.horizontal, 16)
-            .padding(.bottom, 23)
+            .padding(.bottom, 30)
             
             HStack {
                 HStack(spacing: 8) {
@@ -72,8 +71,7 @@ struct ViewerStatsView: View {
                     .foregroundStyle(.violet)
             }
             .padding(.horizontal, 20)
-        }
-        .padding(.vertical, 30)
+        }.padding(.top, 40)
     }
 }
 

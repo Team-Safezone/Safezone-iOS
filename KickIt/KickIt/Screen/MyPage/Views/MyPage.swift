@@ -134,7 +134,7 @@ struct MyPage: View {
                 }
             }
             .padding(.bottom, 16)
-            HStack(alignment: .bottom, spacing: 8){
+            HStack(alignment: .bottom, spacing: 16){
                 ForEach(Array(viewModel.favoriteTeamsUrl
                     .enumerated()), id: \.element.teamName) { index, team in
                         VStack(spacing: 0) {

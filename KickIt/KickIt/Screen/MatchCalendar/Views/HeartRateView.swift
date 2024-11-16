@@ -9,6 +9,10 @@ import SwiftUI
 
 /// 심박수 통계 화면
 struct HeartRateView: View {
+    
+    /// back 버튼 색상
+    @Environment(\.presentationMode) var presentationMode
+    
     @StateObject private var viewModel: HeartRateViewModel
     
     init(match: SoccerMatch) {
@@ -80,6 +84,19 @@ struct HeartRateView: View {
             }
             .navigationTitle("심박수 통계")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+                .toolbar {  // back 색상
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.white0) // 색상
+                            }
+                        }
+                    }
+                }
         }//:ZSTACK
     }
 }

@@ -37,7 +37,7 @@ struct GradeInfo: View {
                     .padding(.bottom, 24)
                     
                     // 등급 기준
-                    VStack(alignment: .leading, spacing: 8){
+                    VStack(alignment: .leading, spacing: 16){
                         Text("등급 기준")
                             .pretendardTextStyle(.Title2Style)
                         BallView(name: "루키", num1: 0, num2: 20, img: 0)

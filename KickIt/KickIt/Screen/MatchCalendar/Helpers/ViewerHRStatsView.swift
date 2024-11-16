@@ -26,23 +26,23 @@ struct ViewerHRStatsView: View {
             Text("심박수 비교")
                 .pretendardTextStyle(.Title2Style)
         VStack{
-            HStack {
-                HStack{
+            HStack(alignment: .center){
+                Spacer()
                     Text(homeTeamName + " 팬")
                         .pretendardTextStyle(.SubTitleStyle)
-                        .frame(width: 120)
-                }
+                        .frame(width: 110)
                 Spacer().frame(width: 100)
                 Text(awayTeamName + " 팬")
                     .pretendardTextStyle(.SubTitleStyle)
-                    .frame(width: 100)
+                    .frame(width: 110)
+                Spacer()
             }
             .padding(.vertical, 16)
-            .padding(.horizontal, 40)
+            .frame(maxWidth: .infinity, minHeight: 44)
             .background {
                 SpecificRoundedRectangle(radius: 8, corners: [.topRight, .topLeft])
                     .foregroundStyle(Color.gray950Assets)
-                    .frame(width: 355, height: 52)
+                    .frame(maxWidth: .infinity, minHeight: 44)
             }
             
             ForEach(0..<3, id: \.self) { i in
@@ -72,26 +72,27 @@ struct ViewerHRStatsView: View {
                     }
                     .frame(width: 80)
                 }
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
                 .padding(.horizontal, 40)
             }
         }
         .overlay {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray900Assets, lineWidth: 1)
-                .frame(width: 355)
+                .frame(maxWidth: .infinity, minHeight: 48)
             Path { path in
-                path.move(to: CGPoint(x: 22, y: 115))
-                path.addLine(to: CGPoint(x: 355+22, y: 115))
+                path.move(to: CGPoint(x: 0, y: 105))
+                path.addLine(to: CGPoint(x: 382, y: 105))
             }
             .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
             Path { path in
-                path.move(to: CGPoint(x: 22, y: 115 + 115 / 2))
-                path.addLine(to: CGPoint(x: 355+22, y: 115 + 115 / 2))
+                path.move(to: CGPoint(x: 0, y: 155))
+                path.addLine(to: CGPoint(x: 382, y: 155))
             }
             .stroke(.gray900Assets, style: StrokeStyle(lineWidth: 1))
         }
-    }
+    }.padding(.horizontal, 16)
+        
     }
 }
 

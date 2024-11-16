@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct TimelineEventView: View {
+    
+    /// back 버튼 색상
+    @Environment(\.presentationMode) var presentationMode
+    
     @StateObject private var viewModel: MatchEventViewModel
     @State private var isShowingSoccerDiary = false
     @State private var timer: Timer?
@@ -33,9 +37,10 @@ struct TimelineEventView: View {
                                     TimelineEventRowView(
                                         event: event,
                                         viewModel: viewModel
-                                    )
+                                    ).padding(.vertical, 16)
                                 } else if event.eventCode == 2 || event.eventCode == 4 {
                                     HalfTimeView(event: event, eventCode: event.eventCode)
+                                        .padding(.vertical, 16)
                                 }
                             }
                         }
@@ -60,12 +65,25 @@ struct TimelineEventView: View {
                 if viewModel.match.matchCode == 3 {
                     NavigationLink(destination: SoccerDiary().toolbarRole(.editor)) {
                         LinkToSoccerView()
+                            .padding()
                     }
-                    .padding(.bottom, 16)
                 }
             }
             .navigationTitle("경기 타임라인")
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {  // back 색상
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.white0) // 색상
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -185,7 +203,7 @@ struct LinkToSoccerView: View {
         .foregroundStyle(.whiteAssets)
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .frame(width: 342, height: 72)
+        .frame(maxWidth: .infinity, minHeight: 72)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(LinearGradient.pinkGradient)

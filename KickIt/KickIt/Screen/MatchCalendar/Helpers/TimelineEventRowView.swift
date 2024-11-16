@@ -84,6 +84,7 @@ struct TimelineEventRowView: View {
                 }
             }
         }
+        .frame(height: 46)
         .padding(.vertical, 8)
         .background{
             if event.eventName == "골!" {

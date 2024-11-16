@@ -23,7 +23,7 @@ struct MatchResultView: View {
             }
             .zIndex(1)
             .padding(.bottom, 88)
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 8).fill(.gray950)
                 .stroke(viewModel.getStatusColor(), lineWidth: 1.00)
                 .frame(maxWidth: .infinity, maxHeight: 88, alignment: .center)
             HStack {
