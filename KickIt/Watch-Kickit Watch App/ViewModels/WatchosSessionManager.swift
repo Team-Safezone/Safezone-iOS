@@ -7,8 +7,8 @@
 
 import WatchConnectivity
 
-class WatchSessionManager: NSObject, WCSessionDelegate {
-    static let shared = WatchSessionManager()
+class WatchosSessionManager: NSObject, WCSessionDelegate {
+    static let shared = WatchosSessionManager()
     
     @Published var wcSessionState: WCSessionActivationState = .notActivated
     @Published var errorMessage: String?
@@ -32,17 +32,17 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         DispatchQueue.main.async {
             self.wcSessionState = activationState
             if let error = error {
-                self.errorMessage = "WCSession activation error: \(error.localizedDescription)"
+                self.errorMessage = "[watch] WCSession activation error: \(error.localizedDescription)"
             } else {
                 switch activationState {
                 case .activated:
                     self.errorMessage = nil
                 case .inactive:
-                    self.errorMessage = "WCSession is inactive"
+                    self.errorMessage = "[watch] WCSession is inactive"
                 case .notActivated:
-                    self.errorMessage = "WCSession is not activated"
+                    self.errorMessage = "[watch] WCSession is not activated"
                 @unknown default:
-                    self.errorMessage = "Unknown WCSession state"
+                    self.errorMessage = "[watch] Unknown WCSession state"
                 }
             }
         }
@@ -56,10 +56,11 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 }
             }
     
+    // matchId 전송
     func sendMatchIdToiOS(matchId: Int64) {
         let message = ["matchId": matchId]
         WCSession.default.sendMessage(message, replyHandler: nil) { error in
-            print("Error sending matchId to iOS: \(error.localizedDescription)")
+            print("[watch] Error sending matchId to iOS: \(error.localizedDescription)")
         }
     }
 }

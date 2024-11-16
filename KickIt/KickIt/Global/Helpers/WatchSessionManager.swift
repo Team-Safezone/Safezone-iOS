@@ -35,7 +35,7 @@ class WatchSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         DispatchQueue.main.async {
             self.wcSessionState = activationState
             if let error = error {
-                self.errorMessage = "iOS WCSession activation error: \(error.localizedDescription)"
+                self.errorMessage = "[iOS] WCSession activation error: \(error.localizedDescription)"
             } else {
                 switch activationState {
                 case .activated:
@@ -43,11 +43,11 @@ class WatchSessionManager: NSObject, ObservableObject, WCSessionDelegate {
                     let token = KeyChain.shared.getJwtToken()
                     self.sendXAuthTokenToWatch(token ?? "token x")
                 case .inactive:
-                    self.errorMessage = "iOS WCSession is inactive"
+                    self.errorMessage = "[iOS] WCSession is inactive"
                 case .notActivated:
-                    self.errorMessage = "iOS WCSession is not activated"
+                    self.errorMessage = "[iOS] WCSession is not activated"
                 @unknown default:
-                    self.errorMessage = "iOS Unknown WCSession state"
+                    self.errorMessage = "[iOS] Unknown WCSession state"
                 }
             }
         }
@@ -55,13 +55,13 @@ class WatchSessionManager: NSObject, ObservableObject, WCSessionDelegate {
     
     func sessionDidBecomeInactive(_ session: WCSession) {
         DispatchQueue.main.async {
-            self.errorMessage = "iOS WCSession became inactive"
+            self.errorMessage = "[iOS] WCSession became inactive"
         }
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
         DispatchQueue.main.async {
-            self.errorMessage = "iOS WCSession deactivated"
+            self.errorMessage = "[iOS] WCSession deactivated"
         }
         // 세션 재활성화
         WCSession.default.activate()
@@ -85,7 +85,7 @@ class WatchSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         
         let message = ["xAuthToken": token]
         WCSession.default.sendMessage(message, replyHandler: nil) { error in
-            print("Error sending xAuthToken to watch: \(error.localizedDescription)")
+            print("[iOS] Error sending xAuthToken to watch: \(error.localizedDescription)")
         }
     }
     
