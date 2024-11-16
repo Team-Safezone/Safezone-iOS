@@ -92,7 +92,7 @@ struct alertMatchStart: View {
                 Text("경기 시작 5분 전입니다")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
-            }.padding(.leading, 16)
+            }
             Spacer()
             Text(alertDate)
                 .pretendardTextStyle(.Body3Style)
@@ -129,7 +129,7 @@ struct alertLineup: View {
                 Text("\(homeTeam) VS \(awayTeam) 경기의 선발 라인업을 확인해보세요")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
-            }.padding(.leading, 16)
+            }
         }.padding(20)
             .background{
                 readRectangle()
@@ -164,7 +164,7 @@ struct alertPrediction: View {
                 Text("내가 참여한 \(homeTeam) VS \(awayTeam) 경기의 예측 결과를 확인해보세요!")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
-            }.padding(.leading, 16)
+            }
         }.padding(20)
             .background{
                 readRectangle()
@@ -189,7 +189,7 @@ struct alertDiary: View {
                 Text("누군가 나의 축구 일기를 좋아합니다")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
-            }.padding(.leading, 16)
+            }
             Spacer()
             Text(alertDate)
                 .pretendardTextStyle(.Body3Style)
@@ -219,7 +219,7 @@ struct alertNotice: View {
                 Text("공지 내용입니다")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
-            }.padding(.leading, 16)
+            }
             Spacer()
             Text(alertDate)
                 .pretendardTextStyle(.Body3Style)
