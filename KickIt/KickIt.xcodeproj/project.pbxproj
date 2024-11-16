@@ -27,6 +27,8 @@
 		E72CC3322CAFC8E100EE38B8 /* AvgHeartRateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */; };
 		E72CC3362CAFEB4100EE38B8 /* MatchHeartRateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */; };
 		E72CC3382CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */; };
+		E72D79D62CE8820100D122AE /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D79D52CE8820100D122AE /* AlertView.swift */; };
+		E72D79D82CE88C9F00D122AE /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D79D72CE88C9F00D122AE /* AlertViewModel.swift */; };
 		E739BA142CDA4FA0001A874A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA132CDA4FA0001A874A /* KakaoSDKAuth */; };
 		E739BA162CDA4FA0001A874A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA152CDA4FA0001A874A /* KakaoSDKCommon */; };
 		E739BA182CDA4FA0001A874A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E739BA172CDA4FA0001A874A /* KakaoSDKUser */; };
@@ -290,6 +292,8 @@
 		E72CC3312CAFC8E100EE38B8 /* AvgHeartRateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvgHeartRateResponse.swift; sourceTree = "<group>"; };
 		E72CC3352CAFEB4100EE38B8 /* MatchHeartRateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHeartRateRequest.swift; sourceTree = "<group>"; };
 		E72CC3372CAFF70500EE38B8 /* HeartRateDataExistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateDataExistsResponse.swift; sourceTree = "<group>"; };
+		E72D79D52CE8820100D122AE /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		E72D79D72CE88C9F00D122AE /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		E739BA5C2CDA57A8001A874A /* KakaoSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSignUpRequest.swift; sourceTree = "<group>"; };
 		E739BA5E2CDA593A001A874A /* KakaoLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginRequest.swift; sourceTree = "<group>"; };
 		E739BA612CDA5C24001A874A /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
@@ -617,6 +621,7 @@
 			isa = PBXGroup;
 			children = (
 				E779706C2CA6A5ED00DA5C00 /* HomeViewModel.swift */,
+				E72D79D72CE88C9F00D122AE /* AlertViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -770,6 +775,7 @@
 			isa = PBXGroup;
 			children = (
 				E79AFF882BEDDE24004CAF75 /* Home.swift */,
+				E72D79D52CE8820100D122AE /* AlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1373,6 +1379,7 @@
 				E79C71CE2CB803F300EB4CFF /* ManageAccountViewModel.swift in Sources */,
 				E7DBC1082C0EE9AA008D4300 /* VerticalBarChart.swift in Sources */,
 				E79BF2B92C9AB0A900302BB8 /* MainView.swift in Sources */,
+				E72D79D82CE88C9F00D122AE /* AlertViewModel.swift in Sources */,
 				E7DBC1062C0EE9A4008D4300 /* SoccerDiary.swift in Sources */,
 				E7A6A06D2C95B7A60008447D /* AcceptingVIew.swift in Sources */,
 				E7E869172C568C9400DFBA85 /* HeartRateViewModel.swift in Sources */,
@@ -1455,6 +1462,7 @@
 				E7FFA0612C9EBBE1001FE588 /* SignUpData.swift in Sources */,
 				E79EE7602BF8E5A5005CEF80 /* PredictionPanel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
+				E72D79D62CE8820100D122AE /* AlertView.swift in Sources */,
 				E76C2F192CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift in Sources */,
 				E76C2F2D2CD8914F00B38B58 /* DiaryDeleteRequest.swift in Sources */,
 				E778A0842C97F3FD00B6117D /* StartingLineupPredictionView.swift in Sources */,

@@ -30,6 +30,9 @@ struct Home: View {
     /// 경기 캘린더 뷰모델
     @ObservedObject var calendarViewModel: MatchCalendarViewModel
     
+    /// 알림 뷰모델
+    @StateObject private var alertViewModel = AlertViewModel()
+    
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
@@ -160,6 +163,7 @@ struct Home: View {
         .onAppear {
             // MARK: 홈 조회 API 호출
             viewModel.getHome()
+            viewModel.checkForNewAlerts()
         }
     }
     
@@ -185,21 +189,13 @@ struct Home: View {
             .padding(.vertical, 6)
             .padding(.horizontal, 8)
             
-            ZStack {
-                // 알림 on, off 설정을 위한 알림 아이콘
-                Image(uiImage: .alarmOn)
+            NavigationLink(destination: AlertView(viewModel: alertViewModel)) {
+                Image(viewModel.hasNewAlerts ? "Alarm" : "AlarmOn")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24, alignment: .center)
-                    .padding(10)
-                
-                // 라이트모드를 위한 알림 아이콘
-                Image(uiImage: .alarm)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24, height: 24, alignment: .center)
-                    .foregroundStyle(.lime)
             }
+            .padding(10)
         }
         .padding(.top, 60)
         .padding(.horizontal, 16)

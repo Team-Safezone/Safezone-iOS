@@ -15,6 +15,14 @@ final class HomeViewModel: ObservableObject {
     @Published var matchDiarys: HomeDiary? // 축구 일기 쓰기
     @Published var favoriteImagesURL: [String] = [] // 사용자의 관심있는 구단 이미지 URL 리스트
     @Published var matches: [SoccerMatch]? // 사용자에게 관심있을 경기 일정 리스트
+    @Published var hasNewAlerts: Bool = false   // 새로운 알람이 있는지
+        
+        init() {
+            NotificationManager.shared.$unreadAlerts
+                .map { !$0.isEmpty }
+                .assign(to: \.hasNewAlerts, on: self)
+                .store(in: &cancellables)
+        }
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -76,5 +84,10 @@ final class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
+    }
+    
+    // 새 알림을 확인
+    func checkForNewAlerts() {
+        NotificationManager.shared.checkForNewAlerts()
     }
 }

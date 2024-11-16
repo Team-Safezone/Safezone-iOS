@@ -9,8 +9,9 @@ import UserNotifications
 
 // 알림 매니저
 class NotificationManager: NSObject, UNUserNotificationCenterDelegate, ObservableObject {
-    // 싱글톤 인스턴스
-    static let shared = NotificationManager()
+    static let shared = NotificationManager()   // 싱글톤 인스턴스
+    
+    @Published var unreadAlerts: [KickitAlert] = []   // 안읽은 알람
     
     // 프라이빗 이니셜라이저로 외부에서 인스턴스 생성 방지
     override private init() {
@@ -61,7 +62,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
                 print("경기 시작 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
                 if let notificationTime = calendar.date(from: dateComponents) {
-                    print("경기 시작 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                    print("경기 시작 알림, 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
                 }
             }
         }
@@ -98,7 +99,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
                 print("선발 라인업 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
                 if let notificationTime = calendar.date(from: dateComponents) {
-                    print("선발 라인업 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                    print("선발 라인업 알림, 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
                 }
             }
         }
@@ -159,6 +160,7 @@ extension Notification.Name {
 extension NotificationManager {
     /// 지난 경기의 알림 삭제
     func removePastNotifications() {
+        print("지난 경기의 알림 삭제")
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
             let currentDate = Date()
@@ -176,6 +178,30 @@ extension NotificationManager {
     
     /// 모든 알림 삭제
     func removeAllNotifications() {
+        print("모든 알림 삭제")
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
+    // 새로운 알람
+    func checkForNewAlerts() {
+        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+            DispatchQueue.main.async {
+                self.unreadAlerts = notifications.map { notification in
+                    let userInfo = notification.request.content.userInfo
+                    return KickitAlert(
+                        id: UUID(),
+                        matchId: userInfo["matchId"] as? Int64 ?? 0,
+                        type: userInfo["notificationType"] as? String ?? ""
+                    )
+                }
+            }
+        }
+    }
+    
+    // 알람을 읽음
+    func markAlertAsRead(_ alert: KickitAlert) {
+        if let index = unreadAlerts.firstIndex(where: { $0.id == alert.id }) {
+            unreadAlerts.remove(at: index)
+        }
     }
 }
