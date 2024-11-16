@@ -45,10 +45,15 @@ struct MatchDetailView: View {
                                 viewModel.sendMatchIdToiOS(matchId: match.id)
                                 isRecordingHeartRate = true
                             }) {
-                                Text("심박수 기록")
-                                    .font(.pretendard(.medium, size: 15))
-                                    .foregroundColor(.white)
-                            }.frame(maxHeight: 44)
+                                RoundedRectangle(cornerRadius: 20)
+                                    .frame(width: 160, height: 44)
+                                    .foregroundStyle(.gray950Assets)
+                                    .overlay{
+                                        Text("심박수 기록")
+                                            .font(.pretendard(.medium, size: 15))
+                                            .foregroundColor(.white)
+                                    }
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     
                 } else {
@@ -153,12 +158,11 @@ struct EndView: View {
     var viewModel: SoccerMatchViewModel
     
     var body: some View {
-        VStack(alignment: .center, spacing: 10) {
+        VStack(alignment: .center, spacing: 8) {
             Text("경기 시청을\n중단하시겠습니까?")
                 .multilineTextAlignment(.center)
                 .font(.pretendard(.medium, size: 14))
                 .lineSpacing(2)
-            Spacer().frame(maxHeight: 10)
             VStack{
                 Button(action: {
                     isRecordingHeartRate = false

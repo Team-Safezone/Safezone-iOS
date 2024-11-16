@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 우리앱의 타이포그래피(커스텀 폰트 + 자간 + 행간)를 설정해둔 파일
-struct TextStyle { 
+struct TextStyle {
     let font: Font
     let tracking: CGFloat
     let uiFont: UIFont // 행간을 위한 상수
