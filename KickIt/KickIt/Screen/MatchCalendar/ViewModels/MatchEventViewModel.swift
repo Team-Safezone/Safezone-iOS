@@ -311,8 +311,19 @@ class MatchEventViewModel: NSObject, ObservableObject {
         }
     }
     
-    // 경기 코드에 따른 색상
+    // 경기 코드에 따른 마크 색상
     func getStatusColor() -> Color {
+        switch match.matchCode {
+        case 0: return Color.whiteText
+        case 1, 2: return Color.lime
+        case 3: return Color.gray800Assets
+        case 4: return Color.gray800Assets
+        default: return Color.white0
+        }
+    }
+    
+    // 경기 코드에 따른 테두리 색상
+    func getStatusBorderColor() -> Color {
         switch match.matchCode {
         case 0: return Color.whiteText
         case 1, 2: return Color.lime

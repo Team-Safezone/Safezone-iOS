@@ -24,7 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             DispatchQueue.main.async {
                 if granted {
                     print("알림 권한 승인됨, 경기 데이터 요청 시작")
-                    self.notificationManager.removeAllNotifications()
+                    self.notificationManager.removePastNotifications()
                     
                     let request = SoccerMatchDailyRequest(date: dateToString4(date: Date()), teamName: nil)
                     print("알림 요청 데이터: \(request)")

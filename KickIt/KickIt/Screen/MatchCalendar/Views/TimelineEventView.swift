@@ -37,10 +37,10 @@ struct TimelineEventView: View {
                                     TimelineEventRowView(
                                         event: event,
                                         viewModel: viewModel
-                                    ).padding(.vertical, 16)
+                                    ).padding(.vertical, 2)
                                 } else if event.eventCode == 2 || event.eventCode == 4 {
                                     HalfTimeView(event: event, eventCode: event.eventCode)
-                                        .padding(.vertical, 16)
+                                        .padding(.vertical, 2)
                                 }
                             }
                         }
@@ -213,5 +213,5 @@ struct LinkToSoccerView: View {
 }
 
 #Preview {
-    TimelineEventView(match: dummySoccerMatches[0])
+    TimelineEventView(match: dummySoccerMatches[2])
 }

@@ -28,16 +28,18 @@ struct TimelineEventRowView: View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
-            Text("\(event.time ?? 0)분")
-                .pretendardTextStyle(.Body3Style)
-                .frame(width: 40, alignment: .center)
-                .foregroundColor(.white0)
-            
-            LoadableImage(image: event.teamUrl ?? "")
-                .frame(width: 30, height: 30)
-                .background(.white)
-                .clipShape(Circle())
+        HStack(alignment: .center, spacing: 20) {
+            HStack(spacing: 0){
+                Text("\(event.time ?? 0)분")
+                    .pretendardTextStyle(.Body3Style)
+                    .frame(width: 40, alignment: .center)
+                    .foregroundColor(.white0)
+                
+                LoadableImage(image: event.teamUrl ?? "")
+                    .frame(width: 30, height: 30)
+                    .background(.white)
+                    .clipShape(Circle())
+            }
             
             HStack(alignment: .center, spacing: 8) {
                 Image(eventIcons[event.eventName] ?? "교체")
@@ -48,7 +50,7 @@ struct TimelineEventRowView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     if event.eventName == "VAR 판독" {
                         Text("\(event.player1 ?? "")")
-                            .pretendardTextStyle(.SubTitleStyle)
+                            .pretendardTextStyle(.Title2Style)
                             .foregroundStyle(.white0)
                         Text(event.eventName)
                                 .pretendardTextStyle(.Caption1Style)
@@ -76,7 +78,6 @@ struct TimelineEventRowView: View {
                 }
                 // 사용자가 보는 경기임
                 else if viewModel.currentMatchId == viewModel.match.id {
-                    let _ = print("[타임라인] 사용자가 보는 경기임")
                     HeartView(
                         eventHeartRate: geteventHeartRate(),
                         avgHeartRate: event.avgHeartRate
