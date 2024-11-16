@@ -40,7 +40,7 @@ struct APIConstants {
     static let dailyMatchURL = "/fixture"
     
     /// 랭킹 조회 URL
-    static let rankingURL = "/"
+    static let rankingURL = "/ranking"
     
     /// 경기 예측 버튼 클릭 URL
     static let predictionButtonClickURL = "/match-predict"

@@ -100,8 +100,8 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 랭킹 조회 API
-    func getRanking() -> AnyPublisher<[RankingResponse], NetworkError> {
-        return Future<[RankingResponse], NetworkError> { [weak self] promise in
+    func getRanking() -> AnyPublisher<RankingsResponse, NetworkError> {
+        return Future<RankingsResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
@@ -109,13 +109,13 @@ class MatchCalendarAPI: BaseAPI {
             
             self.AFManager.request(MatchCalendarService.getRanking, interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<[RankingResponse]>.self) { response in
+                .responseDecodable(of: CommonResponse<RankingsResponse>.self) { response in
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data ?? []))
+                            promise(.success(result.data ?? RankingsResponse(rankings: [])))
                         }
                         // 응답 실패
                         else {
