@@ -16,9 +16,6 @@ struct ResultStartingLineupPrediction: View {
     /// 상단 카드뷰에 들어갈 데이터 모델
     var prediction: PredictionQuestionModel
     
-    /// 선택 중인 탭바
-    @State private var selectedTab: StartingLineupPredictionResultTabInfo = .result
-    
     /// 뷰모델
     @StateObject var viewModel: ResultStartingLineupPredictionViewModel
     
@@ -79,7 +76,7 @@ struct ResultStartingLineupPrediction: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // MARK: 결과 탭
-                        if selectedTab == .result {
+                        if viewModel.selectedTab == .result {
                             if viewModel.isLoading {
                                 ProgressView()
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -107,7 +104,7 @@ struct ResultStartingLineupPrediction: View {
                             }
                         }
                         // MARK: 나의 예측
-                        else if selectedTab == .myPrediction {
+                        else if viewModel.selectedTab == .myPrediction {
                             if viewModel.isLoading {
                                 ProgressView()
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -219,12 +216,12 @@ struct ResultStartingLineupPrediction: View {
                         if item != .result || viewModel.homeFormation != nil {
                             VStack(spacing: 0) {
                                 Text(item.rawValue)
-                                    .pretendardTextStyle(selectedTab == item ? .SubTitleStyle : .Body2Style)
+                                    .pretendardTextStyle(viewModel.selectedTab == item ? .SubTitleStyle : .Body2Style)
                                     .frame(maxWidth: .infinity/3, minHeight: 44, alignment: .center)
-                                    .foregroundStyle(selectedTab == item ? .limeText : .gray500Text)
+                                    .foregroundStyle(viewModel.selectedTab == item ? .limeText : .gray500Text)
                                     .background(Color.backgroundDown)
                                 
-                                if selectedTab == item {
+                                if viewModel.selectedTab == item {
                                     Rectangle()
                                         .foregroundStyle(.limeText)
                                         .frame(height: 2)
@@ -240,7 +237,7 @@ struct ResultStartingLineupPrediction: View {
                             }
                             .onTapGesture {
                                 withAnimation(.easeInOut) {
-                                    selectedTab = item
+                                    viewModel.selectedTab = item
                                 }
                             }
                         }

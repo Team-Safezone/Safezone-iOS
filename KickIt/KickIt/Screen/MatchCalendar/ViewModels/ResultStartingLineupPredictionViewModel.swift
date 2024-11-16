@@ -16,6 +16,9 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
     /// API 로딩 여부
     @Published var isLoading: Bool = false
     
+    /// 선택 중인 탭바
+    @Published var selectedTab: StartingLineupPredictionResultTabInfo = .result
+    
     /// 예측에 참여한 사용자
     @Published var participant: Int = 0
     
@@ -105,6 +108,9 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
             receiveValue: { [weak self] (participant, homeFormation, awayFormation, homeLineups, awayLineups, userHomeFormation, userHomePrediction, userAwayFormation, userAwayPrediction, avgHomeFormation, avgHomePrediction, avgAwayFormation, avgAwayPrediction, userPrediction, avgPrediction) in
                 self?.participant = participant
                 self?.homeFormation = homeFormation
+                if self?.homeFormation == nil {
+                    self?.selectedTab = .myPrediction
+                }
                 self?.awayFormation = awayFormation
                 self?.homeLineups = homeLineups
                 self?.awayLineups = awayLineups
