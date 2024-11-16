@@ -10,7 +10,7 @@ import SwiftUI
 struct OnBoarding: View {
     @State private var currentPage = 0
     
-    let images = ["Splash1", "Splash2", "Splash3", "Splash4"]
+    let images = ["Splash1", "Splash2", "Splash003", "Splash4"]
     
     var body: some View {
         ZStack {
