@@ -18,6 +18,9 @@ struct ResultWinningTeamPrediction: View {
     /// 뷰모델
     @StateObject var viewModel: ResultWinningTeamPredictionViewModel
     
+    /// 타이머 뷰모델
+    @StateObject var timerViewModel = TimerViewModel()
+    
     init(popToSoccerInfoAction: @escaping () -> Void, prediction: PredictionQuestionModel) {
         self.popToSoccerInfoAction = popToSoccerInfoAction
         self.prediction = prediction
@@ -53,7 +56,7 @@ struct ResultWinningTeamPrediction: View {
                 }
                 
                 // MARK: 상단 질문 카드 뷰
-                PredictionQuestionView(predictionType: 0, isRetry: true, matchCode: prediction.matchCode, questionTitle: "우승 팀 예측", question: "이번 경기에서 몇 골을 넣을까?", matchDate: prediction.matchDate, matchTime: prediction.matchTime)
+                PredictionQuestionView(predictionType: 0, isRetry: true, matchCode: prediction.matchCode, questionTitle: "우승 팀 예측", question: "이번 경기에서 몇 골을 넣을까?", matchDate: prediction.matchDate, matchTime: prediction.matchTime, predictionUserNum: viewModel.result.participant, isResult: true, timerViewModel: timerViewModel)
                     .padding(.top, 12)
                     .padding(.horizontal, 16)
                 
@@ -130,6 +133,14 @@ struct ResultWinningTeamPrediction: View {
             } //: VSTACK
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            timerViewModel.winningTeamPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
+            timerViewModel.startLineupPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
+        }
+        .onDisappear {
+            timerViewModel.stopWinningTeamTimer()
+            timerViewModel.stopLineupTimer()
+        }
     }
     
     /// 실제 예측 지표 뷰

@@ -272,47 +272,27 @@ func timeInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> (Date, Str
     return (oneHourBefore, "\(hour)시간 \(minute)분 후 공개")
 }
 
-/// [우승팀 예측] 경기까지 남은 시간을 계산하는 함수
-func timePredictionInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
+/// [예측] 경기 예측 종료까지 남은 시간을 계산하는 함수
+func timePredictionInterval1(nowDate: Date, matchDate: Date, matchTime: Date, format: Int) -> (Date, String) {
     let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
     let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: matchDateTime)
     let hour = components.hour ?? 0
     let minute = components.minute ?? 0
     let second = components.second ?? 0
     
-    return "\(hour)시간 \(minute)분 \(second)초 남음"
-}
-
-/// [선발라인업 예측] 선발라인업 예측 종료까지 남은 시간을 계산하는 함수
-func timePredictionInterval2(nowDate: Date, matchDate: Date, matchTime: Date) -> String {
-    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
-    
-    // 1시간 전의 날짜와 시간 계산
-    guard let oneHourBefore = Calendar.current.date(byAdding: .hour, value: -1, to: matchDateTime) else {
-        return "00:00:00"
+    var tempFormat = ""
+    if format == 0 {
+        tempFormat = String(format: "%02d:%02d:%02d", hour, minute, second)
+    }
+    else {
+        tempFormat = "\(hour)시간 \(minute)분 \(second)초 남음"
     }
     
-    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: oneHourBefore)
-    let hour = components.hour ?? 0
-    let minute = components.minute ?? 0
-    let second = components.second ?? 0
-    
-    return "\(hour)시간 \(minute)분 \(second)초 남음"
+    return (matchDateTime, tempFormat)
 }
 
-/// [경기 정보-예측] 경기 예측 종료까지 남은 시간을 계산하는 함수
-func timePredictionInterval3(nowDate: Date, matchDate: Date, matchTime: Date) -> (Date, String) {
-    let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
-    let components = Calendar.current.dateComponents([.hour, .minute, .second], from: nowDate, to: matchDateTime)
-    let hour = components.hour ?? 0
-    let minute = components.minute ?? 0
-    let second = components.second ?? 0
-    
-    return (matchDateTime, String(format: "%02d:%02d:%02d", hour, minute, second))
-}
-
-/// [경기 정보-예측] 선발라인업 예측 종료까지 남은 시간을 계산하는 함수
-func timePredictionInterval4(nowDate: Date, matchDate: Date, matchTime: Date) -> (Date, String) {
+/// [예측] 선발라인업 예측 종료까지 남은 시간을 계산하는 함수
+func timePredictionInterval2(nowDate: Date, matchDate: Date, matchTime: Date, format: Int) -> (Date, String) {
     let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
     
     // 1시간 30분 전의 날짜와 시간 계산
@@ -323,7 +303,15 @@ func timePredictionInterval4(nowDate: Date, matchDate: Date, matchTime: Date) ->
     let minute = components.minute ?? 0
     let second = components.second ?? 0
     
-    return (oneHourThirtyMinutesBefore, String(format: "%02d:%02d:%02d", hour, minute, second))
+    var tempFormat = ""
+    if format == 0 {
+        tempFormat = String(format: "%02d:%02d:%02d", hour, minute, second)
+    }
+    else {
+        tempFormat = "\(hour)시간 \(minute)분 \(second)초 남음"
+    }
+    
+    return (oneHourThirtyMinutesBefore, tempFormat)
 }
 
 /// 입력받은 날짜, 시간 정보를 바탕으로 하나의 date값을 반환하는 함수

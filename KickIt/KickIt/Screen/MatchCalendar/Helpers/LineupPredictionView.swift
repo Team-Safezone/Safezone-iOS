@@ -18,8 +18,8 @@ struct LineupPredictionView: View {
     /// 경기 예측 조회 뷰모델
     @ObservedObject var pViewModel: PredictionButtonViewModel
     
-    /// 예측 타이머 종료 여부
-    @Binding var isLineupPredictionFinished: Bool
+    /// 타이머 뷰모델
+    @ObservedObject var timerViewModel: TimerViewModel
     
     /// 현재 날짜 및 시간
     @State private var nowDate = Date()
@@ -44,7 +44,7 @@ struct LineupPredictionView: View {
                             switch soccerMatch.matchCode {
                             // 예정
                             case 0, 4:
-                                if isLineupPredictionFinished {
+                                if timerViewModel.isLineupPredictionFinished {
                                     endPredictionText()
                                 }
                                 else {
@@ -52,7 +52,7 @@ struct LineupPredictionView: View {
                                         .pretendardTextStyle(.Body3Style)
                                         .foregroundStyle(.limeText)
                                     
-                                    Text(viewModel.lineupEndTimePredictionInterval(nowDate, soccerMatch.matchDate, soccerMatch.matchTime))
+                                    Text(timerViewModel.lineupEndTime)
                                         .pretendardTextStyle(.Body3Style)
                                         .foregroundStyle(.white0)
                                 }
@@ -123,7 +123,7 @@ struct LineupPredictionView: View {
                 switch soccerMatch.matchCode {
                     // 예정
                 case 0, 4:
-                    if isLineupPredictionFinished {
+                    if timerViewModel.isLineupPredictionFinished {
                         resultText(isEnd: true)
                     }
                     else {
@@ -154,12 +154,6 @@ struct LineupPredictionView: View {
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 12)
-        }
-        .onAppear {
-            viewModel.startLineupPredictionTimer(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
-        }
-        .onDisappear {
-            viewModel.stopTimer()
         }
     }
     
@@ -249,5 +243,5 @@ struct LineupPredictionView: View {
 
 // MARK: - PREVIEW
 #Preview("선발라인업 예측 조회") {
-    LineupPredictionView(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel(), isLineupPredictionFinished: .constant(false))
+    LineupPredictionView(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel(), pViewModel: PredictionButtonViewModel(), timerViewModel: TimerViewModel())
 }

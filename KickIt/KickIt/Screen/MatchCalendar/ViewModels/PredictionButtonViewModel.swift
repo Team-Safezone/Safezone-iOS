@@ -19,7 +19,7 @@ final class PredictionButtonViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        self.matchPrediction = PredictionMatchInfo(homePercentage: 0, isParticipated: false)
+        self.matchPrediction = PredictionMatchInfo(homePercentage: 0, awayPercentage: 0, isParticipated: false)
         self.lineupPrediction = PredictionLineupInfo(isParticipated: false)
     }
     
@@ -51,6 +51,7 @@ final class PredictionButtonViewModel: ObservableObject {
     private func matchPredictionToEntity(_ dto: ButtonMatchPredictionResponse) -> PredictionMatchInfo {
         return PredictionMatchInfo(
             homePercentage: dto.homePercentage,
+            awayPercentage: dto.awayPercentage,
             isParticipated: dto.isParticipated,
             participant: dto.participant,
             isPredictionSuccessful: dto.isPredictionSuccessful

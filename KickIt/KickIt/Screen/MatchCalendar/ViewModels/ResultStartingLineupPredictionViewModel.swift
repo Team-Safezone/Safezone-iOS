@@ -16,6 +16,9 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
     /// API 로딩 여부
     @Published var isLoading: Bool = false
     
+    /// 예측에 참여한 사용자
+    @Published var participant: Int = 0
+    
     /// 홈팀 포메이션
     @Published var homeFormation: String?
     
@@ -71,6 +74,7 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
         isLoading = true // API 요청 시작
         StartingLineupPredictionAPI.shared.getResultStartingLineupPrediction(request: query)
             .map { dto in
+                let participant = dto.participant
                 let homeFormation = dto.homeFormation
                 let awayFormation = dto.awayFormation
                 let homeLineups = self.lineupToEntity(dto.homeLineups)
@@ -86,7 +90,7 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
                 let userPrediction = dto.userPrediction
                 let avgPrediction = dto.avgPrediction
                 
-                return (homeFormation, awayFormation, homeLineups, awayLineups, userHomeFormation, userHomePrediction, userAwayFormation, userAwayPrediction, avgHomeFormation, avgHomePrediction, avgAwayFormation, avgAwayPrediction, userPrediction, avgPrediction)
+                return (participant, homeFormation, awayFormation, homeLineups, awayLineups, userHomeFormation, userHomePrediction, userAwayFormation, userAwayPrediction, avgHomeFormation, avgHomePrediction, avgAwayFormation, avgAwayPrediction, userPrediction, avgPrediction)
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { complete in
@@ -98,7 +102,8 @@ final class ResultStartingLineupPredictionViewModel: ObservableObject {
                     break
                 }
             },
-            receiveValue: { [weak self] (homeFormation, awayFormation, homeLineups, awayLineups, userHomeFormation, userHomePrediction, userAwayFormation, userAwayPrediction, avgHomeFormation, avgHomePrediction, avgAwayFormation, avgAwayPrediction, userPrediction, avgPrediction) in
+            receiveValue: { [weak self] (participant, homeFormation, awayFormation, homeLineups, awayLineups, userHomeFormation, userHomePrediction, userAwayFormation, userAwayPrediction, avgHomeFormation, avgHomePrediction, avgAwayFormation, avgAwayPrediction, userPrediction, avgPrediction) in
+                self?.participant = participant
                 self?.homeFormation = homeFormation
                 self?.awayFormation = awayFormation
                 self?.homeLineups = homeLineups

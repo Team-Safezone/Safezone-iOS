@@ -25,6 +25,9 @@ struct SoccerMatchInfo: View {
     /// 오늘 날짜
     @State private var nowDate = Date()
     
+    /// 타이머 뷰모델
+    @StateObject private var timerViewModel = TimerViewModel()
+    
     // MARK: - BODY
     var body: some View {
         ZStack(alignment: .top) {
@@ -409,8 +412,9 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func MatchPrediction() -> some View {
         VStack(spacing: 0) {
-            if (predictionViewModel.matchPrediction.isParticipated) {
-                // 우승팀 예측 결과 조회 화면으로 이동
+            // 우승팀 예측이 종료되 경우
+            if timerViewModel.isWinningTeamPredictionFinished {
+                // 우승팀 예측 결과 화면으로 이동
                 let prediction = PredictionQuestionModel(
                     matchId: soccerMatch.id,
                     matchCode: soccerMatch.matchCode,
@@ -420,15 +424,49 @@ struct SoccerMatchInfo: View {
                     awayTeam: soccerMatch.awayTeam
                 )
                 
-                // 우승팀 예측 완료 화면으로 이동
                 NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(prediction: prediction)) {
-                    MatchPredictionView(soccerMatch: soccerMatch, viewModel: viewModel, pViewModel: predictionViewModel)
+                    MatchPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        timerViewModel: timerViewModel
+                    )
                 }
             }
-            // 우승팀 예측을 안 한 경우 또는 우승팀 예측이 진행 중인 경우
+            // 우승팀 예측이 종료되지 않은 경우
             else {
-                NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
-                    MatchPredictionView(soccerMatch: soccerMatch, viewModel: viewModel, pViewModel: predictionViewModel)
+                // 우승팀 예측을 한 경우
+                if (predictionViewModel.matchPrediction.isParticipated) {
+                    // 우승팀 예측 결과 화면으로 이동
+                    let prediction = PredictionQuestionModel(
+                        matchId: soccerMatch.id,
+                        matchCode: soccerMatch.matchCode,
+                        matchDate: soccerMatch.matchDate,
+                        matchTime: soccerMatch.matchTime,
+                        homeTeam: soccerMatch.homeTeam,
+                        awayTeam: soccerMatch.awayTeam
+                    )
+                    
+                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(prediction: prediction)) {
+                        MatchPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
+                }
+                // 우승팀 예측을 안 한 경우
+                else {
+                    // 우승팀 에측 화면으로 이동
+                    NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
+                        MatchPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
                 }
             }
             
@@ -445,7 +483,7 @@ struct SoccerMatchInfo: View {
             .padding(.horizontal, 24)
             
             // 선발라인업 예측이 종료된 경우
-            if viewModel.isLineupPredictionFinished {
+            if timerViewModel.isLineupPredictionFinished {
                 // 선발라인업 예측 완료 화면으로 이동
                 NavigationLink(value: NavigationDestination.resultLineupPrediction(
                     prediction: PredictionQuestionModel(
@@ -457,7 +495,7 @@ struct SoccerMatchInfo: View {
                         soccerMatch: soccerMatch,
                         viewModel: viewModel,
                         pViewModel: predictionViewModel,
-                        isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                        timerViewModel: timerViewModel
                     )
                 }
             }
@@ -465,7 +503,7 @@ struct SoccerMatchInfo: View {
             else {
                 // 선발라인업 예측을 한 경우
                 if (predictionViewModel.lineupPrediction.isParticipated) {
-                    // 선발라인업 예측 완료 화면으로 이동
+                    // 선발라인업 예측 결과 화면으로 이동
                     NavigationLink(value: NavigationDestination.resultLineupPrediction(
                         prediction: PredictionQuestionModel(
                             matchId: soccerMatch.id, matchCode: soccerMatch.matchCode,
@@ -476,7 +514,7 @@ struct SoccerMatchInfo: View {
                             soccerMatch: soccerMatch,
                             viewModel: viewModel,
                             pViewModel: predictionViewModel,
-                            isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                            timerViewModel: timerViewModel
                         )
                     }
                 }
@@ -488,17 +526,19 @@ struct SoccerMatchInfo: View {
                             soccerMatch: soccerMatch,
                             viewModel: viewModel,
                             pViewModel: predictionViewModel,
-                            isLineupPredictionFinished: $viewModel.isLineupPredictionFinished
+                            timerViewModel: timerViewModel
                         )
                     }
                 }
             }
         }
         .onAppear {
-            viewModel.startLineupPredictionTimer(nowDate: nowDate, matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+            timerViewModel.winningTeamPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 0)
+            timerViewModel.startLineupPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 0)
         }
         .onDisappear {
-            viewModel.stopTimer()
+            timerViewModel.stopWinningTeamTimer()
+            timerViewModel.stopLineupTimer()
         }
         .padding(16)
         .padding(.bottom, 30)

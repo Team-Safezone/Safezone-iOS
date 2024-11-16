@@ -22,9 +22,11 @@ struct ResultStartingLineupPrediction: View {
     /// 뷰모델
     @StateObject var viewModel: ResultStartingLineupPredictionViewModel
     
+    /// 타이머 뷰모델
+    @StateObject var timerViewModel = TimerViewModel()
+    
     /// 탭 바 애니메이션
     @Namespace private var animation
-    
     
     init(popToSoccerInfoAction: @escaping () -> Void, prediction: PredictionQuestionModel) {
         self.popToSoccerInfoAction = popToSoccerInfoAction
@@ -65,7 +67,8 @@ struct ResultStartingLineupPrediction: View {
                 PredictionQuestionView(
                     predictionType: 1, isRetry: true, matchCode: prediction.matchCode,
                     questionTitle: "선발 라인업 예측", question: "이번 경기에서 어떤 선발 라인업을 구성할까?",
-                    matchDate: prediction.matchDate, matchTime: prediction.matchTime)
+                    matchDate: prediction.matchDate, matchTime: prediction.matchTime,
+                    predictionUserNum: viewModel.participant, isResult: true, timerViewModel: timerViewModel)
                 .padding(.top, 12)
                 .padding(.horizontal, 16)
                 
@@ -196,6 +199,12 @@ struct ResultStartingLineupPrediction: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            timerViewModel.startLineupPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
+        }
+        .onDisappear {
+            timerViewModel.stopLineupTimer()
+        }
     }
     
     // MARK: - FUNCTION

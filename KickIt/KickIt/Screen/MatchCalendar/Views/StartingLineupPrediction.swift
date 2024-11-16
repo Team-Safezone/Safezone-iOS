@@ -16,6 +16,9 @@ struct StartingLineupPrediction: View {
     /// 선발라인업 예측 뷰모델 객체
     @ObservedObject var viewModel = StartingLineupPredictionViewModel()
     
+    /// 타이머 뷰모델
+    @StateObject private var timerViewModel = TimerViewModel()
+    
     /// 현재 선택 중인 홈팀 선수 리스트
     @State var homeSelectedPlayers: [SoccerPosition : StartingLineupPlayer] = [:]
     
@@ -57,7 +60,9 @@ struct StartingLineupPrediction: View {
                         questionTitle: "선발 라인업 예측",
                         question: "이번 경기에서 어떤 선발 라인업을 구성할까?",
                         matchDate: soccerMatch.matchDate,
-                        matchTime: soccerMatch.matchTime
+                        matchTime: soccerMatch.matchTime,
+                        isResult: false,
+                        timerViewModel: timerViewModel
                     )
                     
                     // MARK: 홈팀의 선발라인업 선택
@@ -128,6 +133,12 @@ struct StartingLineupPrediction: View {
         }
         // 툴 바, 상태 바 설정
         .navigationTitle("선발 라인업 예측")
+        .onAppear {
+            timerViewModel.startLineupPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 1)
+        }
+        .onDisappear {
+            timerViewModel.stopLineupTimer()
+        }
     }
     
     // MARK: - FUNCTION

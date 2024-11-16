@@ -19,6 +19,9 @@ struct WinningTeamPrediction: View {
     /// 우승팀 예측 화면 뷰모델
     @StateObject var viewModel = WinningTeamPredictionViewModel()
     
+    /// 타이머 뷰모델
+    @StateObject private var timerViewModel = TimerViewModel()
+    
     var body: some View {
         ZStack {
             Color(.background)
@@ -26,7 +29,7 @@ struct WinningTeamPrediction: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 // MARK: - 질문
-                PredictionQuestionView(predictionType: 0, isRetry: false, matchCode: soccerMatch.matchCode, questionTitle: "우승 팀 예측", question: "이번 경기에서 몇 골을 넣을까?", matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+                PredictionQuestionView(predictionType: 0, isRetry: false, matchCode: soccerMatch.matchCode, questionTitle: "우승 팀 예측", question: "이번 경기에서 몇 골을 넣을까?", matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, isResult: false, timerViewModel: timerViewModel)
                     .padding(.top, 12)
                     .padding(.horizontal, 16)
                 
@@ -206,6 +209,12 @@ struct WinningTeamPrediction: View {
             }
         }
         .navigationTitle("우승 팀 예측")
+        .onAppear {
+            timerViewModel.winningTeamPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 1)
+        }
+        .onDisappear {
+            timerViewModel.stopWinningTeamTimer()
+        }
     }
 }
 

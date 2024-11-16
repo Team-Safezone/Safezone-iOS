@@ -27,11 +27,6 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     /// 사용자가 선택한 경기
     @Published var selectedSoccerMatch: SoccerMatch = SoccerMatch(id: 0, matchDate: Date(), matchTime: Date(), stadium: "", matchRound: 1, homeTeam: SoccerTeam(teamEmblemURL: "", teamName: ""), awayTeam: SoccerTeam(teamEmblemURL: "", teamName: ""), matchCode: 0)
     
-    /// 선발라인업 예측 종료 여부
-    @Published var isLineupPredictionFinished: Bool = false
-    
-    private var timer: Timer?
-    
     var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -166,45 +161,6 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
     /// 선발라인업 공개 타이머(날짜)
     func startingLineupShowDate(_ nowDate: Date) -> Date {
         timeInterval(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).0
-    }
-    
-    /// 우승팀 예측 종료 타이머(텍스트)
-    func matchEndTimePredictionInterval(_ nowDate: Date) -> String {
-        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).1
-    }
-    
-    /// 우승팀 예측 종료 타이머(날짜)
-    func matchEndTimePredictionShowDate(_ nowDate: Date) -> Date {
-        timePredictionInterval3(nowDate: nowDate, matchDate: selectedSoccerMatch.matchDate, matchTime: selectedSoccerMatch.matchTime).0
-    }
-    
-    /// 선발라인업 예측 종료 타이머(텍스트)
-    func lineupEndTimePredictionInterval(_ nowDate: Date, _ matchDate: Date, _ matchTime: Date) -> String {
-        timePredictionInterval4(nowDate: nowDate, matchDate: matchDate, matchTime: matchTime).1
-    }
-    
-    /// 선발라인업 예측 종료 타이머(날짜)
-    func lineupEndTimePredictionShowDate(_ nowDate: Date, _ matchDate: Date, _ matchTime: Date) -> Date {
-        timePredictionInterval4(nowDate: nowDate, matchDate: matchDate, matchTime: matchTime).0
-    }
-    
-    /// 선발라인업 예측 종료 마감까지의 시간 계산
-    func startLineupPredictionTimer(nowDate: Date, matchDate: Date, matchTime: Date) {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            let currentDate = Date()
-            
-            // 예측 타이머 종료 시간이 됐다면
-            if currentDate >= lineupEndTimePredictionShowDate(nowDate, matchDate, matchTime) {
-                self.timer?.invalidate()
-                self.isLineupPredictionFinished = true
-            }
-        }
-    }
-    
-    /// 타이머 종료
-    func stopTimer() {
-        timer?.invalidate()
     }
     
     /// 팀 정보에 따른 값(이름, 이미지) 반환
