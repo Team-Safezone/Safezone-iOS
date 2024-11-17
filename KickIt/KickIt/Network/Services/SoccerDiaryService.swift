@@ -14,7 +14,7 @@ enum SoccerDiaryService {
     case getRecommendDiary(Int)
     
     // 내 축구 일기 조회 API
-    case getMyDiary
+    case getMyDiary(Int)
     
     // 축구 일기 신고하기 API
     case postNotifyDiary(DiaryNotifyRequest)
@@ -61,8 +61,8 @@ extension SoccerDiaryService: TargetType {
         switch self {
         case .getRecommendDiary(let path):
             return .path(String(path))
-        case .getMyDiary:
-            return .requestPlain
+        case .getMyDiary(let path):
+            return .path(String(path))
         case .postNotifyDiary(let data):
             return .queryBody(data.diaryId, data.reasonCode)
         case .patchLikeDiary(let data):

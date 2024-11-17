@@ -82,7 +82,7 @@ struct APIConstants {
     static let recommendDiaryURL = "/diary/recommend/"
     
     /// 내 일기 조회 URL
-    static let myDiaryURL = "/"
+    static let myDiaryURL = "/diary/mine/"
     
     /// 일기 신고하기 URL
     static let notifyDiaryURL = "/"

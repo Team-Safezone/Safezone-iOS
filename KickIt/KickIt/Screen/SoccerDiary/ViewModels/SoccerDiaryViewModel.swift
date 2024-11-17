@@ -11,8 +11,11 @@ import Combine
 
 /// 축구 일기 뷰모델
 final class SoccerDiaryViewModel: ObservableObject {
-    /// 일기 화면 새로고침 요청 횟수
+    /// 추천 일기 화면 새로고침 요청 횟수
     @Published var requestNum: Int = 0
+    
+    /// 내 축구 일기 새로고침 요청 횟수
+    @Published var myDairyRequestNum: Int = 0
     
     /// 추천 축구 일기 리스트
     @Published var recommendDiarys: [RecommendSoccerDiaryViewModel] = []
@@ -27,9 +30,14 @@ final class SoccerDiaryViewModel: ObservableObject {
         getRecommendDiarys()
     }
     
-    /// 축구 일기 요청 횟수 업데이트
+    /// 추천 축구 일기 요청 횟수 업데이트
     func updateRequestNum(num: Int) {
         self.requestNum = num
+    }
+    
+    /// 내 축구 일기 요청 횟수 업데이트
+    func updateMyDiaryRequestNum(num: Int) {
+        self.myDairyRequestNum = num
     }
     
     /// 추천 축구 일기 조회
@@ -77,7 +85,7 @@ final class SoccerDiaryViewModel: ObservableObject {
     
     /// 내 축구 일기 조회
     func getMyDiarys() {
-        SoccerDiaryAPI.shared.getMyDiary()
+        SoccerDiaryAPI.shared.getMyDiary(requestNum: myDairyRequestNum)
             .map { dto in
                 let diarys = dto.map { data in
                     MySoccerDiaryViewModel(diary: MyDiaryModel(
@@ -112,7 +120,7 @@ final class SoccerDiaryViewModel: ObservableObject {
                 }
             },
             receiveValue: { [weak self] diarys in
-                self?.myDiarys = diarys
+                self?.myDiarys += diarys
             })
             .store(in: &cancellables)
     }

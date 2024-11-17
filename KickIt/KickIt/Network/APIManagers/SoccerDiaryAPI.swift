@@ -57,14 +57,14 @@ class SoccerDiaryAPI: BaseAPI {
     }
     
     /// 내 축구 일기 조회
-    func getMyDiary() -> AnyPublisher<[MyDiaryResponse], NetworkError> {
+    func getMyDiary(requestNum: Int) -> AnyPublisher<[MyDiaryResponse], NetworkError> {
         return Future<[MyDiaryResponse], NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(SoccerDiaryService.getMyDiary, interceptor: MyRequestInterceptor())
+            self.AFManager.request(SoccerDiaryService.getMyDiary(requestNum), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<[MyDiaryResponse]>.self) { response in
                     switch response.result {
