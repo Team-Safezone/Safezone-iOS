@@ -91,7 +91,7 @@ struct APIConstants {
     static let likeDiaryURL = "/diary/isLiked/"
     
     /// 일기 삭제 이벤트 URL
-    static let deleteDiaryURL = "/"
+    static let deleteDiaryURL = "/diary/delete/"
     
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = ""

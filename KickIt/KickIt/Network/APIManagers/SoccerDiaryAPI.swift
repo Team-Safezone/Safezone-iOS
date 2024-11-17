@@ -176,14 +176,14 @@ class SoccerDiaryAPI: BaseAPI {
     }
     
     /// 축구 일기 삭제 이벤트
-    func deleteDiary(request: DiaryDeleteRequest) -> AnyPublisher<Bool, NetworkError> {
+    func deleteDiary(diaryId: Int64) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(SoccerDiaryService.deleteDiary(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(SoccerDiaryService.deleteDiary(diaryId), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<Bool>.self) { response in
                     switch response.result {

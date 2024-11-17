@@ -23,7 +23,7 @@ enum SoccerDiaryService {
     case patchLikeDiary(Int64, DiaryLikeRequest)
     
     // 축구 일기 삭제 이벤트 API
-    case deleteDiary(DiaryDeleteRequest)
+    case deleteDiary(Int64)
 }
 
 extension SoccerDiaryService: TargetType {
@@ -67,8 +67,8 @@ extension SoccerDiaryService: TargetType {
             return .queryBody(data.diaryId, data.reasonCode)
         case .patchLikeDiary(let diaryId, let data):
             return .pathBody(String(diaryId), data.isLiked)
-        case .deleteDiary(let data):
-            return .requestBody(data.diaryId)
+        case .deleteDiary(let path):
+            return .path(String(path))
         }
     }
     
