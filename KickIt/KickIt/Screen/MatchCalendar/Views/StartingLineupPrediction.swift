@@ -137,7 +137,7 @@ struct StartingLineupPrediction: View {
             timerViewModel.startLineupPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 1)
         }
         .onDisappear {
-            timerViewModel.stopLineupTimer()
+            timerViewModel.stopLineupPredictionTimer()
         }
     }
     

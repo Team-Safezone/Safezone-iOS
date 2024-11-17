@@ -263,13 +263,13 @@ func timeInterval(nowDate: Date, matchDate: Date, matchTime: Date) -> (Date, Str
     let matchDateTime = extractDateTime(date: matchDate, time: matchTime)
     
     // 1시간 전의 날짜와 시간 계산
-    let oneHourBefore = Calendar.current.date(byAdding: .hour, value: -1, to: matchDateTime)!
+    let oneHourThirtyMinutesBefore = Calendar.current.date(byAdding: .minute, value: -90, to: matchDateTime)!
     
-    let components = Calendar.current.dateComponents([.hour, .minute], from: nowDate, to: oneHourBefore)
+    let components = Calendar.current.dateComponents([.hour, .minute], from: nowDate, to: oneHourThirtyMinutesBefore)
     let hour = components.hour ?? 0
     let minute = components.minute ?? 0
     
-    return (oneHourBefore, "\(hour)시간 \(minute)분 후 공개")
+    return (oneHourThirtyMinutesBefore, "\(hour)시간 \(minute)분 후 공개")
 }
 
 /// [예측] 경기 예측 종료까지 남은 시간을 계산하는 함수

@@ -154,7 +154,7 @@ struct ResultWinningTeamPrediction: View {
         }
         .onDisappear {
             timerViewModel.stopWinningTeamTimer()
-            timerViewModel.stopLineupTimer()
+            timerViewModel.stopLineupPredictionTimer()
         }
     }
     

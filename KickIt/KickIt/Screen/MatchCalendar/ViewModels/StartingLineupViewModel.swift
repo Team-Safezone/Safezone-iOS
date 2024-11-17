@@ -9,11 +9,7 @@ import Foundation
 import Combine
 
 /// 선발라인업 조회 뷰모델
-// FIXME: 프로토타입 발표 이후, default 값들 삭제하기!!
 final class StartingLineupViewModel: ObservableObject {
-    /// 경기 id
-    private var matchId: Int64?
-    
     /// 홈팀 포메이션
     @Published var homeFormation: String = ""
     
@@ -27,10 +23,10 @@ final class StartingLineupViewModel: ObservableObject {
     @Published var awayLineups: StartingLineupModel?
     
     /// 홈팀 후보선수
-    @Published var homeSubstitutes: [SubstituteModel] = [SubstituteModel(playerName: "선수1", playerNum: 1), SubstituteModel(playerName: "선수2", playerNum: 2), SubstituteModel(playerName: "선수3", playerNum: 3), SubstituteModel(playerName: "선수4", playerNum: 4)]
+    @Published var homeSubstitutes: [SoccerPlayer]?
     
     /// 원정팀 후보선수
-    @Published var awaySubstitutes: [SubstituteModel] = [SubstituteModel(playerName: "손흥민", playerNum: 7)]
+    @Published var awaySubstitutes: [SoccerPlayer]?
     
     /// 홈팀 감독 이름
     @Published var homeDirector: String = ""
@@ -38,17 +34,20 @@ final class StartingLineupViewModel: ObservableObject {
     /// 원정팀 감독 이름
     @Published var awayDirector: String = ""
     
+    /// API 로딩 여부
+    @Published var isLoading = false
+    
     private var cancellables: Set<AnyCancellable> = []
     
     init(matchId: Int64?) {
-        self.matchId = matchId
         if let matchId = matchId {
-            getStartingLineup(request: MatchIdRequest(matchId: matchId))
+            self.getStartingLineup(request: MatchIdRequest(matchId: matchId))
         }
     }
     
     /// 선발라인업 조회
     private func getStartingLineup(request: MatchIdRequest) {
+        isLoading = true // API 요청 시작
         MatchCalendarAPI.shared.getStartingLineup(request: request)
             .map { dto in
                 let homeFormation: String = dto.homeFormation ?? ""
@@ -57,8 +56,8 @@ final class StartingLineupViewModel: ObservableObject {
                 let homeLineups: StartingLineupModel = self.lineupToEntity(dto.homeLineups ?? TeamStartingLineupResponse())
                 let awayLineups: StartingLineupModel = self.lineupToEntity(dto.awayLineups ?? TeamStartingLineupResponse())
                 
-                let homeSubstitutes: [SubstituteModel] = self.substituteToEntity(dto.homeSubstitutes ?? [])
-                let awaySubstitutes: [SubstituteModel] = self.substituteToEntity(dto.awaySubstitutes ?? [])
+                let homeSubstitutes: [SoccerPlayer] = self.substituteToEntity(dto.homeSubstitutes ?? [])
+                let awaySubstitutes: [SoccerPlayer] = self.substituteToEntity(dto.awaySubstitutes ?? [])
                 
                 let homeDirector: String = dto.homeDirector ?? ""
                 let awayDirector: String = dto.awayDirector ?? ""
@@ -71,6 +70,7 @@ final class StartingLineupViewModel: ObservableObject {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 case .finished:
+                    self.isLoading = false // 로딩 완료
                     break
                 }
             }, receiveValue: { [weak self] (homeFormation, awayFormation, homeLineups, awayLineups, homeSubstitutes, awaySubstitutes, homeDirector, awayDirector) in
@@ -82,6 +82,8 @@ final class StartingLineupViewModel: ObservableObject {
                 self?.awaySubstitutes = awaySubstitutes
                 self?.homeDirector = homeDirector
                 self?.awayDirector = awayDirector
+                print("포메이션? \(homeFormation)")
+                print("포메이션? \(self?.homeFormation ?? "00000")")
             })
             .store(in: &cancellables)
     }
@@ -134,9 +136,13 @@ final class StartingLineupViewModel: ObservableObject {
     }
     
     /// 각 팀 후보선수 변환 함수(DTO -> Entity)
-    private func substituteToEntity(_ dto: [SubstituteResponse]) -> [SubstituteModel] {
+    private func substituteToEntity(_ dto: [SoccerPlayersResponse]) -> [SoccerPlayer] {
         return dto.compactMap { response in
-            SubstituteModel(playerName: response.playerName ?? "", playerNum: response.playerNum ?? 0)
+            SoccerPlayer(
+                playerImgURL: response.playerImgURL ?? "",
+                playerName: response.playerName ?? "",
+                backNum: response.playerNum ?? 0
+            )
         }
     }
  }

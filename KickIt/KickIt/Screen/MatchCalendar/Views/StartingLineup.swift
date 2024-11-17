@@ -10,16 +10,16 @@ import SwiftUI
 /// 선발라인업 화면
 struct StartingLineup: View {
     // MARK: - PROPERTY
-    /// 경기 캘린더 뷰모델
-    @ObservedObject var viewModel: MatchCalendarViewModel
+    /// 경기 정보
+    var soccerMatch: SoccerMatch
     
     /// 선발라인업 뷰모델
     @StateObject var lineupViewModel: StartingLineupViewModel
     
     // 뷰모델 초기화
-    init(viewModel: MatchCalendarViewModel) {
-        _viewModel = ObservedObject(wrappedValue: viewModel)
-        _lineupViewModel = StateObject(wrappedValue: StartingLineupViewModel(matchId: viewModel.selectedSoccerMatch.id))
+    init(soccerMatch: SoccerMatch) {
+        self.soccerMatch = soccerMatch
+        _lineupViewModel = StateObject(wrappedValue: StartingLineupViewModel(matchId: soccerMatch.id))
     }
     
     // MARK: - BODY
@@ -29,85 +29,104 @@ struct StartingLineup: View {
             Color(.background)
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack(spacing: 0) {
-                    // MARK: 홈팀
-                    teamInfo(
-                        true,
-                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.homeTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.homeTeam.teamName),
-                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.awayTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.awayTeam.teamName),
-                        lineupViewModel.homeFormation ?? "",
-                        lineupViewModel.awayFormation ?? ""
-                    )
-                    ZStack {
-                        soccerFiled(true)
-                        if let lineup = lineupViewModel.homeLineups {
-                            lineups(isHomeTeam: true, for: lineupViewModel.homeFormation ?? "", lineup: lineup)
-                        }
-                    }
+            if lineupViewModel.isLoading {
+                VStack(spacing: 30) {
+                    Image(uiImage: .delayStartingLineup)
                     
-                    // MARK: 원정팀
-                    teamInfo(
-                        false,
-                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.homeTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.homeTeam.teamName),
-                        SoccerTeam(teamEmblemURL: viewModel.selectedSoccerMatch.awayTeam.teamEmblemURL, teamName: viewModel.selectedSoccerMatch.awayTeam.teamName),
-                        lineupViewModel.homeFormation ?? "",
-                        lineupViewModel.awayFormation ?? ""
-                    )
-                    ZStack {
-                        soccerFiled(false)
-                        if let lineup = lineupViewModel.awayLineups {
-                            lineups(isHomeTeam: false, for: lineupViewModel.awayFormation ?? "", lineup: lineup)
-                        }
-                    }
-                    
-                    // MARK: 감독
-                    VStack(spacing: 0) {
-                        chartTitle("\(viewModel.teamInfoView(for: true).1) 감독", "\(viewModel.teamInfoView(for: false).1) 감독")
-                        chartDivider()
-                        chartContent(lineupViewModel.homeDirector, lineupViewModel.awayDirector)
-                    }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.gray900Assets, lineWidth: 1)
-                    )
-                    .padding(.top, 24)
-                    .padding(.bottom, 20)
-                    
-                    // MARK: 후보선수
-                    VStack(spacing: 0) {
-                        chartTitle("\(viewModel.teamInfoView(for: true).1) 후보선수", "\(viewModel.teamInfoView(for: false).1) 후보선수")
+                    VStack {
+                        Text("곧 선발 라인업이 공개될 예정입니다")
+                            .pretendardTextStyle(.Body1Style)
+                            .foregroundStyle(.white0)
                         
-                        // 두 배열 중 배열 크기가 큰 배열로 반복 횟수 설정
-                        let maxCount = max(lineupViewModel.homeSubstitutes.count, lineupViewModel.awaySubstitutes.count)
-                        
-                        ForEach(0..<maxCount, id: \.self) { index in
-                            chartDivider() // 구분선
-                            
-                            // 홈팀 후보선수
-                            let homePlayer = lineupViewModel.homeSubstitutes[safe: index]
-                            
-                            // 원정팀 후보선수
-                            let awayPlayer = lineupViewModel.awaySubstitutes[safe: index]
-                            
-                            playerChartContent(
-                                homePlayer?.playerNum ?? -1,
-                                homePlayer?.playerName ?? "",
-                                awayPlayer?.playerNum ?? -1,
-                                awayPlayer?.playerName ?? ""
-                            )
-                        }
+                        Text("조금만 더 기다려 주세요")
+                            .pretendardTextStyle(.Body2Style)
+                            .foregroundStyle(.gray500Text)
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.gray900Assets, lineWidth: 1)
-                    )
-                    .padding(.bottom, 26)
-                } //: VSTACK
-                .padding(.horizontal, 16)
-                .padding(.vertical, 20)
-            } //: SCROLLVIEW
-            .scrollIndicators(.never)
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
+                .padding(.bottom, 100)
+            }
+            else {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // MARK: 홈팀
+                        teamInfo(
+                            true,
+                            SoccerTeam(teamEmblemURL: soccerMatch.homeTeam.teamEmblemURL, teamName: soccerMatch.homeTeam.teamName),
+                            SoccerTeam(teamEmblemURL: soccerMatch.awayTeam.teamEmblemURL, teamName: soccerMatch.awayTeam.teamName),
+                            lineupViewModel.homeFormation,
+                            lineupViewModel.awayFormation
+                        )
+                        ZStack {
+                            soccerFiled(true)
+                            if let lineup = lineupViewModel.homeLineups {
+                                lineups(isHomeTeam: true, for: lineupViewModel.homeFormation, lineup: lineup)
+                            }
+                        }
+                        
+                        // MARK: 원정팀
+                        teamInfo(
+                            false,
+                            SoccerTeam(teamEmblemURL: soccerMatch.homeTeam.teamEmblemURL, teamName: soccerMatch.homeTeam.teamName),
+                            SoccerTeam(teamEmblemURL: soccerMatch.awayTeam.teamEmblemURL, teamName: soccerMatch.awayTeam.teamName),
+                            lineupViewModel.homeFormation,
+                            lineupViewModel.awayFormation
+                        )
+                        ZStack {
+                            soccerFiled(false)
+                            if let lineup = lineupViewModel.awayLineups {
+                                lineups(isHomeTeam: false, for: lineupViewModel.awayFormation, lineup: lineup)
+                            }
+                        }
+                        
+                        // MARK: 감독
+                        VStack(spacing: 0) {
+                            chartTitle("\(soccerMatch.homeTeam.teamName) 감독", "\(soccerMatch.awayTeam.teamName) 감독")
+                            chartDivider()
+                            chartContent(lineupViewModel.homeDirector, lineupViewModel.awayDirector)
+                        }
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(.gray900Assets, lineWidth: 1)
+                        )
+                        .padding(.top, 24)
+                        .padding(.bottom, 20)
+                        
+                        // MARK: 후보선수
+                        VStack(spacing: 0) {
+                            chartTitle("\(soccerMatch.homeTeam.teamName) 후보선수", "\(soccerMatch.awayTeam.teamName) 후보선수")
+                            
+                            // 두 배열 중 배열 크기가 큰 배열로 반복 횟수 설정
+                            let maxCount = max(lineupViewModel.homeSubstitutes?.count ?? 0, lineupViewModel.awaySubstitutes?.count ?? 0)
+                            
+                            ForEach(0..<maxCount, id: \.self) { index in
+                                chartDivider() // 구분선
+                                
+                                // 홈팀 후보선수
+                                let homePlayer = lineupViewModel.homeSubstitutes?[safe: index]
+                                
+                                // 원정팀 후보선수
+                                let awayPlayer = lineupViewModel.awaySubstitutes?[safe: index]
+                                
+                                playerChartContent(
+                                    homePlayer?.backNum ?? -1,
+                                    homePlayer?.playerName ?? "",
+                                    awayPlayer?.backNum ?? -1,
+                                    awayPlayer?.playerName ?? ""
+                                )
+                            }
+                        }
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(.gray900Assets, lineWidth: 1)
+                        )
+                        .padding(.bottom, 26)
+                    } //: VSTACK
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 20)
+                } //: SCROLLVIEW
+                .scrollIndicators(.never)
+            }
         } //: ZSTACK
         .navigationTitle("선발 라인업")
     }
@@ -195,5 +214,5 @@ struct StartingLineup: View {
 
 // MARK: - PREVIEW
 #Preview("선발 라인업") {
-    StartingLineup(viewModel: MatchCalendarViewModel())
+    StartingLineup(soccerMatch: dummySoccerMatches[0])
 }

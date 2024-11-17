@@ -46,7 +46,7 @@ struct APIConstants {
     static let predictionButtonClickURL = "/match-predict"
     
     /// 선발라인업 조회 URL
-    static let startingLineupURL = "/"
+    static let startingLineupURL = "/match-lineup"
     
     /// 우승팀 예측 URL
     static let winningTeamPredictionURL = "/score-predict/save"

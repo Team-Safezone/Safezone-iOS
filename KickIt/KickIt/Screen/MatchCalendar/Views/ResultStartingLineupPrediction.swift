@@ -213,7 +213,7 @@ struct ResultStartingLineupPrediction: View {
             timerViewModel.startLineupPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
         }
         .onDisappear {
-            timerViewModel.stopLineupTimer()
+            timerViewModel.stopLineupPredictionTimer()
         }
     }
     

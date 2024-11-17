@@ -280,27 +280,19 @@ struct SoccerMatchInfo: View {
                     .resizable()
             )
             .overlay {
-                if soccerMatch.matchCode == 0 {
-                    // 선발라인업 공개 전이라면
-                    if nowDate < viewModel.startingLineupShowDate(nowDate) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.black)
-                            .opacity(0.55)
-                    }
+                // 선발라인업 공개 전이라면
+                if !timerViewModel.isShowLineup {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.black)
+                        .opacity(0.55)
                 }
             }
             
-            // 선발라인업 공개 타이머
-            if soccerMatch.matchCode == 0 {
-                // 선발라인업 공개 전이라면
-                if nowDate < viewModel.startingLineupShowDate(nowDate) {
-                    Text(viewModel.startingLineupTimeInterval(nowDate))
-                        .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.whiteAssets)
-                        .onAppear {
-                            startTimer()
-                        }
-                }
+            // 선발라인업 공개 전이라면
+            if !timerViewModel.isShowLineup {
+                Text(timerViewModel.showLineupEndTime)
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(.white0)
             }
         }
     }
@@ -342,9 +334,9 @@ struct SoccerMatchInfo: View {
             VStack(spacing: 16) {
                 // MARK: 선발 라인업 버튼
                 // 선발라인업 공개 시간이 됐다면
-                if nowDate >= viewModel.startingLineupShowDate(nowDate) {
+                if timerViewModel.isShowLineup {
                     NavigationLink {
-                        StartingLineup(viewModel: viewModel)
+                        StartingLineup(soccerMatch: soccerMatch)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                     } label: {
                         startingLineupButton()
@@ -403,6 +395,12 @@ struct SoccerMatchInfo: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            timerViewModel.startingLineupTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+        }
+        .onDisappear {
+            timerViewModel.stopLineupTimer()
         }
         .padding(.top, 32)
         .padding(.horizontal, 16)
@@ -523,22 +521,10 @@ struct SoccerMatchInfo: View {
         }
         .onDisappear {
             timerViewModel.stopWinningTeamTimer()
-            timerViewModel.stopLineupTimer()
+            timerViewModel.stopLineupPredictionTimer()
         }
         .padding(16)
         .padding(.bottom, 30)
-    }
-    
-    /// 선발 라인업이 나오기 전까지의 시간 계산
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.nowDate = Date()
-            
-            // 선발라인업 공개 시간이 됐다면
-            if nowDate >= viewModel.startingLineupShowDate(nowDate) {
-                timer.invalidate()
-            }
-        }
     }
     
     /// 경기 상태에 따른 경기 텍스트&배경 색상 값을 반환하는 함수

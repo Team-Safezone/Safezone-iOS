@@ -151,9 +151,9 @@ struct ContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
                 handleNotificationTap(notification)
             }
-            .sheet(item: Binding(get: { selectedMatchId.map { Int64Identifier($0) } }, set: { selectedMatchId = $0?.id })) { _ in
-                StartingLineup(viewModel: matchCalendarViewModel)
-            }
+//            .sheet(item: Binding(get: { selectedMatchId.map { Int64Identifier($0) } }, set: { selectedMatchId = $0?.id })) { _ in
+//                StartingLineup(viewModel: matchCalendarViewModel)
+//            }
             .fullScreenCover(isPresented: $showHomeView) {
                 ContentView()
             }
