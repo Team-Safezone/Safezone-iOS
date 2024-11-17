@@ -18,14 +18,14 @@ class SoccerDiaryAPI: BaseAPI {
     }
     
     /// 추천 축구 일기 조회
-    func getRecommendDiary() -> AnyPublisher<[RecommendDiaryResponse], NetworkError> {
+    func getRecommendDiary(requestNum: Int) -> AnyPublisher<[RecommendDiaryResponse], NetworkError> {
         return Future<[RecommendDiaryResponse], NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(SoccerDiaryService.getRecommendDiary, interceptor: MyRequestInterceptor())
+            self.AFManager.request(SoccerDiaryService.getRecommendDiary(requestNum), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<[RecommendDiaryResponse]>.self) { response in
                     switch response.result {

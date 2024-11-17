@@ -13,6 +13,9 @@ struct SoccerDiary: View {
     @State private var selectedTab: DiaryTabInfo = .recommend
     @Namespace private var animation
     
+    /// 새로고침 요청 횟수
+    @State private var requestIndex: Int = 0
+    
     /// 경기 일기 뷰모델
     @StateObject private var viewModel = SoccerDiaryViewModel()
     
@@ -42,10 +45,31 @@ struct SoccerDiary: View {
                                 })
                                 .padding(.vertical, 16)
                                 
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundStyle(.gray900)
+                                // 마지막 일기가 아닐 경우
+                                if index < viewModel.recommendDiarys.count - 1 {
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundStyle(.gray900)
+                                }
                             }
+                            
+                            // 일기 더보기 버튼
+                            Button {
+                                requestIndex += 1
+                                viewModel.updateRequestNum(num: requestIndex)
+                                viewModel.getRecommendDiarys() // 일기 조회 api 호출
+                            } label: {
+                                HStack {
+                                    Text("일기 더보기")
+                                        .pretendardTextStyle(.Body2Style)
+                                    
+                                    Image(systemName: "chevron.down")
+                                }
+                                .foregroundStyle(.white0)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 100)
                         }
                         // 내 일기
                         else {

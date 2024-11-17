@@ -79,7 +79,7 @@ struct APIConstants {
     static let matchHeartRateURL = "/match-heart-rate"
     
     /// 추천 일기 조회 URL
-    static let recommendDiaryURL = "/"
+    static let recommendDiaryURL = "/diary/recommend/"
     
     /// 내 일기 조회 URL
     static let myDiaryURL = "/"

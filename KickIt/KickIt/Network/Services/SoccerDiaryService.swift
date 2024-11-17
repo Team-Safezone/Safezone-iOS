@@ -11,7 +11,7 @@ import Alamofire
 /// 축구 일기 Router
 enum SoccerDiaryService {
     // 추천 축구 일기 조회 API
-    case getRecommendDiary
+    case getRecommendDiary(Int)
     
     // 내 축구 일기 조회 API
     case getMyDiary
@@ -37,7 +37,7 @@ extension SoccerDiaryService: TargetType {
             return .post
         case .patchLikeDiary:
             return .patch
-        case .deleteDiary(_):
+        case .deleteDiary:
             return .delete
         }
     }
@@ -52,15 +52,15 @@ extension SoccerDiaryService: TargetType {
             return APIConstants.notifyDiaryURL
         case .patchLikeDiary:
             return APIConstants.likeDiaryURL
-        case .deleteDiary(_):
+        case .deleteDiary:
             return APIConstants.deleteDiaryURL
         }
     }
     
     var parameters: RequestParams {
         switch self {
-        case .getRecommendDiary:
-            return .requestPlain
+        case .getRecommendDiary(let path):
+            return .path(String(path))
         case .getMyDiary:
             return .requestPlain
         case .postNotifyDiary(let data):

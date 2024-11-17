@@ -21,6 +21,9 @@ protocol TargetType: URLRequestConvertible {
 
 /// API 요청 시 parameter 정의
 enum RequestParams {
+    /// URL PathVariable
+    case path(_ path: String)
+    
     /// URL 쿼리
     case query(_ query: Encodable)
     
@@ -84,6 +87,10 @@ extension TargetType {
         var request = request
         
         switch parameters {
+        case .path(let path):
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
+            request.url = components?.url
+            
         case .query(let query):
             let params = query.toDictionary()
             // parameter 중 nil값 처리
