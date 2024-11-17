@@ -24,6 +24,9 @@ enum RequestParams {
     /// URL PathVariable
     case path(_ path: String)
     
+    /// URL PathVariable & Body Parameter
+    case pathBody(_ path: String, _ body: Encodable)
+    
     /// URL 쿼리
     case query(_ query: Encodable)
     
@@ -88,8 +91,15 @@ extension TargetType {
         
         switch parameters {
         case .path(let path):
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
             request.url = components?.url
+            
+        case .pathBody(let path, let body):
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
+            request.url = components?.url
+            
+            let bodyParams = body.toDictionary()
+            request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .query(let query):
             let params = query.toDictionary()

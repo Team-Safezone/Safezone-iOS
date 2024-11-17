@@ -136,14 +136,14 @@ class SoccerDiaryAPI: BaseAPI {
     }
     
     /// 축구 일기 좋아요 클릭 이벤트
-    func patchLikeDiary(request: DiaryLikeRequest) -> AnyPublisher<Bool, NetworkError> {
+    func patchLikeDiary(diaryId: Int64, request: DiaryLikeRequest) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(SoccerDiaryService.patchLikeDiary(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(SoccerDiaryService.patchLikeDiary(diaryId, request), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<Bool>.self) { response in
                     switch response.result {

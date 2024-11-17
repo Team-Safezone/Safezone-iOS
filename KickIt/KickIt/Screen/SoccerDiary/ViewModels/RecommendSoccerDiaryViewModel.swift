@@ -39,7 +39,7 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     func toggleLike() {
         soccerDiary.isLiked.toggle()
         soccerDiary.likes += soccerDiary.isLiked ? 1 : -1
-        patchLikeDiary(request: DiaryLikeRequest(diaryId: soccerDiary.diaryId, isLiked: soccerDiary.isLiked))
+        patchLikeDiary(diaryId: soccerDiary.diaryId, request: DiaryLikeRequest(isLiked: soccerDiary.isLiked))
         print("아이디: \(soccerDiary.diaryId) | 좋아요 여부: \(soccerDiary.isLiked)")
     }
     
@@ -84,8 +84,8 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     }
     
     /// 축구 일기 좋아요 버튼 클릭 이벤트
-    func patchLikeDiary(request: DiaryLikeRequest) {
-        SoccerDiaryAPI.shared.patchLikeDiary(request: request)
+    func patchLikeDiary(diaryId: Int64, request: DiaryLikeRequest) {
+        SoccerDiaryAPI.shared.patchLikeDiary(diaryId: diaryId, request: request)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {

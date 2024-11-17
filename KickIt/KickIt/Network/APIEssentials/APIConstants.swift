@@ -88,7 +88,7 @@ struct APIConstants {
     static let notifyDiaryURL = "/"
     
     /// 일기 좋아요 이벤트 URL
-    static let likeDiaryURL = "/"
+    static let likeDiaryURL = "/diary/isLiked/"
     
     /// 일기 삭제 이벤트 URL
     static let deleteDiaryURL = "/"
