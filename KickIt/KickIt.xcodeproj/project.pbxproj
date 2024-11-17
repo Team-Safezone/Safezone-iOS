@@ -64,7 +64,6 @@
 		E76C2F272CD7DB5700B38B58 /* MyDiaryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F262CD7DB5700B38B58 /* MyDiaryResponse.swift */; };
 		E76C2F292CD7E03600B38B58 /* DiaryNotifyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F282CD7E03500B38B58 /* DiaryNotifyRequest.swift */; };
 		E76C2F2B2CD7E0EC00B38B58 /* DiaryLikeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F2A2CD7E0EC00B38B58 /* DiaryLikeRequest.swift */; };
-		E76C2F2D2CD8914F00B38B58 /* DiaryDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F2C2CD8914F00B38B58 /* DiaryDeleteRequest.swift */; };
 		E76C2F2F2CD89B1700B38B58 /* SnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E76C2F2E2CD89B1700B38B58 /* SnapshotView.swift */; };
 		E772EB9F2CE74634001E5311 /* StartingLineup+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772EB9E2CE74634001E5311 /* StartingLineup+.swift */; };
 		E778A0682C8DDD0600B6117D /* HeartRateStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */; };
@@ -336,7 +335,6 @@
 		E76C2F262CD7DB5700B38B58 /* MyDiaryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDiaryResponse.swift; sourceTree = "<group>"; };
 		E76C2F282CD7E03500B38B58 /* DiaryNotifyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryNotifyRequest.swift; sourceTree = "<group>"; };
 		E76C2F2A2CD7E0EC00B38B58 /* DiaryLikeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryLikeRequest.swift; sourceTree = "<group>"; };
-		E76C2F2C2CD8914F00B38B58 /* DiaryDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDeleteRequest.swift; sourceTree = "<group>"; };
 		E76C2F2E2CD89B1700B38B58 /* SnapshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotView.swift; sourceTree = "<group>"; };
 		E772EB9E2CE74634001E5311 /* StartingLineup+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StartingLineup+.swift"; sourceTree = "<group>"; };
 		E778A0672C8DDD0600B6117D /* HeartRateStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateStatistics.swift; sourceTree = "<group>"; };
@@ -1048,7 +1046,6 @@
 				E733B3D62CDD0D0C003B884B /* SoccerPlayerRequest.swift */,
 				E76C2F282CD7E03500B38B58 /* DiaryNotifyRequest.swift */,
 				E76C2F2A2CD7E0EC00B38B58 /* DiaryLikeRequest.swift */,
-				E76C2F2C2CD8914F00B38B58 /* DiaryDeleteRequest.swift */,
 				E79C71D52CB9257600EB4CFF /* NicnameUpdateRequest.swift */,
 				E79C71D72CB9259800EB4CFF /* FavoriteTeamsUpdateRequest.swift */,
 			);
@@ -1473,7 +1470,6 @@
 				E7B38C2C2CDBD22000B6971C /* WinningTeamPredictionViewModel.swift in Sources */,
 				E7ADBF6E2C5727F100E877C5 /* FanListView.swift in Sources */,
 				E76C2F192CD778BC00B38B58 /* RecommendSoccerDiaryViewModel.swift in Sources */,
-				E76C2F2D2CD8914F00B38B58 /* DiaryDeleteRequest.swift in Sources */,
 				E778A0842C97F3FD00B6117D /* StartingLineupPredictionView.swift in Sources */,
 				E76C2F272CD7DB5700B38B58 /* MyDiaryResponse.swift in Sources */,
 				E77970622CA5B93300DA5C00 /* MatchCardView.swift in Sources */,

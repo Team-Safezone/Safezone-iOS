@@ -59,26 +59,21 @@ final class RecommendSoccerDiaryViewModel: ObservableObject {
     }
     
     /// 축구 일기 신고하기
-    func notifyDiary() {
-        postNotifyDiary(request: DiaryNotifyRequest(diaryId: soccerDiary.diaryId, reasonCode: reasonCode))
-        showNotifyDialog = false
-        print("아이디: \(soccerDiary.diaryId) | 이유: \(reasonCode) 신고하기")
-    }
-    
-    /// 축구 일기 신고하기
-    private func postNotifyDiary(request: DiaryNotifyRequest) {
-        SoccerDiaryAPI.shared.postNotifyDiary(request: request)
+    func postNotifyDiary(diaryId: Int64, request: DiaryNotifyRequest, complete: @escaping (Bool) -> (Void)) {
+        SoccerDiaryAPI.shared.postNotifyDiary(diaryId: diaryId, request: request)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
+                    complete(false)
                 case .finished:
                     break
                 }
             },
             receiveValue: { dto in
                 print("축구 일기 신고하기 응답: \(dto)")
+                complete(true)
             })
             .store(in: &cancellables)
     }

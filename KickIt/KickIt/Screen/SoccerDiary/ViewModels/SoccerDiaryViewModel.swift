@@ -63,7 +63,8 @@ final class SoccerDiaryViewModel: ObservableObject {
                         diaryPhotos: data.diaryPhotos,
                         mom: data.mom,
                         isLiked: data.isLiked,
-                        likes: data.likes
+                        likes: data.likes,
+                        isMine: data.isMine
                     ))
                 }
                 return diarys

@@ -96,14 +96,14 @@ class SoccerDiaryAPI: BaseAPI {
     }
     
     /// 축구 일기 신고하기
-    func postNotifyDiary(request: DiaryNotifyRequest) -> AnyPublisher<Bool, NetworkError> {
+    func postNotifyDiary(diaryId: Int64, request: DiaryNotifyRequest) -> AnyPublisher<Bool, NetworkError> {
         return Future<Bool, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(SoccerDiaryService.postNotifyDiary(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(SoccerDiaryService.postNotifyDiary(diaryId, request), interceptor: MyRequestInterceptor())
                 .validate()
                 .responseDecodable(of: CommonResponse<Bool>.self) { response in
                     switch response.result {
