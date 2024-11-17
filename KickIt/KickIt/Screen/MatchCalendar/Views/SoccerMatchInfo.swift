@@ -254,38 +254,35 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func startingLineupButton() -> some View {
         ZStack {
+            Image(uiImage: .matchInfoCard)
+                .resizable()
+            
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Text("선발 라인업")
                         .pretendardTextStyle(.Title2Style)
-                        .foregroundStyle(.blackAssets)
+                        .foregroundStyle(.whiteAssets)
                     
-                    Image(uiImage: .caretRight)
+                    Image(uiImage: .careRight)
                         .resizable()
                         .frame(width: 16, height: 16)
-                        .foregroundStyle(.blackAssets)
-                    
-                    Spacer()
+                        .foregroundStyle(.whiteAssets)
                 }
                 
                 HStack {
                     Spacer()
-                    Image(uiImage: .soccer)
-                        .padding(.top, 8)
+                    Image(uiImage: .lineup)
                 }
             }
-            .padding(12)
-            .background(
-                Image(uiImage: .matchInfoCard)
-                    .resizable()
-            )
-            .overlay {
-                // 선발라인업 공개 전이라면
-                if !timerViewModel.isShowLineup {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(.black)
-                        .opacity(0.55)
-                }
+            .padding(.top, 12)
+            .padding(.leading, 12)
+            
+            // Overlay
+            // 선발라인업 공개 전이라면
+            if !timerViewModel.isShowLineup {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color(red: 0.16, green: 0.16, blue: 0.18))
+                    .opacity(0.8)
             }
             
             // 선발라인업 공개 전이라면
@@ -295,6 +292,7 @@ struct SoccerMatchInfo: View {
                     .foregroundStyle(.white0)
             }
         }
+        .cardShadow()
     }
     
     /// 경기 정보
@@ -306,29 +304,31 @@ struct SoccerMatchInfo: View {
                 TimelineEventView(match: soccerMatch)
                     .toolbarRole(.editor) // back 텍스트 숨기기
             } label: {
-                VStack(alignment: .leading) {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text("경기 타임라인")
-                            .pretendardTextStyle(.Title2Style)
-                            .foregroundStyle(.blackAssets)
-                        
-                        Image(uiImage: .caretRight)
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(.blackAssets)
-                    }
-                    
-                    Text(soccerMatchLabel().1)
-                        .pretendardTextStyle(.Body3Style)
-                        .foregroundStyle(.blackAssets)
-                    
-                    Image(uiImage: .soccerObjects)
-                }
-                .padding(12)
-                .background(
+                ZStack {
                     Image(uiImage: .timelineCard)
                         .resizable()
-                )
+                    
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("경기 타임라인")
+                                .pretendardTextStyle(.Title2Style)
+                                .foregroundStyle(.whiteAssets)
+                            
+                            Image(uiImage: .careRight)
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                                .foregroundStyle(.whiteAssets)
+                        }
+                        
+                        Text(soccerMatchLabel().1)
+                            .pretendardTextStyle(.Body3Style)
+                            .foregroundStyle(.whiteAssets)
+                        
+                        Image(uiImage: .soccerObjects)
+                    }
+                    .padding(12)
+                }
+                .cardShadow()
             }
             
             VStack(spacing: 16) {
@@ -354,16 +354,19 @@ struct SoccerMatchInfo: View {
                         .toolbarRole(.editor) // back 텍스트 숨기기
                 } label: {
                     ZStack {
+                        Image(uiImage: .matchInfoCard)
+                            .resizable()
+                        
                         VStack(alignment: .leading, spacing: 0) {
                             HStack(alignment: .center, spacing: 0) {
                                 Text("심박수 통계")
                                     .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.blackAssets)
+                                    .foregroundStyle(.whiteAssets)
                                 
-                                Image(uiImage: .caretRight)
+                                Image(uiImage: .careRight)
                                     .resizable()
                                     .frame(width: 16, height: 16)
-                                    .foregroundStyle(.blackAssets)
+                                    .foregroundStyle(.whiteAssets)
                                 
                                 Spacer()
                             }
@@ -371,20 +374,16 @@ struct SoccerMatchInfo: View {
                             HStack {
                                 Spacer()
                                 Image(uiImage: .chart)
-                                    .padding(.top, 8)
+                                    .padding(.trailing, 10)
                             }
                         }
-                        .padding(12)
-                        .background(
-                            Image(uiImage: .matchInfoCard)
-                                .resizable()
-                        )
-                        .overlay {
-                            if soccerMatch.matchCode != 3 {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.black)
-                                    .opacity(0.55)
-                            }
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                        
+                        if soccerMatch.matchCode != 3 {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(red: 0.16, green: 0.16, blue: 0.18))
+                                .opacity(0.8)
                         }
                         
                         if soccerMatch.matchCode != 3 {
@@ -393,6 +392,7 @@ struct SoccerMatchInfo: View {
                                 .foregroundStyle(.whiteAssets)
                         }
                     }
+                    .cardShadow()
                 }
             }
         }
