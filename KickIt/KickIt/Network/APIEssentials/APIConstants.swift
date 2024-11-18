@@ -93,6 +93,9 @@ struct APIConstants {
     /// 일기 삭제 이벤트 URL
     static let deleteDiaryURL = "/diary/delete/"
     
+    /// 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 URL
+    static let selectSoccerDiaryMatchURL = "/fixture/diary-select"
+    
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = ""
     /// 닉네임 수정 URL

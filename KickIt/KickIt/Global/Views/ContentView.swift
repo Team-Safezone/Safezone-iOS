@@ -147,6 +147,15 @@ struct ContentView: View {
                             .toolbarRole(.editor)
                     }
                 }
+                else if destination.identifier == "SelectSoccerDiaryMatch" {
+                    SelectSoccerDiaryMatch(
+                        popToOne: popToOneStep
+                    )
+                    .toolbarRole(.editor)
+                }
+                else if destination.identifier == "CreateSoccerDiary" {
+                    
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in
                 handleNotificationTap(notification)

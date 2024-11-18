@@ -214,4 +214,43 @@ class SoccerDiaryAPI: BaseAPI {
         }
         .eraseToAnyPublisher()
     }
+    
+    /// 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회
+    func getSelectSoccerDiaryMatch(query: SoccerMatchMonthlyRequest) -> AnyPublisher<SelectSoccerDiaryMatchResponse, NetworkError> {
+        return Future<SelectSoccerDiaryMatchResponse, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(SoccerDiaryService.getSelectSoccerDiaryMatch(query), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<SelectSoccerDiaryMatchResponse>.self) { response in
+                    switch response.result {
+                        // API 호출 성공
+                        case .success(let result):
+                            // 응답 성공
+                            if result.isSuccess {
+                                promise(.success(result.data ?? SelectSoccerDiaryMatchResponse(isLeftExist: false, isRightExist: true)))
+                            }
+                            // 응답 실패
+                            else {
+                                switch result.status {
+                                case 401:
+                                    return promise(.failure(.authFailed))
+                                case 400..<500: // 요청 실패
+                                    return promise(.failure(.requestErr(result.message)))
+                                case 500: // 서버 오류
+                                    return promise(.failure(.serverErr(result.message)))
+                                default: // 알 수 없는 오류
+                                    return promise(.failure(.unknown(result.message)))
+                                }
+                            }
+                        case .failure(let error):
+                            promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }

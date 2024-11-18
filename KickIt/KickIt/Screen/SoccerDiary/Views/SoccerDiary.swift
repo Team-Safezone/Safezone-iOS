@@ -111,6 +111,23 @@ struct SoccerDiary: View {
                     }
                 }
                 .scrollIndicators(.never)
+                
+                // MARK: 일기 추가 버튼
+                NavigationLink(value: NavigationDestination.selectSoccerDiaryMatch) {
+                    Image(uiImage: .diaryPlus)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(.gray900)
+                        .padding(12)
+                        .background(
+                            Circle()
+                                .fill(.limeFAB)
+                        )
+                        .defaultShadow()
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, 16)
+                .padding(.bottom, 24)
             }
         }
     }

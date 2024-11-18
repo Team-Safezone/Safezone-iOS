@@ -24,6 +24,9 @@ enum SoccerDiaryService {
     
     // 축구 일기 삭제 이벤트 API
     case deleteDiary(Int64)
+    
+    // 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 API
+    case getSelectSoccerDiaryMatch(SoccerMatchMonthlyRequest)
 }
 
 extension SoccerDiaryService: TargetType {
@@ -39,6 +42,8 @@ extension SoccerDiaryService: TargetType {
             return .patch
         case .deleteDiary:
             return .delete
+        case .getSelectSoccerDiaryMatch:
+            return .get
         }
     }
     
@@ -54,6 +59,8 @@ extension SoccerDiaryService: TargetType {
             return APIConstants.likeDiaryURL
         case .deleteDiary:
             return APIConstants.deleteDiaryURL
+        case .getSelectSoccerDiaryMatch:
+            return APIConstants.selectSoccerDiaryMatchURL
         }
     }
     
@@ -69,6 +76,11 @@ extension SoccerDiaryService: TargetType {
             return .pathBody(String(diaryId), data)
         case .deleteDiary(let path):
             return .path(String(path))
+        case .getSelectSoccerDiaryMatch(let query):
+            return .query([
+                "yearMonth" : query.yearMonth,
+                "teamName" : query.teamName
+            ])
         }
     }
     
@@ -83,6 +95,8 @@ extension SoccerDiaryService: TargetType {
         case .patchLikeDiary:
             return .basic
         case .deleteDiary:
+            return .basic
+        case .getSelectSoccerDiaryMatch:
             return .basic
         }
     }
