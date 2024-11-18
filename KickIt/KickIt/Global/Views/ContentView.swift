@@ -154,7 +154,14 @@ struct ContentView: View {
                     .toolbarRole(.editor)
                 }
                 else if destination.identifier == "CreateSoccerDiary" {
-                    
+                    if case let .createSoccerDiary(data) = destination {
+                        CreateSoccerDiary(
+                            popToOne: popToOneStep,
+                            popToTwo: popToTwoStep,
+                            match: data.match,
+                            isOneBack: data.isOneBack
+                        )
+                    }
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .didTapMatchNotification)) { notification in

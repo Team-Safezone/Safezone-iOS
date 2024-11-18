@@ -38,6 +38,9 @@ enum RequestParams {
     
     /// 매개변수가 없는 경우(주로 get에서 사용)
     case requestPlain
+    
+    /// 파일 데이터 전송
+    case multipart(_ body: Encodable, _ files: [MultipartFormFile]?)
 }
 
 extension Encodable {
@@ -146,6 +149,29 @@ extension TargetType {
         case .requestPlain:
             var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
+            
+        case .multipart(let body, let files):
+            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
+            
+            var multipartFormData = MultipartFormData()
+            
+            // Encodable -> JSON
+            let bodyParams = body.toDictionary()
+            bodyParams.forEach { key, value in
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+            
+            // 파일 데이터 추가
+            if let files = files {
+                for file in files {
+                    multipartFormData.append(file.data, withName: file.diaryPhotos, fileName: file.fileName, mimeType: file.mimeType)
+                }
+            }
+
+            // URLRequest 설정
+            let bodyData = try multipartFormData.encode()
+            request.httpBody = bodyData
         }
         
         return request

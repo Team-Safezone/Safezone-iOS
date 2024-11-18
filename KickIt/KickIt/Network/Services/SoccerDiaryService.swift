@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import SwiftUI
 
 /// 축구 일기 Router
 enum SoccerDiaryService {
@@ -27,6 +28,12 @@ enum SoccerDiaryService {
     
     // 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 API
     case getSelectSoccerDiaryMatch(SoccerMatchMonthlyRequest)
+    
+    /// 축구 일기 작성 때 보여줄 최고 BPM 조회
+    case getSoccerDiaryMaxHeartRate(Int64)
+    
+    /// 축구 일기 작성 URL
+    case createSoccerDiary(CreateSoccerDiaryRequest, [MultipartFormFile]?)
 }
 
 extension SoccerDiaryService: TargetType {
@@ -44,6 +51,10 @@ extension SoccerDiaryService: TargetType {
             return .delete
         case .getSelectSoccerDiaryMatch:
             return .get
+        case .getSoccerDiaryMaxHeartRate:
+            return .get
+        case .createSoccerDiary:
+            return .post
         }
     }
     
@@ -61,6 +72,10 @@ extension SoccerDiaryService: TargetType {
             return APIConstants.deleteDiaryURL
         case .getSelectSoccerDiaryMatch:
             return APIConstants.selectSoccerDiaryMatchURL
+        case .getSoccerDiaryMaxHeartRate:
+            return APIConstants.getSoccerDiaryMaxHeartRateURL
+        case .createSoccerDiary:
+            return APIConstants.createSoccerDiaryURL
         }
     }
     
@@ -81,6 +96,10 @@ extension SoccerDiaryService: TargetType {
                 "yearMonth" : query.yearMonth,
                 "teamName" : query.teamName
             ])
+        case .getSoccerDiaryMaxHeartRate(let path):
+            return .path(String(path))
+        case .createSoccerDiary(let data, let files):
+            return .multipart(data, files)
         }
     }
     
@@ -98,6 +117,10 @@ extension SoccerDiaryService: TargetType {
             return .basic
         case .getSelectSoccerDiaryMatch:
             return .basic
+        case .getSoccerDiaryMaxHeartRate:
+            return .basic
+        case .createSoccerDiary:
+            return .multiPart
         }
     }
 }

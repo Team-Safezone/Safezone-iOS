@@ -96,6 +96,12 @@ struct APIConstants {
     /// 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 URL
     static let selectSoccerDiaryMatchURL = "/fixture/diary-select"
     
+    /// 축구 일기 작성 때 보여줄 최고 BPM 조회 URL
+    static let getSoccerDiaryMaxHeartRateURL = "/diary/max-heartRate/"
+    
+    /// 축구 일기 작성 URL
+    static let createSoccerDiaryURL = "/diary/upload"
+    
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = ""
     /// 닉네임 수정 URL

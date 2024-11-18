@@ -25,6 +25,9 @@ struct SelectSoccerDiaryMatch: View {
     /// 사용자가 선택한 경기 id
     @State private var selectedMatchId: Int64? = nil
     
+    /// 사용자가 선택한 경기 정보
+    @State private var selectedMatch: SelectSoccerMatch? = nil
+    
     /// 요일 리스트
     let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
@@ -57,11 +60,13 @@ struct SelectSoccerDiaryMatch: View {
                         // MARK: 경기 선택 버튼
                         // 선택한 경기가 있다면, 일기 작성 화면으로 이동
                         if selectedMatchId != nil {
-                            NavigationLink(value: NavigationDestination.createSoccerDiary) {
-                                Text("선택")
-                                    .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.limeText)
-                                    .padding(.trailing, 16)
+                            if let selectedMatch = selectedMatch {
+                                NavigationLink(value: NavigationDestination.createSoccerDiary(data: CreateSoccerDiaryNVData(match: selectedMatch, isOneBack: false))) {
+                                    Text("선택")
+                                        .pretendardTextStyle(.Title2Style)
+                                        .foregroundStyle(.limeText)
+                                        .padding(.trailing, 16)
+                                }
                             }
                         }
                     }
@@ -183,8 +188,10 @@ struct SelectSoccerDiaryMatch: View {
                                         // 클릭 이벤트 처리
                                         if selectedMatchId == match.id {
                                             selectedMatchId = nil // 이미 선택된 경우 해제
+                                            selectedMatch = nil
                                         } else {
                                             selectedMatchId = match.id // 선택 상태로 변경
+                                            selectedMatch = match
                                         }
                                         print("경기 선택! \(String(describing: selectedMatchId))")
                                     }
