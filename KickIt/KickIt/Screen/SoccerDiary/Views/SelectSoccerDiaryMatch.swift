@@ -31,6 +31,12 @@ struct SelectSoccerDiaryMatch: View {
     /// 요일 리스트
     let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     
+    /// 이전 달 경기 일정 조회 클릭 여부
+    @State private var isPreviousMonth: Bool = false
+    
+    /// 다음 달 경기 일정 조회 클릭 여부
+    @State private var isNextMonth: Bool = false
+    
     // MARK: - BODY
     var body: some View {
         ZStack {
@@ -69,6 +75,13 @@ struct SelectSoccerDiaryMatch: View {
                                 }
                             }
                         }
+                        else {
+                            Text("선택")
+                                .pretendardTextStyle(.Title2Style)
+                                .foregroundColor(.gray500Text)
+                                .padding(.trailing, 16)
+                                .disabled(true) // 선택 버튼 비활성화
+                        }
                     }
                     .padding(.leading) // 버튼을 좌측에 고정시키기 위해 여백 조정
                 }
@@ -101,7 +114,11 @@ struct SelectSoccerDiaryMatch: View {
                                 
                                 // 이전 월에 경기 리스트가 있다면 API 호출
                                 if viewModel.isLeftExist {
-                                    getSelectSoccerDiaryMatches()
+                                    isPreviousMonth.toggle()
+                                }
+                                // 경기 리스트가 없다면
+                                else {
+                                    viewModel.matches = []
                                 }
                             }
                         } label: {
@@ -122,7 +139,11 @@ struct SelectSoccerDiaryMatch: View {
                                 
                                 // 다음 월에 경기 리스트가 있다면 API 호출
                                 if viewModel.isRightExist {
-                                    getSelectSoccerDiaryMatches()
+                                    isNextMonth.toggle()
+                                }
+                                // 경기 리스트가 없다면
+                                else {
+                                    viewModel.matches = []
                                 }
                             }
                         } label: {
@@ -207,7 +228,13 @@ struct SelectSoccerDiaryMatch: View {
         // 월이 바뀌면 현재 선택 중인 날짜도 변경
         .onChange(of: currentMonth) { preDate, newDate in
             currentDate = currentMonthDates()
-            print("date: \(currentDate.description)")
+            
+            // 이전 월 또는 다음 월에 경기 리스트가 있다면 API 호출
+            if isPreviousMonth || isNextMonth {
+                isPreviousMonth = false
+                isNextMonth = false
+                getSelectSoccerDiaryMatches()
+            }
         }
         .navigationBarBackButtonHidden()
     }

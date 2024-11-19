@@ -38,6 +38,7 @@ struct SoccerDiary: View {
                 // MARK: 상단 탭 바
                 tabAnimate()
                 
+                // MARK: 축구 일기 리스트
                 ScrollView {
                     VStack(spacing: 0) {
                         // 추천 일기
@@ -111,24 +112,24 @@ struct SoccerDiary: View {
                     }
                 }
                 .scrollIndicators(.never)
-                
-                // MARK: 일기 추가 버튼
-                NavigationLink(value: NavigationDestination.selectSoccerDiaryMatch) {
-                    Image(uiImage: .diaryPlus)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(.gray900)
-                        .padding(12)
-                        .background(
-                            Circle()
-                                .fill(.limeFAB)
-                        )
-                        .defaultShadow()
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .padding(.trailing, 16)
-                .padding(.bottom, 24)
             }
+            
+            // MARK: 일기 추가 버튼
+            NavigationLink(value: NavigationDestination.selectSoccerDiaryMatch) {
+                Image(uiImage: .diaryPlus)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(.gray900)
+                    .padding(12)
+                    .background(
+                        Circle()
+                            .fill(.limeFAB)
+                    )
+                    .defaultShadow()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding(.trailing, 16)
+            .padding(.bottom, 24)
         }
     }
     

@@ -34,14 +34,26 @@ struct CreateSoccerDiary: View {
     /// 작성한 일기
     @State private var diaryContent: String = ""
     
-    /// 추가한 이미지 리스트
-    @State private var diaryPhotos: [UIImage] = []
+    /// 선택한 이미지 리스트
+    @State private var selectedPhotos: [DiaryPhotoItem] = []
     
     /// MOM
     @State private var mom: String = ""
     
     /// 공유 여부
     @State private var isPublic: Bool = true
+    
+    /// 최대 일기 작성 글자 수
+    let limitDiaryCount = 500
+    
+    /// 최대 이미지 선택 가능 개수
+    let maxImageLimit: Int = 5
+    
+    /// 사진 버튼을 눌렀는지에 대한 여부
+    @State private var isAddingPhoto: Bool = false
+    
+    /// 일기 작성중 경고 팝업
+    @State private var isShowCloseAlert: Bool = false
     
     init(popToOne: @escaping () -> Void, popToTwo: @escaping () -> Void, match: SelectSoccerMatch, isOneBack: Bool) {
         self.popToOne = popToOne
@@ -65,12 +77,21 @@ struct CreateSoccerDiary: View {
                         .font(.pretendard(.semibold, size: 16))
                         .foregroundStyle(.white0)
                     
+                    // 닫기 버튼
                     HStack {
                         // 닫기 버튼
                         Button {
-                            handleNavigation()
+                            // 작성한 일기가 있다면
+                            if selectedTeam != nil || selectedEmotion != -1 || !diaryContent.isEmpty {
+                                isShowCloseAlert.toggle()
+                            }
+                            // 작성한 일기가 없다면
+                            else {
+                                // 화면 뒤로가기
+                                handleNavigation()
+                            }
                         } label: {
-                            Image(uiImage: .close)
+                            Image(uiImage: .back)
                                 .foregroundStyle(.white0)
                         }
                         .padding(.leading, -12)
@@ -87,15 +108,14 @@ struct CreateSoccerDiary: View {
                         else {
                             Button {
                                 // 조건에 만족하면 축구 일기 작성 API 호출
-                                if validateCreateDiary() {
-                                    createDiary()
-                                }
+                                createDiary()
                             } label: {
                                 Text("작성")
                                     .pretendardTextStyle(.Title2Style)
                                     .foregroundStyle(validateCreateDiary() ? .limeText : .gray500Text)
                                     .padding(.trailing, 16)
                             }
+                            .disabled(!validateCreateDiary())
                         }
                     }
                     .padding(.leading) // 버튼을 좌측에 고정시키기 위해 여백 조정
@@ -167,13 +187,44 @@ struct CreateSoccerDiary: View {
                 
                 // MARK: 일기 작성 텍스트 필드
                 ZStack(alignment: .topLeading) {
-                    TextEditor(text: $diaryContent)
-                        .pretendardTextStyle(.Body1Style)
-                        .foregroundStyle(.white0)
-                        .scrollContentBackground(.hidden)
-                        .frame(maxHeight: .infinity, alignment: .topLeading)
-                        .padding(.top, 10)
-                        .padding(.horizontal, 24)
+                    KeyboardTextEditor(text: $diaryContent, textCount: $viewModel.diaryContentCount, accessoryView: {
+                        HStack {
+                            // MARK: 이미지 첨부 버튼
+                            Button {
+                                // 추가한 이미지가 5개 이하라면
+                                if selectedPhotos.count < maxImageLimit {
+                                    isAddingPhoto = true
+                                }
+                            } label: {
+                                Image(uiImage: .photoCamera)
+                                    .resizable()
+                                    .frame(width: 44, height: 44)
+                                    .foregroundStyle(.white0)
+                            }
+                            
+                            Spacer()
+                            
+                            Text("\(viewModel.diaryContentCount)자/\(limitDiaryCount)자")
+                                .pretendardTextStyle(.Body3Style)
+                                .foregroundStyle(.gray500Text)
+                                .onAppear {
+                                        print("Text appeared with count: \(diaryContent.count)")
+                                    print("Text appeared with count22: \(viewModel.diaryContentCount)")
+                                    }
+                                    .onChange(of: diaryContent) { old, newValue in
+                                        print("Text updated with new count: \(newValue.count)")
+                                    }
+                        }
+                        .padding(.leading, 8)
+                        .padding(.trailing, 16)
+                        .background(Color.gray950)
+                        .cardShadow()
+                    })
+                    .pretendardTextStyle(.Body1Style)
+                    .foregroundStyle(.white0)
+                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                    .padding(.top, 10)
+                    .padding(.horizontal, 24)
                     
                     if diaryContent.isEmpty {
                         Text("경기에 대한 일기를 남겨보세요")
@@ -183,6 +234,37 @@ struct CreateSoccerDiary: View {
                             .padding(.horizontal, 24)
                     }
                 }
+                
+                // MARK: 사용자가 선택한 이미지 리스트
+                ScrollView(.horizontal) {
+                    HStack(spacing: 0) {
+                        ForEach(selectedPhotos) { item in
+                            Image(uiImage: item.photo)
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fill)
+                                .frame(width: 80, height: 80, alignment: .center)
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                                .overlay {
+                                    // 이미지 삭제 버튼 띄우기
+                                    Button {
+                                        withAnimation {
+                                            selectedPhotos.removeAll { $0.id == item.id }
+                                        }
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .font(.system(size: 18))
+                                            .symbolRenderingMode(.palette)
+                                            .foregroundStyle(.white, .gray600)
+                                    }
+                                    .offset(x: 37, y: -37) // 버튼 위치 조정
+                                    .frame(alignment: .topTrailing) // 이미지의 우측 상단에 배치
+                                }
+                                .padding([.top, .trailing], 12)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                }
+                .scrollIndicators(.never)
                 
                 // 구분선
                 Rectangle()
@@ -228,6 +310,22 @@ struct CreateSoccerDiary: View {
                 .padding(.vertical, 8)
             }
         }
+        .navigationBarBackButtonHidden()
+        // MARK: 사진 추가 시트 띄우기
+        .sheet(isPresented: $isAddingPhoto) {
+            PhotoPicker(selectedPhotos: $selectedPhotos)
+        }
+        // MARK: 일기 작성 중 경고 팝업 띄우기
+        .alert(
+            "축구 일기 작성중",
+            isPresented: $isShowCloseAlert
+        ) {
+            Button("취소", role: .cancel) { }
+                            
+            Button("삭제", role: .destructive) { handleNavigation() }
+        } message: {
+            Text("지금 돌아가면 작성된 내용이\n모두 삭제됩니다.")
+        }
     }
     
     // MARK: - FUNCTION
@@ -267,11 +365,11 @@ struct CreateSoccerDiary: View {
             Spacer()
             
             // 심박수 데이터가 있다면
-            if diaryContent != "" {
+            if let heart = viewModel.highHeartRate {
                 HStack(spacing: 2) {
                     Text("최고")
                         .foregroundStyle(.gray500Text)
-                    Text("100")
+                    Text("\(heart)")
                         .foregroundStyle(.white0)
                     Text("BPM")
                         .foregroundStyle(.gray500Text)
@@ -334,8 +432,8 @@ struct CreateSoccerDiary: View {
     
     /// 사용자가 선택한 이미지들을 API에 전송할 데이터 형태로 바꾸는 함수
     private func convertSelectedImageData() -> [MultipartFormFile] {
-        diaryPhotos.enumerated().compactMap { index, image -> MultipartFormFile? in
-            guard let data = image.pngData() else { return nil }
+        selectedPhotos.enumerated().compactMap { index, image -> MultipartFormFile? in
+            guard let data = image.photo.pngData() else { return nil }
             return MultipartFormFile(
                 diaryPhotos: "diaryPhotos[\(index)]",
                 fileName: "photo\(index + 1).png",

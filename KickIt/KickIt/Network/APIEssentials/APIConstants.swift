@@ -31,7 +31,7 @@ struct APIConstants {
     static let getTeamsURL = "/eplTeams"
     
     /// 홈 조회 URL
-    static let homeURL = "/url~"
+    static let homeURL = "/home"
     
     /// 한달 경기 일정 조회 URL
     static let monthlyMatchURL = "/fixture/dates"

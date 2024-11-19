@@ -82,7 +82,7 @@ extension TargetType {
             request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
             
         case .multiPart:
-            request.setValue(ContentType.multiPart.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
+            request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.accept.rawValue)
         }
         
         return request
@@ -140,38 +140,49 @@ extension TargetType {
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .requestBody(let body):
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
             
             let bodyParams = body.toDictionary()
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
         
         case .requestPlain:
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
             
         case .multipart(let body, let files):
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
             
-            var multipartFormData = MultipartFormData()
+            let multipartFormData = MultipartFormData()
             
             // Encodable -> JSON
             let bodyParams = body.toDictionary()
             bodyParams.forEach { key, value in
-                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+                if let valueString = "\(value)".data(using: .utf8) {
+                    multipartFormData.append(
+                        valueString,
+                        withName: key,
+                        mimeType: "application/json"
+                    )
+                }
             }
             
             // 파일 데이터 추가
             if let files = files {
                 for file in files {
-                    multipartFormData.append(file.data, withName: file.diaryPhotos, fileName: file.fileName, mimeType: file.mimeType)
+                    multipartFormData.append(file.data, withName: "diaryPhotos", fileName: file.fileName, mimeType: file.mimeType)
                 }
             }
 
             // URLRequest 설정
-            let bodyData = try multipartFormData.encode()
-            request.httpBody = bodyData
+            do {
+                let bodyData = try multipartFormData.encode()
+                request.setValue(ContentType.multiPart.rawValue + "boundary=\(multipartFormData.boundary)", forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
+                request.httpBody = bodyData
+            } catch {
+                print("에러 Error during encoding: \(error.localizedDescription)")
+            }
         }
         
         return request
