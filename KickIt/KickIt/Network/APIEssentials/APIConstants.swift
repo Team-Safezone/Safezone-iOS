@@ -31,7 +31,7 @@ struct APIConstants {
     static let getTeamsURL = "/squad/name-url" //withAuth
     
     /// 홈 조회 URL
-    static let homeURL = "/url~"
+    static let homeURL = "/home"
     
     /// 한달 경기 일정 조회 URL
     static let monthlyMatchURL = "/fixture/dates"
@@ -40,16 +40,28 @@ struct APIConstants {
     static let dailyMatchURL = "/fixture"
     
     /// 랭킹 조회 URL
-    static let rankingURL = "/"
+    static let rankingURL = "/ranking"
     
     /// 경기 예측 버튼 클릭 URL
-    static let predictionButtonClickURL = "/"
+    static let predictionButtonClickURL = "/match-predict"
     
     /// 선발라인업 조회 URL
-    static let startingLineupURL = "/"
+    static let startingLineupURL = "/match-lineup"
+    
+    /// 우승팀 예측 URL
+    static let winningTeamPredictionURL = "/score-predict/save"
+    
+    /// 우승팀 예측 결과 조회 URL
+    static let winningTeamPredictionResultURL = "/score-predict/result"
+    
+    /// 선발라인업 예측 URL
+    static let startingLineupPredictionURL = "/lineup-predict/save"
     
     /// 선발라인업 예측 조회 URL
-    static let startingLineupPredictionURL = "/"
+    static let startingLineupPredictionDefaultURL = "/lineup-predict"
+    
+    /// 선발라인업 예측 결과 조회 URL
+    static let startingLineupPredictionResultURL = "/lineup-predict/result"
     
     /// 심박수 통계 조회 URL
     static let heartRateStatisticsURL = "/heartRate/statistics"
@@ -67,19 +79,28 @@ struct APIConstants {
     static let matchHeartRateURL = "/heartRate/save"
     
     /// 추천 일기 조회 URL
-    static let recommendDiaryURL = "/"
+    static let recommendDiaryURL = "/diary/recommend/"
     
     /// 내 일기 조회 URL
-    static let myDiaryURL = "/"
+    static let myDiaryURL = "/diary/mine/"
     
     /// 일기 신고하기 URL
-    static let notifyDiaryURL = "/"
+    static let notifyDiaryURL = "/diary/report/"
     
     /// 일기 좋아요 이벤트 URL
-    static let likeDiaryURL = "/"
+    static let likeDiaryURL = "/diary/isLiked/"
     
     /// 일기 삭제 이벤트 URL
-    static let deleteDiaryURL = "/"
+    static let deleteDiaryURL = "/diary/delete/"
+    
+    /// 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 URL
+    static let selectSoccerDiaryMatchURL = "/fixture/diary-select"
+    
+    /// 축구 일기 작성 때 보여줄 최고 BPM 조회 URL
+    static let getSoccerDiaryMaxHeartRateURL = "/diary/max-heartRate/"
+    
+    /// 축구 일기 작성 URL
+    static let createSoccerDiaryURL = "/diary/upload"
     
     /// 사용자 데이터 조회 URL
     static let getUserInfoURL = "/users/mypage"

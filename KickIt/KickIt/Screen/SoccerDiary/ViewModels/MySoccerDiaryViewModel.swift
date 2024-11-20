@@ -29,7 +29,7 @@ final class MySoccerDiaryViewModel: ObservableObject {
     func toggleLike() {
         soccerDiary.isLiked.toggle()
         soccerDiary.likes += soccerDiary.isLiked ? 1 : -1
-        patchLikeDiary(request: DiaryLikeRequest(diaryId: soccerDiary.diaryId, isLiked: soccerDiary.isLiked))
+        patchLikeDiary(diaryId: soccerDiary.diaryId, request: DiaryLikeRequest(isLiked: soccerDiary.isLiked))
         print("아이디: \(soccerDiary.diaryId) | 좋아요 여부: \(soccerDiary.isLiked)")
     }
     
@@ -43,14 +43,9 @@ final class MySoccerDiaryViewModel: ObservableObject {
         showDeleteDialog.toggle()
     }
     
-    /// 삭제 버튼 클릭 이벤트
-    func deleteDiaryEvent() {
-        deleteDiary(request: DiaryDeleteRequest(diaryId: soccerDiary.diaryId))
-    }
-    
     /// 축구 일기 좋아요 버튼 클릭 이벤트
-    func patchLikeDiary(request: DiaryLikeRequest) {
-        SoccerDiaryAPI.shared.patchLikeDiary(request: request)
+    func patchLikeDiary(diaryId: Int64, request: DiaryLikeRequest) {
+        SoccerDiaryAPI.shared.patchLikeDiary(diaryId: diaryId, request: request)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -67,19 +62,21 @@ final class MySoccerDiaryViewModel: ObservableObject {
     }
     
     /// 축구 일기 삭제 이벤트
-    func deleteDiary(request: DiaryDeleteRequest) {
-        SoccerDiaryAPI.shared.deleteDiary(request: request)
+    func deleteDiary(diaryId: Int64, complete: @escaping (Bool) -> (Void)) {
+        SoccerDiaryAPI.shared.deleteDiary(diaryId: diaryId)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
+                    complete(false)
                 case .finished:
                     break
                 }
             },
             receiveValue: { dto in
                 print("축구 일기 삭제 이벤트 응답: \(dto)")
+                complete(true)
             })
             .store(in: &cancellables)
     }

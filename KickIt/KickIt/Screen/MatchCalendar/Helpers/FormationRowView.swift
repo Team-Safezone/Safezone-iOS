@@ -20,30 +20,37 @@ struct FormationRowView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(formation)
-                    .pretendardTextStyle(.Body1Style)
-                    .foregroundStyle(.white0)
-                
+            Text(formation)
+                .pretendardTextStyle(.Body1Style)
+                .foregroundStyle(.white0)
+            
+            Spacer()
+            
+            HStack(spacing: 8) {
                 Text(formationType)
                     .pretendardTextStyle(.Body3Style)
                     .foregroundStyle(.gray500Text)
-            }
-            Spacer()
-            HStack(spacing: 4) {
-                ForEach(formationIcons, id: \.self) { icon in
-                    Image(uiImage: icon)
+                
+                HStack(spacing: 1) {
+                    Image(uiImage: formationIcons[0])
                         .resizable()
-                        .renderingMode(.template)
                         .frame(width: 32, height: 32)
+                    
+                    RoundedRectangle(cornerRadius: 8)
                         .foregroundStyle(.gray500Text)
+                        .frame(width: 5, height: 1)
+                    
+                    Image(uiImage: formationIcons[1])
+                        .resizable()
+                        .frame(width: 32, height: 32)
                 }
             }
         }
-        .padding(16)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 22)
     }
 }
 
 #Preview("축구 팀 포메이션 Row") {
-    FormationRowView(formation: "4-3-3 포메이션", formationType: "공격형", formationIcons: [.soccerball])
+    FormationRowView(formation: "4-3-3 포메이션", formationType: "공격형", formationIcons: [.fireball, .fireball])
 }

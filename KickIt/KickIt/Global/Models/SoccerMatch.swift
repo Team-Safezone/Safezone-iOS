@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Entity] 축구 경기 모델
-struct SoccerMatch: Identifiable {
+struct SoccerMatch: Identifiable, Hashable {
     let id: Int64 // 고유 id
     let matchDate: Date // 축구 경기 날짜
     let matchTime: Date // 축구 경기 시간

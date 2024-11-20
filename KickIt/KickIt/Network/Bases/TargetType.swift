@@ -21,6 +21,12 @@ protocol TargetType: URLRequestConvertible {
 
 /// API 요청 시 parameter 정의
 enum RequestParams {
+    /// URL PathVariable
+    case path(_ path: String)
+    
+    /// URL PathVariable & Body Parameter
+    case pathBody(_ path: String, _ body: Encodable)
+    
     /// URL 쿼리
     case query(_ query: Encodable)
     
@@ -32,6 +38,9 @@ enum RequestParams {
     
     /// 매개변수가 없는 경우(주로 get에서 사용)
     case requestPlain
+    
+    /// 파일 데이터 전송
+    case multipart(_ body: Encodable, _ files: [MultipartFormFile]?)
 }
 
 extension Encodable {
@@ -73,7 +82,7 @@ extension TargetType {
             request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
             
         case .multiPart:
-            request.setValue(ContentType.multiPart.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
+            request.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.accept.rawValue)
         }
         
         return request
@@ -84,6 +93,17 @@ extension TargetType {
         var request = request
         
         switch parameters {
+        case .path(let path):
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
+            request.url = components?.url
+            
+        case .pathBody(let path, let body):
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()! + path).absoluteString)
+            request.url = components?.url
+            
+            let bodyParams = body.toDictionary()
+            request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
+            
         case .query(let query):
             let params = query.toDictionary()
             // parameter 중 nil값 처리
@@ -120,15 +140,49 @@ extension TargetType {
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
             
         case .requestBody(let body):
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
             
             let bodyParams = body.toDictionary()
             request.httpBody = try JSONSerialization.data(withJSONObject: bodyParams, options: [])
         
         case .requestPlain:
-            var components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
             request.url = components?.url
+            
+        case .multipart(let body, let files):
+            let components = URLComponents(string: url.appendingPathComponent(endPoint.encodeURL()!).absoluteString)
+            request.url = components?.url
+            
+            let multipartFormData = MultipartFormData()
+            
+            // Encodable -> JSON
+            let bodyParams = body.toDictionary()
+            bodyParams.forEach { key, value in
+                if let valueString = "\(value)".data(using: .utf8) {
+                    multipartFormData.append(
+                        valueString,
+                        withName: key,
+                        mimeType: "application/json"
+                    )
+                }
+            }
+            
+            // 파일 데이터 추가
+            if let files = files {
+                for file in files {
+                    multipartFormData.append(file.data, withName: "diaryPhotos", fileName: file.fileName, mimeType: file.mimeType)
+                }
+            }
+
+            // URLRequest 설정
+            do {
+                let bodyData = try multipartFormData.encode()
+                request.setValue(ContentType.multiPart.rawValue + "boundary=\(multipartFormData.boundary)", forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
+                request.httpBody = bodyData
+            } catch {
+                print("에러 Error during encoding: \(error.localizedDescription)")
+            }
         }
         
         return request

@@ -109,10 +109,16 @@ struct MySoccerDiaryView: View {
         ) {
             Button("삭제", role: .destructive) {
                 // 축구 일기 삭제 API 호출
-                viewModel.deleteDiaryEvent()
-                
-                // 삭제한 축구 일기 숨기기
-                deleteDiaryAction()
+                viewModel.deleteDiary(diaryId: viewModel.soccerDiary.diaryId) { success in
+                    if success {
+                        // 삭제한 축구 일기 숨기기
+                        deleteDiaryAction()
+                    }
+                    else {
+                        // 삭제 오류
+                        print("축구 일기 삭제 오류")
+                    }
+                }
             }
             Button("취소", role: .cancel) { }
         } message: {

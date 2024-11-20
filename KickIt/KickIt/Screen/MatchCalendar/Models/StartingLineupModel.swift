@@ -9,21 +9,15 @@ import Foundation
 
 /// [Entity] 각팀 선발라인업 리스트 모델
 struct StartingLineupModel {
-    var goalkeeper: SoccerPlayer // 골기퍼
+    var goalkeeper: [SoccerPlayer] // 골기퍼
     var defenders: [SoccerPlayer] // 수비수
     var midfielders: [SoccerPlayer] // 미드필더
     var midfielders2: [SoccerPlayer]? // 미드필더2
     var strikers: [SoccerPlayer] // 공격수
 }
 
-/// [Entity] 각팀 후보선수 리스트 모델
-struct SubstituteModel {
-    var playerName: String // 선수 이름
-    var playerNum: Int // 선수 등번호
-}
-
 /// 4-2-3-1 포메이션 더미 데이터
-var dummyGoalkeeper = SoccerPlayer(playerImgURL: "https://resources.premierleague.com/premierleague/photos/players/250x250/p184254.png", playerName: "비카리오", backNum: 1)
+var dummyGoalkeeper = [SoccerPlayer(playerImgURL: "https://resources.premierleague.com/premierleague/photos/players/250x250/p184254.png", playerName: "비카리오", backNum: 1)]
 
 var dummyDF1: [SoccerPlayer] = [
     SoccerPlayer(playerImgURL: "https://resources.premierleague.com/premierleague/photos/players/250x250/p487053.png", playerName: "우도기", backNum: 13),

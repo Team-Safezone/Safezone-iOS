@@ -13,6 +13,9 @@ struct StartingLineupPredictionView: View {
     /// 선발라인업 예측 뷰모델 객체
     @StateObject private var viewModel = StartingLineupPredictionViewModel()
     
+    /// 경기 id
+    var matchId: Int64
+    
     /// 홈팀 여부
     var isHomeTeam: Bool
     
@@ -90,6 +93,10 @@ struct StartingLineupPredictionView: View {
             } //: ZSTACK
             
         } //: VSTACK
+        .onAppear {
+            // 화면 진입 시, 선발라인업 예측 조회 API 호출
+            viewModel.getDefaultStartingLineupPrediction(request: MatchIdRequest(matchId: matchId))
+        }
         // MARK: 포메이션 선택 바텀 시트
         .sheet(isPresented: $isFormationPresented) {
             presentFormationSheet
@@ -238,7 +245,7 @@ struct StartingLineupPredictionView: View {
 // MARK: - PREVIEW
 #Preview("선발라인업 예측 선택") {
     StartingLineupPredictionView(
-        isHomeTeam: true,
+        matchId: 1, isHomeTeam: true,
         team: dummySoccerTeams[1],
         selectedPlayers: .constant([SoccerPosition.DF1:StartingLineupPlayer(playerImgURL: "", playerName: "", backNum: 2, playerPosition: 2)]),
         formationIndex: .constant(-1))

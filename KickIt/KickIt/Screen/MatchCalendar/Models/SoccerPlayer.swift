@@ -9,7 +9,7 @@ import Foundation
 
 /// [Entity] 축구 선수
 struct SoccerPlayer {
-    var playerImgURL: String // 선수 이미지 URL
-    var playerName: String // 선수 이름
-    var backNum: Int // 선수 등번호
+    var playerImgURL: String? // 선수 이미지 URL
+    var playerName: String? // 선수 이름
+    var backNum: Int? // 선수 등번호
 }

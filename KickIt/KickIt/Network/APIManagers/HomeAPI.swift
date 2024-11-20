@@ -37,7 +37,7 @@ class HomeAPI: BaseAPI {
                             promise(.success(result.data!))
                         } else {
                             switch result.status {
-                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                            case 401:
                                 return promise(.failure(.authFailed))
                             case 400..<500: // 요청 실패
                                 return promise(.failure(.requestErr(result.message)))

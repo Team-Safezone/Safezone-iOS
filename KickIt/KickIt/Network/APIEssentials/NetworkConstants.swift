@@ -21,9 +21,10 @@ enum HeaderType {
 enum HTTPHeaderField: String {
     case authentication = "Authorization"
     case contentType = "Content-Type"
+    case accept = "Accept"
 }
 
 enum ContentType: String {
-    case json = "Application/json"
-    case multiPart = "multipart/form-data"
+    case json = "application/json"
+    case multiPart = "multipart/form-data; "
 }
