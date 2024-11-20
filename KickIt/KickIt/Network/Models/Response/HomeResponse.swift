@@ -43,7 +43,8 @@ struct HomeDiaryResponse: Codable {
     var awayTeamEmblemURL: String // 원정팀 엠블럼 URL
     
     enum CodingKeys: String, CodingKey {
-        case diaryId, matchDate, matchTime, homeTeamName, awayTeamName, homeTeamEmblemURL, awayTeamEmblemURL
+        case diaryId = "id"
+        case matchDate, matchTime, homeTeamName, awayTeamName, homeTeamEmblemURL, awayTeamEmblemURL
     }
 }
 
