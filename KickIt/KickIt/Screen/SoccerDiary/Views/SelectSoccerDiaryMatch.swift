@@ -179,47 +179,56 @@ struct SelectSoccerDiaryMatch: View {
                     
                     // MARK: - 일정 리스트
                     ScrollView {
-                        // matchDate를 기준으로 그룹화
-                        let groupedMatches = Dictionary(grouping: viewModel.matches) { match in
-                            dateToString2(date: match.matchDate)
+                        if viewModel.matches.isEmpty {
+                            Text("진행된 경기가 없습니다.")
+                                .pretendardTextStyle(.Body1Style)
+                                .foregroundStyle(.gray500Text)
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 140)
                         }
-                        
-                        // matchDate 기준 정렬
-                        let sortedGroupedMatches = groupedMatches.sorted { $0.key > $1.key } // 최신 날짜가 상단에 오도록 정렬
-                        
-                        ForEach(sortedGroupedMatches, id: \.key) { date, matches in
-                            // 날짜
-                            Text(date)
-                                .pretendardTextStyle(.Body2Style)
-                                .foregroundStyle(.white0)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 5)
-                            
-                            // 경기 리스트
-                            ForEach(matches, id: \.id) { match in
-                                SelectSoccerMatchView(match: match)
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(
-                                                selectedMatchId == match.id ? Color.lime : Color.gray900,
-                                                style: StrokeStyle(lineWidth: 1)
-                                            )
-                                    }
-                                    .onTapGesture {
-                                        // 클릭 이벤트 처리
-                                        if selectedMatchId == match.id {
-                                            selectedMatchId = nil // 이미 선택된 경우 해제
-                                            selectedMatch = nil
-                                        } else {
-                                            selectedMatchId = match.id // 선택 상태로 변경
-                                            selectedMatch = match
-                                        }
-                                        print("경기 선택! \(String(describing: selectedMatchId))")
-                                    }
-                                    .padding(.bottom, 10)
+                        else {
+                            // matchDate를 기준으로 그룹화
+                            let groupedMatches = Dictionary(grouping: viewModel.matches) { match in
+                                dateToString2(date: match.matchDate)
                             }
+                            
+                            // matchDate 기준 정렬
+                            let sortedGroupedMatches = groupedMatches.sorted { $0.key > $1.key } // 최신 날짜가 상단에 오도록 정렬
+                            
+                            ForEach(sortedGroupedMatches, id: \.key) { date, matches in
+                                // 날짜
+                                Text(date)
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.white0)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.vertical, 5)
+                                
+                                // 경기 리스트
+                                ForEach(matches, id: \.id) { match in
+                                    SelectSoccerMatchView(match: match)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(
+                                                    selectedMatchId == match.id ? Color.lime : Color.gray900,
+                                                    style: StrokeStyle(lineWidth: 1)
+                                                )
+                                        }
+                                        .onTapGesture {
+                                            // 클릭 이벤트 처리
+                                            if selectedMatchId == match.id {
+                                                selectedMatchId = nil // 이미 선택된 경우 해제
+                                                selectedMatch = nil
+                                            } else {
+                                                selectedMatchId = match.id // 선택 상태로 변경
+                                                selectedMatch = match
+                                            }
+                                            print("경기 선택! \(String(describing: selectedMatchId))")
+                                        }
+                                        .padding(.bottom, 10)
+                                }
+                            }
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.horizontal, 16)
                     }
                     .scrollIndicators(.never)
                 } //: VSTACK
