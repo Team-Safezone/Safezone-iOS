@@ -117,7 +117,7 @@ struct AcceptingView: View {
                     Button(action: {
                         acceptingViewModel.showModal = true
                     }) {
-                        Image("CaretRight")
+                        Image("CareRight")
                             .frame(width: 24, height: 24)
                             .foregroundStyle(.gray300)
                     }

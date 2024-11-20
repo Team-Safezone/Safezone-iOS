@@ -17,7 +17,6 @@ struct MyPage: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        NavigationStack {
             ZStack {
                 Color.background.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
@@ -36,7 +35,7 @@ struct MyPage: View {
                     .padding(.horizontal, 16)
                 }
             }
-        }
+        
         .tint(.white0)
         .alert(isPresented: $mnviewModel.showingLogoutAlert) {
             Alert(
@@ -70,7 +69,7 @@ struct MyPage: View {
             }
             Spacer()
             NavigationLink(destination: MyProfile(viewModel: MyProfileViewModel()).toolbarRole(.editor)) {
-                Image("CaretRight")
+                Image("CareRight")
                     .resizable()
                     .frame(width: 28, height: 28)
                     .foregroundStyle(.gray500Text)
@@ -195,7 +194,7 @@ struct MyPage: View {
                     HStack {
                         Text(title)
                         Spacer()
-                        Image("CaretRight")
+                        Image("CareRight")
                             .resizable()
                             .frame(width: 20, height: 20, alignment: .center)
                             .foregroundStyle(.gray800Btn)
@@ -205,7 +204,7 @@ struct MyPage: View {
                 HStack {
                     Text(title)
                     Spacer()
-                    Image("CaretRight")
+                    Image("CareRight")
                         .resizable()
                         .frame(width: 20, height: 20, alignment: .center)
                         .foregroundStyle(.gray800Btn)

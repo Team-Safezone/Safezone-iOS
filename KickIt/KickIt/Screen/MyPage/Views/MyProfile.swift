@@ -37,7 +37,7 @@ struct MyProfile: View {
                                     Text("등급 안내")
                                         .pretendardTextStyle(.Body2Style)
                                         .foregroundStyle(.white0)
-                                    Image("CaretRight")
+                                    Image("CareRight")
                                         .frame(width: 18, height: 18, alignment: .center)
                                         .foregroundStyle(.gray500Text)
                                 }.padding(.vertical, 6)
@@ -141,7 +141,7 @@ struct MyProfile: View {
                     }
                 }
             }
-        }
+        }.tint(.white0)
         .navigationTitle("나의 프로필")
     }
 }
