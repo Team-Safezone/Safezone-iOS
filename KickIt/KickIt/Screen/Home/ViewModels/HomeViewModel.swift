@@ -17,17 +17,14 @@ final class HomeViewModel: ObservableObject {
     @Published var matches: [SoccerMatch]? // 사용자에게 관심있을 경기 일정 리스트
     @Published var hasNewAlerts: Bool = false   // 새로운 알람이 있는지
         
-        init() {
-            NotificationManager.shared.$unreadAlerts
-                .map { !$0.isEmpty }
-                .assign(to: \.hasNewAlerts, on: self)
-                .store(in: &cancellables)
-        }
-    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
         getHome()
+        NotificationManager.shared.$unreadAlerts
+            .map { !$0.isEmpty }
+            .assign(to: \.hasNewAlerts, on: self)
+            .store(in: &cancellables)
     }
     
     /// 홈 조회

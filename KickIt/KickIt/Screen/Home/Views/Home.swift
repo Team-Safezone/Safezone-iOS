@@ -10,7 +10,6 @@ import SwiftUI
 /// 홈 화면
 struct Home: View {
     var soccerMatch: SoccerMatch
-    var soccerMatches: [SoccerMatch] = dummySoccerMatches
     
     /// 프리미어리그 팀 리스트
     @State private var soccerTeams: [SoccerTeam] = []

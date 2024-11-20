@@ -350,7 +350,7 @@ struct SoccerMatchInfo: View {
                 
                 // MARK: 심박수 통계 버튼
                 NavigationLink {
-                    HeartRateView(selectedMatch: soccerMatch)
+                    HeartRateView(match: soccerMatch)
                         .toolbarRole(.editor) // back 텍스트 숨기기
                 } label: {
                     ZStack {

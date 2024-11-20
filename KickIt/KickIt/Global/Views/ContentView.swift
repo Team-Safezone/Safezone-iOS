@@ -113,10 +113,10 @@ struct ContentView: View {
                             popToThreeStep: popToThreeStep,
                             prediction: data.prediction,
                             isOneBack: data.isOneBack)
-                            .toolbarRole(.editor)
+                        .toolbarRole(.editor)
                     }
                 }
-                .tag(Tab.mypage)
+            }
         }
     }
 }
