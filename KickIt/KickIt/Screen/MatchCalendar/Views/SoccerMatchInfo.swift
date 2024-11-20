@@ -152,6 +152,7 @@ struct SoccerMatchInfo: View {
                     // 팀 명
                     Text("\(soccerMatch.homeTeam.teamName)")
                         .pretendardTextStyle(.Body1Style)
+                        .multilineTextAlignment(.center)
                         .foregroundStyle(.white0)
                 }
                 .padding(.top, 8)
@@ -182,6 +183,7 @@ struct SoccerMatchInfo: View {
                 
                 // 팀 명
                 Text("\(soccerMatch.awayTeam.teamName)")
+                    .multilineTextAlignment(.center)
                     .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.white0)
                     .padding(.top, 8)
