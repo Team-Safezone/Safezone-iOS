@@ -113,14 +113,14 @@ struct MatchRow: View {
                 .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 5)
+        .padding(.vertical, 10)
     }
     
     private func teamView(teamName: String, image: String) -> some View {
         VStack(spacing: 2) {
             LoadableImage(image: image)
                 .scaledToFit()
-                .frame(width: 20, height: 20)
+                .frame(width: 24, height: 24)
             Spacer().frame(height: 2)
             Text(teamName)
                 .font(.pretendard(.medium, size: 12))

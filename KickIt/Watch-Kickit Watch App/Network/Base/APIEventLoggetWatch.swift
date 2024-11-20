@@ -14,7 +14,7 @@ class APIEventLogger: EventMonitor {
     let queue = DispatchQueue(label: "NetworkLogger")
     
     func requestDidFinish(_ request: Request) {
-        print("🛰 NETWORK Reqeust LOG")
+        print("🛰 WATCH NETWORK Reqeust LOG")
         print(request.description)
         
         print("1️⃣ URL\n")

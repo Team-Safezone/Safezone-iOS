@@ -23,9 +23,9 @@ struct MatchResultView: View {
             }
             .zIndex(1)
             .padding(.bottom, 88)
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(viewModel.getStatusColor(), lineWidth: 1.00)
-                .frame(maxWidth: .infinity, maxHeight: 88, alignment: .center)
+            RoundedRectangle(cornerRadius: 8).fill(.gray950)
+                .stroke(viewModel.getStatusBorderColor(), lineWidth: 1.00)
+                .frame(maxWidth: .infinity, maxHeight: 96, alignment: .center)
             HStack {
                 VStack(spacing: 4) {
                     LoadableImage(image: viewModel.match.homeTeam.teamEmblemURL)
@@ -46,22 +46,25 @@ struct MatchResultView: View {
                 }
                 .frame(width: 100, height: 64, alignment: .center)
                 
-                HStack(spacing: 14) {
+                HStack(spacing: 18) {
                     Text(viewModel.match.homeTeamScore?.description ?? "0")
                         .pretendardTextStyle(.H1Style)
                         .foregroundStyle(Color.gray200)
-                    
-                    VStack(spacing: 0) {
+
+                    VStack(spacing: 5) {
                         if viewModel.match.matchCode == 0 || viewModel.match.matchCode == 3 {
                             Text(dateToString3(date: viewModel.match.matchDate))
                                 .pretendardTextStyle(.SubTitleStyle)
+                                .frame(height: 20)
                             Text(timeToString(time: viewModel.match.matchTime))
                                 .font(.pretendard(.bold, size: 18))
+                                .frame(height: 24)
                         } else {
                             Text("VS")
                                 .font(.pretendard(.bold, size: 16))
                         }
                     }
+                    .padding(.top, 6)
                     .foregroundStyle(Color.white0)
                     
                     Text(viewModel.match.awayTeamScore?.description ?? "0")
@@ -83,6 +86,7 @@ struct MatchResultView: View {
             }
         }
         .padding(.horizontal, 16)
+        .padding(.top, 16)
     }
 }
 

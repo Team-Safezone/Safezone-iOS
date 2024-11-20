@@ -42,6 +42,7 @@ struct EditMyTeams: View {
                             teamSelectionButton(team: viewModel.teams[index], teamIndex: index)
                         }
                     }
+                    .padding(.bottom, 120)
                 }
                 .padding(.horizontal, 26)
             }
@@ -64,7 +65,7 @@ struct EditMyTeams: View {
     private func teamSelectionButton(team: SoccerTeam, teamIndex: Int) -> some View {
         RoundedRectangle(cornerRadius: 4)
             .stroke(viewModel.selectedTeams.contains(team.teamName) ? Color.lime : Color.gray900, lineWidth: 1)
-            .frame(width: 100, height: 112, alignment: .center)
+            .frame(width: 110, height: 122, alignment: .center)
             .overlay(
                 VStack {
                     AsyncImage(url: URL(string: team.teamEmblemURL)) { image in
@@ -75,7 +76,7 @@ struct EditMyTeams: View {
                     .scaledToFit()
                     .frame(width: 64, height: 64)
                     Text(team.teamName)
-                        .pretendardTextStyle(.Caption1Style)
+                        .pretendardTextStyle(.Body3Style)
                 }
             )
             .overlay(

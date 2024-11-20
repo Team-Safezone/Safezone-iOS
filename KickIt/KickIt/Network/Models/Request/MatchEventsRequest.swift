@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 타임라인 Request 모델
+// [타임라인 화면] 이벤트 Request 모델
 struct MatchEventsRequest: Encodable {
     let matchId: Int64 // 경기 id
 }

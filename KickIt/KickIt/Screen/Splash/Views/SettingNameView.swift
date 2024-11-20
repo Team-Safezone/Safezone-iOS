@@ -44,7 +44,8 @@ struct SettingNameView: View {
             Text("닉네임은 언제든지 변경할 수 있어요!")
                 .pretendardTextStyle(.Body2Style)
                 .foregroundStyle(.gray500)
-        }.padding(.bottom, 36)
+        }.padding(.top, 50)
+            .padding(.bottom, 36)
     }
     
     private var nicknameInputSection: some View {
@@ -121,7 +122,7 @@ struct CircleView: View {
             .foregroundColor(bgColor)
             .overlay(
                 Text(num)
-                    .font(.caption)
+                    .pretendardTextStyle(.Caption1Style)
                     .foregroundColor(numColor)
             )
     }

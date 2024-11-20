@@ -45,6 +45,9 @@ class MainViewModel: ObservableObject {
                 
                 // 키체인에 jwt 토큰 저장
                 KeyChain.shared.addJwtToken(token: token) // KeyChain에 토큰 저장
+                
+                // watchOS로 토큰 전송
+                WatchSessionManager.shared.sendXAuthTokenToWatch(token)
                 completion(true)
             })
             .store(in: &cancellables)
@@ -67,6 +70,9 @@ class MainViewModel: ObservableObject {
                 
                 // 키체인에 jwt 토큰 저장
                 KeyChain.shared.addJwtToken(token: token) // KeyChain에 토큰 저장
+                
+                // watchOS로 토큰 전송
+                WatchSessionManager.shared.sendXAuthTokenToWatch(token)
                 completion(true)
             })
             .store(in: &cancellables)

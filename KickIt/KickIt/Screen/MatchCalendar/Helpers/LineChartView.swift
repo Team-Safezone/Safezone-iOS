@@ -17,7 +17,6 @@ struct LineChartView: View {
         (viewModel.statistics?.awayTeamHeartRateRecords ?? [])
         let maxData = allHeartRates.map { $0.heartRate }.max() ?? 1.0
         let minData = allHeartRates.map { $0.heartRate }.min() ?? 0.0
-        
         GeometryReader { geometry in
             ScrollView(.horizontal, showsIndicators: false) {
                 ZStack(alignment: .bottomLeading) {
@@ -30,6 +29,33 @@ struct LineChartView: View {
                     }
                     .pretendardTextStyle(.Caption1Style)
                     .foregroundColor(.gray200)
+                    
+                    // 실선 및 점선 추가
+                    VStack(alignment: .leading, spacing: 80) {
+                        // 높음 - 점선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
+                        .frame(width: 420, height: 1)
+                        
+                        // 보통 - 점선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
+                        .frame(width: 420, height: 1)
+                        
+                        // 낮음 - 실선
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addLine(to: CGPoint(x: 600, y: 0))
+                        }
+                        .stroke(Color.gray800, style: StrokeStyle(lineWidth: 1))
+                        .frame(width: 420, height: 1)
+                    }.padding(.leading, 64)
                     
                     // 라인 그래프
                     Group {
@@ -56,7 +82,19 @@ struct LineChartView: View {
                     if viewModel.isDragging, let boxViewModel = viewModel.boxEventViewModel {
                         BoxEventView(viewModel: boxViewModel)
                             .position(x: viewModel.pathPosition.x, y: -40)
+                    } else {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 382, height: 80)
+                            .foregroundStyle(.gray950)
+                            .overlay{
+                                Text("그래프를 드래그하여 이벤트를 확인해보세요!")
+                                    .pretendardTextStyle(.SubTitleStyle)
+                                    .foregroundStyle(.gray500Text)
+                            }.position(x: geometry.size.width / 2 - 8, y: -40)
+                            .padding(.bottom, 4)
                     }
+                        
+                    
                     
                     // 드래그 라인
                     if viewModel.isDragging {
@@ -82,7 +120,7 @@ struct LineChartView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 60)
                 .padding(.top, 5)
-            }
+            }.frame(width: 400)
         }
     }
     
@@ -109,7 +147,7 @@ struct LineChartView: View {
         let spacing = 220 / yRange
         
         return heartRates.map { record in
-            let xPosition = CGFloat((record.heartRateRecordTime * 56) / 15)
+            let xPosition = CGFloat((record.date * 56) / 15)
             let yPosition = 220 - (record.heartRate - minDataPoint) * spacing
             return CGPoint(x: xPosition, y: yPosition)
         }
@@ -131,7 +169,7 @@ struct BoxEventView: View {
                                 .background(.white0)
                                 .clipShape(Circle())
                         }
-                        Text("\(event.player1)")
+                        Text("\(event.player1 ?? "")")
                             .pretendardTextStyle(.Title2Style)
                         Text("\(event.eventName)")
                             .pretendardTextStyle(.Body1Style)

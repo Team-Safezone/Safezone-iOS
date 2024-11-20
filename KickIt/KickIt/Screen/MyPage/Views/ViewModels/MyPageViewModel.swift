@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import SwiftUI
 
 // 마이페이지 뷰모델
 class MyPageViewModel: ObservableObject {
@@ -15,18 +14,16 @@ class MyPageViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var goalCount: Int = 0
     @Published var favoriteTeamsUrl: [(teamName: String, teamUrl: String)] = []
-    @Published var showingLogoutAlert: Bool = false
-    @AppStorage("isDarkMode") var isDarkMode: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
     // 볼 레벨 정의
     private let ballLevels: [(name: String, minGoal: Int, maxGoal: Int)] = [
-        ("탱탱볼", 0, 20),
-        ("브론즈 공", 21, 50),
-        ("실버 공", 51, 90),
-        ("골드 공", 91, 140),
-        ("다이아 공", 141, 200)
+        ("루키", 0, 20),
+        ("브론즈", 21, 50),
+        ("실버", 51, 90),
+        ("골드", 91, 140),
+        ("다이아몬드", 141, 200)
     ]
     
     init() {
@@ -44,7 +41,7 @@ class MyPageViewModel: ObservableObject {
                 } receiveValue: { [weak self] userData in
                     self?.nickname = userData.nickname
                     // 앱 내에서 이메일 가져오기
-                    self?.email = "email@naver.com"
+                    self?.email = KeyChain.shared.getKeyChainItem(key: .kakaoEmail) ?? "email@nodata"
                     self?.goalCount = userData.goalCount
                     self?.favoriteTeamsUrl = userData.favoriteTeamsUrl.map { ($0.teamName, $0.teamUrl) }
                 }
@@ -53,7 +50,7 @@ class MyPageViewModel: ObservableObject {
         // 임시 데이터
         self.nickname = "닉네임"
         self.email = "email@naver.com"
-        self.goalCount = 1
+        self.goalCount = 32
         self.favoriteTeamsUrl = [("토트넘", "https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F33_300300.png"),
                                  ("리버풀","https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F44_300300.png"),
                                  ("맨시티","https://img1.daumcdn.net/thumb/R150x150/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmedia%2Fimg-section%2Fsports13%2Flogo%2Fteam%2F14%2F17_300300.png")]
@@ -85,10 +82,5 @@ class MyPageViewModel: ObservableObject {
         let range = currentBallLevel.maxGoal - currentBallLevel.minGoal
         let progress = goalCount - currentBallLevel.minGoal
         return CGFloat(progress) / CGFloat(range)
-    }
-    
-    // 다크모드 설정
-    func toggleDarkMode() {
-        isDarkMode.toggle()
     }
 }

@@ -11,15 +11,13 @@ import SwiftUI
 struct MyPage: View {
     @StateObject private var viewModel = MyPageViewModel()
     @StateObject private var mnviewModel = ManageAccountViewModel()
+    @ObservedObject private var darkmodeViewModel = DarkmodeViewModel()
     @ObservedObject private var mainViewModel = MainViewModel()
     
-    @State private var isLoggedOut = false
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        if isLoggedOut {
-            LoginView(viewModel: mainViewModel)
-        }
-        else {
+        NavigationStack {
             ZStack {
                 Color.background.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
@@ -34,23 +32,26 @@ struct MyPage: View {
                         menuList
                         accountActions
                         Spacer()
-                    }.padding(.horizontal, 16)
+                    }
+                    .padding(.horizontal, 16)
                 }
             }
-            .tint(.white0)
-            .alert(isPresented: $viewModel.showingLogoutAlert) {
-                Alert(
-                    title: Text("로그아웃하시겠습니까?"),
-                    primaryButton: .destructive(Text("확인"), action: {
-                        mnviewModel.logoutAccount()  // 로그아웃 진행
-                        KeyChain.shared.deleteJwtToken() // jwt 토큰 삭제
-                        isLoggedOut = true // 로그아웃O
-                    }),
-                    secondaryButton: .cancel(Text("취소"))
-                )
-            }
+        }
+        .tint(.white0)
+        .alert(isPresented: $mnviewModel.showingLogoutAlert) {
+            Alert(
+                title: Text("로그아웃하시겠습니까?"),
+                primaryButton: .destructive(Text("확인"), action: {
+                    mnviewModel.logoutAccount() // 로그아웃 처리
+                    DispatchQueue.main.async {
+                        authViewModel.logout()  // 상태 변경으로 화면 전환 유도
+                    }
+                }),
+                secondaryButton: .cancel(Text("취소"))
+            )
         }
     }
+    
     
     // 프로필
     private var profileSection: some View {
@@ -133,7 +134,7 @@ struct MyPage: View {
                 }
             }
             .padding(.bottom, 16)
-            HStack(alignment: .bottom, spacing: 8){
+            HStack(alignment: .bottom, spacing: 16){
                 ForEach(Array(viewModel.favoriteTeamsUrl
                     .enumerated()), id: \.element.teamName) { index, team in
                         VStack(spacing: 0) {
@@ -219,13 +220,13 @@ struct MyPage: View {
             Text("라이트 모드")
             Spacer()
             Toggle("", isOn: Binding(
-                get: { !self.viewModel.isDarkMode },
-                set: { self.viewModel.isDarkMode = !$0 }
+                get: { !self.darkmodeViewModel.isDarkMode },
+                set: { self.darkmodeViewModel.isDarkMode = !$0 }
             )).toggleStyle(SwitchToggleStyle(tint: .lime))
         }
         .padding(.vertical, 15)
         .onTapGesture {
-            viewModel.toggleDarkMode()
+            darkmodeViewModel.toggleDarkMode()
         }
     }
     
@@ -234,7 +235,7 @@ struct MyPage: View {
         HStack(spacing: 20) {
             Spacer()
             Button("로그아웃") {
-                viewModel.showingLogoutAlert = true
+                mnviewModel.showingLogoutAlert = true
             }.foregroundStyle(.gray500).pretendardTextStyle(.Body2Style)
                 .frame(width: 57, height: 20)
             Divider().foregroundStyle(.gray800Btn)

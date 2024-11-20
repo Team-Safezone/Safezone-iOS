@@ -9,8 +9,9 @@ import UserNotifications
 
 // 알림 매니저
 class NotificationManager: NSObject, UNUserNotificationCenterDelegate, ObservableObject {
-    // 싱글톤 인스턴스
-    static let shared = NotificationManager()
+    static let shared = NotificationManager()   // 싱글톤 인스턴스
+    
+    @Published var unreadAlerts: [KickitAlert] = []   // 안읽은 알람
     
     // 프라이빗 이니셜라이저로 외부에서 인스턴스 생성 방지
     override private init() {
@@ -33,6 +34,9 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
     /// 경기 시작 알림 스케줄링
     /// - Parameter match: 경기 정보
     func scheduleGameStartNotification(for match: SoccerMatch) {
+        // 기존의 중복된 알림 삭제
+        removeExistingNotifications(for: match.id, type: "gameStart")
+        
         let content = UNMutableNotificationContent()
         content.title = "경기 시작 알림"
         content.body = "\(match.homeTeam.teamName) vs \(match.awayTeam.teamName) 경기가 곧 시작됩니다!"
@@ -58,7 +62,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
                 print("경기 시작 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
                 if let notificationTime = calendar.date(from: dateComponents) {
-                    print("경기 시작 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                    print("경기 시작 알림, 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
                 }
             }
         }
@@ -67,6 +71,9 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
     /// 선발 라인업 알림 스케줄링
     /// - Parameter match: 경기 정보
     func scheduleLineupNotification(for match: SoccerMatch) {
+        // 기존의 중복된 알림 삭제
+        removeExistingNotifications(for: match.id, type: "lineup")
+        
         let content = UNMutableNotificationContent()
         content.title = "선발 라인업 공개"
         content.body = "\(match.homeTeam.teamName) vs \(match.awayTeam.teamName) 선발라인업이 공개되었습니다!"
@@ -92,9 +99,29 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
                 print("선발 라인업 알림 스케줄링 실패: \(error.localizedDescription)")
             } else {
                 if let notificationTime = calendar.date(from: dateComponents) {
-                    print("선발 라인업 알림이 성공적으로 스케줄링되었습니다. 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
+                    print("선발 라인업 알림, 매치 ID: \(match.id), 알림 시간: \(notificationTime)")
                 }
             }
+        }
+    }
+    
+    /// 기존의 중복된 알림 삭제
+    /// - Parameters:
+    ///   - matchId: 경기 ID
+    ///   - type: 알림 타입 ("gameStart" 또는 "lineup")
+    private func removeExistingNotifications(for matchId: Int64, type: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let identifiersToRemove = requests.filter { request in
+                if let userInfo = request.content.userInfo as? [String: Any],
+                   let notificationMatchId = userInfo["matchId"] as? Int64,
+                   let notificationType = userInfo["notificationType"] as? String {
+                    return notificationMatchId == matchId && notificationType == type
+                }
+                return false
+            }.map { $0.identifier }
+            
+            center.removePendingNotificationRequests(withIdentifiers: identifiersToRemove)
         }
     }
     
@@ -128,4 +155,53 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
 
 extension Notification.Name {
     static let didTapMatchNotification = Notification.Name("didTapMatchNotification")
+}
+
+extension NotificationManager {
+    /// 지난 경기의 알림 삭제
+    func removePastNotifications() {
+        print("지난 경기의 알림 삭제")
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let currentDate = Date()
+            let identifiersToRemove = requests.compactMap { request -> String? in
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger,
+                   let nextTriggerDate = trigger.nextTriggerDate(),
+                   nextTriggerDate < currentDate {
+                    return request.identifier
+                }
+                return nil
+            }
+            center.removePendingNotificationRequests(withIdentifiers: identifiersToRemove)
+        }
+    }
+    
+    /// 모든 알림 삭제
+    func removeAllNotifications() {
+        print("모든 알림 삭제")
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
+    // 새로운 알람
+    func checkForNewAlerts() {
+        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+            DispatchQueue.main.async {
+                self.unreadAlerts = notifications.map { notification in
+                    let userInfo = notification.request.content.userInfo
+                    return KickitAlert(
+                        id: UUID(),
+                        matchId: userInfo["matchId"] as? Int64 ?? 0,
+                        type: userInfo["notificationType"] as? String ?? ""
+                    )
+                }
+            }
+        }
+    }
+    
+    // 알람을 읽음
+    func markAlertAsRead(_ alert: KickitAlert) {
+        if let index = unreadAlerts.firstIndex(where: { $0.id == alert.id }) {
+            unreadAlerts.remove(at: index)
+        }
+    }
 }

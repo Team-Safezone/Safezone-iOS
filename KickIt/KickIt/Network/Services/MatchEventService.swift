@@ -12,17 +12,19 @@ import Alamofire
 enum MatchEventService {
     // 타임라인 이벤트 API
     case getMatchEvents(MatchEventsRequest)
+    // 사용자 평균 심박수 API
+    case getUserAverageHeartRate
     // 사용자의 심박수 데이터 업로드 API
     case postMatchHeartRate(MatchHeartRateRequest)
     // 데이터 존제 체크 API
-    case checkHeartRateDataExists(HeartRateDataExistsRequest)
+    case checkHeartRateDataExists(matchId: Int64)
 }
 
 extension MatchEventService: TargetType {
     
     var method: HTTPMethod {
         switch self {
-        case .getMatchEvents, .checkHeartRateDataExists:
+        case .getMatchEvents, .getUserAverageHeartRate, .checkHeartRateDataExists:
             return .get
         case .postMatchHeartRate:
             return .post
@@ -35,14 +37,16 @@ extension MatchEventService: TargetType {
             return APIConstants.matchEventURL
         case .postMatchHeartRate:
             return APIConstants.matchHeartRateURL
-        case .checkHeartRateDataExists:
-            return APIConstants.checkDataExistsURL
+        case .getUserAverageHeartRate:
+            return APIConstants.avgHeartRateURL
+        case .checkHeartRateDataExists(let matchId):
+            return "\(APIConstants.checkDataExistsURL)/matchId/\(matchId)"
         }
     }
     
     var header: HeaderType {
         switch self {
-        case .getMatchEvents, .postMatchHeartRate, .checkHeartRateDataExists:
+        case .getMatchEvents, .postMatchHeartRate, .checkHeartRateDataExists, .getUserAverageHeartRate:
             return .basic
         }
     }
@@ -55,8 +59,11 @@ extension MatchEventService: TargetType {
         case .postMatchHeartRate(let request):
             return .requestBody(request)
             
+        case .getUserAverageHeartRate:
+            return .requestPlain
+            
         case .checkHeartRateDataExists(let request):
-            return .query(["matchId" : request.matchId])
+            return .requestPlain
         }
     }
 }

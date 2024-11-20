@@ -90,7 +90,7 @@ struct SettingFavView: View {
     private func teamSelectionButton(team: SoccerTeam, teamIndex: Int) -> some View {
         RoundedRectangle(cornerRadius: 4)
             .stroke(settingFavViewModel.selectedTeams.contains(team.teamName) ? Color.lime : Color.gray900, lineWidth: 1)
-            .frame(width: 100, height: 112, alignment: .center)
+            .frame(width: 110, height: 122, alignment: .center)
             .overlay(
                 VStack {
                     AsyncImage(url: URL(string: team.teamEmblemURL)) { image in
@@ -101,7 +101,7 @@ struct SettingFavView: View {
                     .scaledToFit()
                     .frame(width: 64, height: 64)
                     Text(team.teamName)
-                        .pretendardTextStyle(.Caption1Style)
+                        .pretendardTextStyle(.Body3Style)
                 }
             )
             .overlay(

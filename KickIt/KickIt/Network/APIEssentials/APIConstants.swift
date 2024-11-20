@@ -28,7 +28,7 @@ struct APIConstants {
     static let checkNicknameDuplicateURL = "/users/check-nickname"
     
     /// 팀 로고, 이름 조회 URL
-    static let getTeamsURL = "/eplTeams"
+    static let getTeamsURL = "/squad/name-url" //withAuth
     
     /// 홈 조회 URL
     static let homeURL = "/home"
@@ -64,7 +64,7 @@ struct APIConstants {
     static let startingLineupPredictionResultURL = "/lineup-predict/result"
     
     /// 심박수 통계 조회 URL
-    static let heartRateStatisticsURL = "/"
+    static let heartRateStatisticsURL = "/heartRate/statistics"
     
     /// 경기 이벤트 조회 URL
     static let matchEventURL = "/realTime"
@@ -73,10 +73,10 @@ struct APIConstants {
     static let avgHeartRateURL = "/users/avgHeartRate"
     
     /// 사용자 심박수 데이터 존재 여부 URL
-    static let checkDataExistsURL = "/check-dataExists"
+    static let checkDataExistsURL = "/heartRate/check-dataExists"
     
-    /// 사용자 심박수 전송 URL
-    static let matchHeartRateURL = "/match-heart-rate"
+    /// 사용자 심박수 저장 URL
+    static let matchHeartRateURL = "/heartRate/save"
     
     /// 추천 일기 조회 URL
     static let recommendDiaryURL = "/diary/recommend/"
@@ -103,11 +103,12 @@ struct APIConstants {
     static let createSoccerDiaryURL = "/diary/upload"
     
     /// 사용자 데이터 조회 URL
-    static let getUserInfoURL = ""
+    static let getUserInfoURL = "/users/mypage"
+    
     /// 닉네임 수정 URL
-    static let updateNicknameURL = ""
+    static let updateNicknameURL = "/users/update-nickname"
     /// 선호 팀 수정 URL
-    static let updateFavoriteTeamsURL = ""
+    static let updateFavoriteTeamsURL = "/users/update-favoriteTeams"
 }
 
 /// 한글 인코딩

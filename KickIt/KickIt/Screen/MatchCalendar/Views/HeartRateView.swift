@@ -9,10 +9,15 @@ import SwiftUI
 
 /// 심박수 통계 화면
 struct HeartRateView: View {
-    /// 심박수 통계 뷰모델
-    @ObservedObject private var viewModel = HeartRateViewModel.withDummyData()
-    /// 사용자가 선택한 축구 경기 객체
-    var selectedMatch: SoccerMatch
+    
+    /// back 버튼 색상
+    @Environment(\.presentationMode) var presentationMode
+    
+    @StateObject private var viewModel: HeartRateViewModel
+    
+    init(match: SoccerMatch) {
+        _viewModel = StateObject(wrappedValue: HeartRateViewModel(match: match))
+    }
     
     var body: some View {
         ZStack {
@@ -42,7 +47,7 @@ struct HeartRateView: View {
                         .padding(.bottom, 20)
                     
                     // MARK: 심박수 통계 그래프 아래의 정보 뷰(나, 홈팀, 원정팀)
-                    FanListView(homeTeamName: selectedMatch.homeTeam.teamName, awayTeamName: selectedMatch.awayTeam.teamName)
+                    FanListView(homeTeamName: viewModel.selectedMatch.homeTeam.teamName, awayTeamName: viewModel.selectedMatch.awayTeam.teamName)
                     
                     // 홈팀 심박수 배열
                     let homeTeamStats: [Int?] = [
@@ -62,27 +67,40 @@ struct HeartRateView: View {
                     ViewerHRStatsView(
                         homeTeamStats: homeTeamStats,
                         awayTeamStats: awayTeamStats,
-                        homeTeamName: selectedMatch.homeTeam.teamName,
-                        awayTeamName: selectedMatch.awayTeam.teamName
+                        homeTeamName: viewModel.selectedMatch.homeTeam.teamName,
+                        awayTeamName: viewModel.selectedMatch.awayTeam.teamName
                     )
                     
                     // MARK: 심박수 통계 화면의 전체 시청자 분석 막대 그래프
                     ViewerStatsView(
-                        homeTeam: selectedMatch.homeTeam,
-                        awayTeam: selectedMatch.awayTeam,
+                        homeTeam: viewModel.selectedMatch.homeTeam,
+                        awayTeam: viewModel.selectedMatch.awayTeam,
                         homeTeamPercentage: viewModel.statistics?.homeTeamViewerPercentage ?? 0
                     )
                 }//:VSTACK
             }//:SCROLLVIEW
             .onAppear {
-                viewModel.getHeartRateStatistics(request: HeartRateStatisticsRequest(matchId: selectedMatch.id))
+                viewModel.getHeartRateStatistics(matchId: viewModel.selectedMatch.id)
             }
             .navigationTitle("심박수 통계")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+                .toolbar {  // back 색상
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.white0) // 색상
+                            }
+                        }
+                    }
+                }
         }//:ZSTACK
     }
 }
 
 #Preview {
-    HeartRateView(selectedMatch: dummySoccerMatches[1])
+    HeartRateView(match: dummySoccerMatches[0])
 }

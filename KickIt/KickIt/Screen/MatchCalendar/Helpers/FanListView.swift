@@ -38,8 +38,8 @@ struct FanListView: View {
             }
             .foregroundStyle(.violet)
         }
-        .padding(.top, 31)
-        .padding(.bottom, 40)
+        .padding(.top, 20)
+        .padding(.bottom, 32)
     }
 }
 

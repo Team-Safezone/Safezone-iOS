@@ -10,4 +10,9 @@ import Foundation
 /// [타임라인 화면] 사용자 데이터 여부 확인 Response 모델
 struct HeartRateDataExistsResponse: Codable {
     let exists: Bool
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        exists = try container.decode(Bool.self)
+    }
 }

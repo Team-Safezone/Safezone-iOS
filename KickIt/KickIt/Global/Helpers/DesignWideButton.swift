@@ -23,7 +23,7 @@ struct DesignWideButton: View {
             .pretendardTextStyle(.Title1Style)
             .foregroundStyle(labelColor)
             .padding([.top, .bottom], 15)
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, minHeight: 54)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(btnBGColor)
