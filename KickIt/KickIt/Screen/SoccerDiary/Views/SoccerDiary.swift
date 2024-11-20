@@ -63,17 +63,19 @@ struct SoccerDiary: View {
                                 viewModel.updateRequestNum(num: requestIndex)
                                 viewModel.getRecommendDiarys() // 일기 조회 api 호출
                             } label: {
-                                HStack {
-                                    Text("일기 더보기")
-                                        .pretendardTextStyle(.Body2Style)
-                                    
-                                    Image(systemName: "chevron.down")
-                                }
-                                .foregroundStyle(.white0)
+                                Text("일기 더보기")
+                                    .pretendardTextStyle(.Body2Style)
+                                    .foregroundStyle(.white0)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 15)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 100)
+                                            .fill(.gray900)
+                                    )
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 20)
-                            .padding(.bottom, 100)
+                            .padding(.bottom, 10)
                         }
                         // 내 일기
                         else {
