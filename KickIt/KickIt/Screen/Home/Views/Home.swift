@@ -36,7 +36,7 @@ struct Home: View {
                 // 상단 헤더 뷰
                 Header()
                 
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical) {
                     VStack(alignment: .leading, spacing: 0) {
                         if viewModel.matchPredictions != nil {
                             if viewModel.matchDiarys != nil {
@@ -52,14 +52,28 @@ struct Home: View {
                         
                         // MARK: 경기 예측하기
                         if let predictions = viewModel.matchPredictions {
-//                            NavigationLink {
-//                                WinningTeamPrediction(popToSoccerInfoAction: popToSoccerInfoAction, isRetry: false, soccerMatch: soccerMatch)
-//                                    .toolbarRole(.editor) // back 텍스트 숨기기
-//                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-//                            } label: {
-//                                MatchEventCardView(match: predictions)
-//                                    .padding(.top, 16)
-//                            }
+                            NavigationLink {
+                                WinningTeamPrediction(
+                                    isRetry: true,
+                                    soccerMatch: SoccerMatch(
+                                        id: predictions.matchId,
+                                        matchDate: stringToDate(date: predictions.matchDate),
+                                        matchTime: stringToTime(time: predictions.matchTime),
+                                        stadium: "",
+                                        matchRound: 0,
+                                        homeTeam: predictions.homeTeam,
+                                        awayTeam: predictions.awayTeam,
+                                        matchCode: 0,
+                                        homeTeamScore: 0,
+                                        awayTeamScore: 0
+                                    )
+                                )
+                                .toolbarRole(.editor) // back 텍스트 숨기기
+                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                            } label: {
+                                MatchEventCardView(match: predictions)
+                                    .padding(.top, 16)
+                            }
                         }
                         
                         // MARK: 일기 쓰기
@@ -100,17 +114,15 @@ struct Home: View {
                             if let matches = viewModel.matches {
                                 VStack(spacing: 12) {
                                     ForEach(0..<(matches.count), id: \.self) {i in
-//                                        NavigationLink {
-//                                            // 경기 정보 화면으로 이동
-//                                            SoccerMatchInfo(popToSoccerInfoAction: popToSoccerInfoAction, viewModel: calendarViewModel)
-//                                                .toolbarRole(.editor) // back 텍스트 숨기기
-//                                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-//                                        } label: {
-//                                            MatchCardView(soccerMatch: matches[i])
-//                                                .onTapGesture {
-//                                                    calendarViewModel.selectedMatch(match: matches[i])
-//                                                }
-//                                        }
+                                        // 경기 정보 화면으로 이동
+                                        NavigationLink(
+                                            value: NavigationDestination.soccerInfo(data: matches[i])
+                                        ) {
+                                            MatchCardView(soccerMatch: matches[i])
+                                                .onTapGesture {
+                                                    calendarViewModel.selectedMatch(match: matches[i])
+                                                }
+                                        }
                                     }
                                 }
                             }
@@ -149,6 +161,7 @@ struct Home: View {
                     } //: VSTACK
                     .padding(.horizontal, 16)
                 } //: SCROLLVIEW
+                .scrollIndicators(.never)
             } //: VSTACK
         } //: ZSTACK
         .tint(.gray200)
@@ -167,7 +180,7 @@ struct Home: View {
             HStack(spacing: 2){
                 Image(uiImage: .coin)
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
                     .frame(width: 24, height: 24, alignment: .center)
                 Text(viewModel.gradePoint.description)
                     .pretendardTextStyle(.SubTitleStyle)
