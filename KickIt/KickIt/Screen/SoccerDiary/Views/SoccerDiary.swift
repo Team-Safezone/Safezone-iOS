@@ -13,6 +13,12 @@ struct SoccerDiary: View {
     @State private var selectedTab: DiaryTabInfo = .recommend
     @Namespace private var animation
     
+    /// 추천 축구 일기 새로고침 요청 횟수
+    @State private var requestIndex: Int = 0
+    
+    /// 내 축구 일기 새로고침 요청 횟수
+    @State private var myDiaryRequestIndex: Int = 0
+    
     /// 경기 일기 뷰모델
     @StateObject private var viewModel = SoccerDiaryViewModel()
     
@@ -32,6 +38,7 @@ struct SoccerDiary: View {
                 // MARK: 상단 탭 바
                 tabAnimate()
                 
+                // MARK: 축구 일기 리스트
                 ScrollView {
                     VStack(spacing: 0) {
                         // 추천 일기
@@ -42,10 +49,31 @@ struct SoccerDiary: View {
                                 })
                                 .padding(.vertical, 16)
                                 
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundStyle(.gray900)
+                                // 마지막 일기가 아닐 경우
+                                if index < viewModel.recommendDiarys.count - 1 {
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundStyle(.gray900)
+                                }
                             }
+                            
+                            // MARK: 추천 축구 일기 더보기 버튼
+                            Button {
+                                requestIndex += 1
+                                viewModel.updateRequestNum(num: requestIndex)
+                                viewModel.getRecommendDiarys() // 일기 조회 api 호출
+                            } label: {
+                                HStack {
+                                    Text("일기 더보기")
+                                        .pretendardTextStyle(.Body2Style)
+                                    
+                                    Image(systemName: "chevron.down")
+                                }
+                                .foregroundStyle(.white0)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 100)
                         }
                         // 내 일기
                         else {
@@ -55,15 +83,53 @@ struct SoccerDiary: View {
                                 })
                                 .padding(.vertical, 16)
                                 
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundStyle(.gray900)
+                                // 마지막 일기가 아닐 경우
+                                if index < viewModel.myDiarys.count - 1 {
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundStyle(.gray900)
+                                }
                             }
+                            
+                            // MARK: 내 축구 일기 더보기 버튼
+                            Button {
+                                myDiaryRequestIndex += 1
+                                viewModel.updateMyDiaryRequestNum(num: myDiaryRequestIndex)
+                                viewModel.getMyDiarys() // 내 일기 조회 api 호출
+                            } label: {
+                                HStack {
+                                    Text("일기 더보기")
+                                        .pretendardTextStyle(.Body2Style)
+                                    
+                                    Image(systemName: "chevron.down")
+                                }
+                                .foregroundStyle(.white0)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 100)
                         }
                     }
                 }
                 .scrollIndicators(.never)
             }
+            
+            // MARK: 일기 추가 버튼
+            NavigationLink(value: NavigationDestination.selectSoccerDiaryMatch) {
+                Image(uiImage: .diaryPlus)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(.gray900)
+                    .padding(12)
+                    .background(
+                        Circle()
+                            .fill(.limeFAB)
+                    )
+                    .defaultShadow()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding(.trailing, 16)
+            .padding(.bottom, 24)
         }
     }
     

@@ -7,23 +7,33 @@
 
 import Foundation
 import Alamofire
+import SwiftUI
 
 /// 축구 일기 Router
 enum SoccerDiaryService {
     // 추천 축구 일기 조회 API
-    case getRecommendDiary
+    case getRecommendDiary(Int)
     
     // 내 축구 일기 조회 API
-    case getMyDiary
+    case getMyDiary(Int)
     
     // 축구 일기 신고하기 API
-    case postNotifyDiary(DiaryNotifyRequest)
+    case postNotifyDiary(Int64, DiaryNotifyRequest)
     
     // 축구 일기 좋아요 이벤트 API
-    case patchLikeDiary(DiaryLikeRequest)
+    case patchLikeDiary(Int64, DiaryLikeRequest)
     
     // 축구 일기 삭제 이벤트 API
-    case deleteDiary(DiaryDeleteRequest)
+    case deleteDiary(Int64)
+    
+    // 축구 일기로 기록하고 싶은 경기 선택을 위한 경기 일정 조회 API
+    case getSelectSoccerDiaryMatch(SoccerMatchMonthlyRequest)
+    
+    /// 축구 일기 작성 때 보여줄 최고 BPM 조회
+    case getSoccerDiaryMaxHeartRate(Int64)
+    
+    /// 축구 일기 작성 URL
+    case createSoccerDiary(CreateSoccerDiaryRequest, [MultipartFormFile]?)
 }
 
 extension SoccerDiaryService: TargetType {
@@ -37,8 +47,14 @@ extension SoccerDiaryService: TargetType {
             return .post
         case .patchLikeDiary:
             return .patch
-        case .deleteDiary(_):
+        case .deleteDiary:
             return .delete
+        case .getSelectSoccerDiaryMatch:
+            return .get
+        case .getSoccerDiaryMaxHeartRate:
+            return .get
+        case .createSoccerDiary:
+            return .post
         }
     }
     
@@ -52,23 +68,38 @@ extension SoccerDiaryService: TargetType {
             return APIConstants.notifyDiaryURL
         case .patchLikeDiary:
             return APIConstants.likeDiaryURL
-        case .deleteDiary(_):
+        case .deleteDiary:
             return APIConstants.deleteDiaryURL
+        case .getSelectSoccerDiaryMatch:
+            return APIConstants.selectSoccerDiaryMatchURL
+        case .getSoccerDiaryMaxHeartRate:
+            return APIConstants.getSoccerDiaryMaxHeartRateURL
+        case .createSoccerDiary:
+            return APIConstants.createSoccerDiaryURL
         }
     }
     
     var parameters: RequestParams {
         switch self {
-        case .getRecommendDiary:
-            return .requestPlain
-        case .getMyDiary:
-            return .requestPlain
-        case .postNotifyDiary(let data):
-            return .queryBody(data.diaryId, data.reasonCode)
-        case .patchLikeDiary(let data):
-            return .queryBody(data.diaryId, data.isLiked)
-        case .deleteDiary(let data):
-            return .requestBody(data.diaryId)
+        case .getRecommendDiary(let path):
+            return .path(String(path))
+        case .getMyDiary(let path):
+            return .path(String(path))
+        case .postNotifyDiary(let diaryId, let data):
+            return .pathBody(String(diaryId), data)
+        case .patchLikeDiary(let diaryId, let data):
+            return .pathBody(String(diaryId), data)
+        case .deleteDiary(let path):
+            return .path(String(path))
+        case .getSelectSoccerDiaryMatch(let query):
+            return .query([
+                "yearMonth" : query.yearMonth,
+                "teamName" : query.teamName
+            ])
+        case .getSoccerDiaryMaxHeartRate(let path):
+            return .path(String(path))
+        case .createSoccerDiary(let data, let files):
+            return .multipart(data, files)
         }
     }
     
@@ -84,6 +115,12 @@ extension SoccerDiaryService: TargetType {
             return .basic
         case .deleteDiary:
             return .basic
+        case .getSelectSoccerDiaryMatch:
+            return .basic
+        case .getSoccerDiaryMaxHeartRate:
+            return .basic
+        case .createSoccerDiary:
+            return .multiPart
         }
     }
 }

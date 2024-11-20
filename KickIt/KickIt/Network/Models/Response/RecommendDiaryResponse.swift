@@ -27,4 +27,5 @@ struct RecommendDiaryResponse: Codable {
     var mom: String?
     var isLiked: Bool
     var likes: Int
+    var isMine: Bool
 }
