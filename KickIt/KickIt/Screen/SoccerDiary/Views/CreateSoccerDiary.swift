@@ -74,7 +74,7 @@ struct CreateSoccerDiary: View {
                 ZStack {
                     // 중앙에 위치한 텍스트
                     Text("새로운 축구 일기")
-                        .font(.pretendard(.semibold, size: 16))
+                        .pretendardTextStyle(.Title2Style)
                         .foregroundStyle(.white0)
                     
                     // 닫기 버튼
