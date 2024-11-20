@@ -138,47 +138,46 @@ struct SoccerDiary: View {
     @ViewBuilder
     private func tabAnimate() -> some View {
         VStack(spacing: 0) {
-            HStack {
-                ForEach(DiaryTabInfo.allCases, id: \.self) { item in
-                    VStack(spacing: 0) {
-                        Text(item.rawValue)
-                            .pretendardTextStyle(selectedTab == item ? .SubTitleStyle : .Body2Style)
-                            .frame(maxWidth: .infinity/2, minHeight: 32, alignment: .center)
-                            .foregroundStyle(selectedTab == item ? .white0 : .gray500Text)
-                            .background(Color.background)
-                        
-                        if selectedTab == item {
-                            Rectangle()
-                                .foregroundStyle(.lime)
-                                .frame(width: selectedTab == DiaryTabInfo.recommend ? 25 : 40, height: 2)
-                                .matchedGeometryEffect(id: "info", in: animation)
+            ZStack {
+                HStack(spacing: 0) {
+                    ForEach(DiaryTabInfo.allCases, id: \.self) { item in
+                        VStack(spacing: 0) {
+                            Text(item.rawValue)
+                                .pretendardTextStyle(selectedTab == item ? .SubTitleStyle : .Body2Style)
+                                .frame(maxWidth: .infinity/2, minHeight: 32, alignment: .center)
+                                .foregroundStyle(selectedTab == item ? .white0 : .gray500Text)
+                                .background(Color.background)
+                            
+                            ZStack {
+                                Rectangle()
+                                    .foregroundStyle(Color.background)
+                                    .frame(height: 2)
+                                    .opacity(0)
+                                    .background(.gray900Assets)
+                                
+                                if selectedTab == item {
+                                    Rectangle()
+                                        .foregroundStyle(.lime)
+                                        .frame(width: selectedTab == DiaryTabInfo.recommend ? 25 : 40, height: 2)
+                                        .matchedGeometryEffect(id: "info", in: animation)
+                                }
+                            }
                         }
-                        else {
-                            Rectangle()
-                                .foregroundStyle(Color.background)
-                                .frame(height: 2)
-                                .opacity(0)
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                self.selectedTab = item
+                            }
+                            
+                            if selectedTab == .my {
+                                viewModel.getMyDiarys()
+                            }
+                            else {
+                                viewModel.getRecommendDiarys()
+                            }
                         }
                     }
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            self.selectedTab = item
-                        }
-                        
-                        if selectedTab == .my {
-                            viewModel.getMyDiarys()
-                        }
-                        else {
-                            viewModel.getRecommendDiarys()
-                        }
-                    }
-                }
-            } //: HStack
-            
-            Rectangle()
-                .foregroundStyle(Color.background)
-                .frame(height: 2, alignment: .bottom)
-                .matchedGeometryEffect(id: "tab", in: animation)
+                } //: HStack
+            }
         } //: VStack
     }
 }
