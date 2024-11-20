@@ -85,11 +85,11 @@ struct WinningTeamPrediction: View {
                             Image(systemName: "plus")
                                 .font(.system(size: 24))
                                 .frame(width: 24, height: 24)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(viewModel.homeTeamGoal == 10 ? .gray800Btn : .white0)
                                 .padding(8)
                                 .background(
                                     RoundedRectangle(cornerRadius: 4)
-                                        .fill(.gray800)
+                                        .fill(viewModel.homeTeamGoal == 10 ? .gray900Assets : .gray800)
                                 )
                         }
                         .disabled(viewModel.homeTeamGoal == 10)
@@ -135,11 +135,11 @@ struct WinningTeamPrediction: View {
                             Image(systemName: "plus")
                                 .font(.system(size: 24))
                                 .frame(width: 24, height: 24)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(viewModel.awayTeamGoal == 10 ? .gray800Btn : .white0)
                                 .padding(8)
                                 .background(
                                     RoundedRectangle(cornerRadius: 4)
-                                        .fill(.gray800)
+                                        .fill(viewModel.awayTeamGoal == 10 ? .gray900Assets : .gray800)
                                 )
                         }
                         .disabled(viewModel.awayTeamGoal == 10)
