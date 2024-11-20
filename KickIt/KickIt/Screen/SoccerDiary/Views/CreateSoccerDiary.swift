@@ -229,7 +229,7 @@ struct CreateSoccerDiary: View {
                     if diaryContent.isEmpty {
                         Text("경기에 대한 일기를 남겨보세요")
                             .pretendardTextStyle(.Body1Style)
-                            .foregroundStyle(.gray500Text)
+                            .foregroundStyle(.gray800)
                             .padding(.top, 10)
                             .padding(.horizontal, 24)
                     }
