@@ -32,27 +32,26 @@ class MyPageAPI: BaseAPI {
                 .responseDecodable(of: CommonResponse<UserInfoResponse>.self) { response in
                     switch response.result {
                     case .success(let result):
-                        if result.isSuccess {
-                            promise(.success(result.data!))
+                        if result.isSuccess, let data = result.data {
+                            promise(.success(data))
                         } else {
                             print("Server Error Message: \(result.message)")
+                            let error: NetworkError
                             switch result.status {
                             case 401:
-                                return promise(.failure(.authFailed))
+                                error = .authFailed
                             case 400..<500:
-                                return promise(.failure(.requestErr(result.message)))
+                                error = .requestErr(result.message)
                             case 500:
-                                return promise(.failure(.serverErr(result.message)))
+                                error = .serverErr(result.message)
                             default:
-                                return promise(.failure(.unknown(result.message)))
+                                error = .unknown(result.message)
                             }
+                            promise(.failure(error))
                         }
-                    case .failure(let error):
-                        if let statusCode = response.response?.statusCode {
-                            print("Request failed with status code: \(statusCode)")
-                        }
-                        print("Error Description: \(error.localizedDescription)")
-                        promise(.failure(.networkFail(error.localizedDescription)))
+                    case .failure(let afError):
+                        print("AFError: \(afError.localizedDescription)")
+                        promise(.failure(.networkFail(afError.localizedDescription)))
                     }
                 }
         }

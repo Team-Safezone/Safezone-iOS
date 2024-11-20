@@ -116,8 +116,49 @@ struct ContentView: View {
                         .toolbarRole(.editor)
                     }
                 }
+                else if destination.identifier == "LineupPrediction" {
+                                    if case let .lineupPrediction(data) = destination {
+                                        StartingLineupPrediction(soccerMatch: data)
+                                            .toolbarRole(.editor)
+                                    }
+                                }
+                                else if destination.identifier == "FinishLineupPrediction" {
+                                    if case let .finishLineupPrediction(data) = destination {
+                                        FinishStartingLineupPrediction(
+                                            popToSoccerInfoAction: popToTwoStep,
+                                            lineupPrediction: data.lineupPrediction,
+                                            prediction: data.prediction)
+                                        .navigationBarBackButtonHidden()
+                                    }
+                                }
+                                else if destination.identifier == "ResultLineupPrediction" {
+                                    if case let .resultLineupPrediction(data) = destination {
+                                        ResultStartingLineupPrediction(
+                                            popToOne: popToOneStep,
+                                            popToThreeStep: popToThreeStep,
+                                            prediction: data.prediction,
+                                            isOneBack: data.isOneBack)
+                                            .toolbarRole(.editor)
+                                    }
+                                }
+                                else if destination.identifier == "SelectSoccerDiaryMatch" {
+                                    SelectSoccerDiaryMatch(
+                                        popToOne: popToOneStep
+                                    )
+                                    .toolbarRole(.editor)
+                                }
+                                else if destination.identifier == "CreateSoccerDiary" {
+                                    if case let .createSoccerDiary(data) = destination {
+                                        CreateSoccerDiary(
+                                            popToOne: popToOneStep,
+                                            popToTwo: popToTwoStep,
+                                            match: data.match,
+                                            isOneBack: data.isOneBack
+                                        )
+                                    }
+                                }
             }
-        }
+        }.tint(.white0)
     }
 }
 

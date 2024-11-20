@@ -8,20 +8,23 @@
 import SwiftUI
 
 struct RootView: View {
-    @ObservedObject var viewModel: MainViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var darkmodeViewModel = DarkmodeViewModel()
+    @State private var isAnimationComplete = false
     
     var body: some View {
         NavigationStack {
             Group {
-                if authViewModel.isAuthenticated {
+                if !isAnimationComplete {
+                    SplashView(isAnimationComplete: $isAnimationComplete)
+                        .environmentObject(authViewModel)
+                } else if authViewModel.isAuthenticated {
                     ContentView()
+                        .environmentObject(authViewModel)
                         .preferredColorScheme(darkmodeViewModel.isDarkMode ? .dark : .light)
-                        .navigationBarBackButtonHidden(true)
                 } else {
-                    MainView(viewModel: viewModel)
-                        .navigationBarBackButtonHidden(true)
+                    MainView(viewModel: MainViewModel())
+                        .environmentObject(authViewModel)
                 }
             }
         }

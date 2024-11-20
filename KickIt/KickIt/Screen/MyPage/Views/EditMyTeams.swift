@@ -46,7 +46,7 @@ struct EditMyTeams: View {
                 }
                 .padding(.horizontal, 26)
             }
-        }
+        }.tint(.white0)
         .ignoresSafeArea(edges: .bottom)
         .navigationTitle("내가 응원하는 팀")
         .navigationBarItems(trailing:

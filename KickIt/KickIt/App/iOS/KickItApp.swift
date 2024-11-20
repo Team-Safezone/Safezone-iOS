@@ -12,8 +12,6 @@ import KakaoSDKCommon
 @main
 struct KickItApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var viewModel = MainViewModel()
-    @StateObject private var authViewModel = AuthViewModel()
     
     init() {
         KakaoSDK.initSDK(appKey: Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as! String)
@@ -21,16 +19,12 @@ struct KickItApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                SplashView()
-                    .environmentObject(viewModel)
-                    .environmentObject(authViewModel)
-            }
-            .onOpenURL { url in
-                if AuthApi.isKakaoTalkLoginUrl(url) {
-                    _ = AuthController.handleOpenUrl(url: url)
+            RootView()
+                .onOpenURL { url in
+                    if AuthApi.isKakaoTalkLoginUrl(url) {
+                        _ = AuthController.handleOpenUrl(url: url)
+                    }
                 }
-            }
         }
     }
 }
