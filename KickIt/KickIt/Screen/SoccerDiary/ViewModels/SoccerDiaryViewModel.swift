@@ -145,11 +145,11 @@ final class SoccerDiaryViewModel: ObservableObject {
     /// 등급 이미지 변환
     private func matchGradeImage(_ grade: Int) -> UIImage {
         switch grade {
-        case 1: return .ball0 // 탱탱볼
+        case 1: return .ball0 // 루키
         case 2: return .ball1 // 브론즈
-        case 3: return .ball0 // 실버
-        case 4: return .ball1 // 골드
-        case 5: return .ball0 // 다이아
+        case 3: return .ball2 // 실버
+        case 4: return .ball3 // 골드
+        case 5: return .ball4 // 다이아
         default: return .ball0
         }
     }
