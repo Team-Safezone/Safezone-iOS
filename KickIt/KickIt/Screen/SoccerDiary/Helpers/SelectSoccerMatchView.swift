@@ -17,7 +17,7 @@ struct SelectSoccerMatchView: View {
             // MARK: 홈팀
             HStack(spacing: 4) {
                 LoadableImage(image: match.homeTeamEmblemURL)
-                    .frame(width: 17, height: 17)
+                    .frame(width: 28, height: 28)
                 
                 Text(match.homeTeamName)
                     .pretendardTextStyle(.Body3Style)
@@ -45,7 +45,7 @@ struct SelectSoccerMatchView: View {
                     .foregroundStyle(.gray200Assets)
                 
                 LoadableImage(image: match.awayTeamEmblemURL)
-                    .frame(width: 17, height: 17)
+                    .frame(width: 28, height: 28)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
