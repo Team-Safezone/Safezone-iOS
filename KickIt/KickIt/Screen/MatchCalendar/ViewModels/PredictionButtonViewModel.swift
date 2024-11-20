@@ -19,15 +19,15 @@ final class PredictionButtonViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        self.matchPrediction = PredictionMatchInfo(homePercentage: 0, isParticipated: false)
+        self.matchPrediction = PredictionMatchInfo(homePercentage: 0, awayPercentage: 0, isParticipated: false)
         self.lineupPrediction = PredictionLineupInfo(isParticipated: false)
     }
     
     /// 경기 예측 버튼 클릭 조회
-    func getPredictionButtonClick(request: PredictionButtonRequest) {
+    func getPredictionButtonClick(request: MatchIdRequest) {
         MatchCalendarAPI.shared.getPredictoinButtonClick(request: request)
             .map { dto in
-                let matchPredictions = self.matchPredictionToEntity(dto.matchPredictions)
+                let matchPredictions = self.matchPredictionToEntity(dto.scorePredictions)
                 let lineupPredictions = self.lineupPredictionToEntity(dto.lineupPredictions)
                 
                 return (matchPredictions, lineupPredictions)
@@ -51,6 +51,7 @@ final class PredictionButtonViewModel: ObservableObject {
     private func matchPredictionToEntity(_ dto: ButtonMatchPredictionResponse) -> PredictionMatchInfo {
         return PredictionMatchInfo(
             homePercentage: dto.homePercentage,
+            awayPercentage: dto.awayPercentage,
             isParticipated: dto.isParticipated,
             participant: dto.participant,
             isPredictionSuccessful: dto.isPredictionSuccessful

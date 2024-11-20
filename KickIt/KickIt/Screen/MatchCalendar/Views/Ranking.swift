@@ -22,44 +22,50 @@ struct Ranking: View {
             Color(.background)
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack(spacing: 0) {
-                    // MARK: 시즌정보
-                    Text("\(calendarViewModel.soccerSeason) 시즌")
-                        .pretendardTextStyle(.Title2Style)
-                        .foregroundStyle(.white0)
-                        .padding(.top, 10)
-                        .padding(.bottom, 14)
-                    
-                    // MARK: 랭킹
+            if viewModel.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            else {
+                ScrollView {
                     VStack(spacing: 0) {
-                        chartTitle()
+                        // MARK: 시즌정보
+                        Text("\(calendarViewModel.soccerSeason) 시즌")
+                            .pretendardTextStyle(.Title2Style)
+                            .foregroundStyle(.white0)
+                            .padding(.top, 10)
+                            .padding(.bottom, 14)
                         
-                        ForEach(viewModel.rankings) { rank in
-                            chartDivider() // 구분선
+                        // MARK: 랭킹
+                        VStack(spacing: 0) {
+                            chartTitle()
                             
-                            // 표 내용
-                            chartContent(ranking: rank)
+                            ForEach(viewModel.rankings) { rank in
+                                chartDivider() // 구분선
+                                
+                                // 표 내용
+                                chartContent(ranking: rank)
+                            }
                         }
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(.gray900Assets, lineWidth: 1)
+                        )
+                        
+                        // MARK: 챔스, 유로파, 강등권
+                        VStack(alignment: .leading, spacing: 4) {
+                            bottomInfo(color: .lime, info: "챔피언스리그 조별 리그")
+                            bottomInfo(color: .green0, info: "유로파리그 조별 리그")
+                            bottomInfo(color: .red0, info: "강등")
+                        }
+                        .padding(.leading, 8)
+                        .padding(.top, 16)
+                        .padding(.bottom, 20)
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.gray900Assets, lineWidth: 1)
-                    )
-                    
-                    // MARK: 챔스, 유로파, 강등권
-                    VStack(alignment: .leading, spacing: 4) {
-                        bottomInfo(color: .lime, info: "챔피언스리그 조별 리그")
-                        bottomInfo(color: .green0, info: "유로파리그 조별 리그")
-                        bottomInfo(color: .red0, info: "강등")
-                    }
-                    .padding(.leading, 8)
-                    .padding(.top, 16)
-                    .padding(.bottom, 20)
-                }
-                .padding(.horizontal, 16)
-            } //: SCROLLVIEW
-            .scrollIndicators(.never)
+                    .padding(.horizontal, 16)
+                } //: SCROLLVIEW
+                .scrollIndicators(.never)
+            }
         } //: ZSTACK
         .navigationTitle("랭킹")
     }
@@ -103,7 +109,7 @@ struct Ranking: View {
             // 순위
             Text("\(ranking.team.ranking ?? -1)")
                 .pretendardTextStyle(.SubTitleStyle)
-                .foregroundStyle(rankingColor(leagueCategory: ranking.leagueCategory ?? 4))
+                .foregroundStyle(rankingColor(leagueCategory: ranking.leagueCategory))
                 .frame(width: 20, alignment: .center)
                 .padding(.trailing, 10)
             
@@ -160,11 +166,11 @@ struct Ranking: View {
     /// 순위 색상 지정
     private func rankingColor(leagueCategory: Int) -> Color {
         switch leagueCategory {
-        case 0:
-            return .lime
         case 1:
-            return .green0
+            return .lime
         case 2:
+            return .green0
+        case 3:
             return .red0
         default:
             return .white0

@@ -9,7 +9,11 @@ import Foundation
 
 /// 선발라인업 화면에서 사용되는 선수 정보 Response 모델
 struct SoccerPlayersResponse: Codable {
-    var playerImgURL: String // 선수 이미지 URL
-    var playerName: String // 선수 이름
-    var playerNum: Int // 선수 등번호
+    var playerImgURL: String? // 선수 이미지 URL
+    var playerName: String? // 선수 이름
+    var playerNum: Int? // 선수 등번호
+    
+    enum CodingKeys: String, CodingKey {
+        case playerImgURL, playerName, playerNum
+    }
 }

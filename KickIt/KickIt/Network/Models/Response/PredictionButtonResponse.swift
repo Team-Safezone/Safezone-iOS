@@ -9,13 +9,14 @@ import Foundation
 
 /// 경기 예측 버튼 클릭 Response 모델
 struct PredictionButtonResponse: Codable {
-    var matchPredictions: ButtonMatchPredictionResponse // 우승팀 예측 결과
+    var scorePredictions: ButtonMatchPredictionResponse // 우승팀 예측 결과
     var lineupPredictions: ButtonLineupPredictionResponse // 선발라인업 예측 결과
 }
 
 /// 우승팀 예측 결과
 struct ButtonMatchPredictionResponse: Codable {
     var homePercentage: Int // 홈팀의 예측 우승확률(백분율)
+    var awayPercentage: Int // 원정팀의 예측 우승확률(백분율)
     var isParticipated: Bool // 사용자가 우승팀 예측을 했는지에 대한 여부
     var participant: Int? // 예측에 참여한 사람의 수
     var isPredictionSuccessful: Bool? // 사용자가 예측을 성공했는지에 대한 여부

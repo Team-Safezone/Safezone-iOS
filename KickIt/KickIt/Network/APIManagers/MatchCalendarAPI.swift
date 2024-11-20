@@ -100,8 +100,8 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 랭킹 조회 API
-    func getRanking() -> AnyPublisher<[RankingResponse], NetworkError> {
-        return Future<[RankingResponse], NetworkError> { [weak self] promise in
+    func getRanking() -> AnyPublisher<RankingsResponse, NetworkError> {
+        return Future<RankingsResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
@@ -109,13 +109,13 @@ class MatchCalendarAPI: BaseAPI {
             
             self.AFManager.request(MatchCalendarService.getRanking, interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<[RankingResponse]>.self) { response in
+                .responseDecodable(of: CommonResponse<RankingsResponse>.self) { response in
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data ?? []))
+                            promise(.success(result.data ?? RankingsResponse(rankings: [])))
                         }
                         // 응답 실패
                         else {
@@ -139,7 +139,7 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 경기 예측 버튼 클릭 조회 API
-    func getPredictoinButtonClick(request: PredictionButtonRequest) -> AnyPublisher<PredictionButtonResponse, NetworkError> {
+    func getPredictoinButtonClick(request: MatchIdRequest) -> AnyPublisher<PredictionButtonResponse, NetworkError> {
         return Future<PredictionButtonResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
@@ -154,7 +154,7 @@ class MatchCalendarAPI: BaseAPI {
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data!))
+                            promise(.success(result.data ?? PredictionButtonResponse(scorePredictions: ButtonMatchPredictionResponse(homePercentage: 0, awayPercentage: 0, isParticipated: false), lineupPredictions: ButtonLineupPredictionResponse(isParticipated: false))))
                         }
                         // 응답 실패
                         else {
@@ -178,7 +178,7 @@ class MatchCalendarAPI: BaseAPI {
     }
     
     /// 선발라인업 조회 API
-    func getStartingLineup(request: StartingLineupRequest) -> AnyPublisher<StartingLineupResponse, NetworkError> {
+    func getStartingLineup(request: MatchIdRequest) -> AnyPublisher<StartingLineupResponse, NetworkError> {
         return Future<StartingLineupResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
@@ -191,22 +191,19 @@ class MatchCalendarAPI: BaseAPI {
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
-                        // 응답 성공
-                        if result.isSuccess {
-                            promise(.success(result.data!))
-                        }
-                        // 응답 실패
-                        else {
-                            switch result.status {
-                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
-                                return promise(.failure(.authFailed))
-                            case 400..<500: // 요청 실패
-                                return promise(.failure(.requestErr(result.message)))
-                            case 500: // 서버 오류
-                                return promise(.failure(.serverErr(result.message)))
-                            default: // 알 수 없는 오류
-                                return promise(.failure(.unknown(result.message)))
-                            }
+                        switch result.status {
+                        case 200:
+                            return promise(.success(result.data ?? StartingLineupResponse()))
+                        case 401:
+                            return promise(.failure(.authFailed))
+                        case 404: // 선발라인업 조회 결과 없음
+                            return promise(.success(StartingLineupResponse()))
+                        case 400..<500: // 요청 실패
+                            return promise(.failure(.requestErr(result.message)))
+                        case 500: // 서버 오류
+                            return promise(.failure(.serverErr(result.message)))
+                        default: // 알 수 없는 오류
+                            return promise(.failure(.unknown(result.message)))
                         }
                     case .failure(let error):
                         promise(.failure(.networkFail(error.localizedDescription)))

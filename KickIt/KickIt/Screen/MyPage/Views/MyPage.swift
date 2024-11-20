@@ -13,28 +13,28 @@ struct MyPage: View {
     @StateObject private var mnviewModel = ManageAccountViewModel()
     @ObservedObject private var mainViewModel = MainViewModel()
     
-    
-    // 로그아웃 상태
-    @Binding var isLoggedIn: Bool
+    @State private var isLoggedOut = false
     
     var body: some View {
-            NavigationStack {
-                ZStack {
-                    Color.background.ignoresSafeArea()
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
-                            Text("마이페이지")
-                                .pretendardTextStyle(.Title1Style)
-                                .foregroundStyle(.white0)
-                            
-                            profileSection
-                            gradeSection
-                            myTeamSection
-                            menuList
-                            accountActions
-                            Spacer()
-                        }.padding(.horizontal, 16)
-                    }
+        if isLoggedOut {
+            LoginView(viewModel: mainViewModel)
+        }
+        else {
+            ZStack {
+                Color.background.ignoresSafeArea()
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("마이페이지")
+                            .pretendardTextStyle(.Title1Style)
+                            .foregroundStyle(.white0)
+                        
+                        profileSection
+                        gradeSection
+                        myTeamSection
+                        menuList
+                        accountActions
+                        Spacer()
+                    }.padding(.horizontal, 16)
                 }
             }
             .tint(.white0)
@@ -44,12 +44,13 @@ struct MyPage: View {
                     primaryButton: .destructive(Text("확인"), action: {
                         mnviewModel.logoutAccount()  // 로그아웃 진행
                         KeyChain.shared.deleteJwtToken() // jwt 토큰 삭제
-                        isLoggedIn = false // 로그아웃 시 상태 업데이트
+                        isLoggedOut = true // 로그아웃O
                     }),
                     secondaryButton: .cancel(Text("취소"))
                 )
             }
         }
+    }
     
     // 프로필
     private var profileSection: some View {
@@ -249,5 +250,5 @@ struct MyPage: View {
 }
 
 #Preview {
-    MyPage(isLoggedIn: .constant(false))
+    MyPage()
 }

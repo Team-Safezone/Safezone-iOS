@@ -10,8 +10,11 @@ import SwiftUI
 /// 축구 경기 정보 화면
 struct SoccerMatchInfo: View {
     // MARK: - PROPERTY
+    /// 사용자가 선택한 경기 객체
+    var soccerMatch: SoccerMatch
+    
     /// 경기 캘린더 뷰모델
-    @ObservedObject var viewModel: MatchCalendarViewModel
+    @StateObject var viewModel = MatchCalendarViewModel()
     
     /// 경기 예측 조회 뷰모델
     @StateObject var predictionViewModel = PredictionButtonViewModel()
@@ -22,11 +25,15 @@ struct SoccerMatchInfo: View {
     /// 오늘 날짜
     @State private var nowDate = Date()
     
+    /// 타이머 뷰모델
+    @StateObject private var timerViewModel = TimerViewModel()
+    
     // MARK: - BODY
     var body: some View {
         ZStack(alignment: .top) {
             // 배경화면 색상 지정
             Color(.background)
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // MARK: 상단 경기 정보
@@ -74,9 +81,8 @@ struct SoccerMatchInfo: View {
                 .scrollIndicators(.never)
             } //: VSTACK
         } //: ZSTACK
-        // 툴 바, 상태 바 색상 변경
-        .ignoresSafeArea(edges: .bottom)
-        .navigationTitle("\(viewModel.selectedSoccerMatch!.homeTeam.teamName) VS \(viewModel.selectedSoccerMatch!.awayTeam.teamName)")
+        .navigationTitle("\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
+        .tint(.white0)
     }
     
     // MARK: - FUNCTION
@@ -91,7 +97,7 @@ struct SoccerMatchInfo: View {
                     .frame(width: 18, height: 18)
                     .foregroundStyle(.gray500)
                 
-                Text("\(viewModel.selectedSoccerMatch!.stadium)")
+                Text("\(soccerMatch.stadium)")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.gray200)
             }
@@ -103,7 +109,7 @@ struct SoccerMatchInfo: View {
                 .frame(width: 14, height: 1)
             
             // 라운드
-            Text("\(viewModel.selectedSoccerMatch!.matchRound)R")
+            Text("\(soccerMatch.matchRound)R")
                 .pretendardTextStyle(.SubTitleStyle)
                 .foregroundStyle(.gray200)
             
@@ -133,7 +139,7 @@ struct SoccerMatchInfo: View {
             // MARK: 홈팀
             VStack(alignment: .center, spacing: 0) {
                 // 홈팀 엠블럼 이미지
-                LoadableImage(image: viewModel.selectedSoccerMatch!.homeTeam.teamEmblemURL)
+                LoadableImage(image: soccerMatch.homeTeam.teamEmblemURL)
                     .frame(width: 88, height: 88)
                     .clipShape(Circle())
                 
@@ -144,7 +150,7 @@ struct SoccerMatchInfo: View {
                         .foregroundStyle(.gray500Text)
                     
                     // 팀 명
-                    Text("\(viewModel.selectedSoccerMatch!.homeTeam.teamName)")
+                    Text("\(soccerMatch.homeTeam.teamName)")
                         .pretendardTextStyle(.Body1Style)
                         .foregroundStyle(.white0)
                 }
@@ -156,11 +162,11 @@ struct SoccerMatchInfo: View {
             
             // MARK: 경기 날짜&시간
             VStack(spacing: 2) {
-                Text("\(dateToString2(date: viewModel.selectedSoccerMatch!.matchDate))")
+                Text("\(dateToString2(date: soccerMatch.matchDate))")
                     .pretendardTextStyle(.Body2Style)
                     .foregroundStyle(.white0)
                 
-                Text("\(timeToString(time: viewModel.selectedSoccerMatch!.matchTime))")
+                Text("\(timeToString(time: soccerMatch.matchTime))")
                     .pretendardTextStyle(.H2Style)
                     .foregroundStyle(.white0)
             }
@@ -170,12 +176,12 @@ struct SoccerMatchInfo: View {
             // MARK: 원정 팀
             VStack(alignment: .center, spacing: 0) {
                 // 원정 팀 엠블럼 이미지
-                LoadableImage(image: viewModel.selectedSoccerMatch!.awayTeam.teamEmblemURL)
+                LoadableImage(image: soccerMatch.awayTeam.teamEmblemURL)
                     .frame(width: 88, height: 88)
                     .clipShape(Circle())
                 
                 // 팀 명
-                Text("\(viewModel.selectedSoccerMatch!.awayTeam.teamName)")
+                Text("\(soccerMatch.awayTeam.teamName)")
                     .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.white0)
                     .padding(.top, 8)
@@ -188,18 +194,18 @@ struct SoccerMatchInfo: View {
         // MARK: - 스코어
         HStack(spacing: 0) {
             // 홈 팀 스코어
-            Text("\(viewModel.selectedSoccerMatch!.homeTeamScore?.description ?? "-")")
+            Text("\(soccerMatch.homeTeamScore?.description ?? "-")")
                 .font(.pretendard(.semibold, size: 30))
                 .frame(width: 40)
             
             Spacer()
             
             // 원정 팀 스코어
-            Text("\(viewModel.selectedSoccerMatch!.awayTeamScore?.description ?? "-")")
+            Text("\(soccerMatch.awayTeamScore?.description ?? "-")")
                 .font(.pretendard(.semibold, size: 30))
                 .frame(width: 40)
         }
-        .foregroundStyle(viewModel.selectedSoccerMatch!.homeTeamScore == nil ? .gray500 : .white0)
+        .foregroundStyle(soccerMatch.homeTeamScore == nil ? .gray500 : .white0)
         .padding(.top, 30)
         .padding(.horizontal, 60)
     }
@@ -229,6 +235,9 @@ struct SoccerMatchInfo: View {
                 Button {
                     withAnimation {
                         isShowMatchInfo = false
+                        
+                        // 경기 예측 조회 API 호출
+                        predictionViewModel.getPredictionButtonClick(request: MatchIdRequest(matchId: soccerMatch.id))
                     }
                 } label: {
                     Text("경기 예측")
@@ -245,55 +254,45 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func startingLineupButton() -> some View {
         ZStack {
+            Image(uiImage: .matchInfoCard)
+                .resizable()
+            
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 0) {
                     Text("선발 라인업")
                         .pretendardTextStyle(.Title2Style)
-                        .foregroundStyle(.blackAssets)
+                        .foregroundStyle(.whiteAssets)
                     
-                    Image(uiImage: .caretRight)
+                    Image(uiImage: .careRight)
                         .resizable()
                         .frame(width: 16, height: 16)
-                        .foregroundStyle(.blackAssets)
-                    
-                    Spacer()
+                        .foregroundStyle(.whiteAssets)
                 }
                 
                 HStack {
                     Spacer()
-                    Image(uiImage: .soccer)
-                        .padding(.top, 8)
+                    Image(uiImage: .lineup)
                 }
             }
-            .padding(12)
-            .background(
-                Image(uiImage: .matchInfoCard)
-                    .resizable()
-            )
-            .overlay {
-                if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                    // 선발라인업 공개 전이라면
-                    if nowDate < viewModel.startingLineupShowDate(nowDate) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.black)
-                            .opacity(0.55)
-                    }
-                }
+            .padding(.top, 12)
+            .padding(.leading, 12)
+            
+            // Overlay
+            // 선발라인업 공개 전이라면
+            if !timerViewModel.isShowLineup {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color(red: 0.16, green: 0.16, blue: 0.18))
+                    .opacity(0.8)
             }
             
-            // 선발라인업 공개 타이머
-            if viewModel.selectedSoccerMatch!.matchCode == 0 {
-                // 선발라인업 공개 전이라면
-                if nowDate < viewModel.startingLineupShowDate(nowDate) {
-                    Text(viewModel.startingLineupTimeInterval(nowDate))
-                        .pretendardTextStyle(.SubTitleStyle)
-                        .foregroundStyle(.whiteAssets)
-                        .onAppear {
-                            startTimer()
-                        }
-                }
+            // 선발라인업 공개 전이라면
+            if !timerViewModel.isShowLineup {
+                Text(timerViewModel.showLineupEndTime)
+                    .pretendardTextStyle(.SubTitleStyle)
+                    .foregroundStyle(.white0)
             }
         }
+        .cardShadow()
     }
     
     /// 경기 정보
@@ -302,40 +301,42 @@ struct SoccerMatchInfo: View {
         HStack(spacing: 13) {
             // MARK: 경기 타임라인 버튼
             NavigationLink {
-                TimelineEventView(match: viewModel.selectedSoccerMatch!)
+                TimelineEventView(match: soccerMatch)
                     .toolbarRole(.editor) // back 텍스트 숨기기
             } label: {
-                VStack(alignment: .leading) {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text("경기 타임라인")
-                            .pretendardTextStyle(.Title2Style)
-                            .foregroundStyle(.blackAssets)
-                        
-                        Image(uiImage: .caretRight)
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(.blackAssets)
-                    }
-                    
-                    Text(soccerMatchLabel().1)
-                        .pretendardTextStyle(.Body3Style)
-                        .foregroundStyle(.blackAssets)
-                    
-                    Image(uiImage: .soccerObjects)
-                }
-                .padding(12)
-                .background(
+                ZStack {
                     Image(uiImage: .timelineCard)
                         .resizable()
-                )
+                    
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("경기 타임라인")
+                                .pretendardTextStyle(.Title2Style)
+                                .foregroundStyle(.whiteAssets)
+                            
+                            Image(uiImage: .careRight)
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                                .foregroundStyle(.whiteAssets)
+                        }
+                        
+                        Text(soccerMatchLabel().1)
+                            .pretendardTextStyle(.Body3Style)
+                            .foregroundStyle(.whiteAssets)
+                        
+                        Image(uiImage: .soccerObjects)
+                    }
+                    .padding(12)
+                }
+                .cardShadow()
             }
             
             VStack(spacing: 16) {
                 // MARK: 선발 라인업 버튼
                 // 선발라인업 공개 시간이 됐다면
-                if nowDate >= viewModel.startingLineupShowDate(nowDate) {
+                if timerViewModel.isShowLineup {
                     NavigationLink {
-                        StartingLineup(viewModel: viewModel)
+                        StartingLineup(soccerMatch: soccerMatch)
                             .toolbarRole(.editor) // back 텍스트 숨기기
                     } label: {
                         startingLineupButton()
@@ -349,20 +350,23 @@ struct SoccerMatchInfo: View {
                 
                 // MARK: 심박수 통계 버튼
                 NavigationLink {
-                    HeartRateView(selectedMatch: viewModel.selectedSoccerMatch!)
+                    HeartRateView(selectedMatch: soccerMatch)
                         .toolbarRole(.editor) // back 텍스트 숨기기
                 } label: {
                     ZStack {
+                        Image(uiImage: .matchInfoCard)
+                            .resizable()
+                        
                         VStack(alignment: .leading, spacing: 0) {
                             HStack(alignment: .center, spacing: 0) {
                                 Text("심박수 통계")
                                     .pretendardTextStyle(.Title2Style)
-                                    .foregroundStyle(.blackAssets)
+                                    .foregroundStyle(.whiteAssets)
                                 
-                                Image(uiImage: .caretRight)
+                                Image(uiImage: .careRight)
                                     .resizable()
                                     .frame(width: 16, height: 16)
-                                    .foregroundStyle(.blackAssets)
+                                    .foregroundStyle(.whiteAssets)
                                 
                                 Spacer()
                             }
@@ -370,30 +374,33 @@ struct SoccerMatchInfo: View {
                             HStack {
                                 Spacer()
                                 Image(uiImage: .chart)
-                                    .padding(.top, 8)
+                                    .padding(.trailing, 10)
                             }
                         }
-                        .padding(12)
-                        .background(
-                            Image(uiImage: .matchInfoCard)
-                                .resizable()
-                        )
-                        .overlay {
-                            if viewModel.selectedSoccerMatch!.matchCode != 3 {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.black)
-                                    .opacity(0.55)
-                            }
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                        
+                        if soccerMatch.matchCode != 3 {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(red: 0.16, green: 0.16, blue: 0.18))
+                                .opacity(0.8)
                         }
                         
-                        if viewModel.selectedSoccerMatch!.matchCode != 3 {
+                        if soccerMatch.matchCode != 3 {
                             Text("경기 종료 후 공개")
                                 .pretendardTextStyle(.SubTitleStyle)
                                 .foregroundStyle(.whiteAssets)
                         }
                     }
+                    .cardShadow()
                 }
             }
+        }
+        .onAppear {
+            timerViewModel.startingLineupTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime)
+        }
+        .onDisappear {
+            timerViewModel.stopLineupTimer()
         }
         .padding(.top, 32)
         .padding(.horizontal, 16)
@@ -403,18 +410,55 @@ struct SoccerMatchInfo: View {
     @ViewBuilder
     private func MatchPrediction() -> some View {
         VStack(spacing: 0) {
-            // 우승팀 예측
-            NavigationLink {
+            let prediction = PredictionQuestionModel(
+                matchId: soccerMatch.id,
+                matchCode: soccerMatch.matchCode,
+                matchDate: soccerMatch.matchDate,
+                matchTime: soccerMatch.matchTime,
+                homeTeam: soccerMatch.homeTeam,
+                awayTeam: soccerMatch.awayTeam
+            )
+            
+            // 우승팀 예측이 종료된 경우
+            if timerViewModel.isWinningTeamPredictionFinished {
+                // 우승팀 예측 결과 화면으로 이동
+                NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+                    data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+                    MatchPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        timerViewModel: timerViewModel
+                    )
+                }
+            }
+            // 우승팀 예측이 종료되지 않은 경우
+            else {
+                // 우승팀 예측을 한 경우
                 if (predictionViewModel.matchPrediction.isParticipated) {
-                    // TODO: 우승팀 예측 결과 조회 화면으로 이동
+                    // 우승팀 예측 결과 화면으로 이동
+                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+                        MatchPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
                 }
+                // 우승팀 예측을 안 한 경우
                 else {
-                    // 우승 팀 예측 화면으로 이동
-                    WinningTeamPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
-                        .toolbarRole(.editor) // back 텍스트 숨기기
+                    // 우승팀 에측 화면으로 이동
+                    NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
+                        MatchPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
                 }
-            } label: {
-                MatchPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
             }
             
             // 연결선
@@ -429,39 +473,63 @@ struct SoccerMatchInfo: View {
             }
             .padding(.horizontal, 24)
             
-            // 선발 라인업 예측
-            NavigationLink {
-                if predictionViewModel.lineupPrediction.isParticipated {
-                    // TODO: 선발라인업 예측 결과 조회 화면으로 이동
+            // 선발라인업 예측이 종료된 경우
+            if timerViewModel.isLineupPredictionFinished {
+                // 선발라인업 예측 완료 화면으로 이동
+                NavigationLink(value: NavigationDestination.resultLineupPrediction(
+                    data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+                    LineupPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        timerViewModel: timerViewModel
+                    )
                 }
+            }
+            // 선발라인업 예측이 종료되지 않은 경우
+            else {
+                // 선발라인업 예측을 한 경우
+                if (predictionViewModel.lineupPrediction.isParticipated) {
+                    // 선발라인업 예측 결과 화면으로 이동
+                    NavigationLink(value: NavigationDestination.resultLineupPrediction(
+                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+                        LineupPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
+                }
+                // 선발라인업 예측을 안 한 경우
                 else {
                     // 선발라인업 예측 화면으로 이동
-                    StartingLineupPrediction(soccerMatch: viewModel.selectedSoccerMatch!)
-                        .toolbarRole(.editor) // back 텍스트 숨기기
+                    NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
+                        LineupPredictionView(
+                            soccerMatch: soccerMatch,
+                            viewModel: viewModel,
+                            pViewModel: predictionViewModel,
+                            timerViewModel: timerViewModel
+                        )
+                    }
                 }
-            } label: {
-                LineupPredictionView(viewModel: viewModel, pViewModel: predictionViewModel)
             }
+        }
+        .onAppear {
+            timerViewModel.winningTeamPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 0)
+            timerViewModel.startLineupPredictionTimer(matchDate: soccerMatch.matchDate, matchTime: soccerMatch.matchTime, format: 0)
+        }
+        .onDisappear {
+            timerViewModel.stopWinningTeamTimer()
+            timerViewModel.stopLineupPredictionTimer()
         }
         .padding(16)
         .padding(.bottom, 30)
     }
     
-    /// 선발 라인업이 나오기 전까지의 시간 계산
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.nowDate = Date()
-            
-            // 선발라인업 공개 시간이 됐다면
-            if nowDate >= viewModel.startingLineupShowDate(nowDate) {
-                timer.invalidate()
-            }
-        }
-    }
-    
     /// 경기 상태에 따른 경기 텍스트&배경 색상 값을 반환하는 함수
     private func soccerMatchLabelColor() -> (Color, Color) {
-        switch (viewModel.selectedSoccerMatch!.matchCode) {
+        switch (soccerMatch.matchCode) {
         case 0: return (.white0, .gray500)
         case 1: return (.lime, .lime)
         case 3: return (.gray500Text, .gray800)
@@ -472,7 +540,7 @@ struct SoccerMatchInfo: View {
     
     /// 경기 상태 텍스트&타임라인 텍스트 값을 반환하는 함수
     private func soccerMatchLabel() -> (String, String) {
-        switch (viewModel.selectedSoccerMatch!.matchCode) {
+        switch (soccerMatch.matchCode) {
         case 0: return ("경기 예정", "아직 시작 전이에요")
         case 1: return ("경기중", "실시간 업데이트 중")
         case 3: return ("경기 종료", "업데이트 완료")
@@ -484,5 +552,5 @@ struct SoccerMatchInfo: View {
 
 // MARK: - PREVIEW
 #Preview("경기 정보") {
-    SoccerMatchInfo(viewModel: MatchCalendarViewModel())
+    SoccerMatchInfo(soccerMatch: dummySoccerMatches[0], viewModel: MatchCalendarViewModel())
 }

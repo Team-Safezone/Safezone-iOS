@@ -40,16 +40,28 @@ struct APIConstants {
     static let dailyMatchURL = "/fixture"
     
     /// 랭킹 조회 URL
-    static let rankingURL = "/"
+    static let rankingURL = "/ranking"
     
     /// 경기 예측 버튼 클릭 URL
-    static let predictionButtonClickURL = "/"
+    static let predictionButtonClickURL = "/match-predict"
     
     /// 선발라인업 조회 URL
-    static let startingLineupURL = "/"
+    static let startingLineupURL = "/match-lineup"
+    
+    /// 우승팀 예측 URL
+    static let winningTeamPredictionURL = "/score-predict/save"
+    
+    /// 우승팀 예측 결과 조회 URL
+    static let winningTeamPredictionResultURL = "/score-predict/result"
+    
+    /// 선발라인업 예측 URL
+    static let startingLineupPredictionURL = "/lineup-predict/save"
     
     /// 선발라인업 예측 조회 URL
-    static let startingLineupPredictionURL = "/"
+    static let startingLineupPredictionDefaultURL = "/lineup-predict"
+    
+    /// 선발라인업 예측 결과 조회 URL
+    static let startingLineupPredictionResultURL = "/lineup-predict/result"
     
     /// 심박수 통계 조회 URL
     static let heartRateStatisticsURL = "/"

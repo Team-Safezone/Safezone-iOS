@@ -18,26 +18,26 @@ class StartingLineupPredictionAPI: BaseAPI {
         super.init()
     }
     
-    /// 선발라인업 예측 조회 API
-    func getStartingLineupPrediction(request: StartingLineupPredictionRequest) -> AnyPublisher<StartingLineupPredictionResponse, NetworkError> {
-        return Future<StartingLineupPredictionResponse, NetworkError> { [weak self] promise in
+    /// 선발라인업 예측 API
+    func postStartingLineupPrediction(query: MatchIdRequest, request: StartingLineupPredictionRequest) -> AnyPublisher<PredictionFinishResponse, NetworkError> {
+        return Future<PredictionFinishResponse, NetworkError> { [weak self] promise in
             guard let self = self else {
                 promise(.failure(.pathErr))
                 return
             }
             
-            self.AFManager.request(StartingLineupPredictionService.getStartingLineupPrediction(request), interceptor: MyRequestInterceptor())
+            self.AFManager.request(StartingLineupPredictionService.postStartingLineupPrediction(query, request), interceptor: MyRequestInterceptor())
                 .validate()
-                .responseDecodable(of: CommonResponse<StartingLineupPredictionResponse>.self) { response in
+                .responseDecodable(of: CommonResponse<PredictionFinishResponse>.self) { response in
                     switch response.result {
                     // API 호출 성공
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data!))
+                            promise(.success(result.data ?? PredictionFinishResponse(grade: 0, point: 0)))
                         } else {
                             switch result.status {
-                            case 401: // TODO: 토큰 오류 interceptor 코드 작동하는지 확인 후, 삭제해도 OK
+                            case 401:
                                 return promise(.failure(.authFailed))
                             case 400..<500: // 요청 실패
                                 return promise(.failure(.requestErr(result.message)))
@@ -50,6 +50,82 @@ class StartingLineupPredictionAPI: BaseAPI {
                     // API 호출 실패
                     case .failure(let error):
                         promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    /// 선발라인업 예측 조회 API
+    func getDefaultStartingLineupPrediction(request: MatchIdRequest) -> AnyPublisher<StartingLineupPredictionDefaultResponse, NetworkError> {
+        return Future<StartingLineupPredictionDefaultResponse, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(StartingLineupPredictionService.getDefaultStartingLineupPrediction(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<StartingLineupPredictionDefaultResponse>.self) { response in
+                    switch response.result {
+                    // API 호출 성공
+                    case .success(let result):
+                        // 응답 성공
+                        if result.isSuccess {
+                            promise(.success(result.data ?? StartingLineupPredictionDefaultResponse()))
+                        } else {
+                            switch result.status {
+                            case 401:
+                                return promise(.failure(.authFailed))
+                            case 400..<500: // 요청 실패
+                                return promise(.failure(.requestErr(result.message)))
+                            case 500: // 서버 오류
+                                return promise(.failure(.serverErr(result.message)))
+                            default: // 알 수 없는 오류
+                                return promise(.failure(.unknown(result.message)))
+                            }
+                        }
+                    // API 호출 실패
+                    case .failure(let error):
+                        promise(.failure(.networkFail(error.localizedDescription)))
+                    }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    /// 선발라인업 예측 결과 조회 API
+    func getResultStartingLineupPrediction(request: MatchIdRequest) -> AnyPublisher<StartingLineupPredictionResultResponse, NetworkError> {
+        return Future<StartingLineupPredictionResultResponse, NetworkError> { [weak self] promise in
+            guard let self = self else {
+                promise(.failure(.pathErr))
+                return
+            }
+            
+            self.AFManager.request(StartingLineupPredictionService.getResultStartingLineupPrediction(request), interceptor: MyRequestInterceptor())
+                .validate()
+                .responseDecodable(of: CommonResponse<StartingLineupPredictionResultResponse>.self) { response in
+                    switch response.result {
+                        // API 호출 성공
+                        case .success(let result):
+                            // 응답 성공
+                            if result.isSuccess {
+                                promise(.success(result.data ?? StartingLineupPredictionResultResponse(participant: 0)))
+                            } else {
+                                switch result.status {
+                                case 401:
+                                    return promise(.failure(.authFailed))
+                                case 400..<500: // 요청 실패
+                                    return promise(.failure(.requestErr(result.message)))
+                                case 500: // 서버 오류
+                                    return promise(.failure(.serverErr(result.message)))
+                                default: // 알 수 없는 오류
+                                    return promise(.failure(.unknown(result.message)))
+                                }
+                            }
+                        // API 호출 실패
+                        case .failure(let error):
+                            promise(.failure(.networkFail(error.localizedDescription)))
                     }
                 }
         }

@@ -18,6 +18,10 @@ final class HomeViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    init() {
+        getHome()
+    }
+    
     /// 홈 조회
     func getHome() {
         HomeAPI.shared.getHome()
