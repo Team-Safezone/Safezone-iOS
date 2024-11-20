@@ -37,6 +37,9 @@ final class StartingLineupViewModel: ObservableObject {
     /// API 로딩 여부
     @Published var isLoading = false
     
+    /// 선발라인업 데이터가 있는지에 대한 여부
+    @Published var isLineupExist: Bool = false
+    
     private var cancellables: Set<AnyCancellable> = []
     
     init(matchId: Int64?) {
@@ -69,8 +72,10 @@ final class StartingLineupViewModel: ObservableObject {
                 switch completion {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
+                    self.isLineupExist = false
                 case .finished:
                     self.isLoading = false // 로딩 완료
+                    self.isLineupExist = true
                     break
                 }
             }, receiveValue: { [weak self] (homeFormation, awayFormation, homeLineups, awayLineups, homeSubstitutes, awaySubstitutes, homeDirector, awayDirector) in

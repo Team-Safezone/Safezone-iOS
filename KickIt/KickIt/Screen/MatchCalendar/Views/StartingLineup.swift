@@ -29,7 +29,14 @@ struct StartingLineup: View {
             Color(.background)
                 .ignoresSafeArea()
             
+            // 데이터 로딩 중이라면
             if lineupViewModel.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 100)
+            }
+            // 404 선발라인업 데이터가 아직 없다면
+            else if !lineupViewModel.isLineupExist {
                 VStack(spacing: 30) {
                     Image(uiImage: .delayStartingLineup)
                     
@@ -46,6 +53,7 @@ struct StartingLineup: View {
                 .frame(maxHeight: .infinity, alignment: .center)
                 .padding(.bottom, 100)
             }
+            // 선발라인업이 있다면
             else {
                 ScrollView {
                     VStack(spacing: 0) {
