@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum FocusedField {
+    case textEditor, textField
+}
+
 /// 축구 일기 작성 화면
 struct CreateSoccerDiary: View {
     // MARK: - PROPERTY
@@ -55,6 +59,14 @@ struct CreateSoccerDiary: View {
     /// 일기 작성중 경고 팝업
     @State private var isShowCloseAlert: Bool = false
     
+    /// 키보드 포커스 여부
+    @FocusState var isFocused: Bool
+    
+    @FocusState private var focusedField: FocusedField?
+    
+    /// 키보드 높이
+    @State private var keyboardHeight: CGFloat = 0
+    
     init(popToOne: @escaping () -> Void, popToTwo: @escaping () -> Void, match: SelectSoccerMatch, isOneBack: Bool) {
         self.popToOne = popToOne
         self.popToTwo = popToTwo
@@ -77,7 +89,6 @@ struct CreateSoccerDiary: View {
                         .pretendardTextStyle(.Title2Style)
                         .foregroundStyle(.white0)
                     
-                    // 닫기 버튼
                     HStack {
                         // 닫기 버튼
                         Button {
@@ -119,7 +130,7 @@ struct CreateSoccerDiary: View {
                         }
                     }
                     .padding(.leading) // 버튼을 좌측에 고정시키기 위해 여백 조정
-                }
+                } //: ZSTACK
                 
                 // MARK: - 경기 정보
                 selectedMatchInfo()
@@ -162,6 +173,7 @@ struct CreateSoccerDiary: View {
                     ForEach(emotions, id: \.id) { emotion in
                         Button {
                             selectedEmotion = emotion.id
+                            isFocused = false // focus 삭제
                         } label: {
                             VStack(spacing: 2) {
                                 Image(uiImage: selectedEmotion == emotion.id ? emotion.selectedImg : emotion.defaultImg)
@@ -187,51 +199,57 @@ struct CreateSoccerDiary: View {
                 
                 // MARK: 일기 작성 텍스트 필드
                 ZStack(alignment: .topLeading) {
-                    KeyboardTextEditor(text: $diaryContent, textCount: $viewModel.diaryContentCount, accessoryView: {
-                        HStack {
-                            // MARK: 이미지 첨부 버튼
-                            Button {
-                                // 추가한 이미지가 5개 이하라면
-                                if selectedPhotos.count < maxImageLimit {
-                                    isAddingPhoto = true
-                                }
-                            } label: {
-                                Image(uiImage: .photoCamera)
-                                    .resizable()
-                                    .frame(width: 44, height: 44)
-                                    .foregroundStyle(.white0)
+                    TextEditor(text: $diaryContent)
+                        .pretendardTextStyle(.Body1Style)
+                        .foregroundStyle(.white0)
+                        .scrollContentBackground(.hidden)
+                        .focused($isFocused)
+                        .focused($focusedField, equals: .textEditor) // 포커스 상태 연결
+                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .padding(.top, 10)
+                        .padding(.horizontal, 24)
+                        .onChange(of: diaryContent) { oldValue, newValue in
+                            if newValue.count > limitDiaryCount {
+                                diaryContent = String(newValue.prefix(limitDiaryCount))
                             }
-                            
-                            Spacer()
-                            
-                            Text("\(viewModel.diaryContentCount)자/\(limitDiaryCount)자")
-                                .pretendardTextStyle(.Body3Style)
-                                .foregroundStyle(.gray500Text)
-                                .onAppear {
-                                        print("Text appeared with count: \(diaryContent.count)")
-                                    print("Text appeared with count22: \(viewModel.diaryContentCount)")
-                                    }
-                                    .onChange(of: diaryContent) { old, newValue in
-                                        print("Text updated with new count: \(newValue.count)")
-                                    }
                         }
-                        .padding(.leading, 8)
-                        .padding(.trailing, 16)
-                        .background(Color.gray950)
-                        .cardShadow()
-                    })
-                    .pretendardTextStyle(.Body1Style)
-                    .foregroundStyle(.white0)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-                    .padding(.top, 10)
-                    .padding(.horizontal, 24)
+                        .toolbar {
+                            // 일기 내용을 입력할 때만 toolbar 띄우기
+                            if focusedField == .textEditor {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    HStack {
+                                        // MARK: 이미지 첨부 버튼
+                                        Button {
+                                            // 추가한 이미지가 5개 이하라면
+                                            if selectedPhotos.count < maxImageLimit {
+                                                isAddingPhoto = true
+                                            }
+                                        } label: {
+                                            Image(uiImage: .photoCamera)
+                                                .resizable()
+                                                .frame(width: 44, height: 44)
+                                                .foregroundStyle(.white0)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Text("\(diaryContent.count)자/\(limitDiaryCount)자")
+                                            .pretendardTextStyle(.Body3Style)
+                                            .foregroundStyle(.gray500Text)
+                                    }
+                                    .background(Color.gray950)
+                                    .cardShadow()
+                                }
+                            }
+                        }
                     
+                    // placeholder
                     if diaryContent.isEmpty {
                         Text("경기에 대한 일기를 남겨보세요")
                             .pretendardTextStyle(.Body1Style)
                             .foregroundStyle(.gray800)
-                            .padding(.top, 10)
-                            .padding(.horizontal, 24)
+                            .padding(.top, 18)
+                            .padding(.horizontal, 26)
                     }
                 }
                 
@@ -280,6 +298,22 @@ struct CreateSoccerDiary: View {
                     TextField("내가 생각한 이번 경기의 최우수 선수는?(선택)", text: $mom)
                         .pretendardTextStyle(.Body2Style)
                         .foregroundStyle(.white0)
+                        .focused($isFocused)
+                        .focused($focusedField, equals: .textField) // 포커스 상태 연결
+                        .onAppear {
+                            // 키보드 이벤트 감지
+                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                                if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                                    self.keyboardHeight = keyboardFrame.height
+                                }
+                            }
+                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                                self.keyboardHeight = 0
+                            }
+                        }
+                        .onDisappear {
+                            NotificationCenter.default.removeObserver(self) // 옵저버 해제
+                        }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -294,6 +328,7 @@ struct CreateSoccerDiary: View {
                 Button {
                     withAnimation {
                         isPublic.toggle()
+                        isFocused = false // focus 삭제
                     }
                 } label: {
                     HStack(spacing: 4) {
@@ -308,8 +343,8 @@ struct CreateSoccerDiary: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-            }
-        }
+            } //: VSTACK
+        } //: ZSTACK
         .navigationBarBackButtonHidden()
         // MARK: 사진 추가 시트 띄우기
         .sheet(isPresented: $isAddingPhoto) {
@@ -386,6 +421,7 @@ struct CreateSoccerDiary: View {
     @ViewBuilder
     private func teamButton(teamName: String, emblemURL: String, isSelected: Bool) -> some View {
         Button {
+            isFocused = false // focus 삭제
             // 클릭 이벤트 처리
             if selectedTeam == teamName {
                 selectedTeam = nil // 이미 선택된 경우 해제
