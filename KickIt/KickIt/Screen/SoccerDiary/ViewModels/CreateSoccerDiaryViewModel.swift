@@ -13,9 +13,6 @@ final class CreateSoccerDiaryViewModel: ObservableObject {
     /// 선택한 경기에 대한 최고 심박수
     @Published var highHeartRate: Int?
     
-    /// 작성한 일기 글자 수
-    @Published var diaryContentCount: Int = 0
-    
     var cancellables = Set<AnyCancellable>()
     
     init(matchId: Int64) {

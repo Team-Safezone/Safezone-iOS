@@ -50,7 +50,7 @@ struct ResultStartingLineupPrediction: View {
                 ZStack {
                     // 중앙에 위치한 텍스트
                     Text("선발 라인업 예측")
-                        .font(.pretendard(.semibold, size: 16))
+                        .pretendardTextStyle(.Title2Style)
                         .foregroundStyle(.white0)
                     
                     // 좌측 상단에 위치한 뒤로가기 버튼

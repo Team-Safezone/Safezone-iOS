@@ -47,38 +47,45 @@ struct ContentView: View {
     /// 홈 뷰 표시 여부
     @State private var showHomeView: Bool = false
     
+    /// 라이트모드, 다크모드 여부
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationStack(path: $path) {
             TabView(selection: $selectedMenu) {
                 /// 홈 화면
                 Home(soccerMatch: dummySoccerMatches[0], selectedMenu: $selectedMenu, viewModel: homeViewModel, calendarViewModel: matchCalendarViewModel)
                     .tabItem {
-                        Image(systemName: "house")
-                        Text("홈").pretendardTextStyle(.Caption2Style)
+                        Image(uiImage: selectedMenu == .home ? .homeSelected : .homeDefault)
+                        Text("홈")
+                            .pretendardTextStyle(.Caption2Style)
                     }
                     .tag(Tab.home)
                 
                 /// 경기 일정 & 캘린더 화면
                 MatchCalendar(viewModel: matchCalendarViewModel)
                     .tabItem {
-                        Image(systemName: "soccerball")
-                        Text("경기 캘린더").pretendardTextStyle(.Caption2Style)
+                        Image(uiImage: selectedMenu == .calendar ? (colorScheme == .dark ? .calendarSelected : .calendarLightSelected ) : .calendarDefault)
+                        Text("경기 캘린더")
+                            .pretendardTextStyle(.Caption2Style)
                     }
                     .tag(Tab.calendar)
                 
                 /// 축구 경기 일기 화면
                 SoccerDiary()
                     .tabItem {
-                        Image(systemName: "book")
-                        Text("축구 일기").pretendardTextStyle(.Caption2Style)
+                        Image(uiImage: selectedMenu == .diary ? (colorScheme == .dark ? .diarySelected : .diaryLightSelected) : .diaryDefault)
+                        Text("축구 일기")
+                            .pretendardTextStyle(.Caption2Style)
                     }
                     .tag(Tab.diary)
                 
                 /// 마이페이지 화면
                 MyPage()
                     .tabItem {
-                        Image(systemName: "person.circle.fill")
-                        Text("마이페이지").pretendardTextStyle(.Caption2Style)
+                        Image(uiImage: .userCircleDefault)
+                        Text("마이페이지")
+                            .pretendardTextStyle(.Caption2Style)
                     }
                     .tag(Tab.mypage)
             }

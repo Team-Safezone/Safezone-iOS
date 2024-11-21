@@ -32,8 +32,10 @@ struct SoccerMatchInfo: View {
     var body: some View {
         ZStack(alignment: .top) {
             // 배경화면 색상 지정
+            Color(.gray950Assets)
+                .ignoresSafeArea(edges: .bottom)
             Color(.background)
-                .ignoresSafeArea()
+                .ignoresSafeArea(edges: .top)
             
             VStack(spacing: 0) {
                 // MARK: 상단 경기 정보
@@ -79,6 +81,12 @@ struct SoccerMatchInfo: View {
                     } //: VSTACK
                 } //: ScrollView
                 .scrollIndicators(.never)
+                .onAppear {
+                    UIScrollView.appearance().bounces = false
+                }
+                .onDisappear {
+                    UIScrollView.appearance().bounces = true
+                }
             } //: VSTACK
         } //: ZSTACK
         .navigationTitle("\(soccerMatch.homeTeam.teamName) VS \(soccerMatch.awayTeam.teamName)")
@@ -152,6 +160,7 @@ struct SoccerMatchInfo: View {
                     // 팀 명
                     Text("\(soccerMatch.homeTeam.teamName)")
                         .pretendardTextStyle(.Body1Style)
+                        .multilineTextAlignment(.center)
                         .foregroundStyle(.white0)
                 }
                 .padding(.top, 8)
@@ -182,6 +191,7 @@ struct SoccerMatchInfo: View {
                 
                 // 팀 명
                 Text("\(soccerMatch.awayTeam.teamName)")
+                    .multilineTextAlignment(.center)
                     .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.white0)
                     .padding(.top, 8)

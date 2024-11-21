@@ -131,8 +131,8 @@ struct Home: View {
                             // 경기 일정이 없을 경우
                             else {
                                 VStack(alignment: .center, spacing: 0) {
-                                    // FIXME: 추후 그래픽 이미지로 변경 필요
-                                    Rectangle()
+                                    Image(uiImage: .calendarDots)
+                                        .resizable()
                                         .frame(width: 80, height: 80)
                                     
                                     Text("현재 선호하는 팀의 경기 일정이 없습니다")
@@ -173,19 +173,19 @@ struct Home: View {
     @ViewBuilder
     func Header() -> some View {
         HStack(spacing: 0) {
-            Text("LOGO")
-                .font(.pretendard(.semibold, size: 20))
-                .foregroundStyle(.white0)
+            Image(uiImage: .homeAppIcon)
+                .resizable()
+                .frame(width: 32, height: 32)
             
             Spacer()
             
-            HStack(spacing: 2){
+            HStack(spacing: 2) {
                 Image(uiImage: .coin)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 24, height: 24, alignment: .center)
+                    .frame(width: 32, height: 32)
                 Text(viewModel.gradePoint.description)
-                    .pretendardTextStyle(.SubTitleStyle)
+                    .pretendardTextStyle(.Title2Style)
                     .foregroundStyle(.white0)
             }
             .padding(.vertical, 6)
