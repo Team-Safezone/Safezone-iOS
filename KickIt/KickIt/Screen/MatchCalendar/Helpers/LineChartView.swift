@@ -162,17 +162,19 @@ struct BoxEventView: View {
         VStack(spacing: 10) {
             HStack {
                 if let event = viewModel.event {
-                    HStack(spacing: 4) {
-                        if let emblemURL = viewModel.homeTeamEmblemURL {
-                            LoadableImage(image: emblemURL)
-                                .frame(width: 24, height: 24)
-                                .background(.white0)
-                                .clipShape(Circle())
+                    if viewModel.event!.eventName != "경기시작", viewModel.event!.eventName != "추가선언", viewModel.event!.eventName != "하프타임" {
+                        HStack(spacing: 4) {
+                            if let emblemURL = viewModel.homeTeamEmblemURL {
+                                LoadableImage(image: emblemURL)
+                                    .frame(width: 24, height: 24)
+                                    .background(.white0)
+                                    .clipShape(Circle())
+                            }
+                            Text("\(event.player1 ?? "")")
+                                .pretendardTextStyle(.Title2Style)
+                            Text("\(event.eventName)")
+                                .pretendardTextStyle(.Body1Style)
                         }
-                        Text("\(event.player1 ?? "")")
-                            .pretendardTextStyle(.Title2Style)
-                        Text("\(event.eventName)")
-                            .pretendardTextStyle(.Body1Style)
                     }
                 } else {
                     Text("이벤트 없음")
