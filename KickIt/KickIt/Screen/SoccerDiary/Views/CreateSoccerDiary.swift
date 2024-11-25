@@ -345,6 +345,14 @@ struct CreateSoccerDiary: View {
                 .padding(.vertical, 8)
             } //: VSTACK
         } //: ZSTACK
+        .background {
+            Color.white
+                .ignoresSafeArea()
+                .onTapGesture {
+                    focusedField = nil
+                    isFocused = false
+                }
+        }
         .navigationBarBackButtonHidden()
         // MARK: 사진 추가 시트 띄우기
         .sheet(isPresented: $isAddingPhoto) {
