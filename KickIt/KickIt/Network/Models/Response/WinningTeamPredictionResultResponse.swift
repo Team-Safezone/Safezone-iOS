@@ -14,6 +14,6 @@ struct WinningTeamPredictionResultResponse: Codable {
     var awayTeamScore: Int?
     var avgHomeTeamScore: Int?
     var avgAwayTeamScore: Int?
-    var userPrediction: Bool?
-    var avgPrediction: Bool?
+    var userPrediction: [Bool]?
+    var avgPrediction: [Bool]?
 }

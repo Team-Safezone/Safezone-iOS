@@ -101,10 +101,10 @@ struct ResultWinningTeamPrediction: View {
                 // MARK: 예측 성공 여부
                 HStack(spacing: 13) {
                     // 홈팀
-                    resultView(viewModel.result.userPrediction)
+                    resultView(viewModel.result.userPrediction?[0])
                     
                     // 원정팀
-                    resultView(viewModel.result.userPrediction)
+                    resultView(viewModel.result.userPrediction?[1])
                 }
                 .padding(.top, 8)
                 .padding(.bottom, viewModel.result.userPrediction != nil ? 40 : 100)
@@ -136,10 +136,10 @@ struct ResultWinningTeamPrediction: View {
                 // MARK: 예측 성공 여부
                 HStack(spacing: 13) {
                     // 홈팀
-                    resultView(viewModel.result.userPrediction)
+                    resultView(viewModel.result.avgPrediction?[0])
                     
                     // 원정팀
-                    resultView(viewModel.result.userPrediction)
+                    resultView(viewModel.result.avgPrediction?[1])
                 }
                 .padding(.top, 8)
                 .padding(.horizontal, 16)
