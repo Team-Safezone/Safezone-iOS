@@ -17,8 +17,9 @@ struct MatchEventCardView: View {
             // 예정 시간 및 획득할 수 있는 골 정보
             HStack(alignment: .center) {
                 Text("\(match.matchDate) \(match.matchTime) 예정 경기")
-                    .pretendardTextStyle(.SubTitleStyle)
+                    .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.blackAssets)
+                    .padding(.top, 4)
                 
                 Spacer()
                 
@@ -27,14 +28,17 @@ struct MatchEventCardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                    Text("최대")
-                        .pretendardTextStyle(.Caption1Style)
-                    Text(" 4")
-                        .pretendardTextStyle(.SubTitleStyle)
-                    Text("골")
-                        .pretendardTextStyle(.Caption1Style)
+                    
+                    HStack(alignment: .bottom, spacing: 0) {
+                        Text("최대")
+                            .pretendardTextStyle(.Caption1Style)
+                        Text(" 4")
+                            .pretendardTextStyle(.SubTitleStyle)
+                        Text("골")
+                            .pretendardTextStyle(.Caption1Style)
+                    }
+                    .foregroundStyle(.whiteAssets)
                 }
-                .foregroundStyle(.whiteAssets)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(
@@ -47,26 +51,25 @@ struct MatchEventCardView: View {
             HStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("\(match.homeTeam.teamName) VS \(match.awayTeam.teamName)")
-                        .pretendardTextStyle(.H2Style)
-                        .foregroundStyle(.whiteAssets)
                     
                     Text("경기 예측하기")
-                        .pretendardTextStyle(.H2Style)
-                        .foregroundStyle(.whiteAssets)
                 }
+                .pretendardTextStyle(TextStyle(font: .H1, tracking: -0.6, uiFont: UIFont(name: "Pretendard-Bold", size: 24)!, lineHeight: 30))
+                .foregroundStyle(.whiteAssets)
+                .padding(.bottom, 11)
                 
                 Spacer()
                 
                 HStack(spacing: 12) {
                     LoadableImage(image: match.homeTeam.teamEmblemURL)
-                        .frame(width: 50, height: 50)
-                        .padding(.bottom, 17)
+                        .frame(width: 60, height: 60)
                         .emblemShadow()
+                        .padding(.bottom, 17)
                     
                     LoadableImage(image: match.awayTeam.teamEmblemURL)
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 19)
+                        .frame(width: 60, height: 60)
                         .emblemShadow()
+                        .padding(.top, 19)
                 }
                 .padding(.trailing, 12)
             }
@@ -75,11 +78,10 @@ struct MatchEventCardView: View {
         .background(
             Image(uiImage: .matchBanner)
                 .resizable()
-                .scaledToFill()
         )
     }
 }
 
 #Preview {
-    MatchEventCardView(match: HomeMatch(matchId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1]))
+    MatchEventCardView(match: HomeMatch(matchId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[2], awayTeam: dummySoccerTeams[4]))
 }

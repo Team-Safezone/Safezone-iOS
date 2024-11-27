@@ -17,8 +17,9 @@ struct DiaryEventCardView: View {
             // 예정 시간 및 획득할 수 있는 골 정보
             HStack(alignment: .center) {
                 Text("\(match.matchDate) \(match.matchTime)에 본 경기")
-                    .pretendardTextStyle(.SubTitleStyle)
+                    .pretendardTextStyle(.Body1Style)
                     .foregroundStyle(.blackAssets)
+                    .padding(.top, 4)
                 
                 Spacer()
                 
@@ -27,12 +28,15 @@ struct DiaryEventCardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                    Text(" 2")
-                        .pretendardTextStyle(.SubTitleStyle)
-                    Text("골")
-                        .pretendardTextStyle(.Caption1Style)
+                    
+                    HStack(alignment: .bottom, spacing: 0) {
+                        Text(" 2")
+                            .pretendardTextStyle(.SubTitleStyle)
+                        Text("골")
+                            .pretendardTextStyle(.Caption1Style)
+                    }
+                    .foregroundStyle(.whiteAssets)
                 }
-                .foregroundStyle(.whiteAssets)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(
@@ -42,29 +46,28 @@ struct DiaryEventCardView: View {
             }
             
             // 경기 정보
-            HStack(alignment: .center) {
+            HStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("\(match.homeTeam.teamName) VS \(match.awayTeam.teamName)")
-                        .pretendardTextStyle(.H2Style)
-                        .foregroundStyle(.whiteAssets)
                     
-                    Text("경기 예측하기")
-                        .pretendardTextStyle(.H2Style)
-                        .foregroundStyle(.whiteAssets)
+                    Text("축구 일기쓰기")
                 }
+                .pretendardTextStyle(TextStyle(font: .H1, tracking: -0.6, uiFont: UIFont(name: "Pretendard-Bold", size: 24)!, lineHeight: 30))
+                .foregroundStyle(.whiteAssets)
+                .padding(.bottom, 11)
                 
                 Spacer()
                 
                 HStack(spacing: 12) {
                     LoadableImage(image: match.homeTeam.teamEmblemURL)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 60, height: 60)
+                        .emblemShadow()
                         .padding(.bottom, 17)
-                        .emblemShadow()
-                    
+                   
                     LoadableImage(image: match.awayTeam.teamEmblemURL)
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 19)
+                        .frame(width: 60, height: 60)
                         .emblemShadow()
+                        .padding(.top, 19)
                 }
                 .padding(.trailing, 12)
             }
@@ -73,11 +76,10 @@ struct DiaryEventCardView: View {
         .background(
             Image(uiImage: .diaryBanner)
                 .resizable()
-                .scaledToFill()
         )
     }
 }
 
 #Preview {
-    DiaryEventCardView(match: HomeDiary(diaryId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[0], awayTeam: dummySoccerTeams[1]))
+    DiaryEventCardView(match: HomeDiary(diaryId: 0, matchDate: "2024.09.09", matchTime: "20:32", homeTeam: dummySoccerTeams[1], awayTeam: dummySoccerTeams[3]))
 }
