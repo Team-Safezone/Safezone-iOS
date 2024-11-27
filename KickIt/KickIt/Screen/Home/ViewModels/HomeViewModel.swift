@@ -17,6 +17,9 @@ final class HomeViewModel: ObservableObject {
     @Published var matches: [SoccerMatch]? // 사용자에게 관심있을 경기 일정 리스트
     @Published var hasNewAlerts: Bool = false   // 새로운 알람이 있는지
         
+    /// API 로딩 여부
+    @Published var isLoading: Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -29,6 +32,7 @@ final class HomeViewModel: ObservableObject {
     
     /// 홈 조회
     func getHome() {
+        isLoading = true // API 요청 시작
         HomeAPI.shared.getHome()
             .map { dto in
                 let point = dto.gradePoint
@@ -70,6 +74,7 @@ final class HomeViewModel: ObservableObject {
             }
             .receive(on: DispatchQueue.main)
             .sink { completion in
+                self.isLoading = false // 로딩 완료
                 switch completion {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")

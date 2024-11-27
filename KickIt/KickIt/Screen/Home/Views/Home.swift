@@ -30,7 +30,7 @@ struct Home: View {
     @StateObject private var alertViewModel = AlertViewModel()
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color(.background)
                 .ignoresSafeArea()
             
@@ -38,132 +38,141 @@ struct Home: View {
                 // 상단 헤더 뷰
                 Header()
                 
-                ScrollView(.vertical) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        if viewModel.matchPredictions != nil {
-                            if viewModel.matchDiarys != nil {
-                                Text("진행 중인 경기 이벤트")
-                                    .pretendardTextStyle(.H2Style)
-                                    .foregroundStyle(.white0)
-                                    .padding(.top, 16)
-                                Text("참여하면 골을 얻을 수 있어요")
-                                    .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.gray500Text)
-                            }
-                        }
-                        
-                        // MARK: 경기 예측하기
-                        if let predictions = viewModel.matchPredictions {
-                            NavigationLink {
-                                WinningTeamPrediction(
-                                    isRetry: true,
-                                    soccerMatch: SoccerMatch(
-                                        id: predictions.matchId,
-                                        matchDate: stringToDate(date: predictions.matchDate),
-                                        matchTime: stringToTime(time: predictions.matchTime),
-                                        stadium: "",
-                                        matchRound: 0,
-                                        homeTeam: predictions.homeTeam,
-                                        awayTeam: predictions.awayTeam,
-                                        matchCode: 0,
-                                        homeTeamScore: 0,
-                                        awayTeamScore: 0
-                                    )
-                                )
-                                .toolbarRole(.editor) // back 텍스트 숨기기
-                                .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                            } label: {
-                                MatchEventCardView(match: predictions)
-                                    .padding(.top, 16)
-                            }
-                        }
-                        
-                        // MARK: 일기 쓰기
-                        if let diarys = viewModel.matchDiarys {
-                            NavigationLink {
-                                // TODO: 일기 쓰기 화면 연결
-                            } label: {
-                                DiaryEventCardView(match: diarys)
-                                    .padding(.top, 12)
-                            }
-                        }
-                        
-                        // MARK: 경기 일정
-                        VStack(alignment: .leading, spacing: 12) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack(spacing: 7) {
-                                    Text("나를 위한 경기 일정")
+                // API 호출 중일 경우
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 300)
+                }
+                // API 호출이 완료됐다면
+                else {
+                    ScrollView(.vertical) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            if viewModel.matchPredictions != nil {
+                                if viewModel.matchDiarys != nil {
+                                    Text("진행 중인 경기 이벤트")
                                         .pretendardTextStyle(.H2Style)
                                         .foregroundStyle(.white0)
-                                    
-                                    // MARK: 선호하는 팀 이미지 리스트
-                                    HStack(spacing: 0) {
-                                        ForEach(0..<viewModel.favoriteImagesURL.count, id: \.self) { i in
-                                            LoadableImage(image: viewModel.favoriteImagesURL[i])
-                                                .clipShape(Circle())
-                                                .frame(width: 24, height: 24)
-                                        }
-                                    }
-                                }
-                                
-                                Text("내가 관심있는 팀의 경기 일정만 모아봐요")
-                                    .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.gray500Text)
-                            }
-                            .padding(.top, 20)
-                            
-                            // MARK: 경기 일정 리스트
-                            if let matches = viewModel.matches {
-                                VStack(spacing: 12) {
-                                    ForEach(0..<(matches.count), id: \.self) {i in
-                                        // 경기 정보 화면으로 이동
-                                        NavigationLink(
-                                            value: NavigationDestination.soccerInfo(data: matches[i])
-                                        ) {
-                                            MatchCardView(soccerMatch: matches[i])
-                                                .onTapGesture {
-                                                    calendarViewModel.selectedMatch(match: matches[i])
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                            // 경기 일정이 없을 경우
-                            else {
-                                VStack(alignment: .center, spacing: 0) {
-                                    Image(uiImage: .calendarDots)
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    
-                                    Text("현재 선호하는 팀의 경기 일정이 없습니다")
-                                        .pretendardTextStyle(.Body1Style)
-                                        .foregroundStyle(.white0)
                                         .padding(.top, 16)
-                                    
-                                    Text("다른 팀의 경기 일정을 확인해 보시겠어요?")
+                                    Text("참여하면 골을 얻을 수 있어요")
                                         .pretendardTextStyle(.Body2Style)
                                         .foregroundStyle(.gray500Text)
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding(.top, 8)
                             }
                             
-                            // MARK: 경기 더보기
-                            Button {
-                                withAnimation {
-                                    // 경로를 초기화하고 새로운 경로로 이동
-                                    selectedMenu = .calendar
+                            // MARK: 경기 예측하기
+                            if let predictions = viewModel.matchPredictions {
+                                NavigationLink {
+                                    WinningTeamPrediction(
+                                        isRetry: true,
+                                        soccerMatch: SoccerMatch(
+                                            id: predictions.matchId,
+                                            matchDate: stringToDate(date: predictions.matchDate),
+                                            matchTime: stringToTime(time: predictions.matchTime),
+                                            stadium: "",
+                                            matchRound: 0,
+                                            homeTeam: predictions.homeTeam,
+                                            awayTeam: predictions.awayTeam,
+                                            matchCode: 0,
+                                            homeTeamScore: 0,
+                                            awayTeamScore: 0
+                                        )
+                                    )
+                                    .toolbarRole(.editor) // back 텍스트 숨기기
+                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
+                                } label: {
+                                    MatchEventCardView(match: predictions)
+                                        .padding(.top, 16)
                                 }
-                            } label: {
-                                DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
                             }
-                            .padding(.top, 8)
-                            .padding(.bottom, 20)
-                        } //: 경기 일정 리스트 VSTACK
-                    } //: VSTACK
-                    .padding(.horizontal, 16)
-                } //: SCROLLVIEW
-                .scrollIndicators(.never)
+                            
+                            // MARK: 일기 쓰기
+                            if let diarys = viewModel.matchDiarys {
+                                NavigationLink {
+                                    // TODO: 일기 쓰기 화면 연결
+                                } label: {
+                                    DiaryEventCardView(match: diarys)
+                                        .padding(.top, 12)
+                                }
+                            }
+                            
+                            // MARK: 경기 일정
+                            VStack(alignment: .leading, spacing: 12) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack(spacing: 7) {
+                                        Text("나를 위한 경기 일정")
+                                            .pretendardTextStyle(.H2Style)
+                                            .foregroundStyle(.white0)
+                                        
+                                        // MARK: 선호하는 팀 이미지 리스트
+                                        HStack(spacing: 0) {
+                                            ForEach(0..<viewModel.favoriteImagesURL.count, id: \.self) { i in
+                                                LoadableImage(image: viewModel.favoriteImagesURL[i])
+                                                    .clipShape(Circle())
+                                                    .frame(width: 24, height: 24)
+                                            }
+                                        }
+                                    }
+                                    
+                                    Text("내가 관심있는 팀의 경기 일정만 모아봐요")
+                                        .pretendardTextStyle(.Body2Style)
+                                        .foregroundStyle(.gray500Text)
+                                }
+                                .padding(.top, 20)
+                                
+                                // MARK: 경기 일정 리스트
+                                if let matches = viewModel.matches {
+                                    VStack(spacing: 12) {
+                                        ForEach(0..<(matches.count), id: \.self) {i in
+                                            // 경기 정보 화면으로 이동
+                                            NavigationLink(
+                                                value: NavigationDestination.soccerInfo(data: matches[i])
+                                            ) {
+                                                MatchCardView(soccerMatch: matches[i])
+                                                    .onTapGesture {
+                                                        calendarViewModel.selectedMatch(match: matches[i])
+                                                    }
+                                            }
+                                        }
+                                    }
+                                }
+                                // 경기 일정이 없을 경우
+                                else {
+                                    VStack(alignment: .center, spacing: 0) {
+                                        Image(uiImage: .calendarDots)
+                                            .resizable()
+                                            .frame(width: 80, height: 80)
+                                        
+                                        Text("현재 선호하는 팀의 경기 일정이 없습니다")
+                                            .pretendardTextStyle(.Body1Style)
+                                            .foregroundStyle(.white0)
+                                            .padding(.top, 16)
+                                        
+                                        Text("다른 팀의 경기 일정을 확인해 보시겠어요?")
+                                            .pretendardTextStyle(.Body2Style)
+                                            .foregroundStyle(.gray500Text)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 8)
+                                }
+                                
+                                // MARK: 경기 더보기
+                                Button {
+                                    withAnimation {
+                                        // 경로를 초기화하고 새로운 경로로 이동
+                                        selectedMenu = .calendar
+                                    }
+                                } label: {
+                                    DesignHalfButton2(label: "경기 더보기", labelColor: .white0, btnBGColor: .background, img: .right)
+                                }
+                                .padding(.top, 8)
+                                .padding(.bottom, 20)
+                            } //: 경기 일정 리스트 VSTACK
+                        } //: VSTACK
+                        .padding(.horizontal, 16)
+                    } //: SCROLLVIEW
+                    .scrollIndicators(.never)
+                }
             } //: VSTACK
         } //: ZSTACK
         .tint(.gray200)
