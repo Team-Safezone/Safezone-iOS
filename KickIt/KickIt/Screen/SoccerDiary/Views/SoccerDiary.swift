@@ -57,25 +57,28 @@ struct SoccerDiary: View {
                                 }
                             }
                             
-                            // MARK: 추천 축구 일기 더보기 버튼
-                            Button {
-                                requestIndex += 1
-                                viewModel.updateRequestNum(num: requestIndex)
-                                viewModel.getRecommendDiarys() // 일기 조회 api 호출
-                            } label: {
-                                Text("일기 더보기")
-                                    .pretendardTextStyle(.Body2Style)
-                                    .foregroundStyle(.white0)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 15)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 100)
-                                            .fill(.gray900)
-                                    )
+                            // 추천 축구 일기가 10개 이상이라면
+                            if viewModel.recommendDiarys.count >= 10 {
+                                // MARK: 추천 축구 일기 더보기 버튼
+                                Button {
+                                    requestIndex += 1
+                                    viewModel.updateRequestNum(num: requestIndex)
+                                    viewModel.getRecommendDiarys() // 일기 조회 api 호출
+                                } label: {
+                                    Text("일기 더보기")
+                                        .pretendardTextStyle(.Body2Style)
+                                        .foregroundStyle(.white0)
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 15)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 100)
+                                                .fill(.gray900)
+                                        )
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                .padding(.bottom, 10)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 20)
-                            .padding(.bottom, 10)
                         }
                         // 내 일기
                         else {
@@ -93,23 +96,28 @@ struct SoccerDiary: View {
                                 }
                             }
                             
-                            // MARK: 내 축구 일기 더보기 버튼
-                            Button {
-                                myDiaryRequestIndex += 1
-                                viewModel.updateMyDiaryRequestNum(num: myDiaryRequestIndex)
-                                viewModel.getMyDiarys() // 내 일기 조회 api 호출
-                            } label: {
-                                HStack {
+                            // 내 일기가 10개 이상이라면
+                            if viewModel.myDiarys.count >= 10 {
+                                // MARK: 내 축구 일기 더보기 버튼
+                                Button {
+                                    myDiaryRequestIndex += 1
+                                    viewModel.updateMyDiaryRequestNum(num: myDiaryRequestIndex)
+                                    viewModel.getMyDiarys() // 내 일기 조회 api 호출
+                                } label: {
                                     Text("일기 더보기")
                                         .pretendardTextStyle(.Body2Style)
-                                    
-                                    Image(systemName: "chevron.down")
+                                        .foregroundStyle(.white0)
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 15)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 100)
+                                                .fill(.gray900)
+                                        )
                                 }
-                                .foregroundStyle(.white0)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                .padding(.bottom, 100)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 20)
-                            .padding(.bottom, 100)
                         }
                     }
                 }
@@ -150,10 +158,10 @@ struct SoccerDiary: View {
                                 .foregroundStyle(selectedTab == item ? .white0 : .gray500Text)
                                 .background(Color.background)
                             
-                            ZStack {
+                            ZStack(alignment: .bottom) {
                                 Rectangle()
                                     .foregroundStyle(Color.background)
-                                    .frame(height: 2)
+                                    .frame(height: 1)
                                     .opacity(0)
                                     .background(.gray900Assets)
                                 
