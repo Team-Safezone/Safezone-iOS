@@ -44,36 +44,24 @@ struct MatchPredictionView: View {
                             .foregroundStyle(.white0)
                         
                         HStack(spacing: 4) {
-                            Text("진행중")
-                                .pretendardTextStyle(.Body3Style)
-                                .foregroundStyle(.limeText)
+                            switch soccerMatch.matchCode {
+                            // 예정
+                            case 0, 4:
+                                Text("진행중")
+                                    .pretendardTextStyle(.Body3Style)
+                                    .foregroundStyle(.limeText)
+                                
+                                Text(timerViewModel.winningTeamEndTime)
+                                    .pretendardTextStyle(.Body3Style)
+                                    .foregroundStyle(.white0)
                             
-                            Text(timerViewModel.winningTeamEndTime)
-                                .pretendardTextStyle(.Body3Style)
-                                .foregroundStyle(.white0)
-//                            switch soccerMatch.matchCode {
-//                            // 예정
-//                            case 0, 4:
-//                                if timerViewModel.isWinningTeamPredictionFinished {
-//                                    endPredictionText()
-//                                }
-//                                else {
-//                                    Text("진행중")
-//                                        .pretendardTextStyle(.Body3Style)
-//                                        .foregroundStyle(.limeText)
-//                                    
-//                                    Text(timerViewModel.winningTeamEndTime)
-//                                        .pretendardTextStyle(.Body3Style)
-//                                        .foregroundStyle(.white0)
-//                                }
-//                            
-//                            // 경기중, 휴식, 종료
-//                            case 1, 2, 3:
-//                                endPredictionText()
-//                            
-//                            default:
-//                                EmptyView()
-//                            }
+                            // 경기중, 휴식, 종료
+                            case 1, 2, 3:
+                                endPredictionText()
+                            
+                            default:
+                                EmptyView()
+                            }
                         }
                     }
                     
@@ -81,36 +69,29 @@ struct MatchPredictionView: View {
                     
                     // 참여여부
                     ZStack {
-                        Image(uiImage: .dashCircle)
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .foregroundStyle(.gray800Btn)
-                        Text("참여")
-                            .pretendardTextStyle(.Caption2Style)
-                            .foregroundStyle(.gray500Text)
-//                        if pViewModel.matchPrediction.isParticipated {
-//                            Image(uiImage: .coin)
-//                                .resizable()
-//                                .frame(width: 32, height: 32)
-//                            
-//                            if let isSuccessful = pViewModel.matchPrediction.isPredictionSuccessful {
-//                                if isSuccessful {
-//                                    Image(uiImage: .coin)
-//                                        .resizable()
-//                                        .frame(width: 32, height: 32)
-//                                        .offset(x: -15, y: 0)
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            Image(uiImage: .dashCircle)
-//                                .resizable()
-//                                .frame(width: 32, height: 32)
-//                                .foregroundStyle(.gray800Btn)
-//                            Text("참여")
-//                                .pretendardTextStyle(.Caption2Style)
-//                                .foregroundStyle(.gray500Text)
-//                        }
+                        if pViewModel.matchPrediction.isParticipated {
+                            Image(uiImage: .coin)
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                            
+                            if let isSuccessful = pViewModel.matchPrediction.isPredictionSuccessful {
+                                if isSuccessful {
+                                    Image(uiImage: .coin)
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                        .offset(x: -15, y: 0)
+                                }
+                            }
+                        }
+                        else {
+                            Image(uiImage: .dashCircle)
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                                .foregroundStyle(.gray800Btn)
+                            Text("참여")
+                                .pretendardTextStyle(.Caption2Style)
+                                .foregroundStyle(.gray500Text)
+                        }
                     } //: ZSTACK
                 } //: HSTACK
                 
@@ -174,38 +155,27 @@ struct MatchPredictionView: View {
                 .padding(.horizontal, 8)
                 
                 // 참여하기 or 결과보기 버튼
-                resultText(isEnd: false)
-//                switch soccerMatch.matchCode {
-//                    // 예정
-//                case 0, 4:
-//                    if timerViewModel.isWinningTeamPredictionFinished {
-//                        resultText(isEnd: true)
-//                    }
-//                    else {
-//                        if isParticipated {
-//                            resultText(isEnd: true)
-//                        }
-//                        else {
-//                            resultText(isEnd: false)
-//                        }
-//                    }
-//                    
-//                    // 경기중, 휴식, 종료
-//                case 1, 2, 3:
-//                    Text("결과보기")
-//                        .pretendardTextStyle(.SubTitleStyle)
-//                        .foregroundStyle(.whiteAssets)
-//                        .padding(.vertical, 11)
-//                        .frame(maxWidth: .infinity)
-//                        .background(
-//                            RoundedRectangle(cornerRadius: 6)
-//                                .foregroundStyle(.violet)
-//                        )
-//                        .padding(.top, 16)
-//                    
-//                default:
-//                    EmptyView()
-//                }
+                switch soccerMatch.matchCode {
+                    // 예정
+                case 0, 4:
+                    resultText(isEnd: false)
+                    
+                    // 경기중, 휴식, 종료
+                case 1, 2, 3:
+                    Text("결과보기")
+                        .pretendardTextStyle(.SubTitleStyle)
+                        .foregroundStyle(.whiteAssets)
+                        .padding(.vertical, 11)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .foregroundStyle(.violet)
+                        )
+                        .padding(.top, 16)
+                    
+                default:
+                    EmptyView()
+                }
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 12)
