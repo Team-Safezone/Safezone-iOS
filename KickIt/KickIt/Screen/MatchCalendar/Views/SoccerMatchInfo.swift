@@ -444,31 +444,40 @@ struct SoccerMatchInfo: View {
             }
             // 우승팀 예측이 종료되지 않은 경우
             else {
-                // 우승팀 예측을 한 경우
-                if (predictionViewModel.matchPrediction.isParticipated) {
-                    // 우승팀 예측 결과 화면으로 이동
-                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
-                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
-                        MatchPredictionView(
-                            soccerMatch: soccerMatch,
-                            viewModel: viewModel,
-                            pViewModel: predictionViewModel,
-                            timerViewModel: timerViewModel
-                        )
-                    }
+                // 우승팀 예측 화면으로 이동
+                NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
+                    MatchPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        timerViewModel: timerViewModel
+                    )
                 }
-                // 우승팀 예측을 안 한 경우
-                else {
-                    // 우승팀 에측 화면으로 이동
-                    NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
-                        MatchPredictionView(
-                            soccerMatch: soccerMatch,
-                            viewModel: viewModel,
-                            pViewModel: predictionViewModel,
-                            timerViewModel: timerViewModel
-                        )
-                    }
-                }
+//                // 우승팀 예측을 한 경우
+//                if (predictionViewModel.matchPrediction.isParticipated) {
+//                    // 우승팀 예측 결과 화면으로 이동
+//                    NavigationLink(value: NavigationDestination.resultWinningTeamPrediction(
+//                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+//                        MatchPredictionView(
+//                            soccerMatch: soccerMatch,
+//                            viewModel: viewModel,
+//                            pViewModel: predictionViewModel,
+//                            timerViewModel: timerViewModel
+//                        )
+//                    }
+//                }
+//                // 우승팀 예측을 안 한 경우
+//                else {
+//                    // 우승팀 에측 화면으로 이동
+//                    NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: soccerMatch))) {
+//                        MatchPredictionView(
+//                            soccerMatch: soccerMatch,
+//                            viewModel: viewModel,
+//                            pViewModel: predictionViewModel,
+//                            timerViewModel: timerViewModel
+//                        )
+//                    }
+//                }
             }
             
             // 연결선
@@ -498,31 +507,40 @@ struct SoccerMatchInfo: View {
             }
             // 선발라인업 예측이 종료되지 않은 경우
             else {
-                // 선발라인업 예측을 한 경우
-                if (predictionViewModel.lineupPrediction.isParticipated) {
-                    // 선발라인업 예측 결과 화면으로 이동
-                    NavigationLink(value: NavigationDestination.resultLineupPrediction(
-                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
-                        LineupPredictionView(
-                            soccerMatch: soccerMatch,
-                            viewModel: viewModel,
-                            pViewModel: predictionViewModel,
-                            timerViewModel: timerViewModel
-                        )
-                    }
+                // 선발라인업 예측 화면으로 이동
+                NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
+                    LineupPredictionView(
+                        soccerMatch: soccerMatch,
+                        viewModel: viewModel,
+                        pViewModel: predictionViewModel,
+                        timerViewModel: timerViewModel
+                    )
                 }
-                // 선발라인업 예측을 안 한 경우
-                else {
-                    // 선발라인업 예측 화면으로 이동
-                    NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
-                        LineupPredictionView(
-                            soccerMatch: soccerMatch,
-                            viewModel: viewModel,
-                            pViewModel: predictionViewModel,
-                            timerViewModel: timerViewModel
-                        )
-                    }
-                }
+//                // 선발라인업 예측을 한 경우
+//                if (predictionViewModel.lineupPrediction.isParticipated) {
+//                    // 선발라인업 예측 결과 화면으로 이동
+//                    NavigationLink(value: NavigationDestination.resultLineupPrediction(
+//                        data: ResultPredictionNVData(prediction: prediction, isOneBack: true))) {
+//                        LineupPredictionView(
+//                            soccerMatch: soccerMatch,
+//                            viewModel: viewModel,
+//                            pViewModel: predictionViewModel,
+//                            timerViewModel: timerViewModel
+//                        )
+//                    }
+//                }
+//                // 선발라인업 예측을 안 한 경우
+//                else {
+//                    // 선발라인업 예측 화면으로 이동
+//                    NavigationLink(value: NavigationDestination.lineupPrediction(data: soccerMatch)) {
+//                        LineupPredictionView(
+//                            soccerMatch: soccerMatch,
+//                            viewModel: viewModel,
+//                            pViewModel: predictionViewModel,
+//                            timerViewModel: timerViewModel
+//                        )
+//                    }
+//                }
             }
         }
         .onAppear {
