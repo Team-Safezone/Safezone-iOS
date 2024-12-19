@@ -24,7 +24,7 @@ struct CreateSoccerDiary: View {
     let match: SelectSoccerMatch
     
     /// 뒤로가기 여부
-    let isOneBack: Bool
+    let isOneBack: Int
     
     /// 뷰모델
     @StateObject private var viewModel: CreateSoccerDiaryViewModel
@@ -67,7 +67,7 @@ struct CreateSoccerDiary: View {
     /// 키보드 높이
     @State private var keyboardHeight: CGFloat = 0
     
-    init(popToOne: @escaping () -> Void, popToTwo: @escaping () -> Void, match: SelectSoccerMatch, isOneBack: Bool) {
+    init(popToOne: @escaping () -> Void, popToTwo: @escaping () -> Void, match: SelectSoccerMatch, isOneBack: Int) {
         self.popToOne = popToOne
         self.popToTwo = popToTwo
         self.match = match
@@ -110,7 +110,7 @@ struct CreateSoccerDiary: View {
                         Spacer() // 오른쪽으로 공간 밀어내기
                         
                         // MARK: 경기 작성 or 수정 버튼
-                        if isOneBack {
+                        if isOneBack == 2 {
                             Text("수정")
                                 .pretendardTextStyle(.Title2Style)
                                 .foregroundStyle(.limeText)
@@ -374,10 +374,10 @@ struct CreateSoccerDiary: View {
     // MARK: - FUNCTION
     /// 네비게이션 로직
     private func handleNavigation() {
-        if isOneBack {
-            popToOne()
-        } else {
+        if isOneBack == 1 {
             popToTwo()
+        } else {
+            popToOne()
         }
     }
     
@@ -507,5 +507,5 @@ struct CreateSoccerDiary: View {
 
 // MARK: - PREVIEW
 #Preview {
-    CreateSoccerDiary(popToOne: {}, popToTwo: {}, match: dummySelectSoccerMatch, isOneBack: false)
+    CreateSoccerDiary(popToOne: {}, popToTwo: {}, match: dummySelectSoccerMatch, isOneBack: 1)
 }

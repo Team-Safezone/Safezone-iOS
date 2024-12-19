@@ -87,7 +87,9 @@ struct PredictionQuestionView: View {
                             .foregroundStyle(.white0)
                     }
                     else {
-                        
+                        Text(isPredictFinished() ? "\(predictionUserNum ?? 0)명 참여" : timerViewModel.lineupEndTime)
+                            .pretendardTextStyle(.Body3Style)
+                            .foregroundStyle(.white0)
                     }
                 }
                 

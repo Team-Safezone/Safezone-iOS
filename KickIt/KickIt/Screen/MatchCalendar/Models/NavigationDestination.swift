@@ -66,5 +66,5 @@ struct ResultPredictionNVData: Hashable {
 
 struct CreateSoccerDiaryNVData: Hashable {
     var match: SelectSoccerMatch
-    var isOneBack: Bool
+    var isOneBack: Int // 0: 홈, 1: 작성, 2: 수정
 }

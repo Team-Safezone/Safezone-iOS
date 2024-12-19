@@ -34,7 +34,7 @@ class HomeAPI: BaseAPI {
                     case .success(let result):
                         // 응답 성공
                         if result.isSuccess {
-                            promise(.success(result.data!))
+                            promise(.success(result.data ?? HomeResponse(gradePoint: 0, favoriteImagesURL: [])))
                         } else {
                             switch result.status {
                             case 401:

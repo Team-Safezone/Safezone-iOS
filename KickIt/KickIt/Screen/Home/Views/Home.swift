@@ -62,25 +62,10 @@ struct Home: View {
                             
                             // MARK: 경기 예측하기
                             if let predictions = viewModel.matchPredictions {
-                                NavigationLink {
-                                    WinningTeamPrediction(
-                                        isRetry: true,
-                                        soccerMatch: SoccerMatch(
-                                            id: predictions.matchId,
-                                            matchDate: stringToDate(date: predictions.matchDate),
-                                            matchTime: stringToTime(time: predictions.matchTime),
-                                            stadium: "",
-                                            matchRound: 0,
-                                            homeTeam: predictions.homeTeam,
-                                            awayTeam: predictions.awayTeam,
-                                            matchCode: 0,
-                                            homeTeamScore: 0,
-                                            awayTeamScore: 0
-                                        )
-                                    )
-                                    .toolbarRole(.editor) // back 텍스트 숨기기
-                                    .toolbar(.hidden, for: .tabBar) // 네비게이션 숨기기
-                                } label: {
+                                // 우승팀 예측 화면으로 이동
+                                NavigationLink(value: NavigationDestination.winningTeamPrediction(data: WinningTeamPredictionNVData(isRetry: false, soccerMatch: SoccerMatch(
+                                    id: predictions.matchId, matchDate: stringToDate(date: predictions.matchDate), matchTime: stringToTime(time: predictions.matchTime), stadium: "", matchRound: 0,
+                                    homeTeam: predictions.homeTeam, awayTeam: predictions.awayTeam, matchCode: 0)))) {
                                     MatchEventCardView(match: predictions)
                                         .padding(.top, 16)
                                 }
@@ -88,9 +73,18 @@ struct Home: View {
                             
                             // MARK: 일기 쓰기
                             if let diarys = viewModel.matchDiarys {
-                                NavigationLink {
-                                    // TODO: 일기 쓰기 화면 연결
-                                } label: {
+                                // 일기 쓰기 화면으로 이동
+                                NavigationLink(value: NavigationDestination.createSoccerDiary(data: CreateSoccerDiaryNVData(match: SelectSoccerMatch(
+                                    id: diarys.diaryId,
+                                    matchDate: stringToDate(date: diarys.matchDate),
+                                    matchTime: diarys.matchTime,
+                                    homeTeamEmblemURL: diarys.homeTeam.teamEmblemURL,
+                                    awayTeamEmblemURL: diarys.awayTeam.teamEmblemURL,
+                                    homeTeamName: diarys.homeTeam.teamName,
+                                    awayTeamName: diarys.awayTeam.teamName,
+                                    homeTeamScore: 0,
+                                    awayTeamScore: 0
+                                ), isOneBack: 0))) {
                                     DiaryEventCardView(match: diarys)
                                         .padding(.top, 12)
                                 }
@@ -129,9 +123,11 @@ struct Home: View {
                                                 value: NavigationDestination.soccerInfo(data: matches[i])
                                             ) {
                                                 MatchCardView(soccerMatch: matches[i])
-                                                    .onTapGesture {
+                                                    .simultaneousGesture(TapGesture().onEnded {
+                                                        // 화면 전환 전에 선택한 경기 업데이트
                                                         calendarViewModel.selectedMatch(match: matches[i])
-                                                    }
+                                                        print("버튼 클릭! 경기 정보로 이동!")
+                                                    })
                                             }
                                         }
                                     }
