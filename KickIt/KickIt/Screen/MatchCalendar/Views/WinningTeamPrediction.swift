@@ -22,6 +22,8 @@ struct WinningTeamPrediction: View {
     /// 타이머 뷰모델
     @StateObject private var timerViewModel = TimerViewModel()
     
+    @State private var finishPredictionData: FinishWinningTeamPredictionNVData? = nil
+    
     var body: some View {
         ZStack {
             Color(.background)
@@ -180,31 +182,35 @@ struct WinningTeamPrediction: View {
                 Spacer()
                 
                 // MARK: - 예측하기 버튼
-                NavigationLink(value: NavigationDestination.finishWinningTeamPrediction(
-                    data: FinishWinningTeamPredictionNVData(
-                        winningPrediction: WinningPrediction(
-                            id: soccerMatch.id,
-                            homeTeamName: soccerMatch.homeTeam.teamName,
-                            awayTeamName: soccerMatch.awayTeam.teamName,
-                            homeTeamScore: viewModel.homeTeamGoal,
-                            awayTeamScore: viewModel.awayTeamGoal,
-                            grade: viewModel.grade, point: viewModel.point
-                        ),
-                        prediction: PredictionQuestionModel(
-                            matchId: soccerMatch.id,
-                            matchCode: soccerMatch.matchCode,
-                            matchDate: soccerMatch.matchDate,
-                            matchTime: soccerMatch.matchTime,
-                            homeTeam: soccerMatch.homeTeam,
-                            awayTeam: soccerMatch.awayTeam
-                    )))) {
-                        DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
-                            .padding(.bottom, 34)
-                            .padding(.horizontal, 16)
+                NavigationLink(
+                    value: NavigationDestination.finishWinningTeamPrediction(
+                        data: FinishWinningTeamPredictionNVData(
+                            winningPrediction: WinningPrediction(
+                                id: soccerMatch.id,
+                                homeTeamName: soccerMatch.homeTeam.teamName,
+                                awayTeamName: soccerMatch.awayTeam.teamName,
+                                homeTeamScore: viewModel.homeTeamGoal,
+                                awayTeamScore: viewModel.awayTeamGoal,
+                                grade: viewModel.grade, point: viewModel.point
+                            ),
+                            prediction: PredictionQuestionModel(
+                                matchId: soccerMatch.id,
+                                matchCode: soccerMatch.matchCode,
+                                matchDate: soccerMatch.matchDate,
+                                matchTime: soccerMatch.matchTime,
+                                homeTeam: soccerMatch.homeTeam,
+                                awayTeam: soccerMatch.awayTeam
+                            )
+                        )
+                    )
+                ) {
+                    DesignWideButton(label: "예측하기", labelColor: .blackAssets, btnBGColor: .lime)
+                        .padding(.bottom, 34)
+                        .padding(.horizontal, 16)
                 }
                 .simultaneousGesture(TapGesture().onEnded {
                     // 우승팀 예측하기 API 호출
-                    viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal))
+                    viewModel.postWinningTeamPrediction(query: MatchIdRequest(matchId: soccerMatch.id), request: WinningTeamPredictionRequest(homeTeamScore: viewModel.homeTeamGoal, awayTeamScore: viewModel.awayTeamGoal)) 
                 })
             }
         }

@@ -22,6 +22,9 @@ final class WinningTeamPredictionViewModel: ObservableObject {
     /// 포인트
     @Published var point: Int = 0
     
+    
+    @Published var finishPredictionData: FinishWinningTeamPredictionNVData? = nil
+    
     private var cancellables = Set<AnyCancellable>()
     
     /// 각 팀의 예상 골 개수 업데이트

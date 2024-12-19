@@ -210,9 +210,11 @@ struct ResultStartingLineupPrediction: View {
         }
         .navigationBarBackButtonHidden()
         .onAppear {
+            timerViewModel.winningTeamPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
             timerViewModel.startLineupPredictionTimer(matchDate: prediction.matchDate, matchTime: prediction.matchTime, format: 1)
         }
         .onDisappear {
+            timerViewModel.stopWinningTeamTimer()
             timerViewModel.stopLineupPredictionTimer()
         }
     }

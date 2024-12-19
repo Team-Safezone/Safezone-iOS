@@ -43,10 +43,13 @@ struct SoccerMatchRow: View {
                 }
                 
                 // 홈 팀 점수
-                Text(soccerMatch.homeTeamScore?.description ?? "-")
+                Text(convertScore(score: soccerMatch.homeTeamScore ?? -1))
                     .pretendardTextStyle(.H2Style)
                     .foregroundStyle(.white0)
                     .frame(width: 20)
+                    .onAppear {
+                        print("스코어 홈팀 \(String(describing: soccerMatch.homeTeamScore))")
+                    }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             
@@ -73,7 +76,7 @@ struct SoccerMatchRow: View {
             // MARK: - 원정 팀
             HStack(spacing: 20) {
                 // 원정 팀 점수
-                Text(soccerMatch.awayTeamScore?.description ?? "-")
+                Text(convertScore(score: soccerMatch.awayTeamScore ?? -1))
                     .pretendardTextStyle(.H2Style)
                     .foregroundStyle(.white0)
                     .frame(width: 20)
@@ -101,6 +104,16 @@ struct SoccerMatchRow: View {
                 .fill(.gray950)
                 .cardShadow()
         )
+    }
+    
+    /// 점수를 string으로 바꾸는 함수
+    private func convertScore(score: Int) -> String {
+        if score != -1 {
+            return "\(score)"
+        }
+        else {
+            return "-"
+        }
     }
 }
 

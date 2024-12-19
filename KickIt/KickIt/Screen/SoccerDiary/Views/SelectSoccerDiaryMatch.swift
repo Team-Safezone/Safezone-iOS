@@ -67,7 +67,7 @@ struct SelectSoccerDiaryMatch: View {
                         // 선택한 경기가 있다면, 일기 작성 화면으로 이동
                         if selectedMatchId != nil {
                             if let selectedMatch = selectedMatch {
-                                NavigationLink(value: NavigationDestination.createSoccerDiary(data: CreateSoccerDiaryNVData(match: selectedMatch, isOneBack: false))) {
+                                NavigationLink(value: NavigationDestination.createSoccerDiary(data: CreateSoccerDiaryNVData(match: selectedMatch, isOneBack: 1))) {
                                     Text("선택")
                                         .pretendardTextStyle(.Title2Style)
                                         .foregroundStyle(.limeText)

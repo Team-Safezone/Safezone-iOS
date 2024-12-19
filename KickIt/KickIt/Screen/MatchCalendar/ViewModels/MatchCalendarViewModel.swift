@@ -84,7 +84,10 @@ final class MatchCalendarViewModel: MatchCalendarViewModelProtocol {
                         matchRound: data.matchRound,
                         homeTeam: SoccerTeam(teamEmblemURL: data.homeTeamEmblemURL, teamName: data.homeTeamName),
                         awayTeam: SoccerTeam(teamEmblemURL: data.awayTeamEmblemURL, teamName: data.awayTeamName),
-                        matchCode: data.matchCode)
+                        matchCode: data.matchCode,
+                        homeTeamScore: data.homeTeamScore,
+                        awayTeamScore: data.awayTeamScore
+                    )
                 }
                 return matches
             }
